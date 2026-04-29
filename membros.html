@@ -251,7 +251,7 @@ const authService = {
       return { user: u, products: userProds };
     }
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    if (error) throw new Error("E-mail ou senha incorretos.");
+    if (error) throw new Error(error.message === "Email not confirmed" ? "E-mail não confirmado. Peça à administradora para recriar seu acesso." : "E-mail ou senha incorretos.");
     const { data: profile } = await sb.from("profiles").select("*").eq("id", data.user.id).single();
     if (!profile) throw new Error("Perfil não encontrado.");
     let products = [];
