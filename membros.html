@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JK Jurídico — Área de Membros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Gotu&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #2C3639; --surface: #3F4E4F; --card: #344547; --card-hover: #3d5052;
+    --border: #4a5e60; --border-light: #5a7072;
+    --gold: #A27B5B; --gold-muted: #8a6849; --gold-dim: #A27B5B28;
+    --green: #4a7c5a; --text: #DCD7C9; --text-secondary: #b8b3a6;
+    --text-muted: #7a7570; --danger: #bf6f6f;
+    --font-display: 'Aboreto', Georgia, serif;
+    --font-label: 'Gotu', system-ui, sans-serif;
+    --font-sans: 'Figtree', system-ui, sans-serif;
+    --radius: 8px; --radius-lg: 14px; --sidebar-w: 240px; --transition: 0.18s ease;
+  }
+  html, body, #root { height: 100%; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  * { scrollbar-width: thin; scrollbar-color: var(--border-light) transparent; }
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+  input, button, select, textarea { font-family: var(--font-sans); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const SUPABASE_URL = "https://ggmsslrsufbfrdpifbww.supabase.co";
+const SUPABASE_KEY = "sb_publishable_SyYfPTyy746tYO5u_gkNZg_wDZuitX7";
+
+const IS_CONFIGURED = SUPABASE_URL !== "COLE_SUA_URL_AQUI" && SUPABASE_KEY !== "COLE_SUA_ANON_KEY_AQUI";
+const sb = IS_CONFIGURED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+// ─── DEMO DATA ────────────────────────────────────────────────
+const DEMO_USERS = [
+  { id: "1", name: "Julia Ketelut", email: "admin@jkjuridico.com", password: "admin123", role: "admin", avatar: "JK" },
+  { id: "2", name: "Maria Souza",   email: "maria@email.com",      password: "123456",   role: "member", avatar: "MS", products: [1, 2] },
+  { id: "3", name: "Pedro Alves",   email: "pedro@email.com",      password: "123456",   role: "member", avatar: "PA", products: [1] },
+];
+const DEMO_PRODUCTS = [
+  { id: 1, title: "Visual Law Masterclass", subtitle: "Comunicação jurídica visual", category: "Consultoria", thumb: "visual-law", visibility: "privado", modules: [
+    { id: 1, title: "Fundamentos do Visual Law", lessons: [
+      { id: 1, title: "O que é Visual Law e por que importa", duration: "18min", type: "video", watched: true },
+      { id: 2, title: "Princípios de design para juristas", duration: "24min", type: "video", watched: false },
+      { id: 3, title: "Material de apoio — Módulo 1", duration: "PDF", type: "material", watched: false },
+    ]},
+    { id: 2, title: "Ferramentas e Aplicações", lessons: [
+      { id: 4, title: "Word como ferramenta de visual law", duration: "32min", type: "video", watched: false },
+      { id: 5, title: "Templates exclusivos", duration: "Download", type: "material", watched: false },
+    ]},
+  ]},
+  { id: 2, title: "Petições Prontas — Pack Premium", subtitle: "60+ modelos prontos para uso", category: "Templates", thumb: "peticoes", visibility: "privado", modules: [
+    { id: 3, title: "Petições Cíveis", lessons: [
+      { id: 6, title: "Petição Inicial — Ação de Cobrança", duration: "DOCX", type: "material", watched: false },
+      { id: 7, title: "Contestação Padrão", duration: "DOCX", type: "material", watched: false },
+    ]},
+  ]},
+  { id: 3, title: "Revisão ABNT na Prática", subtitle: "Domine as normas ABNT", category: "Curso", thumb: "abnt", visibility: "publico", modules: [
+    { id: 4, title: "Normas Essenciais", lessons: [
+      { id: 8, title: "ABNT NBR 6023 — Referências", duration: "21min", type: "video", watched: false },
+      { id: 9, title: "Checklist ABNT", duration: "PDF", type: "material", watched: false },
+    ]},
+  ]},
+];
+
+// ─── ICONS ────────────────────────────────────────────────────
+const Icon = ({ name, size = 16, color = "currentColor" }) => {
+  const icons = {
+    home:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>,
+    user:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+    help:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
+    logout:   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>,
+    shield:   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+    settings: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
+    play:     <svg width={size} height={size} viewBox="0 0 24 24" fill={color} stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
+    file:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>,
+    check:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+    chevL:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
+    chevR:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>,
+    chevD:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>,
+    eye:      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
+    eyeOff:   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>,
+    plus:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+    trash:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6M9 6V4h6v2"/></svg>,
+    copy:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>,
+    download: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
+    users:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+    book:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+    lock:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+    globe:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+    arrowLeft:<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>,
+  };
+  return icons[name] || null;
+};
+
+// ─── THUMB ───────────────────────────────────────────────────
+const Thumb = ({ type, title }) => {
+  const c = {
+    "visual-law": { bg: "#1a2e22", ac: "#4a7c5a", lbl: "VISUAL LAW" },
+    peticoes:     { bg: "#2a1a0f", ac: "#A27B5B", lbl: "PETIÇÕES" },
+    abnt:         { bg: "#1a1a2e", ac: "#6e7cc9", lbl: "ABNT" },
+    consultoria:  { bg: "#2a1e1a", ac: "#c49a6c", lbl: "CONSULTORIA" },
+  }[type] || { bg: "#1a1a1a", ac: "#888", lbl: "CURSO" };
+  return (
+    <div style={{ width:"100%", aspectRatio:"16/9", background:c.bg, borderRadius:"var(--radius)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", position:"relative", overflow:"hidden" }}>
+      <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse at 30% 40%, ${c.ac}22, transparent 60%)` }} />
+      <span style={{ fontFamily:"var(--font-label)", fontSize:10, letterSpacing:"0.22em", color:c.ac, opacity:0.8, marginBottom:8 }}>{c.lbl}</span>
+      <span style={{ fontFamily:"var(--font-display)", fontSize:14, color:"var(--text)", textAlign:"center", padding:"0 14px", lineHeight:1.3 }}>{title}</span>
+      <div style={{ position:"absolute", bottom:0, left:0, right:0, height:2, background:c.ac, opacity:0.4 }} />
+    </div>
+  );
+};
+
+// ─── SQL SCHEMA GUIDE ────────────────────────────────────────
+const SQL_SCHEMA = `-- 1. Tabela de perfis
+create table profiles (
+  id uuid references auth.users on delete cascade primary key,
+  name text not null,
+  role text default 'member',
+  avatar text
+);
+
+-- 2. Tabela de produtos (com campo visibility)
+create table products (
+  id serial primary key,
+  title text not null,
+  subtitle text,
+  category text,
+  thumb text,
+  visibility text default 'privado', -- 'publico' | 'privado'
+  modules jsonb default '[]'
+);
+
+-- 3. Controle de acesso (para produtos privados)
+create table member_products (
+  member_id uuid references profiles(id) on delete cascade,
+  product_id int references products(id) on delete cascade,
+  primary key (member_id, product_id)
+);
+
+-- 4. Habilitar RLS
+alter table profiles enable row level security;
+alter table products enable row level security;
+alter table member_products enable row level security;
+
+-- 5. Políticas
+create policy "Leitura próprio perfil" on profiles
+  for select using (auth.uid() = id);
+
+create policy "Admin lê todos os perfis" on profiles
+  for all using (
+    exists(select 1 from profiles where id = auth.uid() and role='admin')
+  );
+
+create policy "Produtos públicos visíveis a todos" on products
+  for select using (
+    visibility = 'publico' or
+    exists(select 1 from profiles where id = auth.uid() and role='admin') or
+    exists(select 1 from member_products where member_id = auth.uid() and product_id = id)
+  );
+
+create policy "Admin gerencia produtos" on products
+  for all using (
+    exists(select 1 from profiles where id = auth.uid() and role='admin')
+  );
+
+create policy "Ver próprios acessos" on member_products
+  for select using (
+    member_id = auth.uid() or
+    exists(select 1 from profiles where id = auth.uid() and role='admin')
+  );
+
+create policy "Admin gerencia acessos" on member_products
+  for all using (
+    exists(select 1 from profiles where id = auth.uid() and role='admin')
+  );
+
+-- 6. Criar admin (após criar usuário no Auth)
+insert into profiles (id, name, role, avatar)
+values ('SEU-UUID-AQUI', 'Julia Ketelut', 'admin', 'JK');`;
+
+const SetupGuide = ({ onClose }) => {
+  const [copied, setCopied] = useState(false);
+  const steps = [
+    { n:"1", title:"Criar conta no Supabase", desc:"Acesse supabase.com, crie um projeto gratuito." },
+    { n:"2", title:"Executar SQL abaixo", desc:"No SQL Editor do projeto, execute o script para criar as tabelas." },
+    { n:"3", title:"Criar usuário admin", desc:"Authentication → Users → Add user. Copie o UUID gerado e substitua no SQL." },
+    { n:"4", title:"Pegar credenciais", desc:"Settings → API → copie Project URL e anon public key." },
+    { n:"5", title:"Colar neste arquivo", desc:"Substitua SUPABASE_URL e SUPABASE_KEY no início do script." },
+  ];
+  const copy = () => { navigator.clipboard.writeText(SQL_SCHEMA); setCopied(true); setTimeout(() => setCopied(false), 2000); };
+  return (
+    <div style={{ position:"fixed", inset:0, background:"#00000080", zIndex:200, display:"flex", alignItems:"center", justifyContent:"center", padding:24 }} onClick={onClose}>
+      <div style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", width:"100%", maxWidth:700, maxHeight:"90vh", overflow:"hidden", display:"flex", flexDirection:"column" }} onClick={e=>e.stopPropagation()}>
+        <div style={{ padding:"20px 24px", borderBottom:"1px solid var(--border)", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+          <div>
+            <p style={{ fontFamily:"var(--font-label)", fontSize:10, color:"var(--gold-muted)", letterSpacing:"0.14em", marginBottom:4 }}>GUIA DE CONFIGURAÇÃO</p>
+            <h2 style={{ fontFamily:"var(--font-display)", fontSize:20, color:"var(--text)" }}>Conectar ao Supabase</h2>
+          </div>
+          <button onClick={onClose} style={{ background:"none", border:"none", color:"var(--text-muted)", fontSize:22, cursor:"pointer" }}>×</button>
+        </div>
+        <div style={{ flex:1, overflowY:"auto", padding:"20px 24px" }}>
+          <div style={{ display:"flex", flexDirection:"column", gap:12, marginBottom:24 }}>
+            {steps.map(s => (
+              <div key={s.n} style={{ display:"flex", gap:14, alignItems:"flex-start" }}>
+                <div style={{ width:28, height:28, borderRadius:"50%", background:"var(--gold-dim)", border:"1px solid var(--gold)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                  <span style={{ fontSize:12, color:"var(--gold)", fontWeight:600 }}>{s.n}</span>
+                </div>
+                <div>
+                  <div style={{ fontSize:14, fontWeight:600, color:"var(--text)", marginBottom:3 }}>{s.title}</div>
+                  <div style={{ fontSize:13, color:"var(--text-muted)", lineHeight:1.6 }}>{s.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", overflow:"hidden" }}>
+            <div style={{ padding:"12px 16px", borderBottom:"1px solid var(--border)", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+              <span style={{ fontFamily:"var(--font-label)", fontSize:11, color:"var(--text-muted)", letterSpacing:"0.08em" }}>SQL — Execute no Supabase SQL Editor</span>
+              <button onClick={copy} style={{ display:"flex", alignItems:"center", gap:6, background:copied?"var(--green)":"var(--gold-dim)", border:"1px solid "+(copied?"var(--green)":"var(--gold)"), borderRadius:"var(--radius)", padding:"5px 10px", color:copied?"#fff":"var(--gold)", fontSize:12, cursor:"pointer" }}>
+                <Icon name="copy" size={12} color="currentColor" />{copied?"Copiado!":"Copiar"}
+              </button>
+            </div>
+            <pre style={{ padding:"16px", fontSize:11, color:"var(--text-secondary)", overflowX:"auto", lineHeight:1.7, whiteSpace:"pre-wrap" }}>{SQL_SCHEMA}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─── AUTH SERVICE ────────────────────────────────────────────
+const authService = {
+  async login(email, password) {
+    if (!IS_CONFIGURED) {
+      const u = DEMO_USERS.find(u => u.email === email && u.password === password);
+      if (!u) throw new Error("E-mail ou senha incorretos.");
+      const userProds = u.role === "admin"
+        ? DEMO_PRODUCTS
+        : DEMO_PRODUCTS.filter(p => p.visibility === "publico" || u.products?.includes(p.id));
+      return { user: u, products: userProds };
+    }
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) throw new Error("E-mail ou senha incorretos.");
+    const { data: profile } = await sb.from("profiles").select("*").eq("id", data.user.id).single();
+    if (!profile) throw new Error("Perfil não encontrado.");
+    let products = [];
+    if (profile.role === "admin") {
+      const { data: all } = await sb.from("products").select("*");
+      products = all || [];
+    } else {
+      const { data: pubProds } = await sb.from("products").select("*").eq("visibility", "publico");
+      const { data: access } = await sb.from("member_products").select("product_id").eq("member_id", profile.id);
+      const privateIds = (access || []).map(a => a.product_id);
+      const { data: privProds } = privateIds.length
+        ? await sb.from("products").select("*").in("id", privateIds)
+        : { data: [] };
+      const seen = new Set();
+      products = [...(pubProds || []), ...(privProds || [])].filter(p => { if (seen.has(p.id)) return false; seen.add(p.id); return true; });
+    }
+    return { user: { ...profile, email }, products };
+  },
+  async logout() { if (IS_CONFIGURED) await sb.auth.signOut(); },
+  async getMembers() {
+    if (!IS_CONFIGURED) return DEMO_USERS.filter(u => u.role==="member").map(u => ({ ...u, productIds: u.products||[] }));
+    const { data: profiles } = await sb.from("profiles").select("*").eq("role","member");
+    const { data: access } = await sb.from("member_products").select("*");
+    return (profiles||[]).map(p => ({ ...p, productIds:(access||[]).filter(a=>a.member_id===p.id).map(a=>a.product_id) }));
+  },
+  async toggleAccess(memberId, productId, currentlyHas) {
+    if (!IS_CONFIGURED) return;
+    if (currentlyHas) await sb.from("member_products").delete().eq("member_id",memberId).eq("product_id",productId);
+    else await sb.from("member_products").insert({ member_id:memberId, product_id:productId });
+  },
+  async createMember(name, email, password) {
+    if (!IS_CONFIGURED) {
+      const initials = name.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase();
+      return { id:String(Date.now()), name, email, role:"member", avatar:initials, productIds:[] };
+    }
+    const { data, error } = await sb.auth.signUp({ email, password });
+    if (error) throw new Error(error.message);
+    const user = data.user;
+    if (!user) throw new Error("Verifique o e-mail para confirmar a conta.");
+    const initials = name.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase();
+    const { error: profileError } = await sb.from("profiles").insert({ id:user.id, name, role:"member", avatar:initials });
+    if (profileError) throw new Error(profileError.message);
+    return { id:user.id, name, email, role:"member", avatar:initials, productIds:[] };
+  },
+  async removeMember(id) { if (IS_CONFIGURED) await sb.from("profiles").delete().eq("id",id); },
+};
+
+// ─── LOGIN ───────────────────────────────────────────────────
+const Login = ({ onLogin, onShowSetup }) => {
+  const [email,setEmail]=useState(""); const [pass,setPass]=useState("");
+  const [show,setShow]=useState(false); const [err,setErr]=useState(""); const [loading,setLoading]=useState(false);
+  const submit = async (e) => {
+    e.preventDefault(); setErr(""); setLoading(true);
+    try { const r = await authService.login(email,pass); onLogin(r); }
+    catch(ex) { setErr(ex.message); setLoading(false); }
+  };
+  return (
+    <div style={{ minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", background:"var(--bg)", position:"relative" }}>
+      <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(ellipse at 60% 20%, #1a2e2218 0%, transparent 55%), radial-gradient(ellipse at 20% 80%, #2a1a0f18 0%, transparent 50%)", pointerEvents:"none" }} />
+      <div style={{ width:"100%", maxWidth:420, padding:"0 24px", position:"relative", zIndex:1 }}>
+        <div style={{ textAlign:"center", marginBottom:36 }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:12, marginBottom:10 }}>
+            <div style={{ width:40, height:40, borderRadius:"50%", border:"1.5px solid var(--gold)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+              <span style={{ fontFamily:"var(--font-display)", fontSize:16, color:"var(--gold)" }}>JK</span>
+            </div>
+            <span style={{ fontFamily:"var(--font-display)", fontSize:19, color:"var(--text)", letterSpacing:"0.05em" }}>JK Jurídico</span>
+          </div>
+          <p style={{ color:"var(--text-muted)", fontSize:11, fontFamily:"var(--font-label)", letterSpacing:"0.06em" }}>Escrita que comunica. Direito que convence.</p>
+        </div>
+
+        {!IS_CONFIGURED && (
+          <div style={{ background:"#A27B5B18", border:"1px solid var(--gold)", borderRadius:"var(--radius)", padding:"12px 16px", marginBottom:16, display:"flex", alignItems:"center", justifyContent:"space-between", gap:10 }}>
+            <span style={{ fontSize:12, color:"var(--gold)" }}>⚠ Modo demo — Supabase não configurado</span>
+            <button onClick={onShowSetup} style={{ background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"5px 10px", color:"#2C3639", fontSize:11, fontWeight:600, cursor:"pointer" }}>Ver guia</button>
+          </div>
+        )}
+
+        <div style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", padding:"32px 28px" }}>
+          <h2 style={{ fontFamily:"var(--font-display)", fontSize:20, color:"var(--text)", marginBottom:4 }}>Área de membros</h2>
+          <p style={{ fontSize:12, fontFamily:"var(--font-label)", color:"var(--text-muted)", letterSpacing:"0.03em", marginBottom:24 }}>Entre com suas credenciais</p>
+          <form onSubmit={submit} style={{ display:"flex", flexDirection:"column", gap:14 }}>
+            {[["E-MAIL","email","email","seu@email.com",email,setEmail],["SENHA","password",show?"text":"password","••••••••",pass,setPass]].map(([label,id,type,ph,val,set]) => (
+              <div key={id}>
+                <label style={{ display:"block", fontSize:11, fontFamily:"var(--font-label)", color:"var(--text-secondary)", letterSpacing:"0.08em", marginBottom:6 }}>{label}</label>
+                <div style={{ position:"relative" }}>
+                  <input type={type} value={val} onChange={e=>set(e.target.value)} placeholder={ph} required
+                    style={{ width:"100%", background:"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius)", padding:id==="password"?"11px 40px 11px 13px":"11px 13px", color:"var(--text)", fontSize:14, outline:"none" }}
+                    onFocus={e=>e.target.style.borderColor="var(--gold-muted)"} onBlur={e=>e.target.style.borderColor="var(--border)"} />
+                  {id==="password" && <button type="button" onClick={()=>setShow(!show)} style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", padding:2 }}><Icon name={show?"eyeOff":"eye"} size={15}/></button>}
+                </div>
+              </div>
+            ))}
+            {err && <div style={{ background:"#bf6f6f15", border:"1px solid #bf6f6f40", borderRadius:"var(--radius)", padding:"9px 13px", color:"var(--danger)", fontSize:13 }}>{err}</div>}
+            <button type="submit" disabled={loading} style={{ marginTop:4, background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"12px", color:"#2C3639", fontSize:14, fontWeight:600, cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1 }}>
+              {loading?"Entrando...":"Entrar"}
+            </button>
+          </form>
+          {!IS_CONFIGURED && (
+            <div style={{ marginTop:16, paddingTop:14, borderTop:"1px solid var(--border)", fontSize:11, color:"var(--text-muted)" }}>
+              Demo: <strong style={{ color:"var(--text-secondary)" }}>admin@jkjuridico.com</strong> / admin123 · <strong style={{ color:"var(--text-secondary)" }}>maria@email.com</strong> / 123456
+            </div>
+          )}
+        </div>
+
+        <div style={{ marginTop:20, textAlign:"center" }}>
+          <a href="index.html" style={{ display:"inline-flex", alignItems:"center", gap:6, color:"var(--text-muted)", fontSize:12, textDecoration:"none", fontFamily:"var(--font-label)", letterSpacing:"0.06em" }}
+            onMouseEnter={e=>e.currentTarget.style.color="var(--gold)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+            <Icon name="arrowLeft" size={12} color="currentColor" />Voltar ao site
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─── SIDEBAR ─────────────────────────────────────────────────
+const Sidebar = ({ user, view, onNav, onLogout, onShowSetup }) => {
+  const nav = [
+    { id:"dashboard", label:"Meus Produtos", icon:"home" },
+    { id:"account",   label:"Minha Conta",   icon:"user" },
+    { id:"help",      label:"Ajuda",          icon:"help" },
+    ...(user.role==="admin" ? [{ id:"admin", label:"Painel Admin", icon:"shield" }] : []),
+  ];
+  return (
+    <aside style={{ width:"var(--sidebar-w)", minHeight:"100vh", background:"var(--surface)", borderRight:"1px solid var(--border)", display:"flex", flexDirection:"column", flexShrink:0 }}>
+      <div style={{ padding:"22px 18px", borderBottom:"1px solid var(--border)", display:"flex", alignItems:"center", gap:10 }}>
+        <div style={{ width:30, height:30, borderRadius:"50%", border:"1.5px solid var(--gold)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+          <span style={{ fontFamily:"var(--font-display)", fontSize:12, color:"var(--gold)" }}>JK</span>
+        </div>
+        <span style={{ fontFamily:"var(--font-display)", fontSize:14, color:"var(--text)", letterSpacing:"0.05em" }}>JK Jurídico</span>
+      </div>
+      <div style={{ padding:"14px 18px", borderBottom:"1px solid var(--border)", display:"flex", alignItems:"center", gap:10 }}>
+        <div style={{ width:30, height:30, borderRadius:"50%", background:"var(--gold-dim)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+          <span style={{ fontSize:11, fontWeight:600, color:"var(--gold)" }}>{user.avatar||user.name?.slice(0,2).toUpperCase()}</span>
+        </div>
+        <div style={{ overflow:"hidden" }}>
+          <div style={{ fontSize:13, fontWeight:500, color:"var(--text)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{user.name?.split(" ")[0]}</div>
+          <div style={{ fontSize:11, color:"var(--text-muted)" }}>{user.role==="admin"?"Administrador":"Membro"}</div>
+        </div>
+      </div>
+      <nav style={{ flex:1, padding:"10px 0" }}>
+        {nav.map(item => {
+          const active = view===item.id || (["product","lesson"].includes(view) && item.id==="dashboard");
+          return (
+            <button key={item.id} onClick={()=>onNav(item.id)} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"11px 18px", background:active?"var(--gold-dim)":"none", border:"none", borderLeft:`2px solid ${active?"var(--gold)":"transparent"}`, cursor:"pointer", color:active?"var(--gold)":"var(--text-muted)", fontSize:13, fontFamily:"var(--font-sans)", fontWeight:active?500:400, transition:"all var(--transition)" }}
+              onMouseEnter={e=>{ if(!active){ e.currentTarget.style.color="var(--text)"; e.currentTarget.style.background="#ffffff05"; }}}
+              onMouseLeave={e=>{ if(!active){ e.currentTarget.style.color="var(--text-muted)"; e.currentTarget.style.background="none"; }}}>
+              <Icon name={item.icon} size={15} color="currentColor"/>{item.label}
+            </button>
+          );
+        })}
+      </nav>
+      <div style={{ padding:"10px 0", borderTop:"1px solid var(--border)" }}>
+        {!IS_CONFIGURED && (
+          <button onClick={onShowSetup} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--gold-muted)", fontSize:12, fontFamily:"var(--font-sans)" }}>
+            <Icon name="settings" size={14} color="currentColor"/>Configurar Supabase
+          </button>
+        )}
+        <a href="index.html" style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", fontSize:12, fontFamily:"var(--font-sans)", textDecoration:"none" }}
+          onMouseEnter={e=>e.currentTarget.style.color="var(--text)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+          <Icon name="arrowLeft" size={13} color="currentColor"/>Site principal
+        </a>
+        <button onClick={onLogout} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"11px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", fontSize:13, fontFamily:"var(--font-sans)", transition:"color var(--transition)" }}
+          onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+          <Icon name="logout" size={15} color="currentColor"/>Sair
+        </button>
+      </div>
+    </aside>
+  );
+};
+
+// ─── DASHBOARD ───────────────────────────────────────────────
+const Dashboard = ({ user, products, onOpen }) => {
+  const pct = (p) => { const t=p.modules?.reduce((s,m)=>s+(m.lessons?.length||0),0)||1; const w=p.modules?.reduce((s,m)=>s+(m.lessons?.filter(l=>l.watched).length||0),0)||0; return Math.round(w/t*100); };
+  const pub = products.filter(p=>p.visibility==="publico");
+  const priv = products.filter(p=>p.visibility!=="publico");
+  const Card = ({ p }) => {
+    const [hov,setHov] = useState(false);
+    const pc = pct(p);
+    const isPublic = p.visibility==="publico";
+    return (
+      <div onClick={()=>onOpen(p)} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+        style={{ background:hov?"var(--card-hover)":"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", overflow:"hidden", cursor:"pointer", transition:"all var(--transition)", transform:hov?"translateY(-2px)":"none", boxShadow:hov?"0 8px 28px #00000035":"none" }}>
+        <div style={{ position:"relative" }}>
+          <Thumb type={p.thumb} title={p.title}/>
+          <div style={{ position:"absolute", top:8, right:8, display:"flex", alignItems:"center", gap:4, background:isPublic?"#4a7c5a22":"#00000055", border:`1px solid ${isPublic?"#4a7c5a55":"var(--border)"}`, borderRadius:20, padding:"3px 8px" }}>
+            <Icon name={isPublic?"globe":"lock"} size={10} color={isPublic?"#4a7c5a":"var(--text-muted)"}/>
+            <span style={{ fontSize:9, color:isPublic?"#6aad8a":"var(--text-muted)", fontFamily:"var(--font-label)", letterSpacing:"0.08em" }}>{isPublic?"PÚBLICO":"PRIVADO"}</span>
+          </div>
+        </div>
+        <div style={{ padding:"14px" }}>
+          <div style={{ fontFamily:"var(--font-label)", fontSize:10, color:"var(--gold-muted)", letterSpacing:"0.16em", marginBottom:4 }}>{p.category?.toUpperCase()}</div>
+          <div style={{ fontFamily:"var(--font-display)", fontSize:14, color:"var(--text)", lineHeight:1.3, marginBottom:10 }}>{p.title}</div>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:5 }}>
+            <span style={{ fontSize:11, color:"var(--text-muted)" }}>Progresso</span>
+            <span style={{ fontSize:11, color:"var(--gold-muted)", fontWeight:500 }}>{pc}%</span>
+          </div>
+          <div style={{ height:3, background:"var(--border)", borderRadius:2 }}>
+            <div style={{ height:"100%", width:`${pc}%`, background:"var(--gold)", borderRadius:2 }}/>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div style={{ flex:1, overflowY:"auto", padding:"32px 36px" }}>
+      <div style={{ maxWidth:960, margin:"0 auto" }}>
+        <div style={{ marginBottom:30 }}>
+          <p style={{ fontFamily:"var(--font-label)", fontSize:11, color:"var(--text-muted)", letterSpacing:"0.14em", marginBottom:6 }}>BEM-VINDA DE VOLTA</p>
+          <h1 style={{ fontFamily:"var(--font-display)", fontSize:28, color:"var(--text)" }}>Olá, {user.name?.split(" ")[0]}</h1>
+        </div>
+
+        {products.length===0 ? (
+          <div style={{ textAlign:"center", padding:"60px 0", color:"var(--text-muted)" }}>
+            <Icon name="book" size={32} color="var(--border-light)"/>
+            <p style={{ marginTop:16, fontSize:14 }}>Nenhum produto ativo.</p>
+          </div>
+        ) : (
+          <>
+            {priv.length > 0 && (
+              <>
+                <div style={{ marginBottom:14, paddingBottom:10, borderBottom:"1px solid var(--border)" }}>
+                  <span style={{ fontFamily:"var(--font-label)", fontSize:11, color:"var(--text-muted)", letterSpacing:"0.12em" }}>PRODUTOS EXCLUSIVOS ({priv.length})</span>
+                </div>
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))", gap:18, marginBottom:32 }}>
+                  {priv.map(p => <Card key={p.id} p={p}/>)}
+                </div>
+              </>
+            )}
+            {pub.length > 0 && (
+              <>
+                <div style={{ marginBottom:14, paddingBottom:10, borderBottom:"1px solid var(--border)" }}>
+                  <span style={{ fontFamily:"var(--font-label)", fontSize:11, color:"var(--text-muted)", letterSpacing:"0.12em" }}>CONTEÚDO PÚBLICO ({pub.length})</span>
+                </div>
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))", gap:18 }}>
+                  {pub.map(p => <Card key={p.id} p={p}/>)}
+                </div>
+              </>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ─── PRODUCT VIEW ────────────────────────────────────────────
+const ProductView = ({ product:p, onBack, onLesson }) => {
+  const [open,setOpen] = useState([p.modules?.[0]?.id]);
+  const toggle = id => setOpen(prev=>prev.includes(id)?prev.filter(x=>x!==id):[...prev,id]);
+  const total = p.modules?.reduce((s,m)=>s+(m.lessons?.length||0),0)||0;
+  const watched = p.modules?.reduce((s,m)=>s+(m.lessons?.filter(l=>l.watched).length||0),0)||0;
+  const pc = Math.round(watched/Math.max(total,1)*100);
+  const isPublic = p.visibility==="publico";
+  return (
+    <div style={{ flex:1, overflowY:"auto" }}>
+      <div style={{ background:"var(--surface)", borderBottom:"1px solid var(--border)", padding:"18px 32px" }}>
+        <button onClick={onBack} style={{ display:"flex", alignItems:"center", gap:6, background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", fontSize:13, fontFamily:"var(--font-sans)", marginBottom:14, padding:0 }}
+          onMouseEnter={e=>e.currentTarget.style.color="var(--text)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+          <Icon name="chevL" size={14}/>Meus Produtos
+        </button>
+        <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:20 }}>
+          <div>
+            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
+              <span style={{ fontFamily:"var(--font-label)", fontSize:10, color:"var(--gold-muted)", letterSpacing:"0.16em" }}>{p.category?.toUpperCase()}</span>
+              <span style={{ display:"inline-flex", alignItems:"center", gap:4, background:isPublic?"#4a7c5a18":"var(--gold-dim)", border:`1px solid ${isPublic?"#4a7c5a44":"var(--gold-muted)"}`, borderRadius:20, padding:"2px 7px" }}>
+                <Icon name={isPublic?"globe":"lock"} size={9} color={isPublic?"#6aad8a":"var(--gold-muted)"}/>
+                <span style={{ fontSize:9, color:isPublic?"#6aad8a":"var(--gold-muted)", fontFamily:"var(--font-label)", letterSpacing:"0.08em" }}>{isPublic?"PÚBLICO":"PRIVADO"}</span>
+              </span>
+            </div>
+            <h1 style={{ fontFamily:"var(--font-display)", fontSize:22, color:"var(--text)", marginBottom:4 }}>{p.title}</h1>
+            <p style={{ color:"var(--text-muted)", fontSize:13 }}>{p.subtitle}</p>
+          </div>
+          <div style={{ flexShrink:0, textAlign:"right" }}>
+            <div style={{ fontFamily:"var(--font-display)", fontSize:24, color:"var(--gold)" }}>{pc}%</div>
+            <div style={{ fontSize:11, color:"var(--text-muted)" }}>concluído</div>
+          </div>
+        </div>
+        <div style={{ marginTop:14, height:3, background:"var(--border)", borderRadius:2 }}>
+          <div style={{ height:"100%", width:`${pc}%`, background:"var(--gold)", borderRadius:2 }}/>
+        </div>
+      </div>
+      <div style={{ padding:"28px 32px", maxWidth:760 }}>
+        <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+          {(p.modules||[]).map((mod,mi) => {
+            const isOpen = open.includes(mod.id);
+            return (
+              <div key={mod.id} style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", overflow:"hidden" }}>
+                <button onClick={()=>toggle(mod.id)} style={{ width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between", padding:"15px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--text)", fontFamily:"var(--font-sans)" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                    <div style={{ width:26, height:26, borderRadius:"50%", background:"var(--border)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, color:"var(--text-secondary)", fontWeight:600 }}>{mi+1}</div>
+                    <div style={{ textAlign:"left" }}>
+                      <div style={{ fontSize:14, fontWeight:500 }}>{mod.title}</div>
+                      <div style={{ fontSize:11, color:"var(--text-muted)" }}>{mod.lessons?.length||0} aulas</div>
+                    </div>
+                  </div>
+                  <div style={{ transform:isOpen?"rotate(180deg)":"none", transition:"transform var(--transition)", color:"var(--text-muted)" }}><Icon name="chevD" size={15}/></div>
+                </button>
+                {isOpen && (
+                  <div style={{ borderTop:"1px solid var(--border)" }}>
+                    {(mod.lessons||[]).map((l,li) => (
+                      <button key={l.id} onClick={()=>onLesson(p,mod,l)} style={{ width:"100%", display:"flex", alignItems:"center", gap:12, padding:"12px 18px", background:"none", border:"none", borderBottom:li<(mod.lessons.length-1)?"1px solid var(--border)":"none", cursor:"pointer", fontFamily:"var(--font-sans)", textAlign:"left", transition:"background var(--transition)" }}
+                        onMouseEnter={e=>e.currentTarget.style.background="#ffffff05"} onMouseLeave={e=>e.currentTarget.style.background="none"}>
+                        <div style={{ width:26, height:26, borderRadius:"50%", background:l.watched?"var(--green)":"var(--border)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                          {l.watched?<Icon name="check" size={11} color="#fff"/>:l.type==="video"?<Icon name="play" size={9} color="var(--text-muted)"/>:<Icon name="file" size={11} color="var(--text-muted)"/>}
+                        </div>
+                        <div style={{ flex:1 }}>
+                          <div style={{ fontSize:13, color:l.watched?"var(--text-muted)":"var(--text)" }}>{l.title}</div>
+                          <div style={{ fontSize:11, color:"var(--text-muted)", marginTop:1 }}>{l.type==="video"?"Vídeo":"Material"} · {l.duration}</div>
+                        </div>
+                        <Icon name="chevR" size={13} color="var(--text-muted)"/>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─── LESSON VIEW ─────────────────────────────────────────────
+const LessonView = ({ product, module:mod, lesson, onBack, onNav }) => {
+  const all = (product.modules||[]).flatMap(m=>(m.lessons||[]).map(l=>({...l,modTitle:m.title})));
+  const idx = all.findIndex(l=>l.id===lesson.id);
+  const prev = idx>0?all[idx-1]:null;
+  const next = idx<all.length-1?all[idx+1]:null;
+  return (
+    <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
+      <div style={{ background:"var(--surface)", borderBottom:"1px solid var(--border)", padding:"13px 22px", display:"flex", alignItems:"center", justifyContent:"space-between", gap:16, flexShrink:0 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+          <button onClick={onBack} style={{ background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", padding:2 }}><Icon name="chevL" size={15}/></button>
+          <div>
+            <div style={{ fontSize:11, color:"var(--text-muted)", marginBottom:1 }}>{mod?.title}</div>
+            <div style={{ fontSize:14, fontWeight:500, color:"var(--text)" }}>{lesson.title}</div>
+          </div>
+        </div>
+        <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+          <button onClick={()=>prev&&onNav(prev)} disabled={!prev} style={{ width:30, height:30, borderRadius:"var(--radius)", background:"var(--card)", border:"1px solid var(--border)", display:"flex", alignItems:"center", justifyContent:"center", cursor:prev?"pointer":"not-allowed", opacity:prev?1:0.3 }}><Icon name="chevL" size={13} color="var(--text-secondary)"/></button>
+          <span style={{ fontSize:11, color:"var(--text-muted)" }}>{idx+1}/{all.length}</span>
+          <button onClick={()=>next&&onNav(next)} disabled={!next} style={{ width:30, height:30, borderRadius:"var(--radius)", background:"var(--card)", border:"1px solid var(--border)", display:"flex", alignItems:"center", justifyContent:"center", cursor:next?"pointer":"not-allowed", opacity:next?1:0.3 }}><Icon name="chevR" size={13} color="var(--text-secondary)"/></button>
+        </div>
+      </div>
+      <div style={{ flex:1, display:"flex", overflow:"hidden" }}>
+        <div style={{ flex:1, overflowY:"auto", padding:"28px 36px" }}>
+          {lesson.type==="video" ? (
+            <>
+              <div style={{ aspectRatio:"16/9", maxWidth:700, background:"#0a0806", borderRadius:"var(--radius-lg)", border:"1px solid var(--border)", marginBottom:24, overflow:"hidden", position:"relative" }}>
+                {lesson.url ? (() => {
+                  const u=lesson.url;
+                  const ytMatch=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+                  const vimeoMatch=u.match(/vimeo\.com\/(\d+)/);
+                  const embedSrc=ytMatch?`https://www.youtube.com/embed/${ytMatch[1]}?rel=0&modestbranding=1`:vimeoMatch?`https://player.vimeo.com/video/${vimeoMatch[1]}`:null;
+                  return embedSrc
+                    ?<iframe src={embedSrc} style={{ width:"100%",height:"100%",border:"none",position:"absolute",inset:0 }} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                    :<div style={{ width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",position:"absolute",inset:0 }}><p style={{fontSize:12,color:"var(--text-muted)"}}>Link não reconhecido — use YouTube ou Vimeo</p></div>;
+                })() : (
+                  <div style={{ position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center" }}>
+                    <div style={{ width:52,height:52,borderRadius:"50%",border:"2px solid var(--gold)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:10,background:"var(--gold-dim)" }}><Icon name="play" size={18} color="var(--gold)"/></div>
+                    <p style={{ fontSize:12,color:"var(--text-muted)" }}>Nenhum link adicionado · {lesson.duration}</p>
+                  </div>
+                )}
+              </div>
+              <div style={{ maxWidth:700 }}>
+                <h2 style={{ fontFamily:"var(--font-display)", fontSize:19, color:"var(--text)", marginBottom:6 }}>{lesson.title}</h2>
+                <p style={{ color:"var(--text-muted)", fontSize:13 }}>Vídeo · {lesson.duration}</p>
+              </div>
+            </>
+          ) : (
+            <div style={{ maxWidth:480 }}>
+              <div style={{ width:60,height:60,borderRadius:"var(--radius-lg)",background:"var(--card)",border:"1px solid var(--border)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:18 }}><Icon name="file" size={26} color="var(--gold-muted)"/></div>
+              <h2 style={{ fontFamily:"var(--font-display)", fontSize:19, color:"var(--text)", marginBottom:8 }}>{lesson.title}</h2>
+              <p style={{ color:"var(--text-muted)", fontSize:13, marginBottom:20 }}>Material para download · {lesson.duration}</p>
+              {lesson.url
+                ?<a href={lesson.url} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:8,background:"var(--gold)",borderRadius:"var(--radius)",padding:"11px 18px",color:"#2C3639",fontSize:13,fontWeight:600,textDecoration:"none" }}><Icon name="download" size={14} color="#2C3639"/>Baixar material</a>
+                :<p style={{ fontSize:13,color:"var(--text-muted)" }}>Nenhum link adicionado ainda.</p>
+              }
+            </div>
+          )}
+        </div>
+        <div style={{ width:265,flexShrink:0,borderLeft:"1px solid var(--border)",background:"var(--surface)",overflowY:"auto" }}>
+          <div style={{ padding:"14px 14px 10px",borderBottom:"1px solid var(--border)" }}>
+            <div style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--text-muted)",letterSpacing:"0.1em" }}>{product.title}</div>
+          </div>
+          {(product.modules||[]).map(m=>(
+            <div key={m.id}>
+              <div style={{ padding:"11px 14px 7px",fontSize:11,fontWeight:600,color:"var(--text-secondary)",borderBottom:"1px solid var(--border)" }}>{m.title}</div>
+              {(m.lessons||[]).map(l=>{
+                const active=l.id===lesson.id;
+                return (
+                  <button key={l.id} onClick={()=>onNav(l)} style={{ width:"100%",display:"flex",alignItems:"center",gap:9,padding:"9px 14px",background:active?"var(--gold-dim)":"none",border:"none",borderBottom:"1px solid var(--border)",cursor:"pointer",textAlign:"left",transition:"background var(--transition)" }}
+                    onMouseEnter={e=>{if(!active)e.currentTarget.style.background="#ffffff05";}} onMouseLeave={e=>{if(!active)e.currentTarget.style.background="none";}}>
+                    <div style={{ width:18,height:18,borderRadius:"50%",background:l.watched?"var(--green)":active?"var(--gold)":"var(--border)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+                      {l.watched?<Icon name="check" size={9} color="#fff"/>:l.type==="video"?<Icon name="play" size={7} color={active?"#2C3639":"var(--text-muted)"}/>:<Icon name="file" size={8} color={active?"#2C3639":"var(--text-muted)"}/>}
+                    </div>
+                    <div style={{ flex:1,overflow:"hidden" }}>
+                      <div style={{ fontSize:11,color:active?"var(--gold)":l.watched?"var(--text-muted)":"var(--text)",lineHeight:1.3,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{l.title}</div>
+                      <div style={{ fontSize:10,color:"var(--text-muted)" }}>{l.duration}</div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─── ADMIN ───────────────────────────────────────────────────
+const Admin = ({ products:initProds }) => {
+  const [tab,setTab]=useState("members");
+  const [members,setMembers]=useState([]);
+  const [products,setProducts]=useState(initProds||[]);
+  const [sel,setSel]=useState(null);
+  const [modal,setModal]=useState(false);
+  const [form,setForm]=useState({name:"",email:"",password:""});
+  const [formErr,setFormErr]=useState("");
+  const [loading,setLoading]=useState(true);
+  const [prodModal,setProdModal]=useState(false);
+  const [prodForm,setProdForm]=useState({title:"",subtitle:"",category:"Consultoria",thumb:"visual-law",visibility:"privado"});
+  const [prodErr,setProdErr]=useState("");
+  const [modModal,setModModal]=useState(null);
+  const [modForm,setModForm]=useState({title:""});
+  const [lesModal,setLesModal]=useState(null);
+  const [lesForm,setLesForm]=useState({title:"",duration:"",type:"video",url:""});
+  const [expandedProd,setExpandedProd]=useState(null);
+
+  useEffect(()=>{ authService.getMembers().then(m=>{setMembers(m);setLoading(false);}); },[]);
+  useEffect(()=>{ if(IS_CONFIGURED) sb.from("products").select("*").then(({data})=>{if(data)setProducts(data);}); },[]);
+
+  const updateMods = async (pid,modules) => {
+    setProducts(prev=>prev.map(p=>p.id===pid?{...p,modules}:p));
+    if(IS_CONFIGURED) await sb.from("products").update({modules}).eq("id",pid);
+  };
+  const addProduct = async () => {
+    if(!prodForm.title){setProdErr("Título obrigatório.");return;}
+    const obj={...prodForm,modules:[]};
+    if(IS_CONFIGURED){
+      const {data}=await sb.from("products").insert(obj).select().single();
+      if(data)setProducts(prev=>[...prev,data]);
+    } else setProducts(prev=>[...prev,{id:Date.now(),...obj}]);
+    setProdForm({title:"",subtitle:"",category:"Consultoria",thumb:"visual-law",visibility:"privado"});
+    setProdErr("");setProdModal(false);
+  };
+  const delProduct = async (id) => {
+    if(!confirm("Remover produto e todos os acessos?"))return;
+    if(IS_CONFIGURED)await sb.from("products").delete().eq("id",id);
+    setProducts(prev=>prev.filter(p=>p.id!==id));
+  };
+  const toggleVisibility = async (prod) => {
+    const newVis = prod.visibility==="publico"?"privado":"publico";
+    if(IS_CONFIGURED)await sb.from("products").update({visibility:newVis}).eq("id",prod.id);
+    setProducts(prev=>prev.map(p=>p.id===prod.id?{...p,visibility:newVis}:p));
+  };
+  const addModule = async () => {
+    if(!modForm.title)return;
+    const p=products.find(x=>x.id===modModal);
+    await updateMods(modModal,[...(p.modules||[]),{id:Date.now(),title:modForm.title,lessons:[]}]);
+    setModForm({title:""});setModModal(null);
+  };
+  const delModule = async (pid,mid) => {
+    const p=products.find(x=>x.id===pid);
+    await updateMods(pid,(p.modules||[]).filter(m=>m.id!==mid));
+  };
+  const addLesson = async () => {
+    if(!lesForm.title||!lesForm.duration)return;
+    const {pid,mid}=lesModal;
+    const p=products.find(x=>x.id===pid);
+    const mods=(p.modules||[]).map(m=>m.id===mid?{...m,lessons:[...(m.lessons||[]),{id:Date.now(),...lesForm,watched:false}]}:m);
+    await updateMods(pid,mods);
+    setLesForm({title:"",duration:"",type:"video",url:""});setLesModal(null);
+  };
+  const delLesson = async (pid,mid,lid) => {
+    const p=products.find(x=>x.id===pid);
+    await updateMods(pid,(p.modules||[]).map(m=>m.id===mid?{...m,lessons:(m.lessons||[]).filter(l=>l.id!==lid)}:m));
+  };
+  const toggle = async (mId,pId) => {
+    const m=members.find(x=>x.id===mId);const has=m?.productIds?.includes(pId);
+    await authService.toggleAccess(mId,pId,has);
+    setMembers(prev=>prev.map(x=>x.id!==mId?x:{...x,productIds:has?x.productIds.filter(id=>id!==pId):[...(x.productIds||[]),pId]}));
+    if(sel?.id===mId)setSel(prev=>({...prev,productIds:has?prev.productIds.filter(id=>id!==pId):[...(prev.productIds||[]),pId]}));
+  };
+  const remove = async (id) => { await authService.removeMember(id);setMembers(prev=>prev.filter(m=>m.id!==id));if(sel?.id===id)setSel(null); };
+  const add = async () => {
+    if(!form.name||!form.email||!form.password){setFormErr("Preencha todos os campos.");return;}
+    if(form.password.length<6){setFormErr("Senha mínima: 6 caracteres.");return;}
+    try{const m=await authService.createMember(form.name,form.email,form.password);setMembers(prev=>[...prev,m]);setForm({name:"",email:"",password:""});setFormErr("");setModal(false);}
+    catch(ex){setFormErr(ex.message);}
+  };
+
+  const Inp = ({val,set,ph,type="text"}) => (
+    <input type={type} placeholder={ph} value={val} onChange={e=>set(e.target.value)}
+      style={{ width:"100%",background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"9px 12px",color:"var(--text)",fontSize:13,outline:"none",marginBottom:10 }}
+      onFocus={e=>e.target.style.borderColor="var(--gold-muted)"} onBlur={e=>e.target.style.borderColor="var(--border)"} />
+  );
+  const Sel = ({val,set,opts}) => (
+    <select value={val} onChange={e=>set(e.target.value)} style={{ width:"100%",background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"9px 12px",color:"var(--text)",fontSize:13,outline:"none",marginBottom:10 }}>
+      {opts.map(o=><option key={o.value||o} value={o.value||o}>{o.label||o}</option>)}
+    </select>
+  );
+  const Lbl = ({t}) => <div style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--text-secondary)",letterSpacing:"0.08em",marginBottom:5 }}>{t}</div>;
+  const Btn = ({children,onClick,gold,small,danger}) => (
+    <button onClick={onClick} style={{ display:"flex",alignItems:"center",gap:6,background:gold?"var(--gold)":danger?"#bf6f6f18":"none",border:gold||danger?"none":`1px solid var(--border)`,borderRadius:"var(--radius)",padding:small?"5px 10px":"9px 14px",color:gold?"#2C3639":danger?"var(--danger)":"var(--text-muted)",fontSize:small?11:13,fontWeight:gold?600:400,cursor:"pointer",fontFamily:"var(--font-sans)" }}>{children}</button>
+  );
+
+  const totalAulas = products.reduce((s,p)=>s+(p.modules||[]).reduce((ss,m)=>ss+(m.lessons?.length||0),0),0);
+  const privProducts = products.filter(p=>p.visibility!=="publico");
+
+  return (
+    <div style={{ flex:1,overflowY:"auto",padding:"28px 32px" }}>
+      <div style={{ maxWidth:940 }}>
+        <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:24 }}>
+          <div>
+            <p style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--text-muted)",letterSpacing:"0.14em",marginBottom:4 }}>ADMINISTRAÇÃO</p>
+            <h1 style={{ fontFamily:"var(--font-display)",fontSize:24,color:"var(--text)" }}>Painel Admin</h1>
+          </div>
+          <Btn gold onClick={()=>tab==="members"?setModal(true):setProdModal(true)}>
+            <Icon name="plus" size={14} color="#2C3639"/>{tab==="members"?"Novo membro":"Novo produto"}
+          </Btn>
+        </div>
+
+        <div style={{ display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:22 }}>
+          {[["Membros",members.length,"users"],["Produtos",products.length,"book"],["Aulas",totalAulas,"play"],["Privados",privProducts.length,"lock"]].map(([label,val,icon])=>(
+            <div key={label} style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"16px 18px",display:"flex",alignItems:"center",gap:12 }}>
+              <div style={{ width:36,height:36,borderRadius:"var(--radius)",background:"var(--gold-dim)",display:"flex",alignItems:"center",justifyContent:"center" }}><Icon name={icon} size={16} color="var(--gold)"/></div>
+              <div>
+                <div style={{ fontFamily:"var(--font-display)",fontSize:20,color:"var(--text)",lineHeight:1 }}>{val}</div>
+                <div style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--text-muted)",marginTop:3,letterSpacing:"0.07em" }}>{label.toUpperCase()}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ display:"flex",gap:2,marginBottom:18,background:"var(--card)",borderRadius:"var(--radius)",padding:4,width:"fit-content",border:"1px solid var(--border)" }}>
+          {[["members","Membros","users"],["products","Produtos","book"]].map(([id,label,icon])=>(
+            <button key={id} onClick={()=>setTab(id)} style={{ display:"flex",alignItems:"center",gap:7,padding:"7px 16px",borderRadius:6,border:"none",background:tab===id?"var(--gold)":"none",color:tab===id?"#2C3639":"var(--text-muted)",fontSize:13,fontWeight:tab===id?600:400,cursor:"pointer",fontFamily:"var(--font-sans)",transition:"all var(--transition)" }}>
+              <Icon name={icon} size={13} color="currentColor"/>{label}
+            </button>
+          ))}
+        </div>
+
+        {tab==="members" && (
+          <div style={{ display:"grid",gridTemplateColumns:sel?"1fr 310px":"1fr",gap:16 }}>
+            <div style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",overflow:"hidden" }}>
+              <div style={{ padding:"12px 16px",borderBottom:"1px solid var(--border)" }}>
+                <span style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--text-secondary)",letterSpacing:"0.12em" }}>MEMBROS ({members.length})</span>
+              </div>
+              {loading&&<div style={{ padding:"28px",textAlign:"center",color:"var(--text-muted)",fontSize:13 }}>Carregando...</div>}
+              {!loading&&members.length===0&&<div style={{ padding:"28px",textAlign:"center",color:"var(--text-muted)",fontSize:13 }}>Nenhum membro ainda.</div>}
+              {members.map((m,i)=>(
+                <div key={m.id} onClick={()=>setSel(sel?.id===m.id?null:m)}
+                  style={{ display:"flex",alignItems:"center",gap:12,padding:"12px 16px",borderBottom:i<members.length-1?"1px solid var(--border)":"none",cursor:"pointer",background:sel?.id===m.id?"var(--gold-dim)":"none",transition:"background var(--transition)" }}
+                  onMouseEnter={e=>{if(sel?.id!==m.id)e.currentTarget.style.background="#ffffff05";}} onMouseLeave={e=>{if(sel?.id!==m.id)e.currentTarget.style.background="none";}}>
+                  <div style={{ width:32,height:32,borderRadius:"50%",background:"var(--gold-dim)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+                    <span style={{ fontSize:11,fontWeight:600,color:"var(--gold)" }}>{m.avatar||m.name?.slice(0,2).toUpperCase()}</span>
+                  </div>
+                  <div style={{ flex:1,minWidth:0 }}>
+                    <div style={{ fontSize:13,color:"var(--text)",fontWeight:500 }}>{m.name}</div>
+                    <div style={{ fontSize:11,color:"var(--text-muted)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{m.email}</div>
+                  </div>
+                  <div style={{ display:"flex",alignItems:"center",gap:8 }}>
+                    <div style={{ display:"flex",gap:3 }}>{privProducts.map(p=><div key={p.id} title={p.title} style={{ width:7,height:7,borderRadius:"50%",background:(m.productIds||[]).includes(p.id)?"var(--gold)":"var(--border)" }}/>)}</div>
+                    <span style={{ fontSize:11,color:"var(--text-muted)" }}>{(m.productIds||[]).length}/{privProducts.length} priv.</span>
+                    <button onClick={e=>{e.stopPropagation();remove(m.id);}} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
+                      onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+                      <Icon name="trash" size={13} color="currentColor"/>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {sel&&(
+              <div style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",overflow:"hidden" }}>
+                <div style={{ padding:"12px 16px",borderBottom:"1px solid var(--border)",display:"flex",alignItems:"center",justifyContent:"space-between" }}>
+                  <div>
+                    <div style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--text-muted)",letterSpacing:"0.1em" }}>ACESSOS PRIVADOS</div>
+                    <div style={{ fontSize:13,fontWeight:500,color:"var(--text)",marginTop:2 }}>{sel.name?.split(" ")[0]}</div>
+                  </div>
+                  <button onClick={()=>setSel(null)} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",fontSize:20,lineHeight:1 }}>×</button>
+                </div>
+                {privProducts.length===0&&<div style={{ padding:"16px",fontSize:12,color:"var(--text-muted)" }}>Nenhum produto privado criado.</div>}
+                {privProducts.map(p=>{
+                  const has=(sel.productIds||[]).includes(p.id);
+                  return (
+                    <div key={p.id} style={{ display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 16px",borderBottom:"1px solid var(--border)" }}>
+                      <div>
+                        <div style={{ fontFamily:"var(--font-label)",fontSize:9,color:"var(--gold-muted)",letterSpacing:"0.12em",marginBottom:2 }}>{p.category?.toUpperCase()}</div>
+                        <div style={{ fontSize:12,color:"var(--text)" }}>{p.title}</div>
+                      </div>
+                      <button onClick={()=>toggle(sel.id,p.id)} style={{ flexShrink:0,width:40,height:22,borderRadius:11,border:"none",background:has?"var(--gold)":"var(--border)",cursor:"pointer",position:"relative",transition:"background 0.2s" }}>
+                        <div style={{ position:"absolute",top:2,left:has?20:2,width:18,height:18,borderRadius:"50%",background:has?"#2C3639":"var(--text-muted)",transition:"left 0.2s" }}/>
+                      </button>
+                    </div>
+                  );
+                })}
+                <div style={{ padding:"10px 16px",borderTop:"1px solid var(--border)",fontSize:11,color:"var(--text-muted)" }}>
+                  Produtos públicos são acessados por todos.
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {tab==="products" && (
+          <div style={{ display:"flex",flexDirection:"column",gap:10 }}>
+            {products.length===0&&<div style={{ textAlign:"center",padding:"40px",color:"var(--text-muted)",fontSize:13,background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)" }}>Nenhum produto. Clique em "Novo produto".</div>}
+            {products.map(p=>(
+              <div key={p.id} style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",overflow:"hidden" }}>
+                <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 18px",cursor:"pointer" }} onClick={()=>setExpandedProd(expandedProd===p.id?null:p.id)}>
+                  <div style={{ display:"flex",alignItems:"center",gap:12 }}>
+                    <div style={{ transform:expandedProd===p.id?"rotate(180deg)":"none",transition:"transform var(--transition)",color:"var(--text-muted)" }}><Icon name="chevD" size={14}/></div>
+                    <div>
+                      <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:3 }}>
+                        <span style={{ fontFamily:"var(--font-label)",fontSize:9,color:"var(--gold-muted)",letterSpacing:"0.14em" }}>{p.category?.toUpperCase()}</span>
+                        <span style={{ display:"inline-flex",alignItems:"center",gap:3,background:p.visibility==="publico"?"#4a7c5a18":"var(--gold-dim)",border:`1px solid ${p.visibility==="publico"?"#4a7c5a44":"var(--gold-muted)"}`,borderRadius:20,padding:"1px 6px" }}>
+                          <Icon name={p.visibility==="publico"?"globe":"lock"} size={8} color={p.visibility==="publico"?"#6aad8a":"var(--gold-muted)"}/>
+                          <span style={{ fontSize:8,color:p.visibility==="publico"?"#6aad8a":"var(--gold-muted)",fontFamily:"var(--font-label)",letterSpacing:"0.08em" }}>{p.visibility==="publico"?"PÚBLICO":"PRIVADO"}</span>
+                        </span>
+                      </div>
+                      <div style={{ fontSize:14,fontWeight:500,color:"var(--text)" }}>{p.title}</div>
+                      <div style={{ fontSize:11,color:"var(--text-muted)" }}>{(p.modules||[]).length} módulos · {(p.modules||[]).reduce((s,m)=>s+(m.lessons?.length||0),0)} aulas</div>
+                    </div>
+                  </div>
+                  <div style={{ display:"flex",alignItems:"center",gap:8 }}>
+                    <button onClick={e=>{e.stopPropagation();toggleVisibility(p);}} title="Alternar visibilidade"
+                      style={{ background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"5px 10px",cursor:"pointer",color:"var(--text-muted)",fontSize:11,display:"flex",alignItems:"center",gap:5,fontFamily:"var(--font-sans)" }}
+                      onMouseEnter={e=>e.currentTarget.style.borderColor="var(--gold-muted)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--border)"}>
+                      <Icon name={p.visibility==="publico"?"lock":"globe"} size={11} color="currentColor"/>
+                      {p.visibility==="publico"?"Tornar privado":"Tornar público"}
+                    </button>
+                    <button onClick={e=>{e.stopPropagation();delProduct(p.id);}} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:4 }}
+                      onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+                      <Icon name="trash" size={14} color="currentColor"/>
+                    </button>
+                  </div>
+                </div>
+                {expandedProd===p.id&&(
+                  <div style={{ borderTop:"1px solid var(--border)",padding:"14px 18px" }}>
+                    {(p.modules||[]).map(mod=>(
+                      <div key={mod.id} style={{ background:"var(--surface)",borderRadius:"var(--radius)",padding:"12px 14px",marginBottom:10 }}>
+                        <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8 }}>
+                          <div style={{ fontSize:13,fontWeight:500,color:"var(--text)" }}>📁 {mod.title}</div>
+                          <div style={{ display:"flex",gap:8 }}>
+                            <Btn small onClick={()=>setLesModal({pid:p.id,mid:mod.id})}><Icon name="plus" size={11} color="currentColor"/>Aula</Btn>
+                            <button onClick={()=>delModule(p.id,mod.id)} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
+                              onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+                              <Icon name="trash" size={12} color="currentColor"/>
+                            </button>
+                          </div>
+                        </div>
+                        {(mod.lessons||[]).map(l=>(
+                          <div key={l.id} style={{ display:"flex",alignItems:"center",justifyContent:"space-between",padding:"7px 10px",background:"var(--card)",borderRadius:"var(--radius)",marginBottom:4 }}>
+                            <div style={{ display:"flex",alignItems:"center",gap:8 }}>
+                              <Icon name={l.type==="video"?"play":"file"} size={12} color="var(--text-muted)"/>
+                              <div>
+                                <div style={{ fontSize:12,color:"var(--text)" }}>{l.title}</div>
+                                <div style={{ fontSize:10,color:"var(--text-muted)" }}>{l.type==="video"?"Vídeo":"Material"} · {l.duration}</div>
+                              </div>
+                            </div>
+                            <button onClick={()=>delLesson(p.id,mod.id,l.id)} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
+                              onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+                              <Icon name="trash" size={11} color="currentColor"/>
+                            </button>
+                          </div>
+                        ))}
+                        {(mod.lessons||[]).length===0&&<div style={{ fontSize:11,color:"var(--text-muted)",padding:"6px 0" }}>Sem aulas. Clique em "+ Aula".</div>}
+                      </div>
+                    ))}
+                    <Btn onClick={()=>setModModal(p.id)}><Icon name="plus" size={13} color="currentColor"/>Adicionar módulo</Btn>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {modal&&(
+        <div style={{ position:"fixed",inset:0,background:"#00000075",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100 }} onClick={()=>setModal(false)}>
+          <div style={{ background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"24px",width:380,maxWidth:"92vw" }} onClick={e=>e.stopPropagation()}>
+            <h2 style={{ fontFamily:"var(--font-display)",fontSize:18,color:"var(--text)",marginBottom:18 }}>Novo membro</h2>
+            <Lbl t="NOME COMPLETO"/><Inp val={form.name} set={v=>setForm(p=>({...p,name:v}))} ph="Ex: Maria Silva"/>
+            <Lbl t="E-MAIL"/><Inp val={form.email} set={v=>setForm(p=>({...p,email:v}))} ph="maria@email.com" type="email"/>
+            <Lbl t="SENHA"/><Inp val={form.password} set={v=>setForm(p=>({...p,password:v}))} ph="Mínimo 6 caracteres" type="password"/>
+            {formErr&&<div style={{ fontSize:12,color:"var(--danger)",marginBottom:10 }}>{formErr}</div>}
+            <div style={{ display:"flex",gap:10 }}>
+              <button onClick={()=>{setModal(false);setFormErr("");}} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
+              <button onClick={add} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>Criar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {prodModal&&(
+        <div style={{ position:"fixed",inset:0,background:"#00000075",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100 }} onClick={()=>setProdModal(false)}>
+          <div style={{ background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"24px",width:420,maxWidth:"92vw" }} onClick={e=>e.stopPropagation()}>
+            <h2 style={{ fontFamily:"var(--font-display)",fontSize:18,color:"var(--text)",marginBottom:18 }}>Novo produto</h2>
+            <Lbl t="TÍTULO"/><Inp val={prodForm.title} set={v=>setProdForm(p=>({...p,title:v}))} ph="Ex: Visual Law — Cliente X"/>
+            <Lbl t="DESCRIÇÃO"/><Inp val={prodForm.subtitle} set={v=>setProdForm(p=>({...p,subtitle:v}))} ph="Descrição curta"/>
+            <Lbl t="CATEGORIA"/><Sel val={prodForm.category} set={v=>setProdForm(p=>({...p,category:v}))} opts={["Consultoria","Curso","Mini-Curso","Templates","Outros"]}/>
+            <Lbl t="VISUAL (thumb)"/><Sel val={prodForm.thumb} set={v=>setProdForm(p=>({...p,thumb:v}))} opts={[{value:"visual-law",label:"Visual Law"},{value:"peticoes",label:"Petições"},{value:"abnt",label:"ABNT"},{value:"consultoria",label:"Consultoria"}]}/>
+            <Lbl t="VISIBILIDADE"/>
+            <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10 }}>
+              {[{v:"privado",icon:"lock",label:"Privado",desc:"Acesso por convite"},{v:"publico",icon:"globe",label:"Público",desc:"Todos os membros"}].map(opt=>(
+                <button key={opt.v} onClick={()=>setProdForm(p=>({...p,visibility:opt.v}))} style={{ background:prodForm.visibility===opt.v?"var(--gold-dim)":"var(--card)",border:`1px solid ${prodForm.visibility===opt.v?"var(--gold)":"var(--border)"}`,borderRadius:"var(--radius)",padding:"10px 12px",cursor:"pointer",textAlign:"left",display:"flex",flexDirection:"column",gap:4 }}>
+                  <div style={{ display:"flex",alignItems:"center",gap:6,color:prodForm.visibility===opt.v?"var(--gold)":"var(--text-muted)" }}><Icon name={opt.icon} size={13} color="currentColor"/><span style={{ fontSize:12,fontWeight:600,fontFamily:"var(--font-sans)" }}>{opt.label}</span></div>
+                  <span style={{ fontSize:10,color:"var(--text-muted)",fontFamily:"var(--font-label)" }}>{opt.desc}</span>
+                </button>
+              ))}
+            </div>
+            {prodErr&&<div style={{ fontSize:12,color:"var(--danger)",marginBottom:10 }}>{prodErr}</div>}
+            <div style={{ display:"flex",gap:10 }}>
+              <button onClick={()=>{setProdModal(false);setProdErr("");}} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
+              <button onClick={addProduct} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>Criar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {modModal&&(
+        <div style={{ position:"fixed",inset:0,background:"#00000075",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100 }} onClick={()=>setModModal(null)}>
+          <div style={{ background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"24px",width:360,maxWidth:"92vw" }} onClick={e=>e.stopPropagation()}>
+            <h2 style={{ fontFamily:"var(--font-display)",fontSize:18,color:"var(--text)",marginBottom:16 }}>Novo módulo</h2>
+            <Lbl t="NOME DO MÓDULO"/><Inp val={modForm.title} set={v=>setModForm(p=>({...p,title:v}))} ph="Ex: Fundamentos"/>
+            <div style={{ display:"flex",gap:10 }}>
+              <button onClick={()=>setModModal(null)} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
+              <button onClick={addModule} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>Adicionar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {lesModal&&(
+        <div style={{ position:"fixed",inset:0,background:"#00000075",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100 }} onClick={()=>setLesModal(null)}>
+          <div style={{ background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"24px",width:400,maxWidth:"92vw" }} onClick={e=>e.stopPropagation()}>
+            <h2 style={{ fontFamily:"var(--font-display)",fontSize:18,color:"var(--text)",marginBottom:16 }}>Nova aula / material</h2>
+            <Lbl t="TÍTULO"/><Inp val={lesForm.title} set={v=>setLesForm(p=>({...p,title:v}))} ph="Ex: Introdução ao Visual Law"/>
+            <Lbl t="DURAÇÃO / FORMATO"/><Inp val={lesForm.duration} set={v=>setLesForm(p=>({...p,duration:v}))} ph="Ex: 18min / PDF / DOCX"/>
+            <Lbl t="TIPO"/><Sel val={lesForm.type} set={v=>setLesForm(p=>({...p,type:v}))} opts={[{value:"video",label:"Vídeo"},{value:"material",label:"Material / Download"}]}/>
+            <Lbl t={lesForm.type==="video"?"LINK DO VÍDEO (YouTube ou Vimeo)":"LINK DO MATERIAL (Drive, Supabase, etc.)"}/>
+            <Inp val={lesForm.url} set={v=>setLesForm(p=>({...p,url:v}))} ph={lesForm.type==="video"?"https://youtu.be/...":"https://drive.google.com/..."}/>
+            <div style={{ display:"flex",gap:10 }}>
+              <button onClick={()=>setLesModal(null)} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
+              <button onClick={addLesson} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>Adicionar</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ─── ACCOUNT ────────────────────────────────────────────────
+const Account = ({ user }) => {
+  const [pwForm,setPwForm]=useState({current:"",next:"",confirm:""});
+  const [pwErr,setPwErr]=useState(""); const [pwOk,setPwOk]=useState(false); const [pwLoading,setPwLoading]=useState(false);
+  const changePw = async () => {
+    setPwErr("");setPwOk(false);
+    if(!pwForm.current||!pwForm.next||!pwForm.confirm){setPwErr("Preencha todos os campos.");return;}
+    if(pwForm.next.length<6){setPwErr("Nova senha: mínimo 6 caracteres.");return;}
+    if(pwForm.next!==pwForm.confirm){setPwErr("As senhas não coincidem.");return;}
+    setPwLoading(true);
+    try {
+      if(IS_CONFIGURED){
+        const {error:signInErr}=await sb.auth.signInWithPassword({email:user.email,password:pwForm.current});
+        if(signInErr)throw new Error("Senha atual incorreta.");
+        const {error}=await sb.auth.updateUser({password:pwForm.next});
+        if(error)throw new Error(error.message);
+      }
+      setPwOk(true);setPwForm({current:"",next:"",confirm:""});
+    } catch(ex){setPwErr(ex.message);}
+    setPwLoading(false);
+  };
+  const Inp = ({ph,val,set}) => (
+    <input type="password" placeholder={ph} value={val} onChange={e=>set(e.target.value)}
+      style={{ width:"100%",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"9px 12px",color:"var(--text)",fontSize:13,outline:"none",marginBottom:10 }}
+      onFocus={e=>e.target.style.borderColor="var(--gold-muted)"} onBlur={e=>e.target.style.borderColor="var(--border)"} />
+  );
+  return (
+    <div style={{ flex:1,overflowY:"auto",padding:"28px 32px" }}>
+      <div style={{ maxWidth:520 }}>
+        <h1 style={{ fontFamily:"var(--font-display)",fontSize:22,color:"var(--text)",marginBottom:24 }}>Minha Conta</h1>
+        <div style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:22,marginBottom:16 }}>
+          <div style={{ display:"flex",alignItems:"center",gap:14,marginBottom:18,paddingBottom:18,borderBottom:"1px solid var(--border)" }}>
+            <div style={{ width:48,height:48,borderRadius:"50%",background:"var(--gold-dim)",display:"flex",alignItems:"center",justifyContent:"center" }}>
+              <span style={{ fontSize:16,fontWeight:600,color:"var(--gold)" }}>{user.avatar||user.name?.slice(0,2).toUpperCase()}</span>
+            </div>
+            <div>
+              <div style={{ fontFamily:"var(--font-display)",fontSize:15,color:"var(--text)" }}>{user.name}</div>
+              <div style={{ fontSize:12,color:"var(--text-muted)" }}>{user.role==="admin"?"Administrador":"Membro"}</div>
+            </div>
+          </div>
+          {[["Nome",user.name],["E-mail",user.email],["Acesso",user.role==="admin"?"Administrador":"Membro"]].map(([l,v])=>(
+            <div key={l} style={{ display:"flex",justifyContent:"space-between",padding:"11px 0",borderBottom:"1px solid var(--border)" }}>
+              <span style={{ fontSize:13,color:"var(--text-muted)" }}>{l}</span>
+              <span style={{ fontSize:13,color:"var(--text)" }}>{v}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:22 }}>
+          <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:16 }}>
+            <Icon name="shield" size={15} color="var(--gold-muted)"/>
+            <span style={{ fontFamily:"var(--font-display)",fontSize:15,color:"var(--text)" }}>Trocar senha</span>
+          </div>
+          <Inp ph="Senha atual" val={pwForm.current} set={v=>setPwForm(p=>({...p,current:v}))}/>
+          <Inp ph="Nova senha" val={pwForm.next} set={v=>setPwForm(p=>({...p,next:v}))}/>
+          <Inp ph="Confirmar nova senha" val={pwForm.confirm} set={v=>setPwForm(p=>({...p,confirm:v}))}/>
+          {pwErr&&<p style={{ fontSize:12,color:"var(--danger)",marginBottom:10 }}>{pwErr}</p>}
+          {pwOk&&<p style={{ fontSize:12,color:"var(--green)",marginBottom:10 }}>Senha alterada com sucesso!</p>}
+          <button onClick={changePw} disabled={pwLoading} style={{ width:"100%",background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"11px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:pwLoading?"not-allowed":"pointer",opacity:pwLoading?0.7:1 }}>
+            {pwLoading?"Salvando...":"Salvar nova senha"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─── HELP ────────────────────────────────────────────────────
+const Help = () => (
+  <div style={{ flex:1,overflowY:"auto",padding:"28px 32px" }}>
+    <div style={{ maxWidth:520 }}>
+      <h1 style={{ fontFamily:"var(--font-display)",fontSize:22,color:"var(--text)",marginBottom:24 }}>Ajuda</h1>
+      {[
+        ["Como acesso meus produtos?","Clique em 'Meus Produtos' no menu lateral para ver seus cursos e materiais ativos."],
+        ["Não estou vendo um produto?","Produtos privados precisam ser liberados manualmente. Entre em contato para solicitar acesso."],
+        ["Como baixo materiais?","Dentro do produto, clique na aula/material desejado. Haverá um botão de download."],
+        ["Não consigo acessar?","Tente atualizar a página. Se o problema persistir, fale pelo e-mail abaixo."],
+      ].map(([q,r])=>(
+        <div key={q} style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"16px 18px",marginBottom:10 }}>
+          <div style={{ fontSize:13,fontWeight:500,color:"var(--text)",marginBottom:5 }}>{q}</div>
+          <div style={{ fontSize:13,color:"var(--text-muted)",lineHeight:1.7 }}>{r}</div>
+        </div>
+      ))}
+      <div style={{ marginTop:20,padding:"18px",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",textAlign:"center" }}>
+        <p style={{ fontSize:12,color:"var(--text-muted)",marginBottom:12 }}>Não encontrou o que precisava?</p>
+        <a href="mailto:juliaketelut.juridico@gmail.com" style={{ background:"var(--gold)",borderRadius:"var(--radius)",padding:"10px 18px",color:"#2C3639",fontSize:13,fontWeight:600,textDecoration:"none",display:"inline-block" }}>Falar com o suporte</a>
+      </div>
+    </div>
+  </div>
+);
+
+// ─── APP ────────────────────────────────────────────────────
+const App = () => {
+  const [session,setSession]=useState(null);
+  const [view,setView]=useState("dashboard");
+  const [activeProduct,setActiveProduct]=useState(null);
+  const [activeModule,setActiveModule]=useState(null);
+  const [activeLesson,setActiveLesson]=useState(null);
+  const [showSetup,setShowSetup]=useState(false);
+
+  const handleLogin = ({user,products}) => setSession({user,products});
+  const handleLogout = async () => { await authService.logout(); setSession(null);setView("dashboard"); };
+  const handleNav = (v) => { setView(v); if(!["product","lesson"].includes(v)){setActiveProduct(null);setActiveLesson(null);} };
+  const handleOpenProduct = (p) => { setActiveProduct(p);setView("product"); };
+  const handleOpenLesson = (product,mod,lesson) => { setActiveProduct(product);setActiveModule(mod);setActiveLesson(lesson);setView("lesson"); };
+  const handleNavLesson = (lesson) => {
+    const mod=(activeProduct?.modules||[]).find(m=>(m.lessons||[]).some(l=>l.id===lesson.id));
+    setActiveModule(mod);setActiveLesson(lesson);
+  };
+
+  if(!session) return (
+    <>
+      <Login onLogin={handleLogin} onShowSetup={()=>setShowSetup(true)}/>
+      {showSetup&&<SetupGuide onClose={()=>setShowSetup(false)}/>}
+    </>
+  );
+
+  const {user,products}=session;
+
+  return (
+    <div style={{ display:"flex",height:"100vh",overflow:"hidden" }}>
+      <Sidebar user={user} view={view} onNav={handleNav} onLogout={handleLogout} onShowSetup={()=>setShowSetup(true)}/>
+      {view==="dashboard"&&<Dashboard user={user} products={products} onOpen={handleOpenProduct}/>}
+      {view==="product"&&activeProduct&&<ProductView product={activeProduct} onBack={()=>handleNav("dashboard")} onLesson={handleOpenLesson}/>}
+      {view==="lesson"&&activeLesson&&<LessonView product={activeProduct} module={activeModule} lesson={activeLesson} onBack={()=>setView("product")} onNav={handleNavLesson}/>}
+      {view==="account"&&<Account user={user}/>}
+      {view==="help"&&<Help/>}
+      {view==="admin"&&user.role==="admin"&&<Admin products={products.length?products:DEMO_PRODUCTS}/>}
+      {showSetup&&<SetupGuide onClose={()=>setShowSetup(false)}/>}
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
