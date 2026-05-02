@@ -769,6 +769,94 @@
     .footer-text a { color: rgba(220,215,201,0.5); text-decoration: none; transition: color 0.2s; }
     .footer-text a:hover { color: var(--creme); }
 
+    /* ── DORES ── */
+    #dores { background: var(--eclipse); }
+    .dores-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
+    .dor-card {
+      background: rgba(44,54,57,0.6);
+      border: 1px solid rgba(220,215,201,0.08);
+      border-radius: 3px;
+      padding: 1.8rem 1.5rem;
+      position: relative;
+    }
+    .dor-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--creme);
+      border-radius: 3px 0 0 3px;
+      opacity: 0.45;
+    }
+    .dor-card svg { color: var(--creme); opacity: 0.7; margin-bottom: 1rem; display: block; }
+    .dor-card h3 { font-family: 'Gotu', serif; font-size: 0.88rem; letter-spacing: 0.06em; color: var(--au-lait); margin-bottom: 0.6rem; }
+    .dor-card p { font-size: 0.87rem; color: rgba(220,215,201,0.5); line-height: 1.75; }
+    .dores-cta { text-align: center; margin-top: 2.8rem; font-size: 0.93rem; color: rgba(220,215,201,0.45); }
+    .dores-cta a { color: var(--creme); text-decoration: none; font-weight: 500; }
+    .dores-cta a:hover { text-decoration: underline; }
+
+    /* ── DEPOIMENTOS ── */
+    #depoimentos { background: var(--inkwell); }
+    .depo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; margin-top: 2.5rem; }
+    .depo-card {
+      background: rgba(63,78,79,0.35);
+      border: 1px solid rgba(162,123,91,0.22);
+      border-radius: 3px;
+      padding: 2rem;
+    }
+    .depo-stars { color: var(--creme); font-size: 0.78rem; letter-spacing: 3px; margin-bottom: 1rem; }
+    .depo-quote {
+      font-family: 'Aboreto', serif;
+      font-size: 2.8rem;
+      color: rgba(162,123,91,0.22);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .depo-text {
+      font-size: 0.96rem;
+      line-height: 1.85;
+      color: rgba(220,215,201,0.8);
+      margin-bottom: 1.6rem;
+      font-style: italic;
+    }
+    .depo-author { display: flex; align-items: center; gap: 0.9rem; }
+    .depo-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--creme-accent);
+      border: 1px solid var(--creme-border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Aboreto', serif;
+      font-size: 0.78rem;
+      color: var(--creme);
+      flex-shrink: 0;
+    }
+    .depo-name { font-family: 'Gotu', serif; font-size: 0.78rem; letter-spacing: 0.1em; color: var(--au-lait); }
+    .depo-role { font-size: 0.74rem; color: rgba(220,215,201,0.38); letter-spacing: 0.04em; margin-top: 0.15rem; }
+
+    /* ── FAQ ── */
+    #faq { background: var(--eclipse); }
+    .faq-list { margin-top: 2.5rem; max-width: 720px; }
+    .faq-item { border-bottom: 1px solid rgba(220,215,201,0.08); }
+    .faq-item:first-child { border-top: 1px solid rgba(220,215,201,0.08); }
+    .faq-q {
+      width: 100%; background: none; border: none;
+      color: var(--au-lait); font-family: 'Figtree', sans-serif;
+      font-size: 0.97rem; font-weight: 500; text-align: left;
+      padding: 1.3rem 0; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      transition: color 0.2s;
+    }
+    .faq-q:hover { color: var(--creme); }
+    .faq-icon { color: var(--creme); flex-shrink: 0; font-size: 1.4rem; font-weight: 300; line-height: 1; transition: transform 0.25s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.32s ease, padding 0.32s;
+      font-size: 0.9rem; color: rgba(220,215,201,0.55); line-height: 1.85;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.3rem; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 960px) {
       .membros-destaque-inner { grid-template-columns: 1fr; gap: 3rem; }
@@ -787,6 +875,11 @@
       .ia-body { grid-template-columns: 1fr; }
       .ia-faixa { border-right: none; border-bottom: 1px solid rgba(220,215,201,0.06); }
       .ia-faixa:last-child { border-bottom: none; }
+    }
+
+    @media (max-width: 760px) {
+      .dores-grid { grid-template-columns: 1fr; }
+      .depo-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 620px) {
@@ -878,6 +971,35 @@
     </div>
   </div>
 </div>
+
+<!-- ── DORES ── -->
+<section id="dores">
+  <div class="container">
+    <div class="section-label">Você se identifica?</div>
+    <h2 class="section-title">Quem busca esse serviço</h2>
+    <div class="section-divider"></div>
+
+    <div class="dores-grid">
+      <div class="dor-card">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <h3>Prazo apertado, trabalho parado</h3>
+        <p>O TCC, artigo ou monografia tem data marcada, mas o texto ainda não está pronto — ou está cheio de problemas que você não sabe resolver.</p>
+      </div>
+      <div class="dor-card">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <h3>ABNT que vira pesadelo</h3>
+        <p>Cada orientador pede uma coisa diferente, as normas mudam, e erros de formatação podem reprovar um trabalho com conteúdo excelente.</p>
+      </div>
+      <div class="dor-card">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <h3>Peças que não comunicam</h3>
+        <p>Argumentos sólidos presos num texto denso, sem hierarquia visual. O juízo lê, mas não retém — e o cliente não entende o que foi feito.</p>
+      </div>
+    </div>
+
+    <p class="dores-cta">Se você se identificou com algum desses cenários, <a href="#contato">vamos conversar</a>.</p>
+  </div>
+</section>
 
 <!-- ── SOBRE ── -->
 <section id="sobre">
@@ -1002,6 +1124,43 @@
           <span class="card-tag">Timeline</span>
           <span class="card-tag">Infográficos</span>
           <span class="card-tag">Word</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DEPOIMENTOS ── -->
+<section id="depoimentos">
+  <div class="container">
+    <div class="section-label">Quem já passou por aqui</div>
+    <h2 class="section-title">Depoimentos</h2>
+    <div class="section-divider"></div>
+
+    <div class="depo-grid">
+      <div class="depo-card">
+        <div class="depo-stars">★★★★★</div>
+        <div class="depo-quote">"</div>
+        <p class="depo-text">Ficou excelente. Me salvou! Encaminhei para o orientador e acredito que ele não vai precisar alterar nada — ele disse que não tem problema, que vai continuar sendo artigo.</p>
+        <div class="depo-author">
+          <div class="depo-avatar">P</div>
+          <div>
+            <div class="depo-name">Paola</div>
+            <div class="depo-role">Acadêmica de Direito · Artigo científico</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="depo-card">
+        <div class="depo-stars">★★★★★</div>
+        <div class="depo-quote">"</div>
+        <p class="depo-text">Obrigada! Você me salvou. Não sei o que eu faria sem essa revisão — ficou perfeito.</p>
+        <div class="depo-author">
+          <div class="depo-avatar">AC</div>
+          <div>
+            <div class="depo-name">Ana Carolina</div>
+            <div class="depo-role">Acadêmica de Direito · Artigo científico</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1247,6 +1406,38 @@
   </div>
 </section>
 
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label">Dúvidas frequentes</div>
+    <h2 class="section-title">Perguntas & Respostas</h2>
+    <div class="section-divider"></div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">Qual é o prazo de entrega?<span class="faq-icon">+</span></button>
+        <div class="faq-a">O prazo varia conforme o tipo de serviço e a extensão do trabalho. Para revisões, costumo entregar em 2 a 5 dias úteis. Para escrita completa de artigos, entre 7 e 15 dias. O prazo é combinado e confirmado na proposta — e eu o cumpro. Trabalhos urgentes têm acréscimo de 30 a 50%.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">O trabalho é sigiloso?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Sim. Tratamos todas as informações dos clientes com total sigilo. Nenhum dado, arquivo ou conteúdo de trabalhos é compartilhado ou divulgado. A confidencialidade é parte do serviço.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Como funciona o pagamento?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Após a combinação do escopo e do valor, solicitamos 50% de entrada para iniciar o trabalho. O restante é pago na entrega. Aceitamos Pix. Para projetos maiores, o parcelamento pode ser negociado.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Atende qualquer área do Direito?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Sim. Atendo todas as áreas — Direito Civil, Penal, Constitucional, Trabalhista, Digital, entre outras. A especialização é em escrita, revisão, formatação e visual law. O conteúdo jurídico específico é sempre de responsabilidade do cliente ou orientador.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">E se o orientador pedir alterações?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Ofereço uma rodada de ajustes sem custo adicional para correções apontadas pelo orientador dentro do escopo combinado. Alterações de estrutura ou ampliação de conteúdo são avaliadas caso a caso.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── CONTATO ── -->
 <section id="contato">
   <div class="container">
@@ -1327,5 +1518,15 @@
   </div>
 </footer>
 
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
 </body>
 </html>
