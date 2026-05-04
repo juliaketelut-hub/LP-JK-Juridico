@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checklist Anti-Plágio — JK Jurídico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Gotu&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --inkwell: #2C3639;
+      --eclipse: #3F4E4F;
+      --creme:   #A27B5B;
+      --au-lait: #DCD7C9;
+      --verde:   #27AE60;
+      --vermelho:#E74C3C;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: #eae5de;
+      color: #2a2a2a;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .print-bar {
+      max-width: 794px;
+      margin: 1.5rem auto 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 0.5rem;
+    }
+    .print-bar a {
+      font-family: 'Gotu', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--creme);
+      text-decoration: none;
+    }
+    .print-bar a:hover { text-decoration: underline; }
+    .print-bar button {
+      background: var(--inkwell);
+      color: var(--au-lait);
+      border: none;
+      padding: 0.55rem 1.3rem;
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+      transition: background 0.2s;
+    }
+    .print-bar button:hover { background: var(--eclipse); }
+
+    .page {
+      max-width: 794px;
+      margin: 0 auto 3rem;
+      background: white;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.15);
+    }
+
+    /* HEADER */
+    .doc-header {
+      background: var(--inkwell);
+      padding: 2.5rem 3rem 2.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .doc-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 100% at 100% 50%, rgba(162,123,91,0.15), transparent);
+      pointer-events: none;
+    }
+    .doc-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .doc-logo {
+      font-family: 'Aboreto', serif;
+      font-size: 1.2rem;
+      color: var(--creme);
+      letter-spacing: 0.06em;
+    }
+    .doc-logo span {
+      font-family: 'Gotu', serif;
+      font-size: 0.7rem;
+      color: rgba(220,215,201,0.55);
+      display: block;
+      letter-spacing: 0.15em;
+      margin-top: 0.15rem;
+    }
+    .doc-badge {
+      font-family: 'Gotu', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--creme);
+      border: 1px solid rgba(162,123,91,0.4);
+      padding: 0.28rem 0.8rem;
+      border-radius: 2px;
+    }
+    .doc-title {
+      font-family: 'Aboreto', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      line-height: 1.22;
+      color: var(--au-lait);
+      margin-bottom: 0.6rem;
+      position: relative;
+    }
+    .doc-title em { font-style: normal; color: var(--creme); }
+    .doc-subtitle {
+      font-family: 'Gotu', serif;
+      font-size: 0.82rem;
+      color: rgba(220,215,201,0.55);
+      letter-spacing: 0.04em;
+      position: relative;
+    }
+
+    /* BODY */
+    .doc-body { padding: 2.5rem 3rem; }
+
+    .intro-box {
+      background: #faf8f5;
+      border-left: 3px solid var(--creme);
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 2.2rem;
+      border-radius: 0 3px 3px 0;
+    }
+    .intro-box p { font-size: 0.88rem; color: #444; line-height: 1.8; }
+    .intro-box strong { color: var(--inkwell); font-weight: 600; }
+
+    /* VERIFICATION */
+    .verification {
+      margin-bottom: 1.8rem;
+      border: 1px solid #e8e3dc;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .v-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.3rem;
+      background: var(--inkwell);
+    }
+    .v-num {
+      font-family: 'Aboreto', serif;
+      font-size: 1.15rem;
+      color: var(--creme);
+      opacity: 0.65;
+      min-width: 1.8rem;
+    }
+    .v-title {
+      font-family: 'Gotu', serif;
+      font-size: 0.88rem;
+      color: var(--au-lait);
+      letter-spacing: 0.03em;
+    }
+    .v-body { padding: 1.1rem 1.3rem; }
+    .v-why {
+      font-size: 0.87rem;
+      color: #555;
+      line-height: 1.78;
+      margin-bottom: 1rem;
+    }
+
+    .ex {
+      border-radius: 3px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.65rem;
+      font-size: 0.84rem;
+      line-height: 1.72;
+    }
+    .ex.wrong { background: #fff5f5; border-left: 3px solid var(--vermelho); }
+    .ex.right  { background: #f0faf4; border-left: 3px solid var(--verde); }
+    .ex-label {
+      font-family: 'Gotu', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+    .ex.wrong .ex-label { color: var(--vermelho); }
+    .ex.right .ex-label { color: var(--verde); }
+    .ex p { color: #444; }
+    .ex .reason { font-size: 0.78rem; color: #888; font-style: italic; margin-top: 0.3rem; }
+
+    .abnt-tip {
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+      background: rgba(162,123,91,0.06);
+      border: 1px solid rgba(162,123,91,0.2);
+      border-radius: 3px;
+      padding: 0.65rem 0.9rem;
+      margin-top: 0.75rem;
+    }
+    .abnt-icon {
+      font-family: 'Aboreto', serif;
+      font-size: 0.58rem;
+      color: var(--creme);
+      letter-spacing: 0.1em;
+      min-width: 3.2rem;
+      padding-top: 0.1rem;
+    }
+    .abnt-tip p { font-size: 0.81rem; color: #555; line-height: 1.65; }
+    .abnt-tip code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      background: rgba(162,123,91,0.1);
+      padding: 0.05rem 0.28rem;
+      border-radius: 2px;
+      color: var(--creme);
+    }
+
+    /* DIVIDER */
+    .sec-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.8rem;
+    }
+    .sec-divider::before, .sec-divider::after {
+      content: ''; flex: 1; height: 1px; background: #e8e3dc;
+    }
+    .sec-divider span {
+      font-family: 'Aboreto', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--creme);
+    }
+
+    /* FULL EXAMPLES */
+    .examples-sub { font-size: 0.85rem; color: #777; margin-bottom: 1.6rem; }
+
+    .ex-full {
+      border: 1px solid #e8e3dc;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1.6rem;
+    }
+    .ex-full-header {
+      background: var(--eclipse);
+      padding: 0.75rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .ex-full-num {
+      font-family: 'Aboreto', serif;
+      font-size: 0.75rem;
+      color: var(--creme);
+      letter-spacing: 0.1em;
+    }
+    .ex-full-title {
+      font-family: 'Gotu', serif;
+      font-size: 0.76rem;
+      color: var(--au-lait);
+      letter-spacing: 0.03em;
+    }
+    .ex-full-body { padding: 1.1rem 1.2rem; }
+
+    .txt-block {
+      background: #f5f5f5;
+      border-left: 2px solid #ccc;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.7rem;
+      border-radius: 0 3px 3px 0;
+    }
+    .txt-block.wrong-b { background: #fff5f5; border-left-color: var(--vermelho); }
+    .txt-block.right-b  { background: #f0faf4; border-left-color: var(--verde); }
+    .txt-label {
+      font-family: 'Gotu', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .txt-block .txt-label { color: #999; }
+    .txt-block.wrong-b .txt-label { color: var(--vermelho); }
+    .txt-block.right-b  .txt-label { color: var(--verde); }
+    .txt-block p { font-size: 0.84rem; color: #333; line-height: 1.72; }
+    .why-wrong { font-size: 0.78rem; color: var(--vermelho); font-style: italic; margin-bottom: 0.7rem; padding-left: 0.3rem; }
+
+    .ref-box {
+      background: rgba(162,123,91,0.06);
+      border: 1px solid rgba(162,123,91,0.2);
+      border-radius: 3px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.8rem;
+      color: #555;
+      line-height: 1.65;
+    }
+    .ref-label {
+      font-family: 'Gotu', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--creme);
+      margin-bottom: 0.3rem;
+    }
+
+    /* QUICK LIST */
+    .quick-ref {
+      background: var(--inkwell);
+      color: var(--au-lait);
+      border-radius: 4px;
+      padding: 1.4rem 1.6rem;
+      margin-top: 2rem;
+    }
+    .quick-ref-title {
+      font-family: 'Aboreto', serif;
+      font-size: 0.85rem;
+      color: var(--creme);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .quick-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem 2rem;
+    }
+    .quick-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: rgba(220,215,201,0.8);
+    }
+    .quick-list li::before { content: '☐'; color: var(--creme); font-size: 0.95rem; }
+
+    /* FOOTER */
+    .doc-footer {
+      background: var(--inkwell);
+      padding: 1.1rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(220,215,201,0.07);
+    }
+    .doc-footer-logo { font-family: 'Aboreto', serif; font-size: 0.9rem; color: var(--creme); }
+    .doc-footer-text { font-size: 0.7rem; color: rgba(220,215,201,0.32); text-align: right; line-height: 1.6; }
+
+    /* PRINT */
+    @media print {
+      body { background: white; }
+      .page { box-shadow: none; margin: 0; max-width: 100%; }
+      .print-bar { display: none; }
+      .verification { break-inside: avoid; }
+      .ex-full { break-inside: avoid; }
+      .quick-ref { break-inside: avoid; }
+    }
+
+    @media (max-width: 620px) {
+      .doc-body { padding: 1.8rem 1.4rem; }
+      .doc-header { padding: 2rem 1.4rem 1.8rem; }
+      .doc-footer { padding: 1rem 1.4rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+      .doc-footer-text { text-align: center; }
+      .quick-list { grid-template-columns: 1fr; }
+      .print-bar { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="print-bar">
+  <a href="checklist-antiplagio.html">← Voltar</a>
+  <button onclick="window.print()">↓ Salvar como PDF</button>
+</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-header-top">
+      <div class="doc-logo">JK Jurídico<span>Escrita Acadêmica &amp; Revisão ABNT</span></div>
+      <div class="doc-badge">Guia Exclusivo</div>
+    </div>
+    <h1 class="doc-title">7 Verificações Que Sua Paráfrase<br />Precisa Passar <em>Antes da Banca</em></h1>
+    <p class="doc-subtitle">O guia que detecta plágio acidental antes do Turnitin detectar por você</p>
+  </div>
+
+  <!-- BODY -->
+  <div class="doc-body">
+
+    <div class="intro-box">
+      <p>Plágio acidental é mais comum do que parece. Você reescreve o texto, coloca a citação, acha que está tudo certo — e o sistema de detecção ou o orientador aponta problema. Este guia existe para que isso <strong>não aconteça com você</strong>. Aplique cada uma das 7 verificações antes de finalizar qualquer paráfrase.</p>
+    </div>
+
+    <!-- V1 -->
+    <div class="verification">
+      <div class="v-header">
+        <span class="v-num">01</span>
+        <span class="v-title">A estrutura da frase mudou completamente?</span>
+      </div>
+      <div class="v-body">
+        <p class="v-why">O plágio estrutural ocorre quando a ordem das ideias e o esqueleto das frases permanecem idênticos ao original — mesmo que cada palavra tenha sido substituída. Sistemas como o Turnitin identificam esse padrão com facilidade. Para que a paráfrase seja legítima, a estrutura lógica precisa ser genuinamente reformulada, não apenas embaralhada.</p>
+        <div class="ex wrong">
+          <div class="ex-label">❌ Paráfrase problemática</div>
+          <p><strong>Original:</strong> "O direito à privacidade é fundamental para a dignidade humana, pois protege o indivíduo de interferências indevidas na sua vida pessoal."</p>
+          <p style="margin-top:0.45rem"><strong>Paráfrase:</strong> "A privacidade é um direito fundamental para a dignidade do ser humano, pois defende o indivíduo contra intervenções impróprias em sua vida pessoal."</p>
+          <p class="reason">→ Estrutura idêntica. Apenas sinônimos foram trocados.</p>
+        </div>
+        <div class="ex right">
+          <div class="ex-label">✓ Paráfrase correta</div>
+          <p>"Garantir a não interferência na vida pessoal do indivíduo constitui um dos pilares do respeito à dignidade humana, razão pela qual a privacidade figura entre os direitos fundamentais (SILVA, 2020)."</p>
+          <p class="reason">→ Mesma ideia. Estrutura, ponto de partida e sequência completamente diferentes.</p>
+        </div>
+        <div class="abnt-tip">
+          <span class="abnt-icon">ABNT</span>
+          <p>Paráfrase = citação indireta. Use <code>(SOBRENOME, ano)</code> ao final do trecho, mesmo que o texto esteja completamente reescrito. Conforme NBR 10520:2023.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- V2 -->
+    <div class="verification">
+      <div class="v-header">
+        <span class="v-num">02</span>
+        <span class="v-title">O vocabulário é genuinamente seu?</span>
+      </div>
+      <div class="v-body">
+        <p class="v-why">Substituir palavras por sinônimos sem reformular o pensamento é uma das formas mais comuns de plágio acidental — e também uma das mais facilmente detectadas. O vocabulário da paráfrase deve emergir naturalmente do seu próprio repertório linguístico, não de um processo mecânico de troca de termos.</p>
+        <div class="ex wrong">
+          <div class="ex-label">❌ Substituição por sinônimos (plágio)</div>
+          <p>"A educação é o alicerce da sociedade democrática." → "O ensino é a base da comunidade democrática."</p>
+          <p class="reason">→ Educação→ensino, alicerce→base, sociedade→comunidade. Nenhuma reformulação real.</p>
+        </div>
+        <div class="ex right">
+          <div class="ex-label">✓ Vocabulário genuinamente próprio</div>
+          <p>"Em contextos democráticos, nenhum avanço institucional sustentável prescinde de investimento em formação humana — o que coloca a educação no centro das políticas públicas (FREIRE, 1996)."</p>
+          <p class="reason">→ O mesmo conceito, expresso com vocabulário e perspectiva naturalmente diferentes.</p>
+        </div>
+        <div class="abnt-tip">
+          <span class="abnt-icon">DICA</span>
+          <p>Teste prático: feche o texto original, espere alguns minutos e escreva a ideia de memória. O que sair naturalmente é o seu vocabulário real.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- V3 -->
+    <div class="verification">
+      <div class="v-header">
+        <span class="v-num">03</span>
+        <span class="v-title">Você adicionou perspectiva própria?</span>
+      </div>
+      <div class="v-body">
+        <p class="v-why">Uma paráfrase acadêmica de qualidade não apenas reproduz a ideia do autor — ela a integra ao seu argumento. Orientadores e bancas esperam que você conecte as fontes ao seu raciocínio. A paráfrase sem perspectiva própria empilha ideias; a paráfrase com perspectiva constrói argumento.</p>
+        <div class="ex wrong">
+          <div class="ex-label">❌ Sem perspectiva (só reproduz)</div>
+          <p>"Segundo Silva (2020), a norma jurídica tem caráter imperativo e deve ser obedecida por todos."</p>
+          <p class="reason">→ Apenas repete o que o autor disse. Sem conexão com o argumento do trabalho.</p>
+        </div>
+        <div class="ex right">
+          <div class="ex-label">✓ Com perspectiva integrada</div>
+          <p>"O caráter imperativo da norma jurídica, apontado por Silva (2020), é especialmente relevante no contexto analisado neste trabalho, pois fundamenta a obrigatoriedade das condutas previstas no artigo 5.º — ponto central da discussão que se desenvolve a seguir."</p>
+          <p class="reason">→ Cita o autor, conecta ao contexto do trabalho e antecipa o desenvolvimento do argumento.</p>
+        </div>
+        <div class="abnt-tip">
+          <span class="abnt-icon">ABNT</span>
+          <p>A perspectiva própria não elimina a necessidade de citar. Coloque <code>(SOBRENOME, ano)</code> para indicar a origem da ideia, mesmo que você tenha acrescentado análise própria.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- V4 -->
+    <div class="verification">
+      <div class="v-header">
+        <span class="v-num">04</span>
+        <span class="v-title">A citação está no lugar certo?</span>
+      </div>
+      <div class="v-body">
+        <p class="v-why">Paráfrase sem citação é plágio — mesmo que o texto esteja completamente reescrito. A ABNT NBR 10520:2023 distingue dois tipos de citação. Saber qual usar e onde posicioná-la é parte fundamental da escrita acadêmica íntegra.</p>
+        <div class="ex wrong">
+          <div class="ex-label">❌ Paráfrase sem citação</div>
+          <p>"A função social da propriedade impõe obrigações positivas ao proprietário, que deve usar o bem de forma compatível com o interesse coletivo."</p>
+          <p class="reason">→ Ideia retirada de uma fonte, mas sem indicação de autoria. Plágio.</p>
+        </div>
+        <div class="ex right">
+          <div class="ex-label">✓ Formatos ABNT NBR 10520:2023</div>
+          <p><strong>Citação indireta (paráfrase):</strong> ao final da frase → <code>(SOBRENOME, ano)</code><br />
+          Ex.: "...compatível com o interesse coletivo (MENDES, 2019)."</p>
+          <p style="margin-top:0.45rem"><strong>Citação direta (transcrição literal):</strong> entre aspas, com página → <code>(SOBRENOME, ano, p. X)</code><br />
+          Ex.: "A propriedade tem função social" (MENDES, 2019, p. 45).</p>
+        </div>
+        <div class="abnt-tip">
+          <span class="abnt-icon">ABNT</span>
+          <p>Citações diretas com <strong>até 3 linhas</strong>: no corpo do texto, entre aspas. <strong>Acima de 3 linhas</strong>: recuo de 4 cm, fonte menor (tamanho 10), sem aspas, espaçamento simples. NBR 10520:2023.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- V5 -->
+    <div class="verification">
+      <div class="v-header">
+        <span class="v-num">05</span>
+        <span class="v-title">A paráfrase vai além dos sinônimos?</span>
+      </div>
+      <div class="v-body">
+        <p class="v-why">Ferramentas como Turnitin e Unicheck identificam padrões de substituição de sinônimos com precisão crescente. Além da detecção automática, orientadores experientes reconhecem esse padrão visualmente. Uma paráfrase genuína exige compreensão do conteúdo — não manipulação textual. Se você precisou de um dicionário de sinônimos para reescrever, a paráfrase provavelmente não é legítima.</p>
+        <div class="ex wrong">
+          <div class="ex-label">❌ Troca de sinônimos (detectável)</div>
+          <p>"Os direitos fundamentais são cláusulas pétreas da Constituição." → "As garantias essenciais são dispositivos imutáveis da Carta Magna."</p>
+          <p class="reason">→ Direitos→garantias, fundamentais→essenciais, pétreas→imutáveis, Constituição→Carta Magna. Plágio por sinônimos.</p>
+        </div>
+        <div class="ex right">
+          <div class="ex-label">✓ Reformulação conceitual genuína</div>
+          <p>"A Constituição Federal protege determinados direitos de qualquer tentativa de supressão, mesmo por emenda constitucional — o que demonstra a hierarquia de valores que o constituinte estabeleceu (BARROSO, 2018)."</p>
+          <p class="reason">→ O conceito foi compreendido e reexpresso a partir de um ângulo diferente.</p>
+        </div>
+        <div class="abnt-tip">
+          <span class="abnt-icon">TESTE</span>
+          <p>Cubra o texto original. Explique a ideia em voz alta. Use o que saiu naturalmente como base para escrever. Isso garante que a reformulação partiu da compreensão, não da manipulação.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- V6 -->
+    <div class="verification">
+      <div class="v-header">
+        <span class="v-num">06</span>
+        <span class="v-title">A referência está completa na lista final?</span>
+      </div>
+      <div class="v-body">
+        <p class="v-why">Toda fonte mencionada no texto — seja por citação direta ou paráfrase — deve constar na lista de referências ao final do trabalho, seguindo ABNT NBR 6023:2018. A ausência da referência, mesmo que a citação esteja correta no texto, configura irregularidade acadêmica. Verifique se cada <code>(AUTOR, ano)</code> no texto tem correspondência exata na lista.</p>
+        <div class="ex wrong">
+          <div class="ex-label">❌ Citado no texto, ausente nas referências</div>
+          <p>Texto: "...conforme aponta Moraes (2015)..."<br />Lista de referências: não contém nenhuma obra de Moraes (2015).</p>
+          <p class="reason">→ Irregularidade que pode ser interpretada como citação falsa ou fictícia.</p>
+        </div>
+        <div class="ex right">
+          <div class="ex-label">✓ Formatos ABNT NBR 6023:2018</div>
+          <p><strong>Livro:</strong> SOBRENOME, Nome. <em>Título em itálico</em>. Ed. Cidade: Editora, ano.</p>
+          <p style="margin-top:0.3rem"><strong>Artigo:</strong> SOBRENOME, Nome. Título do artigo. <em>Nome da Revista</em>, cidade, v. X, n. X, p. XX–XX, ano.</p>
+          <p style="margin-top:0.3rem"><strong>Site:</strong> SOBRENOME, Nome. <strong>Título</strong>. Disponível em: URL. Acesso em: dia mês. ano.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- V7 -->
+    <div class="verification">
+      <div class="v-header">
+        <span class="v-num">07</span>
+        <span class="v-title">Você consegue explicar sem olhar o original?</span>
+      </div>
+      <div class="v-body">
+        <p class="v-why">Esta é a verificação definitiva. Se você não consegue explicar a ideia parafraseada sem consultar o texto original ou sua própria paráfrase, é sinal de que não houve compreensão real — e, portanto, não houve paráfrase legítima. Paráfrase acadêmica é, antes de tudo, um ato de compreensão.</p>
+        <div class="ex wrong">
+          <div class="ex-label">❌ Sinal de alerta</div>
+          <p>Ao tentar explicar o conceito, você lê o que escreveu em vez de explicar com suas próprias palavras. Ou: você não consegue contextualizar por que aquela ideia é relevante para o seu argumento.</p>
+        </div>
+        <div class="ex right">
+          <div class="ex-label">✓ Método comprovado</div>
+          <p>1. Leia o trecho original com atenção.<br />
+          2. Feche ou cubra o texto.<br />
+          3. Anote os pontos principais de memória (pode ser em tópicos).<br />
+          4. Use essas anotações — não o texto original — como base para escrever a paráfrase.<br />
+          5. Confira se a ideia central foi preservada e a citação está incluída.</p>
+        </div>
+        <div class="abnt-tip">
+          <span class="abnt-icon">DICA</span>
+          <p>Em caso de dúvida se a paráfrase é suficientemente original, prefira a citação direta (com aspas e página). É sempre melhor citar corretamente do que parafrasear inadequadamente.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRACTICAL EXAMPLES DIVIDER -->
+    <div class="sec-divider"><span>Exemplos Práticos Completos</span></div>
+    <p class="examples-sub">Três situações reais de paráfrase — com a versão problemática, a análise do erro e a versão correta com referência ABNT.</p>
+
+    <!-- EXAMPLE 1 -->
+    <div class="ex-full">
+      <div class="ex-full-header">
+        <span class="ex-full-num">EXEMPLO 01</span>
+        <span class="ex-full-title">Paráfrase de livro jurídico — plágio estrutural</span>
+      </div>
+      <div class="ex-full-body">
+        <div class="txt-block">
+          <div class="txt-label">Texto Original</div>
+          <p>"A função social da propriedade impõe ao proprietário não apenas o dever de não causar dano, mas também a obrigação positiva de utilizar o bem de forma produtiva e compatível com o interesse coletivo."</p>
+        </div>
+        <div class="txt-block wrong-b">
+          <div class="txt-label">❌ Paráfrase com plágio estrutural</div>
+          <p>"A função social da propriedade exige do dono não somente a obrigação de não provocar prejuízo, mas também o dever positivo de usar o bem de modo produtivo e condizente com o interesse da coletividade (MENDES, 2019)."</p>
+        </div>
+        <p class="why-wrong">Por que é plágio: mesma estrutura "não apenas... mas também...", mesma sequência de ideias, apenas sinônimos trocados. A citação ao final não corrige o problema estrutural.</p>
+        <div class="txt-block right-b">
+          <div class="txt-label">✓ Paráfrase correta</div>
+          <p>"O conceito de função social da propriedade vai além da simples proibição de causar danos: ele impõe uma dimensão ativa, segundo a qual o uso do bem deve atender a propósitos coletivos, não apenas ao interesse particular do proprietário (MENDES, 2019)."</p>
+        </div>
+        <div class="ref-box">
+          <div class="ref-label">Referência ABNT NBR 6023:2018</div>
+          MENDES, João. <em>Direito Civil e Propriedade</em>. 3. ed. São Paulo: Forense, 2019.
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE 2 -->
+    <div class="ex-full">
+      <div class="ex-full-header">
+        <span class="ex-full-num">EXEMPLO 02</span>
+        <span class="ex-full-title">Paráfrase de artigo científico — omissão de citação</span>
+      </div>
+      <div class="ex-full-body">
+        <div class="txt-block">
+          <div class="txt-label">Texto Original</div>
+          <p>"A inteligência artificial representa um desafio inédito para os sistemas de responsabilidade civil, pois o agente causador do dano pode não ser humano e sua conduta não é inteiramente previsível."</p>
+        </div>
+        <div class="txt-block wrong-b">
+          <div class="txt-label">❌ Paráfrase sem citação</div>
+          <p>"Os sistemas de responsabilidade civil enfrentam um desafio novo diante da inteligência artificial, especialmente quando o causador do dano não é humano e seu comportamento é imprevisível."</p>
+        </div>
+        <p class="why-wrong">Por que é plágio: a ideia pertence a um autor específico. Mesmo reescrita com outras palavras, a ausência de citação configura apropriação indevida de ideia alheia.</p>
+        <div class="txt-block right-b">
+          <div class="txt-label">✓ Paráfrase com citação correta</div>
+          <p>"Os sistemas tradicionais de responsabilidade civil enfrentam dificuldades conceituais diante da IA, especialmente quando o agente causador do dano é autônomo e seu comportamento escapa da previsibilidade convencional (COSTA, 2022)."</p>
+        </div>
+        <div class="ref-box">
+          <div class="ref-label">Referência ABNT NBR 6023:2018</div>
+          COSTA, Maria. Responsabilidade civil e inteligência artificial. <em>Revista de Direito Digital</em>, São Paulo, v. 3, n. 1, p. 45–67, 2022.
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE 3 -->
+    <div class="ex-full">
+      <div class="ex-full-header">
+        <span class="ex-full-num">EXEMPLO 03</span>
+        <span class="ex-full-title">Paráfrase com múltiplas fontes — como citar corretamente</span>
+      </div>
+      <div class="ex-full-body">
+        <div class="txt-block">
+          <div class="txt-label">Situação</div>
+          <p>A mesma ideia aparece em dois autores diferentes. Você quer citar ambos no mesmo trecho sem criar ambiguidade sobre qual ideia pertence a quem.</p>
+        </div>
+        <div class="txt-block wrong-b">
+          <div class="txt-label">❌ Citação ambígua</div>
+          <p>"A dignidade da pessoa humana é o fundamento central do sistema de direitos fundamentais e funciona como princípio interpretativo. Toda norma deve ser lida à luz desse valor. (SARLET, 2019; ALEXY, 2015)"</p>
+          <p style="margin-top:0.4rem; font-size:0.8rem; color:#c0392b; font-style:italic;">→ Não fica claro qual ideia pertence a qual autor.</p>
+        </div>
+        <div class="txt-block right-b">
+          <div class="txt-label">✓ Múltiplas fontes com atribuição clara</div>
+          <p>"A dignidade da pessoa humana constitui o fundamento de todo o sistema de direitos fundamentais (SARLET, 2019), funcionando como princípio interpretativo central que orienta a leitura de toda a ordem jurídica (ALEXY, 2015)."</p>
+          <p style="margin-top:0.4rem; font-size:0.8rem; color:#27ae60; font-style:italic;">→ Cada ideia é atribuída ao seu autor, na mesma frase, sem ambiguidade.</p>
+        </div>
+        <div class="ref-box">
+          <div class="ref-label">Referências ABNT NBR 6023:2018</div>
+          SARLET, Ingo Wolfgang. <em>Dignidade da Pessoa Humana e Direitos Fundamentais</em>. 10. ed. Porto Alegre: Livraria do Advogado, 2019.<br /><br />
+          ALEXY, Robert. <em>Teoria dos Direitos Fundamentais</em>. Tradução de Virgílio Afonso da Silva. 2. ed. São Paulo: Malheiros, 2015.
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK CHECKLIST -->
+    <div class="quick-ref">
+      <div class="quick-ref-title">Checklist Rápido — Use Antes de Finalizar Cada Paráfrase</div>
+      <ul class="quick-list">
+        <li>A estrutura mudou completamente?</li>
+        <li>O vocabulário é genuinamente meu?</li>
+        <li>Adicionei perspectiva própria?</li>
+        <li>A citação está no lugar certo?</li>
+        <li>Fui além dos sinônimos?</li>
+        <li>A referência está completa?</li>
+        <li>Consigo explicar sem olhar o original?</li>
+        <li>Conferência final realizada?</li>
+      </ul>
+    </div>
+
+  </div><!-- end doc-body -->
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="doc-footer-logo">JK Jurídico</div>
+    <div class="doc-footer-text">
+      Julia Ketelut · juliaketelut.juridico@gmail.com<br />
+      © 2026 · Uso pessoal permitido. Distribuição não autorizada.
+    </div>
+  </div>
+
+</div><!-- end page -->
+
+</body>
+</html>
