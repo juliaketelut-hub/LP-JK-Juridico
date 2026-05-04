@@ -376,6 +376,11 @@
     }
   </style>
 </head>
+<script>
+  if (!new URLSearchParams(window.location.search).get('ref')) {
+    window.location.replace('checklist-antiplagio.html');
+  }
+</script>
 <body>
 
 <div class="print-bar">
