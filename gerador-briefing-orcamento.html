@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JK JurÃ­dico â Gerador de Briefing & OrÃ§amento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Gotu&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Leitura de DOCX -->
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+  <!-- Leitura de PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    :root {
+      --inkwell: #2C3639;
+      --lunar: #3F4E4F;
+      --creme: #A27B5B;
+      --au-lait: #DCD7C9;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: #F0EDE6;
+      color: var(--inkwell);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    .app-header {
+      background: var(--inkwell);
+      color: var(--au-lait);
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--creme);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .app-logo { font-family: 'Aboreto', serif; font-size: 24px; letter-spacing: 0.12em; }
+    .app-logo span { color: var(--creme); }
+    .app-subtitle {
+      font-family: 'Gotu', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--creme);
+      margin-top: 3px;
+    }
+    .header-contact { text-align: right; font-size: 11px; opacity: 0.7; line-height: 1.7; }
+
+    /* TABS */
+    .tabs {
+      background: var(--lunar);
+      display: flex;
+      padding: 0 40px;
+      border-bottom: 1px solid rgba(162,123,91,0.2);
+    }
+    .tab-btn {
+      font-family: 'Gotu', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--au-lait);
+      opacity: 0.55;
+      padding: 14px 22px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { opacity: 0.85; }
+    .tab-btn.active { opacity: 1; border-bottom-color: var(--creme); color: var(--creme); }
+
+    /* LAYOUT */
+    .app-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 108px);
+    }
+    .form-side {
+      padding: 36px 40px;
+      overflow-y: auto;
+      background: #F0EDE6;
+    }
+    .preview-side {
+      background: #E4DFD5;
+      padding: 36px 32px;
+      overflow-y: auto;
+      border-left: 1px solid #CEC8BC;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-family: 'Aboreto', serif;
+      font-size: 16px;
+      color: var(--inkwell);
+      margin-bottom: 20px;
+      margin-top: 28px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--creme);
+    }
+    .section-title:first-child { margin-top: 0; }
+
+    /* FORM GRID */
+    .fg { display: grid; gap: 14px; margin-bottom: 20px; }
+    .fg-2 { grid-template-columns: 1fr 1fr; }
+    .fg-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .fg-1 { grid-template-columns: 1fr; }
+    .fg-full { grid-column: 1 / -1; }
+
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+
+    label {
+      font-family: 'Gotu', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--creme);
+    }
+
+    input, select, textarea {
+      font-family: 'Figtree', sans-serif;
+      font-size: 13px;
+      color: var(--inkwell);
+      background: white;
+      border: 1.5px solid #D0CAB8;
+      border-radius: 4px;
+      padding: 9px 13px;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--creme);
+      box-shadow: 0 0 0 3px rgba(162,123,91,0.12);
+    }
+    textarea { resize: vertical; }
+
+    /* URGENCY */
+    .urgency-row { display: flex; gap: 6px; }
+    .urg-btn {
+      flex: 1;
+      padding: 9px 6px;
+      font-family: 'Gotu', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1.5px solid #D0CAB8;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      color: var(--inkwell);
+    }
+    .urg-btn.active { background: var(--creme); border-color: var(--creme); color: white; }
+    .urg-btn:hover:not(.active) { border-color: var(--creme); }
+
+    /* SERVICE CARD */
+    .services-list { display: flex; flex-direction: column; gap: 10px; }
+    .svc-card {
+      background: white;
+      border: 1.5px solid #D0CAB8;
+      border-radius: 6px;
+      padding: 14px;
+    }
+    .svc-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .svc-num {
+      font-family: 'Gotu', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--creme);
+    }
+    .svc-remove {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 1px solid #D0CAB8;
+      background: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: #999;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .svc-remove:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+    .svc-price-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .svc-price-row .form-group { flex: 1; }
+    .svc-price-display {
+      font-family: 'Aboreto', serif;
+      font-size: 18px;
+      color: var(--creme);
+      padding-bottom: 9px;
+      white-space: nowrap;
+    }
+
+    .add-svc-btn {
+      width: 100%;
+      padding: 12px;
+      background: none;
+      border: 2px dashed var(--creme);
+      border-radius: 6px;
+      font-family: 'Gotu', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--creme);
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .add-svc-btn:hover { background: rgba(162,123,91,0.1); }
+
+    /* TOTALS */
+    .totals-box {
+      background: var(--inkwell);
+      color: var(--au-lait);
+      border-radius: 6px;
+      padding: 18px 20px;
+      margin-top: 18px;
+    }
+    .tot-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      font-size: 13px;
+    }
+    .tot-line .lbl { opacity: 0.65; }
+    .tot-line.main {
+      font-family: 'Aboreto', serif;
+      font-size: 20px;
+      color: var(--creme);
+      border-top: 1px solid rgba(162,123,91,0.3);
+      margin-top: 8px;
+      padding-top: 10px;
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: var(--creme);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Aboreto', serif;
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 20px;
+    }
+    .btn-primary:hover { background: var(--inkwell); }
+    .btn-secondary {
+      width: 100%;
+      padding: 13px;
+      background: none;
+      color: var(--creme);
+      border: 1.5px solid var(--creme);
+      border-radius: 6px;
+      font-family: 'Gotu', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(162,123,91,0.1); }
+
+    /* TAB CONTENT */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ===== PREVIEW ===== */
+    .preview-wrap {
+      background: white;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .prev-header {
+      background: var(--inkwell);
+      color: var(--au-lait);
+      padding: 28px 32px;
+      position: relative;
+    }
+    .prev-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--creme);
+    }
+    .prev-logo {
+      font-family: 'Aboreto', serif;
+      font-size: 28px;
+      letter-spacing: 0.15em;
+    }
+    .prev-logo span { color: var(--creme); }
+    .prev-tagline {
+      font-family: 'Gotu', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--creme);
+      margin-top: 2px;
+    }
+    .prev-header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .prev-propnum {
+      font-family: 'Aboreto', serif;
+      font-size: 13px;
+      color: var(--creme);
+      text-align: right;
+    }
+    .prev-propnum .small { font-family: 'Figtree', sans-serif; font-size: 10px; color: var(--au-lait); opacity: 0.65; margin-top: 3px; }
+    .prev-contacts {
+      display: flex;
+      gap: 18px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(162,123,91,0.25);
+    }
+    .prev-contact { font-size: 10px; color: var(--au-lait); opacity: 0.75; }
+
+    .prev-body { padding: 28px 32px; }
+    .prev-section { margin-bottom: 24px; }
+    .prev-section-title {
+      font-family: 'Gotu', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--creme);
+      border-bottom: 1px solid var(--creme);
+      padding-bottom: 5px;
+      margin-bottom: 14px;
+    }
+    .prev-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .prev-field { display: flex; flex-direction: column; gap: 2px; }
+    .prev-label {
+      font-family: 'Gotu', sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--creme);
+    }
+    .prev-value { font-size: 11px; color: var(--inkwell); font-weight: 500; line-height: 1.5; }
+
+    .prev-table { width: 100%; border-collapse: collapse; }
+    .prev-table th {
+      font-family: 'Gotu', sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--creme);
+      text-align: left;
+      padding: 7px 8px;
+      border-bottom: 1px solid var(--creme);
+    }
+    .prev-table td {
+      padding: 9px 8px;
+      font-size: 10px;
+      border-bottom: 1px solid #EAE6DE;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .prev-table tr:last-child td { border-bottom: none; }
+
+    .prev-totals {
+      background: #F5F2EC;
+      padding: 14px 18px;
+      border-radius: 3px;
+      margin-top: 14px;
+    }
+    .prev-tot-line { display: flex; justify-content: space-between; padding: 3px 0; font-size: 10px; }
+    .prev-tot-final {
+      font-family: 'Aboreto', serif;
+      font-size: 16px;
+      color: var(--creme);
+      border-top: 1px solid var(--creme);
+      padding-top: 8px;
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .prev-cond {
+      background: var(--inkwell);
+      color: var(--au-lait);
+      padding: 18px 22px;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+    .prev-cond-title {
+      font-family: 'Gotu', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--creme);
+      margin-bottom: 8px;
+    }
+    .prev-cond li { list-style: none; padding: 1px 0; }
+    .prev-cond li::before { content: 'â '; color: var(--creme); }
+
+    .prev-footer {
+      text-align: center;
+      padding: 14px;
+      font-family: 'Gotu', sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--creme);
+      border-top: 1px solid #EAE6DE;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border: 1px solid;
+      border-radius: 20px;
+      font-family: 'Gotu', sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .badge-urgente { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.1); }
+    .badge-super { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.1); }
+
+    .print-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--inkwell);
+      color: var(--au-lait);
+      border: none;
+      border-radius: 6px;
+      font-family: 'Gotu', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 14px;
+    }
+    .print-btn:hover { background: var(--creme); }
+
+    .preview-label {
+      font-family: 'Gotu', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--creme);
+      margin-bottom: 12px;
+    }
+
+    /* ===== DIAGNÃSTICO ===== */
+    .diag-box {
+      background: white;
+      border: 1.5px solid var(--creme);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .diag-toggle {
+      width: 100%;
+      padding: 14px 18px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Gotu', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--creme);
+      text-align: left;
+    }
+    .diag-toggle:hover { background: rgba(162,123,91,0.06); }
+    .diag-toggle .tag {
+      font-size: 9px;
+      padding: 2px 8px;
+      border: 1px solid var(--creme);
+      border-radius: 20px;
+      opacity: 0.7;
+    }
+    .diag-body { padding: 18px; border-top: 1px solid #E8E2D8; display: none; }
+    .diag-body.open { display: block; }
+
+    .diag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .diag-item { display: flex; flex-direction: column; gap: 3px; }
+    .diag-lbl {
+      font-family: 'Gotu', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--creme);
+    }
+    .diag-val { font-size: 13px; font-weight: 600; color: var(--inkwell); }
+
+    .diag-badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 3px;
+      font-size: 10px;
+      margin: 2px;
+    }
+    .ok   { background: #e8f5e9; color: #2d5a27; border: 1px solid #a5d6a7; }
+    .miss { background: #fdecea; color: #b71c1c; border: 1px solid #ef9a9a; }
+
+    .diag-rec {
+      background: #F5F2EC;
+      border-radius: 4px;
+      padding: 14px;
+      margin: 14px 0;
+    }
+    .diag-rec-svc { font-size: 13px; font-weight: 600; color: var(--inkwell); margin: 4px 0 6px; }
+    .diag-rec-price { font-size: 12px; color: var(--creme); }
+    .diag-rec-price strong { font-family: 'Aboreto', serif; font-size: 16px; }
+
+    .btn-apply {
+      width: 100%;
+      padding: 12px;
+      background: var(--creme);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Gotu', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: background 0.2s;
+    }
+    .btn-apply:hover { background: var(--inkwell); }
+
+    /* UPLOAD DE ARQUIVO */
+    .file-drop {
+      border: 2px dashed var(--creme);
+      border-radius: 6px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      background: #faf8f5;
+      transition: background 0.2s, border-style 0.15s;
+      margin-bottom: 12px;
+    }
+    .file-drop:hover, .file-drop.drag-over {
+      background: rgba(162,123,91,0.1);
+      border-style: solid;
+    }
+    .file-drop-icon { font-size: 28px; margin-bottom: 8px; }
+    .file-drop-title {
+      font-family: 'Gotu', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--creme);
+    }
+    .file-drop-sub { font-size: 11px; color: #999; margin-top: 5px; }
+
+    .file-status {
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-bottom: 12px;
+      display: none;
+    }
+    .file-status.ok   { background: #e8f5e9; color: #2d5a27; border: 1px solid #a5d6a7; }
+    .file-status.err  { background: #fdecea; color: #b71c1c; border: 1px solid #ef9a9a; }
+    .file-status.proc { background: #fff8e1; color: #c87420; border: 1px solid #ffe082; }
+
+    .paste-toggle {
+      font-family: 'Gotu', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #aaa;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px 0;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    .paste-toggle:hover { color: var(--creme); }
+
+    @media (max-width: 900px) {
+      .app-main { grid-template-columns: 1fr; }
+      .preview-side { display: none; }
+    }
+
+    @media print {
+      .app-header, .tabs, .form-side, .print-btn, .preview-label { display: none !important; }
+      .app-main { display: block; }
+      .preview-side { padding: 0; background: white; border: none; }
+      .preview-wrap { box-shadow: none; }
+      body { background: white; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="app-header">
+  <div>
+    <div class="app-logo">JK <span>JURÃDICO</span></div>
+    <div class="app-subtitle">Gerador de Briefing & OrÃ§amento</div>
+  </div>
+  <div class="header-contact">
+    juliaketelut.juridico@gmail.com<br>
+    (44) 99165-2729
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" onclick="showTab('briefing')">01 â Briefing</button>
+  <button class="tab-btn" onclick="showTab('orcamento')">02 â OrÃ§amento</button>
+</nav>
+
+<div class="app-main">
+
+  <!-- ===== FORM SIDE ===== -->
+  <div class="form-side">
+
+    <!-- TAB 1: BRIEFING -->
+    <div id="tab-briefing" class="tab-content active">
+
+      <!-- DIAGNÃSTICO AUTOMÃTICO -->
+      <div class="diag-box">
+        <button class="diag-toggle" onclick="toggleDiag(this)">
+          <span>Analisar Documento do Cliente</span>
+          <span class="tag">Opcional â preenche o formulÃ¡rio automaticamente</span>
+        </button>
+        <div class="diag-body" id="diagBody">
+
+          <!-- ZONA DE UPLOAD -->
+          <div class="file-drop" id="fileDrop" onclick="document.getElementById('fileInput').click()">
+            <div class="file-drop-icon">ð</div>
+            <div class="file-drop-title">Clique para selecionar o arquivo</div>
+            <div class="file-drop-sub">Word (.docx) Â· PDF (.pdf) Â· ou arraste o arquivo aqui</div>
+          </div>
+          <input type="file" id="fileInput" accept=".docx,.pdf,.txt" style="display:none" onchange="handleFile(event)">
+          <div class="file-status" id="fileStatus"></div>
+
+          <!-- FALLBACK: COLAR TEXTO -->
+          <button class="paste-toggle" onclick="togglePaste(this)">â¼ Ou cole o texto manualmente</button>
+          <div id="pasteArea" style="display:none; margin-bottom:10px;">
+            <div class="form-group" style="margin-bottom:8px;">
+              <textarea id="docPaste" rows="6" placeholder="Cole o texto aqui..." style="font-size:12px; line-height:1.6;"></textarea>
+            </div>
+            <button onclick="analyzeDoc()" style="padding:9px 20px; background:var(--inkwell); color:var(--au-lait); border:none; border-radius:4px; font-family:'Gotu',sans-serif; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer;">Analisar Texto</button>
+          </div>
+
+          <div id="diagResult" style="margin-top:4px; display:none;"></div>
+        </div>
+      </div>
+
+      <div class="section-title">Dados da Proposta</div>
+      <div class="fg fg-3">
+        <div class="form-group">
+          <label>NÂ° da Proposta</label>
+          <input type="text" id="proposalNumber" placeholder="001/2026" oninput="updatePreview()">
+        </div>
+        <div class="form-group">
+          <label>Data de EmissÃ£o</label>
+          <input type="date" id="proposalDate" oninput="updatePreview()">
+        </div>
+        <div class="form-group">
+          <label>VÃ¡lida AtÃ©</label>
+          <input type="date" id="validDate" oninput="updatePreview()">
+        </div>
+      </div>
+
+      <div class="section-title">Dados do Cliente</div>
+      <div class="fg fg-2">
+        <div class="form-group fg-full">
+          <label>Nome Completo do Cliente</label>
+          <input type="text" id="clientName" placeholder="Nome do cliente" oninput="updatePreview()">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="clientEmail" placeholder="email@exemplo.com" oninput="updatePreview()">
+        </div>
+        <div class="form-group">
+          <label>WhatsApp</label>
+          <input type="text" id="clientPhone" placeholder="(00) 00000-0000" oninput="updatePreview()">
+        </div>
+        <div class="form-group">
+          <label>Perfil do Cliente</label>
+          <select id="clientType" onchange="updatePreview()">
+            <option value="">Selecionar...</option>
+            <option value="Estudante de Direito">Estudante de Direito</option>
+            <option value="Advogado(a)">Advogado(a)</option>
+            <option value="AcadÃªmico / Pesquisador">AcadÃªmico / Pesquisador</option>
+            <option value="Concurseiro(a)">Concurseiro(a)</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Como Chegou</label>
+          <select id="clientSource" onchange="updatePreview()">
+            <option value="">Selecionar...</option>
+            <option value="Instagram">Instagram</option>
+            <option value="IndicaÃ§Ã£o">IndicaÃ§Ã£o</option>
+            <option value="Google">Google</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-title">Detalhes do Projeto</div>
+      <div class="fg fg-2">
+        <div class="form-group">
+          <label>Tipo de ServiÃ§o Principal</label>
+          <select id="serviceType" onchange="updatePreview()">
+            <option value="">Selecionar...</option>
+            <option value="Artigo AcadÃªmico">Artigo AcadÃªmico</option>
+            <option value="TCC / Monografia">TCC / Monografia</option>
+            <option value="RevisÃ£o AcadÃªmica">RevisÃ£o AcadÃªmica</option>
+            <option value="RevisÃ£o de Texto IA">RevisÃ£o de Texto IA</option>
+            <option value="Visual Law (PeÃ§as Processuais)">Visual Law (PeÃ§as Processuais)</option>
+            <option value="Pacote Completo">Pacote Completo</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ãrea do Direito</label>
+          <select id="legalArea" onchange="updatePreview()">
+            <option value="">Selecionar...</option>
+            <option value="Direito Civil">Direito Civil</option>
+            <option value="Direito Penal">Direito Penal</option>
+            <option value="Direito Constitucional">Direito Constitucional</option>
+            <option value="Direito Trabalhista">Direito Trabalhista</option>
+            <option value="Direito Empresarial">Direito Empresarial</option>
+            <option value="Direito Administrativo">Direito Administrativo</option>
+            <option value="Direito do Consumidor">Direito do Consumidor</option>
+            <option value="Direito Digital">Direito Digital</option>
+            <option value="Outra Ã¡rea">Outra Ã¡rea</option>
+          </select>
+        </div>
+        <div class="form-group fg-full">
+          <label>Tema / TÃ­tulo do Trabalho</label>
+          <input type="text" id="projectTopic" placeholder="Ex: Responsabilidade civil nas relaÃ§Ãµes de consumo digital..." oninput="updatePreview()">
+        </div>
+        <div class="form-group fg-full">
+          <label>Briefing â DescriÃ§Ã£o do Projeto</label>
+          <textarea id="projectBriefing" rows="4" placeholder="Descreva o projeto: objetivo, contexto, material disponÃ­vel, exigÃªncias do orientador ou banca..." oninput="updatePreview()"></textarea>
+        </div>
+        <div class="form-group">
+          <label>NÂº de PÃ¡ginas (estimado)</label>
+          <input type="number" id="pageCount" placeholder="Ex: 20" min="1" oninput="updatePreview()">
+        </div>
+        <div class="form-group">
+          <label>PeriÃ³dico / Revista Alvo</label>
+          <input type="text" id="journal" placeholder="Ex: Qualis B1, Revista X..." oninput="updatePreview()">
+        </div>
+        <div class="form-group">
+          <label>Prazo de Entrega</label>
+          <input type="date" id="deadline" oninput="updatePreview(); checkUrgency()">
+        </div>
+        <div class="form-group">
+          <label>NÃ­vel de UrgÃªncia</label>
+          <div class="urgency-row">
+            <button class="urg-btn active" onclick="setUrgency(0, this)">Normal</button>
+            <button class="urg-btn" onclick="setUrgency(30, this)">Urgente +30%</button>
+            <button class="urg-btn" onclick="setUrgency(50, this)">Super +50%</button>
+          </div>
+        </div>
+        <div class="form-group fg-full">
+          <label>ObservaÃ§Ãµes Especiais</label>
+          <textarea id="observations" rows="3" placeholder="Normas especÃ­ficas de periÃ³dico, instruÃ§Ãµes do orientador, arquivos jÃ¡ disponÃ­veis, formataÃ§Ã£o especÃ­fica..." oninput="updatePreview()"></textarea>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="showTab('orcamento')">Ir para OrÃ§amento â</button>
+    </div>
+
+    <!-- TAB 2: ORÃAMENTO -->
+    <div id="tab-orcamento" class="tab-content">
+
+      <div class="section-title">ServiÃ§os IncluÃ­dos</div>
+      <div class="services-list" id="servicesList"></div>
+      <button class="add-svc-btn" onclick="addService()">+ Adicionar ServiÃ§o</button>
+
+      <div class="totals-box">
+        <div class="tot-line">
+          <span class="lbl">Subtotal dos serviÃ§os</span>
+          <span id="subtotalDisplay">R$ 0,00</span>
+        </div>
+        <div class="tot-line" id="urgencyLine" style="display:none">
+          <span class="lbl" id="urgencyLabel">Adicional de urgÃªncia</span>
+          <span id="urgencyDisplay">R$ 0,00</span>
+        </div>
+        <div class="tot-line main">
+          <span>Total</span>
+          <span id="totalDisplay">R$ 0,00</span>
+        </div>
+      </div>
+
+      <div class="section-title">CondiÃ§Ãµes de Pagamento</div>
+      <div class="fg fg-2">
+        <div class="form-group">
+          <label>Entrada (%)</label>
+          <input type="number" id="downPaymentPct" value="50" min="0" max="100" oninput="updatePreview()">
+        </div>
+        <div class="form-group">
+          <label>Forma de Pagamento</label>
+          <select id="paymentMethod" onchange="updatePreview()">
+            <option value="Pix">Pix</option>
+            <option value="Pix ou TransferÃªncia">Pix ou TransferÃªncia</option>
+            <option value="CartÃ£o de CrÃ©dito">CartÃ£o de CrÃ©dito</option>
+            <option value="A combinar">A combinar</option>
+          </select>
+        </div>
+        <div class="form-group fg-full">
+          <label>ObservaÃ§Ãµes de Pagamento</label>
+          <textarea id="paymentObs" rows="2" oninput="updatePreview()"></textarea>
+        </div>
+      </div>
+
+      <div class="section-title">Escopo e Termos</div>
+      <div class="fg fg-1">
+        <div class="form-group">
+          <label>Incluso nesta Proposta</label>
+          <textarea id="scopeIn" rows="3" oninput="updatePreview()"></textarea>
+        </div>
+        <div class="form-group">
+          <label>NÃ£o Incluso / ObservaÃ§Ãµes de Escopo</label>
+          <textarea id="scopeOut" rows="3" oninput="updatePreview()"></textarea>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="printDoc()">Imprimir / Salvar PDF</button>
+      <button class="btn-secondary" onclick="showTab('briefing')">â Voltar para Briefing</button>
+    </div>
+  </div>
+
+  <!-- ===== PREVIEW SIDE ===== -->
+  <div class="preview-side">
+    <div class="preview-label">PrÃ©-visualizaÃ§Ã£o do Documento</div>
+    <div class="preview-wrap" id="previewDoc"></div>
+    <button class="print-btn" onclick="printDoc()">Imprimir / Salvar como PDF</button>
+  </div>
+
+</div>
+
+<script>
+  // ============ STATE ============
+  let urgencyPct = 0;
+  let services = [];
+  let svcCounter = 0;
+
+  const TEMPLATES = {
+    "Artigo Simples (atÃ© 15 pÃ¡g.)": {
+      price: 700,
+      desc: "RedaÃ§Ã£o completa: problema de pesquisa, revisÃ£o bibliogrÃ¡fica, desenvolvimento argumentativo, conclusÃ£o e formataÃ§Ã£o ABNT."
+    },
+    "Artigo IntermediÃ¡rio (15â25 pÃ¡g.)": {
+      price: 1100,
+      desc: "RedaÃ§Ã£o completa com desenvolvimento aprofundado, revisÃ£o bibliogrÃ¡fica extensa e formataÃ§Ã£o ABNT."
+    },
+    "Artigo Premium / Qualis": {
+      price: 1800,
+      desc: "Artigo para periÃ³dico indexado/Qualis com adequaÃ§Ã£o Ã s normas especÃ­ficas de submissÃ£o."
+    },
+    "TCC / Monografia (GraduaÃ§Ã£o)": {
+      price: 1400,
+      desc: "Escrita completa: introduÃ§Ã£o, desenvolvimento e consideraÃ§Ãµes finais com rigor metodolÃ³gico e formataÃ§Ã£o ABNT."
+    },
+    "RevisÃ£o de Texto (gramÃ¡tica e coesÃ£o)": {
+      price: 140,
+      desc: "RevisÃ£o textual com correÃ§Ãµes gramaticais, coesÃ£o e fluÃªncia da escrita."
+    },
+    "RevisÃ£o MetodolÃ³gica (ABNT e estrutura)": {
+      price: 200,
+      desc: "AdequaÃ§Ã£o Ã  ABNT, revisÃ£o de estrutura metodolÃ³gica e normas institucionais."
+    },
+    "RevisÃ£o Completa (texto + mÃ©todo + conteÃºdo)": {
+      price: 350,
+      desc: "RevisÃ£o textual, metodolÃ³gica e de conteÃºdo combinadas."
+    },
+    "RevisÃ£o de Texto IA (atÃ© 15 pÃ¡g.)": {
+      price: 150,
+      desc: "HumanizaÃ§Ã£o, adequaÃ§Ã£o de linguagem acadÃªmica, coerÃªncia argumentativa e verificaÃ§Ã£o de referÃªncias."
+    },
+    "RevisÃ£o de Texto IA (16â30 pÃ¡g.)": {
+      price: 250,
+      desc: "HumanizaÃ§Ã£o, adequaÃ§Ã£o de linguagem acadÃªmica, coerÃªncia argumentativa e verificaÃ§Ã£o de referÃªncias."
+    },
+    "Visual Law â PeÃ§a Simples (atÃ© 15 pÃ¡g.)": {
+      price: 140,
+      desc: "AplicaÃ§Ã£o de elementos visuais bÃ¡sicos em peÃ§a processual: tabelas, linhas do tempo simples no Word."
+    },
+    "Visual Law â PeÃ§a MÃ©dia (16â40 pÃ¡g.)": {
+      price: 220,
+      desc: "Elementos visuais em peÃ§a mÃ©dia: timelines, tabelas comparativas e infogrÃ¡ficos no Word."
+    },
+    "Visual Law â PeÃ§a Extensa (40+ pÃ¡g.)": {
+      price: 370,
+      desc: "AplicaÃ§Ã£o visual completa em peÃ§a extensa com mÃºltiplos elementos grÃ¡ficos no Word."
+    },
+    "Visual Law â AcrÃ©scimo Visual": {
+      price: 100,
+      desc: "Timeline elaborada, infogrÃ¡fico adicional ou tabelas complexas (complemento a qualquer pacote)."
+    },
+    "ComplementaÃ§Ã£o de Artigo ou TCC": {
+      price: 650,
+      desc: "Escrita das seÃ§Ãµes faltantes, desenvolvimento dos argumentos, conclusÃ£o e formataÃ§Ã£o ABNT completa."
+    },
+    "ServiÃ§o Personalizado": {
+      price: 0,
+      desc: ""
+    }
+  };
+
+  // ============ INIT ============
+  document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    document.getElementById('proposalDate').value = todayStr;
+
+    const validD = new Date(today);
+    validD.setDate(validD.getDate() + 15);
+    document.getElementById('validDate').value = validD.toISOString().split('T')[0];
+
+    const num = String(Math.floor(Math.random() * 900) + 100).padStart(3, '0');
+    document.getElementById('proposalNumber').value = `${num}/${today.getFullYear()}`;
+
+    document.getElementById('paymentObs').value = 'Parcelamento negociÃ¡vel para projetos acima de R$ 800.';
+    document.getElementById('scopeIn').value = 'Escrita conforme briefing acordado\nFormataÃ§Ã£o ABNT completa\n1 rodada de ajustes pÃ³s-entrega sem custo adicional';
+    document.getElementById('scopeOut').value = 'CÃ¡lculos ou dados numÃ©ricos (devem ser fornecidos pelo cliente)\nPublicaÃ§Ã£o em periÃ³dicos (submissÃ£o feita pelo cliente)\nAlteraÃ§Ãµes de estrutura apÃ³s entrega avaliadas caso a caso';
+
+    addService();
+    updatePreview();
+  });
+
+  // ============ UPLOAD DE ARQUIVO ============
+  // Configurar worker do PDF.js
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  // Drag-and-drop
+  document.addEventListener('DOMContentLoaded', () => {
+    const drop = document.getElementById('fileDrop');
+    if (!drop) return;
+    drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('drag-over'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
+    drop.addEventListener('drop', e => {
+      e.preventDefault();
+      drop.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file) handleFile({ target: { files: [file] } });
+    });
+  });
+
+  function togglePaste(btn) {
+    const area = document.getElementById('pasteArea');
+    area.style.display = area.style.display === 'none' ? 'block' : 'none';
+    btn.textContent = area.style.display === 'none' ? 'â¼ Ou cole o texto manualmente' : 'â² Fechar';
+  }
+
+  async function handleFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Abrir painel de diagnÃ³stico
+    const body = document.getElementById('diagBody');
+    if (!body.classList.contains('open')) {
+      body.classList.add('open');
+    }
+
+    const status = document.getElementById('fileStatus');
+    const setStatus = (type, msg) => {
+      status.className = 'file-status ' + type;
+      status.style.display = 'block';
+      status.textContent = msg;
+    };
+
+    setStatus('proc', 'Lendo arquivo...');
+
+    try {
+      const buf = await file.arrayBuffer();
+      let text = '';
+
+      if (file.name.toLowerCase().endsWith('.docx')) {
+        if (typeof mammoth === 'undefined') throw new Error('Biblioteca mammoth nÃ£o carregada.');
+        const result = await mammoth.extractRawText({ arrayBuffer: buf });
+        text = result.value;
+      } else if (file.name.toLowerCase().endsWith('.pdf')) {
+        if (typeof pdfjsLib === 'undefined') throw new Error('Biblioteca PDF.js nÃ£o carregada.');
+        text = await extractPDFText(buf);
+      } else if (file.name.toLowerCase().endsWith('.txt')) {
+        text = new TextDecoder('utf-8').decode(buf);
+      } else {
+        throw new Error('Formato nÃ£o suportado. Use .docx, .pdf ou .txt.');
+      }
+
+      if (!text || text.trim().length < 50) throw new Error('NÃ£o foi possÃ­vel extrair texto do arquivo.');
+
+      document.getElementById('docPaste').value = text;
+      const pages = Math.max(1, Math.round(text.split(/\s+/).length / 300));
+      setStatus('ok', `â "${file.name}" lido com sucesso â ~${pages} pÃ¡ginas. Analisando...`);
+      analyzeDoc();
+
+    } catch (err) {
+      setStatus('err', 'â ' + err.message + ' â tente usar o campo de texto manual.');
+    }
+  }
+
+  async function extractPDFText(arrayBuffer) {
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const pageTexts = [];
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page   = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      // Agrupar itens por linha (posiÃ§Ã£o Y)
+      const byY = {};
+      for (const item of content.items) {
+        const y = Math.round(item.transform[5]);
+        byY[y] = (byY[y] || '') + item.str + ' ';
+      }
+      const pageText = Object.keys(byY)
+        .sort((a, b) => b - a)
+        .map(y => byY[y].trim())
+        .filter(l => l.length > 1)
+        .join('\n');
+      pageTexts.push(pageText);
+    }
+    return pageTexts.join('\n\n');
+  }
+
+  // ============ DIAGNÃSTICO ============
+  function toggleDiag(btn) {
+    const body = document.getElementById('diagBody');
+    body.classList.toggle('open');
+    btn.querySelector('.tag').textContent = body.classList.contains('open')
+      ? 'Clique para fechar'
+      : 'Opcional â preenche o formulÃ¡rio automaticamente';
+  }
+
+  function analyzeDoc() {
+    const text = document.getElementById('docPaste').value.trim();
+    if (text.length < 100) {
+      alert('Cole o texto do documento para analisar.');
+      return;
+    }
+
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 3);
+    const words = text.split(/\s+/).length;
+    const estPages = Math.max(1, Math.round(words / 300));
+
+    // -- Detectar nome do cliente --
+    const IGNORE_WORDS = new Set([
+      'RESUMO','ABSTRACT','INTRODUÃÃO','CONCLUSÃO','REFERÃNCIAS','SUMÃRIO',
+      'AGRADECIMENTOS','DEDICATÃRIA','TELETRABALHO','ASPECTOS','MUDANÃAS',
+      'EVOLUÃÃO','FLEXIBILIDADE','PRODUTIVIDADE','ISOLAMENTO','SOBRECARGA',
+      'DIFICULDADE','IMPACTOS','CONSIDERAÃÃES','POSITIVOS','NEGATIVOS',
+      'TRABALHO','REFORMA','TRABALHISTA','CONCEITO','HISTÃRICA','JORNADA',
+      'SAÃDE','MENTAL','FÃSICA','CUSTOS','AUTONOMIA','CONTROLE','DADOS',
+      'INTERNET','DIGITAL','PESQUISA','METODOLOGIA','OBJETIVO','TEMA'
+    ]);
+    let clientName = '';
+    for (const line of lines) {
+      if (/[0-9:.,;()[\]{}?!'"Â°Âº]/.test(line)) continue;
+      if (/[a-zÃ¡Ã©Ã­Ã³ÃºÃ¢ÃªÃ®Ã´Ã»Ã£ÃµÃ§Ã Ã¨Ã¬Ã²Ã¹]/i.test(line) && /[a-z]/.test(line)) continue;
+      const ws = line.split(/\s+/);
+      if (ws.length < 2 || ws.length > 5) continue;
+      if (ws.some(w => IGNORE_WORDS.has(w.toUpperCase()))) continue;
+      if (ws.every(w => /^[A-ZÃÃÃÃÃÃÃÃÃÃÃÃÃ]{2,}$/.test(w))) {
+        clientName = ws.map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ');
+        break;
+      }
+    }
+
+    // -- Detectar tÃ­tulo --
+    let title = '';
+    for (const line of lines) {
+      if (/[a-z]/.test(line)) continue;
+      const ws = line.split(/\s+/);
+      if (ws.length < 4 || ws.length > 20) continue;
+      if (/^\d/.test(line)) continue;
+      if (ws.some(w => IGNORE_WORDS.has(w.toUpperCase()))) {
+        // May still be a good title if it's long enough
+        if (ws.length >= 5) { title = line; break; }
+        continue;
+      }
+      title = line;
+      break;
+    }
+    if (!title && clientName) {
+      // Second pass: allow IGNORE_WORDS in title if multi-word
+      for (const line of lines) {
+        if (/[a-z]/.test(line)) continue;
+        const ws = line.split(/\s+/);
+        if (ws.length >= 5 && !(/^\d/.test(line))) { title = line; break; }
+      }
+    }
+
+    // -- Detectar Ã¡rea do direito --
+    const lc = text.toLowerCase();
+    const AREAS = {
+      'Direito Trabalhista':      ['trabalhista','clt','jornada de trabalho','empregador','teletrabalho','reforma trabalhista','horas extras','rescisÃ£o','empregado'],
+      'Direito Civil':            ['responsabilidade civil','contrato','dano moral','cÃ³digo civil','obrigaÃ§Ã£o','inadimplemento','posse','propriedade'],
+      'Direito Penal':            ['cÃ³digo penal','crime','delito','pena privativa','imputÃ¡vel','tipicidade','ilÃ­cito penal','rÃ©u'],
+      'Direito Constitucional':   ['constituiÃ§Ã£o federal','direitos fundamentais','supremo tribunal','controle de constitucionalidade','stf'],
+      'Direito Administrativo':   ['administraÃ§Ã£o pÃºblica','licitaÃ§Ã£o','ato administrativo','improbidade','servidor pÃºblico'],
+      'Direito do Consumidor':    ['cÃ³digo de defesa do consumidor','cdc','consumidor','fornecedor','relaÃ§Ã£o de consumo'],
+      'Direito Digital':          ['lgpd','proteÃ§Ã£o de dados','dados pessoais','direitos autorais','internet','plataforma digital'],
+      'Direito Empresarial':      ['sociedade limitada','sociedade anÃ´nima','falÃªncia','recuperaÃ§Ã£o judicial','empresarial'],
+    };
+    let detectedArea = '';
+    let maxScore = 0;
+    for (const [area, kws] of Object.entries(AREAS)) {
+      const score = kws.reduce((s, k) => s + (lc.includes(k) ? 1 : 0), 0);
+      if (score > maxScore) { maxScore = score; detectedArea = area; }
+    }
+
+    // -- Detectar seÃ§Ãµes numeradas --
+    const sectionRe = /^(\d+(?:\.\d+)?)\s{1,4}([A-ZÃÃÃÃÃÃÃÃÃÃÃÃÃA-Za-zÃ¡Ã©Ã­Ã³ÃºÃ¢ÃªÃ®Ã´Ã»Ã£ÃµÃ§][^\n]{3,60})$/;
+    const allSections = [];
+    for (const line of lines) {
+      const m = line.match(sectionRe);
+      if (m) allSections.push({ num: m[1], title: m[2].trim() });
+    }
+
+    // -- Detectar seÃ§Ãµes incompletas --
+    const incompleteSections = [];
+    for (let i = 0; i < allSections.length; i++) {
+      const s = allSections[i];
+      const next = allSections[i + 1];
+      const pos = text.indexOf(s.title);
+      const end = next ? text.indexOf(next.title) : text.length;
+      if (pos >= 0 && end > pos) {
+        const content = text.slice(pos + s.title.length, end);
+        const wc = content.split(/\s+/).filter(w => w.length > 1).length;
+        if (wc < 80) incompleteSections.push(`${s.num} ${s.title}`);
+      }
+    }
+    if (!/referÃªncias/i.test(text)) incompleteSections.push('ReferÃªncias');
+    if (/consider/i.test(text) && !/consider[\s\S]{200}/i.test(text)) {
+      if (!incompleteSections.some(s => /consider/i.test(s)))
+        incompleteSections.push('ConsideraÃ§Ãµes Finais');
+    }
+
+    const total = Math.max(allSections.length + 1, 5);
+    const completeness = Math.max(0, Math.min(1, 1 - incompleteSections.length / total));
+
+    // -- Calcular serviÃ§o e preÃ§o --
+    let serviceRec, priceMin, priceMax, serviceKey;
+    if (completeness < 0.40) {
+      serviceRec  = 'Escrita completa (do zero ou quase)';
+      serviceKey  = estPages <= 10 ? 'Artigo Simples (atÃ© 15 pÃ¡g.)' : 'TCC / Monografia (GraduaÃ§Ã£o)';
+      priceMin    = estPages <= 10 ? 600 : 900;
+      priceMax    = estPages <= 10 ? 900 : 1400;
+    } else if (completeness < 0.78) {
+      serviceRec  = 'ComplementaÃ§Ã£o e conclusÃ£o de seÃ§Ãµes faltantes';
+      serviceKey  = 'ComplementaÃ§Ã£o de Artigo ou TCC';
+      priceMin    = 350 + incompleteSections.length * 55;
+      priceMax    = priceMin + 300;
+    } else {
+      serviceRec  = 'RevisÃ£o acadÃªmica completa (texto + ABNT)';
+      serviceKey  = 'RevisÃ£o Completa (texto + mÃ©todo + conteÃºdo)';
+      priceMin    = estPages <= 15 ? 200 : 300;
+      priceMax    = estPages <= 15 ? 400 : 500;
+    }
+
+    window._diag = { clientName, title, detectedArea, estPages, allSections, incompleteSections, completeness, serviceRec, serviceKey, priceMin, priceMax };
+    renderDiag(window._diag);
+  }
+
+  function renderDiag(d) {
+    const pct   = Math.round(d.completeness * 100);
+    const color = pct < 40 ? '#b71c1c' : pct < 75 ? '#c87420' : '#2d5a27';
+
+    const sectionBadges = d.allSections.map(s => {
+      const miss = d.incompleteSections.some(m => m.includes(s.title));
+      return `<span class="diag-badge ${miss ? 'miss' : 'ok'}">${s.num} ${s.title}</span>`;
+    }).join('');
+
+    const extraMiss = d.incompleteSections
+      .filter(m => !d.allSections.some(s => m.includes(s.title)))
+      .map(m => `<span class="diag-badge miss">${m}</span>`).join('');
+
+    document.getElementById('diagResult').style.display = 'block';
+    document.getElementById('diagResult').innerHTML = `
+      <div class="diag-grid">
+        <div class="diag-item">
+          <div class="diag-lbl">Cliente detectado</div>
+          <div class="diag-val">${d.clientName || 'â'}</div>
+        </div>
+        <div class="diag-item">
+          <div class="diag-lbl">Ãrea do Direito</div>
+          <div class="diag-val">${d.detectedArea || 'â'}</div>
+        </div>
+        <div class="diag-item">
+          <div class="diag-lbl">PÃ¡ginas atuais (est.)</div>
+          <div class="diag-val">${d.estPages} pÃ¡g.</div>
+        </div>
+        <div class="diag-item">
+          <div class="diag-lbl">Texto completo</div>
+          <div class="diag-val" style="color:${color};">${pct}%</div>
+        </div>
+      </div>
+      ${d.allSections.length > 0 ? `
+      <div style="margin-bottom:14px;">
+        <div class="diag-lbl" style="margin-bottom:7px;">SeÃ§Ãµes identificadas</div>
+        <div>${sectionBadges}${extraMiss}</div>
+      </div>
+      ` : ''}
+      ${d.incompleteSections.length > 0 ? `
+      <div style="margin-bottom:14px; font-size:11px; color:#b71c1c;">
+        <strong>${d.incompleteSections.length} seÃ§Ã£o(Ãµes) faltante(s) / incompleta(s):</strong>
+        ${d.incompleteSections.map(s => `<em>${s}</em>`).join(', ')}
+      </div>
+      ` : ''}
+      <div class="diag-rec">
+        <div class="diag-lbl">ServiÃ§o recomendado</div>
+        <div class="diag-rec-svc">${d.serviceRec}</div>
+        <div class="diag-rec-price">Valor sugerido: <strong>R$ ${d.priceMin.toLocaleString('pt-BR')} â R$ ${d.priceMax.toLocaleString('pt-BR')}</strong></div>
+      </div>
+      <button class="btn-apply" onclick="applyDiag(event)">Preencher formulÃ¡rio com esses dados â</button>
+    `;
+  }
+
+  function applyDiag(event) {
+    const d = window._diag;
+    if (!d) return;
+    if (d.clientName) document.getElementById('clientName').value = d.clientName;
+    if (d.title)      document.getElementById('projectTopic').value = d.title;
+    if (d.detectedArea) {
+      const sel = document.getElementById('legalArea');
+      for (const opt of sel.options) { if (opt.value === d.detectedArea) { sel.value = d.detectedArea; break; } }
+    }
+    if (d.estPages) document.getElementById('pageCount').value = d.estPages;
+    document.getElementById('clientType').value = 'Estudante de Direito';
+    const stSel = document.getElementById('serviceType');
+    if (d.serviceKey.includes('TCC') || d.serviceKey.includes('ComplementaÃ§Ã£o')) {
+      stSel.value = 'TCC / Monografia';
+    } else if (d.serviceKey.includes('Artigo')) {
+      stSel.value = 'Artigo AcadÃªmico';
+    } else if (d.serviceKey.includes('RevisÃ£o')) {
+      stSel.value = 'RevisÃ£o AcadÃªmica';
+    }
+    const parts = [];
+    parts.push(`Texto ${Math.round(d.completeness * 100)}% completo (estimado).`);
+    if (d.incompleteSections.length > 0)
+      parts.push(`SeÃ§Ãµes faltantes/incompletas: ${d.incompleteSections.join(', ')}.`);
+    parts.push(`Estimativa: ${d.estPages} pÃ¡ginas atuais.`);
+    document.getElementById('projectBriefing').value = parts.join(' ');
+
+    // Atualizar serviÃ§o com preÃ§o mÃ©dio sugerido
+    if (services.length > 0) {
+      services[0].name  = d.serviceKey in TEMPLATES ? d.serviceKey : Object.keys(TEMPLATES)[0];
+      services[0].price = Math.round((d.priceMin + d.priceMax) / 2);
+      services[0].desc  = TEMPLATES[services[0].name]?.desc || d.serviceRec;
+    }
+    renderServices();
+    updatePreview();
+
+    const btn = event.target;
+    btn.textContent = 'â Dados aplicados!';
+    btn.style.background = '#2d5a27';
+    setTimeout(() => { btn.textContent = 'Preencher formulÃ¡rio com esses dados â'; btn.style.background = ''; }, 2500);
+  }
+
+  // ============ TABS ============
+  function showTab(name) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    const btns = document.querySelectorAll('.tab-btn');
+    if (name === 'briefing') btns[0].classList.add('active');
+    else btns[1].classList.add('active');
+    updatePreview();
+  }
+
+  // ============ URGENCY ============
+  function setUrgency(pct, btn) {
+    urgencyPct = pct;
+    document.querySelectorAll('.urg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updatePreview();
+  }
+
+  function checkUrgency() {
+    const d = document.getElementById('deadline').value;
+    if (!d) return;
+    const days = Math.ceil((new Date(d) - new Date()) / 86400000);
+    if (days > 0 && days <= 5) {
+      document.querySelectorAll('.urg-btn')[2].click();
+    } else if (days > 5 && days <= 10) {
+      document.querySelectorAll('.urg-btn')[1].click();
+    }
+  }
+
+  // ============ SERVICES ============
+  function addService() {
+    const id = svcCounter++;
+    const firstName = Object.keys(TEMPLATES)[0];
+    services.push({ id, name: firstName, desc: TEMPLATES[firstName].desc, price: TEMPLATES[firstName].price });
+    renderServices();
+    updatePreview();
+  }
+
+  function removeService(id) {
+    services = services.filter(s => s.id !== id);
+    renderServices();
+    updatePreview();
+  }
+
+  function renderServices() {
+    const list = document.getElementById('servicesList');
+    list.innerHTML = services.map((s, i) => `
+      <div class="svc-card">
+        <div class="svc-card-top">
+          <span class="svc-num">ServiÃ§o ${i + 1}</span>
+          <button class="svc-remove" onclick="removeService(${s.id})" title="Remover">Ã</button>
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label>ServiÃ§o</label>
+          <select onchange="updateSvcName(${s.id}, this.value)">
+            ${Object.keys(TEMPLATES).map(k => `<option value="${k}" ${k === s.name ? 'selected' : ''}>${k}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:4px;">
+          <label>DescriÃ§Ã£o (editÃ¡vel)</label>
+          <textarea rows="2" onchange="updateSvcDesc(${s.id}, this.value)">${s.desc}</textarea>
+        </div>
+        <div class="svc-price-row">
+          <div class="form-group">
+            <label>Valor (R$)</label>
+            <input type="number" value="${s.price}" min="0" step="10" oninput="updateSvcPrice(${s.id}, this.value)">
+          </div>
+          <div></div>
+          <div class="svc-price-display">R$ ${fmt(s.price)}</div>
+        </div>
+      </div>
+    `).join('');
+    calcTotals();
+  }
+
+  function updateSvcName(id, name) {
+    const s = services.find(s => s.id === id);
+    if (!s) return;
+    s.name = name;
+    const t = TEMPLATES[name];
+    if (t) { s.desc = t.desc; if (name !== 'ServiÃ§o Personalizado') s.price = t.price; }
+    renderServices();
+    updatePreview();
+  }
+
+  function updateSvcDesc(id, val) {
+    const s = services.find(s => s.id === id);
+    if (s) { s.desc = val; updatePreview(); }
+  }
+
+  function updateSvcPrice(id, val) {
+    const s = services.find(s => s.id === id);
+    if (s) { s.price = parseFloat(val) || 0; calcTotals(); updatePreview(); }
+  }
+
+  // ============ CALCULATIONS ============
+  function calcTotals() {
+    const sub = services.reduce((acc, s) => acc + (s.price || 0), 0);
+    const urg = sub * (urgencyPct / 100);
+    const total = sub + urg;
+
+    document.getElementById('subtotalDisplay').textContent = 'R$ ' + fmt(sub);
+    document.getElementById('totalDisplay').textContent = 'R$ ' + fmt(total);
+
+    const urgLine = document.getElementById('urgencyLine');
+    if (urgencyPct > 0) {
+      urgLine.style.display = 'flex';
+      document.getElementById('urgencyLabel').textContent = `Adicional de urgÃªncia (${urgencyPct}%)`;
+      document.getElementById('urgencyDisplay').textContent = 'R$ ' + fmt(urg);
+    } else {
+      urgLine.style.display = 'none';
+    }
+  }
+
+  function getFinancials() {
+    const sub = services.reduce((acc, s) => acc + (s.price || 0), 0);
+    const urg = sub * (urgencyPct / 100);
+    const total = sub + urg;
+    const pct = parseInt(document.getElementById('downPaymentPct').value) || 50;
+    const down = total * (pct / 100);
+    return { sub, urg, total, down, rest: total - down, pct };
+  }
+
+  // ============ FORMAT ============
+  function fmt(val) {
+    return (parseFloat(val) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function fmtDate(str) {
+    if (!str) return 'â';
+    const [y, m, d] = str.split('-');
+    return `${d}/${m}/${y}`;
+  }
+
+  // ============ PREVIEW ============
+  function updatePreview() {
+    calcTotals();
+
+    const v = id => document.getElementById(id).value;
+    const fin = getFinancials();
+
+    const urgBadge = urgencyPct === 0 ? '' :
+      urgencyPct === 30
+        ? '<span class="badge badge-urgente">Urgente</span>'
+        : '<span class="badge badge-super">Super Urgente</span>';
+
+    const scopeInLines = v('scopeIn').split('\n').filter(l => l.trim()).map(l => `<li>â ${l.trim()}</li>`).join('');
+    const scopeOutLines = v('scopeOut').split('\n').filter(l => l.trim()).map(l => `<li>â ${l.trim()}</li>`).join('');
+
+    const svcRows = services.map(s => `
+      <tr>
+        <td><strong>${s.name}</strong></td>
+        <td style="color:#777; font-size:9px;">${s.desc}</td>
+        <td style="text-align:right; font-weight:600; white-space:nowrap;">R$ ${fmt(s.price)}</td>
+      </tr>
+    `).join('');
+
+    document.getElementById('previewDoc').innerHTML = `
+      <div class="prev-header">
+        <div class="prev-header-top">
+          <div>
+            <div class="prev-logo">JK <span>JURÃDICO</span></div>
+            <div class="prev-tagline">Escrita AcadÃªmica & Visual Law</div>
+          </div>
+          <div>
+            <div class="prev-propnum">
+              Proposta NÂº ${v('proposalNumber') || 'â'}
+              <div class="small">Emitida em ${fmtDate(v('proposalDate'))}</div>
+              <div class="small">VÃ¡lida atÃ© ${fmtDate(v('validDate'))}</div>
+            </div>
+            ${urgBadge ? `<div style="text-align:right; margin-top:6px;">${urgBadge}</div>` : ''}
+          </div>
+        </div>
+        <div class="prev-contacts">
+          <span class="prev-contact">â juliaketelut.juridico@gmail.com</span>
+          <span class="prev-contact">ð± (44) 99165-2729</span>
+          <span class="prev-contact">@juliaketelut.juridico</span>
+        </div>
+      </div>
+
+      <div class="prev-body">
+
+        <div class="prev-section">
+          <div class="prev-section-title">Dados do Cliente</div>
+          <div class="prev-grid">
+            <div class="prev-field">
+              <div class="prev-label">Nome</div>
+              <div class="prev-value">${v('clientName') || 'â'}</div>
+            </div>
+            <div class="prev-field">
+              <div class="prev-label">Perfil</div>
+              <div class="prev-value">${v('clientType') || 'â'}</div>
+            </div>
+            <div class="prev-field">
+              <div class="prev-label">Email</div>
+              <div class="prev-value">${v('clientEmail') || 'â'}</div>
+            </div>
+            <div class="prev-field">
+              <div class="prev-label">WhatsApp</div>
+              <div class="prev-value">${v('clientPhone') || 'â'}</div>
+            </div>
+            ${v('clientSource') ? `<div class="prev-field"><div class="prev-label">Como chegou</div><div class="prev-value">${v('clientSource')}</div></div>` : ''}
+          </div>
+        </div>
+
+        <div class="prev-section">
+          <div class="prev-section-title">Detalhes do Projeto</div>
+          <div class="prev-grid">
+            <div class="prev-field">
+              <div class="prev-label">Tipo de ServiÃ§o</div>
+              <div class="prev-value">${v('serviceType') || 'â'}</div>
+            </div>
+            <div class="prev-field">
+              <div class="prev-label">Ãrea do Direito</div>
+              <div class="prev-value">${v('legalArea') || 'â'}</div>
+            </div>
+            ${v('pageCount') ? `<div class="prev-field"><div class="prev-label">PÃ¡ginas Estimadas</div><div class="prev-value">${v('pageCount')} pÃ¡g.</div></div>` : ''}
+            ${v('journal') ? `<div class="prev-field"><div class="prev-label">PeriÃ³dico / Revista</div><div class="prev-value">${v('journal')}</div></div>` : ''}
+            <div class="prev-field">
+              <div class="prev-label">Prazo de Entrega</div>
+              <div class="prev-value">${fmtDate(v('deadline'))}</div>
+            </div>
+          </div>
+          ${v('projectTopic') ? `<div class="prev-field" style="margin-top:10px;"><div class="prev-label">Tema / TÃ­tulo</div><div class="prev-value">${v('projectTopic')}</div></div>` : ''}
+          ${v('projectBriefing') ? `<div class="prev-field" style="margin-top:10px;"><div class="prev-label">Briefing do Projeto</div><div class="prev-value" style="white-space:pre-line;">${v('projectBriefing')}</div></div>` : ''}
+          ${v('observations') ? `<div class="prev-field" style="margin-top:10px;"><div class="prev-label">ObservaÃ§Ãµes</div><div class="prev-value" style="white-space:pre-line;">${v('observations')}</div></div>` : ''}
+        </div>
+
+        ${services.length > 0 ? `
+        <div class="prev-section">
+          <div class="prev-section-title">OrÃ§amento Detalhado</div>
+          <table class="prev-table">
+            <thead>
+              <tr>
+                <th style="width:42%">ServiÃ§o</th>
+                <th>DescriÃ§Ã£o</th>
+                <th style="text-align:right">Valor</th>
+              </tr>
+            </thead>
+            <tbody>${svcRows}</tbody>
+          </table>
+          <div class="prev-totals">
+            <div class="prev-tot-line">
+              <span style="color:#777;">Subtotal</span>
+              <span>R$ ${fmt(fin.sub)}</span>
+            </div>
+            ${urgencyPct > 0 ? `
+            <div class="prev-tot-line">
+              <span style="color:#c44;">Adicional de urgÃªncia (${urgencyPct}%)</span>
+              <span style="color:#c44;">+ R$ ${fmt(fin.urg)}</span>
+            </div>
+            ` : ''}
+            <div class="prev-tot-final">
+              <span>Total</span>
+              <span>R$ ${fmt(fin.total)}</span>
+            </div>
+          </div>
+        </div>
+        ` : ''}
+
+        <div class="prev-section">
+          <div class="prev-section-title">CondiÃ§Ãµes de Pagamento</div>
+          <div class="prev-grid">
+            <div class="prev-field">
+              <div class="prev-label">Entrada (${fin.pct}%)</div>
+              <div class="prev-value" style="color:var(--creme); font-size:14px; font-weight:700;">R$ ${fmt(fin.down)}</div>
+            </div>
+            <div class="prev-field">
+              <div class="prev-label">Na Entrega (${100 - fin.pct}%)</div>
+              <div class="prev-value" style="color:var(--creme); font-size:14px; font-weight:700;">R$ ${fmt(fin.rest)}</div>
+            </div>
+            <div class="prev-field">
+              <div class="prev-label">Forma de Pagamento</div>
+              <div class="prev-value">${v('paymentMethod')}</div>
+            </div>
+          </div>
+          ${v('paymentObs') ? `<div class="prev-field" style="margin-top:10px;"><div class="prev-label">Obs.</div><div class="prev-value" style="font-size:10px;">${v('paymentObs')}</div></div>` : ''}
+        </div>
+
+        ${(v('scopeIn') || v('scopeOut')) ? `
+        <div class="prev-section">
+          <div class="prev-section-title">Escopo do ServiÃ§o</div>
+          ${scopeInLines ? `<div style="margin-bottom:10px;"><div class="prev-label" style="color:#3a7a3a; margin-bottom:5px;">Incluso</div><ul style="list-style:none; font-size:10px; line-height:1.8; color:var(--inkwell);">${scopeInLines}</ul></div>` : ''}
+          ${scopeOutLines ? `<div><div class="prev-label" style="color:#9a4a3a; margin-bottom:5px;">NÃ£o incluso</div><ul style="list-style:none; font-size:10px; line-height:1.8; color:#666;">${scopeOutLines}</ul></div>` : ''}
+        </div>
+        ` : ''}
+
+      </div>
+
+      <div class="prev-cond">
+        <div class="prev-cond-title">Termos & Sigilo</div>
+        <ul>
+          <li>Total sigilo das informaÃ§Ãµes e arquivos do cliente</li>
+          <li>Atendimento 100% remoto para todo o Brasil</li>
+          <li>Prazo confirmado e acordado formalmente no inÃ­cio do projeto</li>
+          <li>Esta proposta Ã© vÃ¡lida por 15 dias a partir da emissÃ£o</li>
+          <li>Uma rodada de ajustes pÃ³s-entrega sem custo adicional</li>
+        </ul>
+      </div>
+
+      <div class="prev-footer">
+        JK JurÃ­dico â Julia Ketelut â Bacharela em Direito
+      </div>
+    `;
+  }
+
+  // ============ PRINT ============
+  function printDoc() {
+    const content = document.getElementById('previewDoc').innerHTML;
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head>
+      <meta charset="UTF-8">
+      <title>JK JurÃ­dico â Proposta</title>
+      <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Gotu&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <style>
+        :root{--inkwell:#2C3639;--lunar:#3F4E4F;--creme:#A27B5B;--au-lait:#DCD7C9;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Figtree',sans-serif;background:white;color:var(--inkwell);}
+        .prev-header{background:var(--inkwell);color:var(--au-lait);padding:28px 32px;position:relative;}
+        .prev-header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--creme);}
+        .prev-logo{font-family:'Aboreto',serif;font-size:28px;letter-spacing:.15em;}
+        .prev-logo span{color:var(--creme);}
+        .prev-tagline{font-family:'Gotu',sans-serif;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--creme);margin-top:2px;}
+        .prev-header-top{display:flex;justify-content:space-between;align-items:flex-start;}
+        .prev-propnum{font-family:'Aboreto',serif;font-size:13px;color:var(--creme);text-align:right;}
+        .prev-propnum .small{font-family:'Figtree',sans-serif;font-size:10px;color:var(--au-lait);opacity:.65;margin-top:3px;}
+        .prev-contacts{display:flex;gap:18px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(162,123,91,.25);}
+        .prev-contact{font-size:10px;color:var(--au-lait);opacity:.75;}
+        .prev-body{padding:28px 32px;}
+        .prev-section{margin-bottom:24px;}
+        .prev-section-title{font-family:'Gotu',sans-serif;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--creme);border-bottom:1px solid var(--creme);padding-bottom:5px;margin-bottom:14px;}
+        .prev-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+        .prev-field{display:flex;flex-direction:column;gap:2px;}
+        .prev-label{font-family:'Gotu',sans-serif;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--creme);}
+        .prev-value{font-size:11px;color:var(--inkwell);font-weight:500;line-height:1.5;}
+        .prev-table{width:100%;border-collapse:collapse;}
+        .prev-table th{font-family:'Gotu',sans-serif;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--creme);text-align:left;padding:7px 8px;border-bottom:1px solid var(--creme);}
+        .prev-table td{padding:9px 8px;font-size:10px;border-bottom:1px solid #EAE6DE;vertical-align:top;line-height:1.5;}
+        .prev-table tr:last-child td{border-bottom:none;}
+        .prev-totals{background:#F5F2EC;padding:14px 18px;border-radius:3px;margin-top:14px;}
+        .prev-tot-line{display:flex;justify-content:space-between;padding:3px 0;font-size:10px;}
+        .prev-tot-final{font-family:'Aboreto',serif;font-size:16px;color:var(--creme);border-top:1px solid var(--creme);padding-top:8px;margin-top:6px;display:flex;justify-content:space-between;}
+        .prev-cond{background:var(--inkwell);color:var(--au-lait);padding:18px 22px;font-size:10px;line-height:1.7;}
+        .prev-cond-title{font-family:'Gotu',sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--creme);margin-bottom:8px;}
+        .prev-cond li{list-style:none;padding:1px 0;}
+        .prev-cond li::before{content:'â ';color:var(--creme);}
+        .prev-footer{text-align:center;padding:14px;font-family:'Gotu',sans-serif;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--creme);border-top:1px solid #EAE6DE;}
+        .badge{display:inline-block;padding:2px 9px;border:1px solid;border-radius:20px;font-family:'Gotu',sans-serif;font-size:8px;letter-spacing:.1em;text-transform:uppercase;}
+        .badge-urgente{border-color:#f97316;color:#f97316;background:rgba(249,115,22,.1);}
+        .badge-super{border-color:#ef4444;color:#ef4444;background:rgba(239,68,68,.1);}
+        @media print{@page{margin:10mm;} body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+      </style>
+    </head><body>${content}</body></html>`);
+    w.document.close();
+    w.focus();
+    setTimeout(() => { w.print(); }, 600);
+  }
+
+  updatePreview();
+</script>
+</body>
+</html>
