@@ -123,6 +123,7 @@ const Thumb = ({ type, title }) => {
     peticoes:     { bg: "#2a1a0f", ac: "#A27B5B", lbl: "PETIÇÕES" },
     abnt:         { bg: "#1a1a2e", ac: "#6e7cc9", lbl: "ABNT" },
     consultoria:  { bg: "#2a1e1a", ac: "#c49a6c", lbl: "CONSULTORIA" },
+    diagnostico:  { bg: "#1e1a2a", ac: "#9b7ec8", lbl: "DIAGNÓSTICO" },
   }[type] || { bg: "#1a1a1a", ac: "#888", lbl: "CURSO" };
   return (
     <div style={{ width:"100%", aspectRatio:"16/9", background:c.bg, borderRadius:"var(--radius)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", position:"relative", overflow:"hidden" }}>
@@ -1026,7 +1027,7 @@ const Admin = ({ products:initProds }) => {
             <Lbl t="TÍTULO"/><Inp val={prodForm.title} set={v=>setProdForm(p=>({...p,title:v}))} ph="Ex: Visual Law — Cliente X"/>
             <Lbl t="DESCRIÇÃO"/><Inp val={prodForm.subtitle} set={v=>setProdForm(p=>({...p,subtitle:v}))} ph="Descrição curta"/>
             <Lbl t="CATEGORIA"/><Sel val={prodForm.category} set={v=>setProdForm(p=>({...p,category:v}))} opts={["Consultoria","Curso","Mini-Curso","Templates","Outros"]}/>
-            <Lbl t="VISUAL (thumb)"/><Sel val={prodForm.thumb} set={v=>setProdForm(p=>({...p,thumb:v}))} opts={[{value:"visual-law",label:"Visual Law"},{value:"peticoes",label:"Petições"},{value:"abnt",label:"ABNT"},{value:"consultoria",label:"Consultoria"}]}/>
+            <Lbl t="VISUAL (thumb)"/><Sel val={prodForm.thumb} set={v=>setProdForm(p=>({...p,thumb:v}))} opts={[{value:"visual-law",label:"Visual Law"},{value:"peticoes",label:"Petições"},{value:"abnt",label:"ABNT"},{value:"consultoria",label:"Consultoria"},{value:"diagnostico",label:"Diagnóstico"}]}/>
             <Lbl t="VISIBILIDADE"/>
             <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10 }}>
               {[{v:"privado",icon:"lock",label:"Privado",desc:"Acesso por convite"},{v:"publico",icon:"globe",label:"Público",desc:"Todos os membros"}].map(opt=>(
