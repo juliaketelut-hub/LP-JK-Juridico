@@ -97,6 +97,7 @@ const Icon = ({ name, size = 16, color = "currentColor" }) => {
     file:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>,
     check:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
     copy:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>,
+    edit:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
     chevL:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
     chevR:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>,
     chevD:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>,
@@ -884,9 +885,14 @@ const Admin = ({ products:initProds }) => {
   };
   const addLesson = async () => {
     if(!lesForm.title||!lesForm.duration)return;
-    const {pid,mid}=lesModal;
+    const {pid,mid,lesEditId}=lesModal;
     const p=products.find(x=>x.id===pid);
-    const mods=(p.modules||[]).map(m=>m.id===mid?{...m,lessons:[...(m.lessons||[]),{id:Date.now(),...lesForm,watched:false}]}:m);
+    let mods;
+    if(lesEditId) {
+      mods=(p.modules||[]).map(m=>m.id===mid?{...m,lessons:(m.lessons||[]).map(l=>l.id===lesEditId?{...l,...lesForm}:l)}:m);
+    } else {
+      mods=(p.modules||[]).map(m=>m.id===mid?{...m,lessons:[...(m.lessons||[]),{id:Date.now(),...lesForm,watched:false}]}:m);
+    }
     await updateMods(pid,mods);
     setLesForm({title:"",duration:"",type:"video",url:""});setLesModal(null);
   };
@@ -1093,10 +1099,17 @@ const Admin = ({ products:initProds }) => {
                                 <div style={{ fontSize:10,color:"var(--text-muted)" }}>{l.type==="video"?"Vídeo":"Material"} · {l.duration}</div>
                               </div>
                             </div>
-                            <button onClick={()=>delLesson(p.id,mod.id,l.id)} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
-                              onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
-                              <Icon name="trash" size={11} color="currentColor"/>
-                            </button>
+                            <div style={{ display:"flex",gap:4 }}>
+                              <button title="Editar" onClick={()=>{setLesForm({title:l.title,duration:l.duration,type:l.type||"material",url:l.url||""});setLesModal({pid:p.id,mid:mod.id,lesEditId:l.id});}}
+                                style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
+                                onMouseEnter={e=>e.currentTarget.style.color="var(--gold)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+                                <Icon name="edit" size={11} color="currentColor"/>
+                              </button>
+                              <button title="Excluir" onClick={()=>delLesson(p.id,mod.id,l.id)} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
+                                onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+                                <Icon name="trash" size={11} color="currentColor"/>
+                              </button>
+                            </div>
                           </div>
                         ))}
                         {(mod.lessons||[]).length===0&&<div style={{ fontSize:11,color:"var(--text-muted)",padding:"6px 0" }}>Sem aulas. Clique em "+ Aula".</div>}
@@ -1169,15 +1182,15 @@ const Admin = ({ products:initProds }) => {
       {lesModal&&(
         <div style={{ position:"fixed",inset:0,background:"#00000075",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100 }} onClick={()=>setLesModal(null)}>
           <div style={{ background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"24px",width:400,maxWidth:"92vw" }} onClick={e=>e.stopPropagation()}>
-            <h2 style={{ fontFamily:"var(--font-display)",fontSize:18,color:"var(--text)",marginBottom:16 }}>Nova aula / material</h2>
+            <h2 style={{ fontFamily:"var(--font-display)",fontSize:18,color:"var(--text)",marginBottom:16 }}>{lesModal?.lesEditId?"Editar aula / material":"Nova aula / material"}</h2>
             <Lbl t="TÍTULO"/><Inp val={lesForm.title} set={v=>setLesForm(p=>({...p,title:v}))} ph="Ex: Introdução ao Visual Law"/>
-            <Lbl t="DURAÇÃO / FORMATO"/><Inp val={lesForm.duration} set={v=>setLesForm(p=>({...p,duration:v}))} ph="Ex: 18min / PDF / DOCX"/>
+            <Lbl t="DURAÇÃO / FORMATO"/><Inp val={lesForm.duration} set={v=>setLesForm(p=>({...p,duration:v}))} ph="Ex: 18min / PDF / DOCX / Leitura"/>
             <Lbl t="TIPO"/><Sel val={lesForm.type} set={v=>setLesForm(p=>({...p,type:v}))} opts={[{value:"video",label:"Vídeo"},{value:"material",label:"Material / Download"}]}/>
-            <Lbl t={lesForm.type==="video"?"LINK DO VÍDEO (YouTube ou Vimeo)":"LINK DO MATERIAL (Drive, Supabase, etc.)"}/>
-            <Inp val={lesForm.url} set={v=>setLesForm(p=>({...p,url:v}))} ph={lesForm.type==="video"?"https://youtu.be/...":"https://drive.google.com/..."}/>
+            <Lbl t={lesForm.type==="video"?"LINK DO VÍDEO (YouTube ou Vimeo)":"LINK DO MATERIAL ou E-MAIL"}/>
+            <Inp val={lesForm.url} set={v=>setLesForm(p=>({...p,url:v}))} ph={lesForm.type==="video"?"https://youtu.be/...":"https://drive.google.com/... ou mailto:julia@gmail.com?subject=..."}/>
             <div style={{ display:"flex",gap:10 }}>
               <button onClick={()=>setLesModal(null)} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
-              <button onClick={addLesson} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>Adicionar</button>
+              <button onClick={addLesson} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>{lesModal?.lesEditId?"Salvar alterações":"Adicionar"}</button>
             </div>
           </div>
         </div>
