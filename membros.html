@@ -30,6 +30,16 @@
   ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
   input, button, select, textarea { font-family: var(--font-sans); }
 </style>
+<style id="theme-light" disabled>
+  :root {
+    --bg: #F4EFE6; --surface: #EAE4D8; --card: #FDFAF5; --card-hover: #EEE8DE;
+    --border: #D4C8B6; --border-light: #C4B8A6;
+    --gold: #7A5535; --gold-muted: #6A4828; --gold-dim: #A27B5B22;
+    --green: #2D5B3A; --text: #2A2218; --text-secondary: #5A4E44;
+    --text-muted: #8A7C72; --danger: #A84444;
+  }
+  body { background: var(--bg); }
+</style>
 </head>
 <body>
 <div id="root"></div>
@@ -100,6 +110,8 @@ const Icon = ({ name, size = 16, color = "currentColor" }) => {
     lock:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
     globe:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
     arrowLeft:<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>,
+    sun:      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>,
+    moon:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>,
   };
   return icons[name] || null;
 };
@@ -368,7 +380,7 @@ const Login = ({ onLogin, onShowSetup }) => {
 };
 
 // ─── SIDEBAR ─────────────────────────────────────────────────
-const Sidebar = ({ user, view, onNav, onLogout, onShowSetup }) => {
+const Sidebar = ({ user, view, onNav, onLogout, onShowSetup, theme, onToggleTheme }) => {
   const nav = [
     { id:"dashboard", label:"Meus Produtos", icon:"home" },
     { id:"account",   label:"Minha Conta",   icon:"user" },
@@ -405,6 +417,11 @@ const Sidebar = ({ user, view, onNav, onLogout, onShowSetup }) => {
         })}
       </nav>
       <div style={{ padding:"10px 0", borderTop:"1px solid var(--border)" }}>
+        <button onClick={onToggleTheme} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", fontSize:12, fontFamily:"var(--font-sans)", transition:"color var(--transition)" }}
+          onMouseEnter={e=>e.currentTarget.style.color="var(--text)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+          <Icon name={theme==="light"?"moon":"sun"} size={14} color="currentColor"/>
+          {theme==="light"?"Tema escuro":"Tema claro"}
+        </button>
         {!IS_CONFIGURED && (
           <button onClick={onShowSetup} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--gold-muted)", fontSize:12, fontFamily:"var(--font-sans)" }}>
             <Icon name="settings" size={14} color="currentColor"/>Configurar Supabase
@@ -425,6 +442,38 @@ const Sidebar = ({ user, view, onNav, onLogout, onShowSetup }) => {
 
 // ─── HELPERS (definidos fora dos componentes para evitar re-criação) ──────────
 const pct = (p) => { const t=p.modules?.reduce((s,m)=>s+(m.lessons?.length||0),0)||1; const w=p.modules?.reduce((s,m)=>s+(m.lessons?.filter(l=>l.watched).length||0),0)||0; return Math.round(w/t*100); };
+
+// ─── PURCHASE CARD ───────────────────────────────────────────
+const PurchaseCard = ({ p, onPurchase }) => {
+  const [hov,setHov] = useState(false);
+  const [loading,setLoading] = useState(false);
+  const handleClick = async (e) => {
+    e.stopPropagation();
+    setLoading(true);
+    await onPurchase(p.id);
+    setLoading(false);
+  };
+  return (
+    <div onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+      style={{ background:hov?"var(--card-hover)":"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", overflow:"hidden", transition:"all var(--transition)", transform:hov?"translateY(-2px)":"none", boxShadow:hov?"0 8px 28px #00000035":"none" }}>
+      <Thumb type={p.thumb} title={p.title}/>
+      <div style={{ padding:"14px" }}>
+        <div style={{ fontFamily:"var(--font-label)", fontSize:10, color:"var(--gold-muted)", letterSpacing:"0.16em", marginBottom:4 }}>{p.category?.toUpperCase()}</div>
+        <div style={{ fontFamily:"var(--font-display)", fontSize:14, color:"var(--text)", lineHeight:1.3, marginBottom:p.subtitle?6:12 }}>{p.title}</div>
+        {p.subtitle&&<div style={{ fontSize:11, color:"var(--text-muted)", marginBottom:12, lineHeight:1.4 }}>{p.subtitle}</div>}
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+          <span style={{ fontFamily:"var(--font-display)", fontSize:16, color:"var(--gold)" }}>
+            {(p.price/100).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
+          </span>
+          <button onClick={handleClick} disabled={loading}
+            style={{ background:"var(--gold)", color:"#1a1a1a", border:"none", borderRadius:"var(--radius)", padding:"8px 16px", fontFamily:"var(--font-label)", fontSize:11, letterSpacing:"0.1em", cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1, transition:"opacity 0.2s" }}>
+            {loading?"AGUARDE...":"COMPRAR"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ProductCard = ({ p, onOpen }) => {
   const [hov,setHov] = useState(false);
@@ -456,7 +505,7 @@ const ProductCard = ({ p, onOpen }) => {
   };
 
 // ─── DASHBOARD ───────────────────────────────────────────────
-const Dashboard = ({ user, products, onOpen }) => {
+const Dashboard = ({ user, products, availableProducts=[], onOpen, onPurchase }) => {
   const pub = products.filter(p=>p.visibility==="publico");
   const priv = products.filter(p=>p.visibility!=="publico");
   return (
@@ -494,6 +543,17 @@ const Dashboard = ({ user, products, onOpen }) => {
                 </div>
               </>
             )}
+          </>
+        )}
+
+        {availableProducts.length > 0 && (
+          <>
+            <div style={{ marginTop:40, marginBottom:14, paddingBottom:10, borderBottom:"1px solid var(--border)" }}>
+              <span style={{ fontFamily:"var(--font-label)", fontSize:11, color:"var(--text-muted)", letterSpacing:"0.12em" }}>DISPONÍVEL PARA COMPRA ({availableProducts.length})</span>
+            </div>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))", gap:18 }}>
+              {availableProducts.map(p => <PurchaseCard key={p.id} p={p} onPurchase={onPurchase}/>)}
+            </div>
           </>
         )}
       </div>
@@ -1111,15 +1171,57 @@ const App = () => {
   const [activeModule,setActiveModule]=useState(null);
   const [activeLesson,setActiveLesson]=useState(null);
   const [showSetup,setShowSetup]=useState(false);
+  const [availableProducts,setAvailableProducts]=useState([]);
+  const [toast,setToast]=useState(null);
+  const [theme,setTheme]=useState(()=>localStorage.getItem("jk-theme")||"dark");
 
-  const handleLogin = ({user,products}) => setSession({user,products});
-  const handleLogout = async () => { await authService.logout(); setSession(null);setView("dashboard"); };
+  React.useEffect(()=>{
+    const sheet = document.getElementById("theme-light");
+    sheet.disabled = theme!=="light";
+    localStorage.setItem("jk-theme",theme);
+  },[theme]);
+
+  const handleToggleTheme = () => setTheme(t=>t==="dark"?"light":"dark");
+
+  const handleLogin = async ({user,products}) => {
+    setSession({user,products});
+    if(sb && user.role!=="admin"){
+      const {data:forSale} = await sb.from("products").select("*").eq("visibility","privado").gt("price",0);
+      const ownedIds = new Set(products.map(p=>p.id));
+      setAvailableProducts((forSale||[]).filter(p=>!ownedIds.has(p.id)));
+    }
+  };
+  const handleLogout = async () => { await authService.logout(); setSession(null);setView("dashboard");setAvailableProducts([]); };
   const handleNav = (v) => { setView(v); if(!["product","lesson"].includes(v)){setActiveProduct(null);setActiveLesson(null);} };
   const handleOpenProduct = (p) => { setActiveProduct(p);setView("product"); };
   const handleOpenLesson = (product,mod,lesson) => { setActiveProduct(product);setActiveModule(mod);setActiveLesson(lesson);setView("lesson"); };
   const handleNavLesson = (lesson) => {
     const mod=(activeProduct?.modules||[]).find(m=>(m.lessons||[]).some(l=>l.id===lesson.id));
     setActiveModule(mod);setActiveLesson(lesson);
+  };
+
+  React.useEffect(()=>{
+    const params = new URLSearchParams(window.location.search);
+    if(params.get("compra")==="sucesso"){
+      setToast("Pagamento confirmado! Seu acesso será liberado em instantes.");
+      window.history.replaceState({},"",window.location.pathname);
+      setTimeout(()=>setToast(null),7000);
+    }
+  },[]);
+
+  const handlePurchase = async (product_id) => {
+    if(!sb) return alert("Modo demo: pagamentos requerem Supabase configurado.");
+    const {data:{session:sbSession}} = await sb.auth.getSession();
+    const token = sbSession?.access_token;
+    if(!token) return;
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/create-payment-link`,{
+      method:"POST",
+      headers:{"Authorization":`Bearer ${token}`,"Content-Type":"application/json"},
+      body:JSON.stringify({product_id})
+    });
+    const data = await res.json();
+    if(data.payment_url) window.location.href = data.payment_url;
+    else alert("Não foi possível gerar o link de pagamento. Tente novamente.");
   };
 
   if(!session) return (
@@ -1133,14 +1235,19 @@ const App = () => {
 
   return (
     <div style={{ display:"flex",height:"100vh",overflow:"hidden" }}>
-      <Sidebar user={user} view={view} onNav={handleNav} onLogout={handleLogout} onShowSetup={()=>setShowSetup(true)}/>
-      {view==="dashboard"&&<Dashboard user={user} products={products} onOpen={handleOpenProduct}/>}
+      <Sidebar user={user} view={view} onNav={handleNav} onLogout={handleLogout} onShowSetup={()=>setShowSetup(true)} theme={theme} onToggleTheme={handleToggleTheme}/>
+      {view==="dashboard"&&<Dashboard user={user} products={products} availableProducts={availableProducts} onOpen={handleOpenProduct} onPurchase={handlePurchase}/>}
       {view==="product"&&activeProduct&&<ProductView product={activeProduct} onBack={()=>handleNav("dashboard")} onLesson={handleOpenLesson}/>}
       {view==="lesson"&&activeLesson&&<LessonView product={activeProduct} module={activeModule} lesson={activeLesson} onBack={()=>setView("product")} onNav={handleNavLesson}/>}
       {view==="account"&&<Account user={user}/>}
       {view==="help"&&<Help/>}
       {view==="admin"&&user.role==="admin"&&<Admin products={products.length?products:DEMO_PRODUCTS}/>}
       {showSetup&&<SetupGuide onClose={()=>setShowSetup(false)}/>}
+      {toast&&(
+        <div style={{ position:"fixed", bottom:24, left:"50%", transform:"translateX(-50%)", background:"var(--gold)", color:"#1a1a1a", padding:"12px 24px", borderRadius:"var(--radius-lg)", fontFamily:"var(--font-label)", fontSize:13, letterSpacing:"0.08em", boxShadow:"0 4px 20px #00000060", zIndex:1000, whiteSpace:"nowrap" }}>
+          {toast}
+        </div>
+      )}
     </div>
   );
 };
@@ -1149,3 +1256,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 </body>
 </html>
+
