@@ -1319,7 +1319,10 @@ const App = () => {
     });
     const data = await res.json();
     if(data.payment_url) window.location.href = data.payment_url;
-    else alert("Não foi possível gerar o link de pagamento. Tente novamente.");
+    else {
+      const detail = data.details ? "\n\nDetalhe: "+JSON.stringify(data.details) : (data.error ? "\n\nErro: "+data.error : "");
+      alert("Não foi possível gerar o link de pagamento. Tente novamente."+detail);
+    }
   };
 
   if(!session) return (
