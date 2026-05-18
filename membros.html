@@ -96,6 +96,7 @@ const Icon = ({ name, size = 16, color = "currentColor" }) => {
     play:     <svg width={size} height={size} viewBox="0 0 24 24" fill={color} stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
     file:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>,
     check:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+    copy:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>,
     chevL:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
     chevR:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>,
     chevD:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>,
@@ -313,7 +314,7 @@ const authService = {
     const user = data.user;
     if (!user) throw new Error("Verifique o e-mail para confirmar a conta.");
     const initials = name.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase();
-    const { error: profileError } = await sb.from("profiles").insert({ id:user.id, name, role:"member", avatar:initials });
+    const { error: profileError } = await sb.from("profiles").insert({ id:user.id, name, email, role:"member", avatar:initials });
     if (profileError) throw new Error(profileError.message);
     return { id:user.id, name, email, role:"member", avatar:initials, productIds:[] };
   },
@@ -984,9 +985,19 @@ const Admin = ({ products:initProds }) => {
             {sel&&(
               <div style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",overflow:"hidden" }}>
                 <div style={{ padding:"12px 16px",borderBottom:"1px solid var(--border)",display:"flex",alignItems:"center",justifyContent:"space-between" }}>
-                  <div>
+                  <div style={{ minWidth:0,flex:1 }}>
                     <div style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--text-muted)",letterSpacing:"0.1em" }}>ACESSOS PRIVADOS</div>
                     <div style={{ fontSize:13,fontWeight:500,color:"var(--text)",marginTop:2 }}>{sel.name?.split(" ")[0]}</div>
+                    {sel.email && (
+                      <div style={{ display:"flex",alignItems:"center",gap:6,marginTop:4 }}>
+                        <span style={{ fontSize:11,color:"var(--text-muted)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",maxWidth:200 }}>{sel.email}</span>
+                        <button title="Copiar e-mail" onClick={()=>navigator.clipboard.writeText(sel.email)}
+                          style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2,flexShrink:0 }}
+                          onMouseEnter={e=>e.currentTarget.style.color="var(--gold)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+                          <Icon name="copy" size={12} color="currentColor"/>
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <button onClick={()=>setSel(null)} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",fontSize:20,lineHeight:1 }}>×</button>
                 </div>
