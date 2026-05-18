@@ -827,7 +827,7 @@ const PwInp = ({ph, val, set}) => (
 );
 
 // ─── ADMIN ───────────────────────────────────────────────────
-const Admin = ({ products:initProds }) => {
+const Admin = ({ products:initProds, onProductsUpdate }) => {
   const [tab,setTab]=useState("members");
   const [members,setMembers]=useState([]);
   const [products,setProducts]=useState(initProds||[]);
@@ -850,7 +850,9 @@ const Admin = ({ products:initProds }) => {
   useEffect(()=>{ if(IS_CONFIGURED) sb.from("products").select("*").then(({data})=>{if(data)setProducts(data);}); },[]);
 
   const updateMods = async (pid,modules) => {
-    setProducts(prev=>prev.map(p=>p.id===pid?{...p,modules}:p));
+    const updated = products.map(p=>p.id===pid?{...p,modules}:p);
+    setProducts(updated);
+    if(onProductsUpdate) onProductsUpdate(updated);
     if(IS_CONFIGURED) await sb.from("products").update({modules}).eq("id",pid);
   };
   const addProduct = async () => {
@@ -1365,7 +1367,7 @@ const App = () => {
       {view==="lesson"&&activeLesson&&<LessonView product={activeProduct} module={activeModule} lesson={activeLesson} onBack={()=>setView("product")} onNav={handleNavLesson}/>}
       {view==="account"&&<Account user={user}/>}
       {view==="help"&&<Help/>}
-      {view==="admin"&&user.role==="admin"&&<Admin products={products.length?products:DEMO_PRODUCTS}/>}
+      {view==="admin"&&user.role==="admin"&&<Admin products={products.length?products:DEMO_PRODUCTS} onProductsUpdate={updated=>setSession(s=>({...s,products:updated}))}/>}
       {showSetup&&<SetupGuide onClose={()=>setShowSetup(false)}/>}
       {toast&&(
         <div style={{ position:"fixed", bottom:24, left:"50%", transform:"translateX(-50%)", background:"var(--gold)", color:"#1a1a1a", padding:"12px 24px", borderRadius:"var(--radius-lg)", fontFamily:"var(--font-label)", fontSize:13, letterSpacing:"0.08em", boxShadow:"0 4px 20px #00000060", zIndex:1000, whiteSpace:"nowrap" }}>
