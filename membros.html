@@ -390,8 +390,8 @@ const Login = ({ onLogin, onShowSetup }) => {
 
           {tab==="login" && (
             <form onSubmit={submit} style={{ display:"flex", flexDirection:"column", gap:14 }}>
-              <LoginFieldlabel="E-MAIL" id="email" type="email" ph="seu@email.com" val={email} set={setEmail}/>
-              <LoginFieldlabel="SENHA" id="password" type="password" ph="••••••••" val={pass} set={setPass} showToggle={true} showState={show} onToggle={()=>setShow(!show)}/>
+              <LoginField label="E-MAIL" id="email" type="email" ph="seu@email.com" val={email} set={setEmail}/>
+              <LoginField label="SENHA" id="password" type="password" ph="••••••••" val={pass} set={setPass} showToggle={true} showState={show} onToggle={()=>setShow(!show)}/>
               {err && <div style={{ background:"#bf6f6f15",border:"1px solid #bf6f6f40",borderRadius:"var(--radius)",padding:"9px 13px",color:"var(--danger)",fontSize:13 }}>{err}</div>}
               <button type="submit" disabled={loading} style={{ marginTop:4,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"12px",color:"#2C3639",fontSize:14,fontWeight:600,cursor:loading?"not-allowed":"pointer",opacity:loading?0.7:1 }}>
                 {loading?"Entrando...":"Entrar"}
@@ -401,9 +401,9 @@ const Login = ({ onLogin, onShowSetup }) => {
 
           {tab==="signup" && !sSuccess && (
             <form onSubmit={submitSignup} style={{ display:"flex", flexDirection:"column", gap:14 }}>
-              <LoginFieldlabel="NOME COMPLETO" id="name" type="text" ph="Seu nome completo" val={sName} set={setSName}/>
-              <LoginFieldlabel="E-MAIL" id="semail" type="email" ph="seu@email.com" val={sEmail} set={setSEmail}/>
-              <LoginFieldlabel="SENHA" id="spassword" type="password" ph="mínimo 6 caracteres" val={sPass} set={setSPass} showToggle={true} showState={sShow} onToggle={()=>setSShow(!sShow)}/>
+              <LoginField label="NOME COMPLETO" id="name" type="text" ph="Seu nome completo" val={sName} set={setSName}/>
+              <LoginField label="E-MAIL" id="semail" type="email" ph="seu@email.com" val={sEmail} set={setSEmail}/>
+              <LoginField label="SENHA" id="spassword" type="password" ph="mínimo 6 caracteres" val={sPass} set={setSPass} showToggle={true} showState={sShow} onToggle={()=>setSShow(!sShow)}/>
               {sErr && <div style={{ background:"#bf6f6f15",border:"1px solid #bf6f6f40",borderRadius:"var(--radius)",padding:"9px 13px",color:"var(--danger)",fontSize:13 }}>{sErr}</div>}
               <button type="submit" disabled={sLoading} style={{ marginTop:4,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"12px",color:"#2C3639",fontSize:14,fontWeight:600,cursor:sLoading?"not-allowed":"pointer",opacity:sLoading?0.7:1 }}>
                 {sLoading?"Criando conta...":"Criar minha conta"}
