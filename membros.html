@@ -322,13 +322,42 @@ const authService = {
 
 // ─── LOGIN ───────────────────────────────────────────────────
 const Login = ({ onLogin, onShowSetup }) => {
+  const [tab,setTab]=useState("login");
   const [email,setEmail]=useState(""); const [pass,setPass]=useState("");
   const [show,setShow]=useState(false); const [err,setErr]=useState(""); const [loading,setLoading]=useState(false);
+  const [sName,setSName]=useState(""); const [sEmail,setSEmail]=useState(""); const [sPass,setSPass]=useState("");
+  const [sShow,setSShow]=useState(false); const [sErr,setSErr]=useState(""); const [sLoading,setSLoading]=useState(false);
+  const [sSuccess,setSSuccess]=useState(false);
+
+  const switchTab = (t) => { setTab(t); setErr(""); setSErr(""); setSSuccess(false); };
+
   const submit = async (e) => {
     e.preventDefault(); setErr(""); setLoading(true);
     try { const r = await authService.login(email,pass); onLogin(r); }
     catch(ex) { setErr(ex.message); setLoading(false); }
   };
+
+  const submitSignup = async (e) => {
+    e.preventDefault(); setSErr(""); setSLoading(true);
+    try {
+      await authService.createMember(sName, sEmail, sPass);
+      try { const r = await authService.login(sEmail, sPass); onLogin(r); }
+      catch { setSSuccess(true); setSLoading(false); }
+    } catch(ex) { setSErr(ex.message); setSLoading(false); }
+  };
+
+  const Field = ({label,id,type,ph,val,set,showToggle,showState,onToggle}) => (
+    <div>
+      <label style={{ display:"block",fontSize:11,fontFamily:"var(--font-label)",color:"var(--text-secondary)",letterSpacing:"0.08em",marginBottom:6 }}>{label}</label>
+      <div style={{ position:"relative" }}>
+        <input type={showToggle?(showState?"text":"password"):type} value={val} onChange={e=>set(e.target.value)} placeholder={ph} required minLength={id.includes("pass")?6:undefined}
+          style={{ width:"100%",background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:showToggle?"11px 40px 11px 13px":"11px 13px",color:"var(--text)",fontSize:14,outline:"none" }}
+          onFocus={e=>e.target.style.borderColor="var(--gold-muted)"} onBlur={e=>e.target.style.borderColor="var(--border)"} />
+        {showToggle && <button type="button" onClick={onToggle} style={{ position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}><Icon name={showState?"eyeOff":"eye"} size={15}/></button>}
+      </div>
+    </div>
+  );
+
   return (
     <div style={{ minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", background:"var(--bg)", position:"relative" }}>
       <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(ellipse at 60% 20%, #1a2e2218 0%, transparent 55%), radial-gradient(ellipse at 20% 80%, #2a1a0f18 0%, transparent 50%)", pointerEvents:"none" }} />
@@ -351,25 +380,48 @@ const Login = ({ onLogin, onShowSetup }) => {
         )}
 
         <div style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", padding:"32px 28px" }}>
-          <h2 style={{ fontFamily:"var(--font-display)", fontSize:20, color:"var(--text)", marginBottom:4 }}>Área de membros</h2>
-          <p style={{ fontSize:12, fontFamily:"var(--font-label)", color:"var(--text-muted)", letterSpacing:"0.03em", marginBottom:24 }}>Entre com suas credenciais</p>
-          <form onSubmit={submit} style={{ display:"flex", flexDirection:"column", gap:14 }}>
-            {[["E-MAIL","email","email","seu@email.com",email,setEmail],["SENHA","password",show?"text":"password","••••••••",pass,setPass]].map(([label,id,type,ph,val,set]) => (
-              <div key={id}>
-                <label style={{ display:"block", fontSize:11, fontFamily:"var(--font-label)", color:"var(--text-secondary)", letterSpacing:"0.08em", marginBottom:6 }}>{label}</label>
-                <div style={{ position:"relative" }}>
-                  <input type={type} value={val} onChange={e=>set(e.target.value)} placeholder={ph} required
-                    style={{ width:"100%", background:"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius)", padding:id==="password"?"11px 40px 11px 13px":"11px 13px", color:"var(--text)", fontSize:14, outline:"none" }}
-                    onFocus={e=>e.target.style.borderColor="var(--gold-muted)"} onBlur={e=>e.target.style.borderColor="var(--border)"} />
-                  {id==="password" && <button type="button" onClick={()=>setShow(!show)} style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", padding:2 }}><Icon name={show?"eyeOff":"eye"} size={15}/></button>}
-                </div>
-              </div>
+          <div style={{ display:"flex",gap:2,background:"var(--card)",borderRadius:"var(--radius)",padding:3,marginBottom:24,border:"1px solid var(--border)" }}>
+            {[["login","Entrar"],["signup","Criar conta"]].map(([id,label])=>(
+              <button key={id} onClick={()=>switchTab(id)} style={{ flex:1,padding:"8px",borderRadius:6,border:"none",background:tab===id?"var(--gold)":"none",color:tab===id?"#2C3639":"var(--text-muted)",fontSize:13,fontWeight:tab===id?600:400,cursor:"pointer",fontFamily:"var(--font-sans)",transition:"all var(--transition)" }}>
+                {label}
+              </button>
             ))}
-            {err && <div style={{ background:"#bf6f6f15", border:"1px solid #bf6f6f40", borderRadius:"var(--radius)", padding:"9px 13px", color:"var(--danger)", fontSize:13 }}>{err}</div>}
-            <button type="submit" disabled={loading} style={{ marginTop:4, background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"12px", color:"#2C3639", fontSize:14, fontWeight:600, cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1 }}>
-              {loading?"Entrando...":"Entrar"}
-            </button>
-          </form>
+          </div>
+
+          {tab==="login" && (
+            <form onSubmit={submit} style={{ display:"flex", flexDirection:"column", gap:14 }}>
+              <Field label="E-MAIL" id="email" type="email" ph="seu@email.com" val={email} set={setEmail}/>
+              <Field label="SENHA" id="password" type="password" ph="••••••••" val={pass} set={setPass} showToggle={true} showState={show} onToggle={()=>setShow(!show)}/>
+              {err && <div style={{ background:"#bf6f6f15",border:"1px solid #bf6f6f40",borderRadius:"var(--radius)",padding:"9px 13px",color:"var(--danger)",fontSize:13 }}>{err}</div>}
+              <button type="submit" disabled={loading} style={{ marginTop:4,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"12px",color:"#2C3639",fontSize:14,fontWeight:600,cursor:loading?"not-allowed":"pointer",opacity:loading?0.7:1 }}>
+                {loading?"Entrando...":"Entrar"}
+              </button>
+            </form>
+          )}
+
+          {tab==="signup" && !sSuccess && (
+            <form onSubmit={submitSignup} style={{ display:"flex", flexDirection:"column", gap:14 }}>
+              <Field label="NOME COMPLETO" id="name" type="text" ph="Seu nome completo" val={sName} set={setSName}/>
+              <Field label="E-MAIL" id="semail" type="email" ph="seu@email.com" val={sEmail} set={setSEmail}/>
+              <Field label="SENHA" id="spassword" type="password" ph="mínimo 6 caracteres" val={sPass} set={setSPass} showToggle={true} showState={sShow} onToggle={()=>setSShow(!sShow)}/>
+              {sErr && <div style={{ background:"#bf6f6f15",border:"1px solid #bf6f6f40",borderRadius:"var(--radius)",padding:"9px 13px",color:"var(--danger)",fontSize:13 }}>{sErr}</div>}
+              <button type="submit" disabled={sLoading} style={{ marginTop:4,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"12px",color:"#2C3639",fontSize:14,fontWeight:600,cursor:sLoading?"not-allowed":"pointer",opacity:sLoading?0.7:1 }}>
+                {sLoading?"Criando conta...":"Criar minha conta"}
+              </button>
+            </form>
+          )}
+
+          {tab==="signup" && sSuccess && (
+            <div style={{ textAlign:"center",padding:"8px 0" }}>
+              <div style={{ fontSize:32,marginBottom:12 }}>✅</div>
+              <div style={{ fontSize:15,color:"var(--text)",fontWeight:500,marginBottom:8 }}>Conta criada!</div>
+              <p style={{ fontSize:13,color:"var(--text-muted)",marginBottom:20,lineHeight:1.6 }}>Confirme seu e-mail e volte aqui para entrar.</p>
+              <button onClick={()=>{ setSSuccess(false); switchTab("login"); setEmail(sEmail); }} style={{ background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px 24px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>
+                Ir para o login
+              </button>
+            </div>
+          )}
+
           {!IS_CONFIGURED && (
             <div style={{ marginTop:16, paddingTop:14, borderTop:"1px solid var(--border)", fontSize:11, color:"var(--text-muted)" }}>
               Demo: <strong style={{ color:"var(--text-secondary)" }}>admin@jkjuridico.com</strong> / admin123 · <strong style={{ color:"var(--text-secondary)" }}>maria@email.com</strong> / 123456
