@@ -273,13 +273,14 @@ const authService = {
       products = all || [];
     } else {
       const { data: pubProds } = await sb.from("products").select("*").eq("visibility", "publico");
-      const { data: access } = await sb.from("member_products").select("product_id").eq("member_id", profile.id);
+      const { data: access } = await sb.from("member_products").select("product_id, report_url").eq("member_id", profile.id);
       const privateIds = (access || []).map(a => a.product_id);
       const { data: privProds } = privateIds.length
         ? await sb.from("products").select("*").in("id", privateIds)
         : { data: [] };
       const seen = new Set();
-      products = [...(pubProds || []), ...(privProds || [])].filter(p => { if (seen.has(p.id)) return false; seen.add(p.id); return true; });
+      products = [...(pubProds || []), ...(privProds || [])].filter(p => { if (seen.has(p.id)) return false; seen.add(p.id); return true; })
+        .map(p => { const a=(access||[]).find(x=>x.product_id===p.id); return a?.report_url?{...p,report_url:a.report_url}:p; });
     }
     return { user: { ...profile, email }, products };
   },
@@ -288,12 +289,19 @@ const authService = {
     if (!IS_CONFIGURED) return DEMO_USERS.filter(u => u.role==="member").map(u => ({ ...u, productIds: u.products||[] }));
     const { data: profiles } = await sb.from("profiles").select("*").eq("role","member");
     const { data: access } = await sb.from("member_products").select("*");
-    return (profiles||[]).map(p => ({ ...p, productIds:(access||[]).filter(a=>a.member_id===p.id).map(a=>a.product_id) }));
+    return (profiles||[]).map(p => ({ ...p,
+      productIds:(access||[]).filter(a=>a.member_id===p.id).map(a=>a.product_id),
+      reportUrls: Object.fromEntries((access||[]).filter(a=>a.member_id===p.id&&a.report_url).map(a=>[a.product_id,a.report_url]))
+    }));
   },
   async toggleAccess(memberId, productId, currentlyHas) {
     if (!IS_CONFIGURED) return;
     if (currentlyHas) await sb.from("member_products").delete().eq("member_id",memberId).eq("product_id",productId);
     else await sb.from("member_products").insert({ member_id:memberId, product_id:productId });
+  },
+  async setReportUrl(memberId, productId, url) {
+    if (!IS_CONFIGURED) return;
+    await sb.from("member_products").update({ report_url: url||null }).eq("member_id",memberId).eq("product_id",productId);
   },
   async createMember(name, email, password) {
     if (!IS_CONFIGURED) {
@@ -599,6 +607,21 @@ const ProductView = ({ product:p, onBack, onLesson }) => {
         </div>
       </div>
       <div style={{ padding:"28px 32px", maxWidth:760 }}>
+        {p.report_url && (
+          <a href={p.report_url} target="_blank" rel="noopener noreferrer"
+            style={{ display:"flex",alignItems:"center",gap:14,background:"var(--gold-dim)",border:"1px solid var(--gold-muted)",borderRadius:"var(--radius-lg)",padding:"16px 20px",marginBottom:20,textDecoration:"none",transition:"background var(--transition)" }}
+            onMouseEnter={e=>e.currentTarget.style.background="#A27B5B30"} onMouseLeave={e=>e.currentTarget.style.background="var(--gold-dim)"}>
+            <div style={{ width:44,height:44,borderRadius:"var(--radius)",background:"var(--gold)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+              <Icon name="file" size={20} color="#1a1008"/>
+            </div>
+            <div style={{ flex:1 }}>
+              <div style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--gold)",letterSpacing:"0.12em",marginBottom:3 }}>RELATÓRIO PRONTO</div>
+              <div style={{ fontSize:14,color:"var(--text)",fontWeight:500 }}>Baixar Relatório de Diagnóstico</div>
+              <div style={{ fontSize:11,color:"var(--text-muted)",marginTop:2 }}>Clique para abrir e baixar o arquivo</div>
+            </div>
+            <Icon name="chevR" size={16} color="var(--text-muted)"/>
+          </a>
+        )}
         <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
           {(p.modules||[]).map((mod,mi) => {
             const isOpen = open.includes(mod.id);
@@ -768,6 +791,7 @@ const Admin = ({ products:initProds }) => {
   const [lesModal,setLesModal]=useState(null);
   const [lesForm,setLesForm]=useState({title:"",duration:"",type:"video",url:""});
   const [expandedProd,setExpandedProd]=useState(null);
+  const [reportEdits,setReportEdits]=useState({});
 
   useEffect(()=>{ authService.getMembers().then(m=>{setMembers(m);setLoading(false);}); },[]);
   useEffect(()=>{ if(IS_CONFIGURED) sb.from("products").select("*").then(({data})=>{if(data)setProducts(data);}); },[]);
@@ -830,6 +854,13 @@ const Admin = ({ products:initProds }) => {
     if(form.password.length<6){setFormErr("Senha mínima: 6 caracteres.");return;}
     try{const m=await authService.createMember(form.name,form.email,form.password);setMembers(prev=>[...prev,m]);setForm({name:"",email:"",password:""});setFormErr("");setModal(false);}
     catch(ex){setFormErr(ex.message);}
+  };
+
+  const saveReport = async (mId,pId,url) => {
+    await authService.setReportUrl(mId,pId,url);
+    const v=url||undefined;
+    setSel(prev=>prev?{...prev,reportUrls:{...(prev.reportUrls||{}),[pId]:v}}:prev);
+    setMembers(prev=>prev.map(m=>m.id===mId?{...m,reportUrls:{...(m.reportUrls||{}),[pId]:v}}:m));
   };
 
   const totalAulas = products.reduce((s,p)=>s+(p.modules||[]).reduce((ss,m)=>ss+(m.lessons?.length||0),0),0);
@@ -910,15 +941,29 @@ const Admin = ({ products:initProds }) => {
                 {privProducts.length===0&&<div style={{ padding:"16px",fontSize:12,color:"var(--text-muted)" }}>Nenhum produto privado criado.</div>}
                 {privProducts.map(p=>{
                   const has=(sel.productIds||[]).includes(p.id);
+                  const rUrl=sel.reportUrls?.[p.id]||"";
                   return (
-                    <div key={p.id} style={{ display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 16px",borderBottom:"1px solid var(--border)" }}>
-                      <div>
-                        <div style={{ fontFamily:"var(--font-label)",fontSize:9,color:"var(--gold-muted)",letterSpacing:"0.12em",marginBottom:2 }}>{p.category?.toUpperCase()}</div>
-                        <div style={{ fontSize:12,color:"var(--text)" }}>{p.title}</div>
+                    <div key={p.id} style={{ padding:"10px 16px",borderBottom:"1px solid var(--border)" }}>
+                      <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
+                        <div>
+                          <div style={{ fontFamily:"var(--font-label)",fontSize:9,color:"var(--gold-muted)",letterSpacing:"0.12em",marginBottom:2 }}>{p.category?.toUpperCase()}</div>
+                          <div style={{ fontSize:12,color:"var(--text)" }}>{p.title}</div>
+                        </div>
+                        <button onClick={()=>toggle(sel.id,p.id)} style={{ flexShrink:0,width:40,height:22,borderRadius:11,border:"none",background:has?"var(--gold)":"var(--border)",cursor:"pointer",position:"relative",transition:"background 0.2s" }}>
+                          <div style={{ position:"absolute",top:2,left:has?20:2,width:18,height:18,borderRadius:"50%",background:has?"#2C3639":"var(--text-muted)",transition:"left 0.2s" }}/>
+                        </button>
                       </div>
-                      <button onClick={()=>toggle(sel.id,p.id)} style={{ flexShrink:0,width:40,height:22,borderRadius:11,border:"none",background:has?"var(--gold)":"var(--border)",cursor:"pointer",position:"relative",transition:"background 0.2s" }}>
-                        <div style={{ position:"absolute",top:2,left:has?20:2,width:18,height:18,borderRadius:"50%",background:has?"#2C3639":"var(--text-muted)",transition:"left 0.2s" }}/>
-                      </button>
+                      {has && (
+                        <div style={{ marginTop:8 }}>
+                          <input type="text" placeholder="URL do relatório — cole e clique fora para salvar"
+                            key={`${sel.id}_${p.id}`}
+                            defaultValue={rUrl}
+                            onFocus={e=>e.currentTarget.style.borderColor="var(--gold-muted)"}
+                            onBlur={e=>{ e.currentTarget.style.borderColor="var(--border)"; const v=e.target.value.trim(); if(v!==rUrl)saveReport(sel.id,p.id,v); }}
+                            style={{ width:"100%",background:"var(--bg)",border:"1px solid var(--border)",borderRadius:6,padding:"5px 8px",color:"var(--text)",fontSize:10,fontFamily:"var(--font-sans)",outline:"none" }}
+                          />
+                        </div>
+                      )}
                     </div>
                   );
                 })}
