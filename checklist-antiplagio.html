@@ -7,92 +7,93 @@
   <meta name="description" content="Evite reprovação por plágio acidental. Receba o guia com 7 verificações que advogados e pesquisadores usam antes de qualquer submissão acadêmica." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Gotu&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --inkwell:      #2C3639;
-      --eclipse:      #3F4E4F;
+      --bg:           #F7F3EC;
+      --surface:      #EDE8DE;
+      --nav:          #2A2118;
+      --text:         #2A2118;
+      --text-body:    rgba(42,33,24,0.82);
+      --text-meta:    rgba(42,33,24,0.70);
+      --text-faint:   rgba(42,33,24,0.52);
       --creme:        #A27B5B;
-      --au-lait:      #DCD7C9;
-      --au-lait-soft: rgba(220,215,201,0.08);
-      --creme-accent: rgba(162,123,91,0.25);
-      --creme-border: rgba(162,123,91,0.4);
+      --creme-soft:   rgba(162,123,91,0.12);
+      --creme-border: rgba(162,123,91,0.30);
       --verde:        #27AE60;
       --verde-dark:   #219A52;
       --vermelho:     #E74C3C;
+      --border:       rgba(42,33,24,0.09);
+      --border-m:     rgba(42,33,24,0.13);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
-      font-family: 'Figtree', sans-serif;
-      background: var(--inkwell);
-      color: var(--au-lait);
+      font-family: 'Jost', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       font-size: 16px;
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
-    /* ── NAV STRIP ── */
+    /* ── NAV ── */
     .nav-strip {
-      background: rgba(44,54,57,0.97);
+      background: var(--nav);
       backdrop-filter: blur(12px);
-      padding: 1rem 2.5rem;
+      padding: 0.85rem 2.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid var(--creme-border);
+      border-bottom: 1px solid rgba(162,123,91,0.25);
     }
     .nav-logo {
-      font-family: 'Aboreto', serif;
-      font-size: 1.2rem;
-      color: var(--creme);
-      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
       text-decoration: none;
     }
-    .nav-logo span { font-family: 'Gotu', serif; font-size: 0.8rem; color: rgba(220,215,201,0.5); letter-spacing: 0.12em; }
+    .nav-monogram {
+      height: 34px;
+      width: auto;
+      display: block;
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-family: 'Spectral', serif;
+      font-size: 1.05rem;
+      color: var(--creme);
+      letter-spacing: 0.04em;
+    }
     .nav-site-link {
-      font-family: 'Gotu', serif;
+      font-family: 'Jost', sans-serif;
       font-size: 0.68rem;
-      letter-spacing: 0.12em;
+      font-weight: 500;
+      letter-spacing: 0.10em;
       text-transform: uppercase;
-      color: rgba(220,215,201,0.45);
+      color: rgba(220,215,201,0.38);
       text-decoration: none;
       transition: color 0.2s;
     }
     .nav-site-link:hover { color: var(--creme); }
 
     /* ── SECTIONS ── */
-    section { padding: 5rem 2.5rem; }
+    section { padding: 7rem 2.5rem; }
     .container { max-width: 1060px; margin: 0 auto; }
     .container-narrow { max-width: 720px; margin: 0 auto; }
-
-    .section-label {
-      font-family: 'Gotu', serif;
-      font-size: 0.66rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--creme);
-      margin-bottom: 0.55rem;
-    }
-    .section-divider {
-      width: 44px; height: 1.5px;
-      background: var(--creme);
-      margin-bottom: 2rem;
-      opacity: 0.65;
-    }
 
     /* ── HERO ── */
     #hero {
       position: relative;
       overflow: hidden;
-      padding: 8rem 2.5rem 6rem;
+      padding: 9rem 2.5rem 7rem;
       text-align: center;
-      background: var(--inkwell);
-      min-height: 75vh;
+      background: var(--bg);
+      min-height: 82vh;
       display: flex;
       align-items: center;
     }
@@ -108,60 +109,65 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 50% 20%, rgba(162,123,91,0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(63,78,79,0.4) 0%, transparent 60%);
+        radial-gradient(ellipse 70% 55% at 50% 15%, rgba(162,123,91,0.09) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 35% at 80% 75%, rgba(237,232,222,0.50) 0%, transparent 60%);
     }
     .hero-lines {
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(162,123,91,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(162,123,91,0.04) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse 85% 70% at 50% 40%, black 30%, transparent 100%);
+        linear-gradient(rgba(162,123,91,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(162,123,91,0.03) 1px, transparent 1px);
+      background-size: 110px 110px;
+      mask-image: radial-gradient(ellipse 80% 65% at 50% 40%, black 20%, transparent 100%);
     }
 
     .hero-tag {
       display: inline-block;
-      font-family: 'Gotu', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
+      font-family: 'Spectral', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
       color: var(--creme);
       border: 1px solid var(--creme-border);
-      padding: 0.35rem 1rem;
+      padding: 0.45rem 1.4rem;
       border-radius: 2px;
+      margin-bottom: 2.5rem;
+      position: relative;
+      background: var(--creme-soft);
+    }
+
+    #hero h1 {
+      font-family: 'Spectral', serif;
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      font-weight: 400;
+      line-height: 1.08;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      position: relative;
+      letter-spacing: 0.01em;
+    }
+    #hero h1 em { font-style: italic; color: var(--creme); font-weight: 300; }
+
+    .hero-sub-title {
+      font-family: 'Spectral', serif;
+      font-size: clamp(1.4rem, 3vw, 2.1rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-meta);
       margin-bottom: 2rem;
       position: relative;
     }
 
-    #hero h1 {
-      font-family: 'Aboreto', serif;
-      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
-      font-weight: 400;
-      line-height: 1.12;
-      margin-bottom: 0.6rem;
-      color: var(--au-lait);
-      position: relative;
-    }
-    #hero h1 em { font-style: normal; color: var(--creme); }
-
-    .hero-sub-title {
-      font-family: 'Aboreto', serif;
-      font-size: clamp(1.3rem, 2.8vw, 2rem);
-      font-weight: 400;
-      color: rgba(220,215,201,0.55);
-      margin-bottom: 1.4rem;
-      position: relative;
-    }
-
     .hero-body {
-      font-family: 'Gotu', serif;
-      font-size: 0.96rem;
-      color: rgba(220,215,201,0.6);
-      max-width: 540px;
-      margin: 0 auto 2.8rem;
-      letter-spacing: 0.03em;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.98rem;
+      font-weight: 400;
+      color: var(--text-body);
+      max-width: 520px;
+      margin: 0 auto 3.5rem;
+      letter-spacing: 0.01em;
+      line-height: 1.85;
       position: relative;
     }
 
@@ -171,202 +177,265 @@
       gap: 0.5rem;
       background: var(--verde);
       color: #fff;
-      padding: 1rem 2.6rem;
-      font-family: 'Figtree', sans-serif;
+      padding: 1.1rem 2.8rem;
+      font-family: 'Jost', sans-serif;
       font-size: 0.82rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
       text-decoration: none;
       border: none;
       border-radius: 2px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       position: relative;
+      box-shadow: 0 6px 28px rgba(39,174,96,0.32);
     }
-    .btn-verde:hover { background: var(--verde-dark); transform: translateY(-2px); }
+    .btn-verde:hover {
+      background: var(--verde-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 36px rgba(39,174,96,0.42);
+    }
 
     .hero-trust {
-      margin-top: 1.4rem;
-      font-size: 0.78rem;
-      color: rgba(220,215,201,0.28);
+      margin-top: 1.6rem;
+      font-size: 0.75rem;
+      color: var(--text-faint);
       position: relative;
+      letter-spacing: 0.04em;
     }
 
     /* ── PROBLEMA ── */
-    #problema { background: var(--eclipse); }
+    #problema { background: var(--surface); }
+
+    .section-h2 {
+      font-family: 'Spectral', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.18;
+      margin-bottom: 3.5rem;
+    }
 
     .problema-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      margin-top: 2.5rem;
+      gap: 4.5rem;
+      align-items: start;
     }
-    .problema-intro { font-size: 0.96rem; color: rgba(220,215,201,0.65); line-height: 1.8; }
+    .problema-intro {
+      font-size: 0.97rem;
+      font-weight: 400;
+      color: var(--text-body);
+      line-height: 1.88;
+    }
+    .problema-intro + .problema-intro { margin-top: 1.2rem; }
 
-    .pain-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .pain-cards { display: flex; flex-direction: column; gap: 1.2rem; }
     .pain-card {
-      background: rgba(44,54,57,0.55);
-      border: 1px solid rgba(220,215,201,0.07);
-      border-left: 3px solid var(--vermelho);
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: 3px;
-      padding: 1.1rem 1.3rem;
+      padding: 1.4rem 1.6rem;
+      transition: border-color 0.2s;
     }
+    .pain-card:hover { border-color: rgba(231,76,60,0.25); }
     .pain-card-label {
-      font-family: 'Gotu', serif;
+      font-family: 'Jost', sans-serif;
       font-size: 0.62rem;
-      letter-spacing: 0.15em;
+      font-weight: 600;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--vermelho);
-      margin-bottom: 0.4rem;
-      opacity: 0.8;
+      margin-bottom: 0.55rem;
     }
-    .pain-card p { font-size: 0.9rem; color: rgba(220,215,201,0.75); line-height: 1.65; }
+    .pain-card p { font-size: 0.93rem; font-weight: 400; color: var(--text-body); line-height: 1.72; }
 
     /* ── SOLUÇÃO ── */
-    #solucao { background: var(--inkwell); }
+    #solucao { background: var(--bg); }
+
+    .solucao-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .solucao-header h2 {
+      font-family: 'Spectral', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.18;
+      margin-bottom: 0.75rem;
+    }
+    .solucao-header h2 em { font-style: italic; color: var(--creme); }
+    .solucao-header p {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--text-body);
+      letter-spacing: 0.03em;
+    }
 
     .checklist-box {
-      background: rgba(63,78,79,0.35);
+      background: var(--surface);
       border: 1px solid var(--creme-border);
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
       max-width: 640px;
-      margin: 2.5rem auto 0;
+      margin: 0 auto;
     }
     .checklist-box-header {
-      background: var(--eclipse);
-      padding: 0.9rem 1.4rem;
+      background: var(--nav);
+      padding: 1rem 1.6rem;
       display: flex;
       align-items: center;
       gap: 0.7rem;
-      border-bottom: 1px solid var(--creme-border);
+      border-bottom: 1px solid rgba(162,123,91,0.30);
     }
     .checklist-box-header span {
-      font-family: 'Gotu', serif;
+      font-family: 'Jost', sans-serif;
       font-size: 0.68rem;
-      letter-spacing: 0.18em;
+      font-weight: 500;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--creme);
     }
-    .checklist-items { padding: 0.4rem 0; }
+    .checklist-items { padding: 0.5rem 0; }
     .checklist-item {
       display: flex;
       align-items: baseline;
-      gap: 0.9rem;
-      padding: 0.85rem 1.4rem;
-      border-bottom: 1px solid rgba(220,215,201,0.05);
+      gap: 1rem;
+      padding: 1.05rem 1.6rem;
+      border-bottom: 1px solid var(--border);
       transition: background 0.15s;
     }
     .checklist-item:last-child { border-bottom: none; }
-    .checklist-item:hover { background: rgba(162,123,91,0.06); }
+    .checklist-item:hover { background: var(--creme-soft); }
     .check-mark {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--verde);
       flex-shrink: 0;
       font-weight: 700;
     }
     .check-num {
-      font-family: 'Aboreto', serif;
-      font-size: 0.7rem;
+      font-family: 'Spectral', serif;
+      font-size: 0.68rem;
       color: var(--creme);
-      opacity: 0.5;
+      opacity: 0.45;
       flex-shrink: 0;
       min-width: 1.4rem;
     }
     .check-text {
-      font-size: 0.92rem;
-      color: rgba(220,215,201,0.8);
+      font-size: 0.93rem;
+      font-weight: 400;
+      color: var(--text-body);
+      line-height: 1.5;
     }
 
-    .solucao-cta { text-align: center; margin-top: 2.2rem; }
+    .solucao-cta { text-align: center; margin-top: 2.8rem; }
     .solucao-sub {
-      font-size: 0.82rem;
-      color: rgba(220,215,201,0.35);
-      margin-top: 0.8rem;
+      font-size: 0.84rem;
+      font-weight: 400;
+      color: var(--text-meta);
+      margin-top: 1rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.65;
     }
 
     /* ── PROVA SOCIAL ── */
-    #prova { background: var(--eclipse); }
+    #prova { background: var(--surface); }
+
+    .prova-header { margin-bottom: 3.5rem; }
+    .prova-header h2 {
+      font-family: 'Spectral', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.2;
+      max-width: 600px;
+    }
 
     .prova-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 1.4rem;
-      margin-top: 2.5rem;
+      gap: 1.6rem;
     }
     .prova-card {
-      background: rgba(44,54,57,0.5);
-      border: 1px solid rgba(220,215,201,0.07);
+      background: var(--bg);
+      border: 1px solid var(--border-m);
       border-radius: 3px;
-      padding: 1.6rem;
+      padding: 1.8rem;
     }
     .prova-card.stat-card { border-top: 2px solid var(--creme); }
     .stat-num {
-      font-family: 'Aboreto', serif;
-      font-size: 2.4rem;
+      font-family: 'Spectral', serif;
+      font-size: 3rem;
       color: var(--creme);
       line-height: 1;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
     }
     .stat-label {
-      font-family: 'Gotu', serif;
+      font-family: 'Jost', sans-serif;
       font-size: 0.68rem;
+      font-weight: 500;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(220,215,201,0.4);
+      color: var(--text-meta);
     }
-    .depo-stars { color: var(--creme); font-size: 0.75rem; letter-spacing: 3px; margin-bottom: 0.8rem; }
+    .depo-stars { color: var(--creme); font-size: 0.72rem; letter-spacing: 3px; margin-bottom: 1rem; }
     .depo-quote {
-      font-family: 'Aboreto', serif;
-      font-size: 2.4rem;
-      color: rgba(162,123,91,0.2);
+      font-family: 'Spectral', serif;
+      font-size: 2.6rem;
+      color: rgba(162,123,91,0.18);
       line-height: 1;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.3rem;
     }
     .depo-text {
-      font-size: 0.88rem;
-      line-height: 1.8;
-      color: rgba(220,215,201,0.7);
+      font-size: 0.93rem;
+      font-weight: 400;
+      line-height: 1.88;
+      color: var(--text-body);
       font-style: italic;
-      margin-bottom: 1.1rem;
+      margin-bottom: 1.4rem;
     }
     .depo-author { display: flex; align-items: center; gap: 0.75rem; }
     .depo-avatar {
       width: 36px; height: 36px;
       border-radius: 50%;
-      background: var(--creme-accent);
+      background: var(--creme-soft);
       border: 1px solid var(--creme-border);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Aboreto', serif;
+      font-family: 'Jost', sans-serif;
       font-size: 0.72rem;
+      font-weight: 600;
       color: var(--creme);
       flex-shrink: 0;
     }
-    .depo-name { font-family: 'Gotu', serif; font-size: 0.76rem; color: var(--au-lait); letter-spacing: 0.05em; }
-    .depo-role { font-size: 0.72rem; color: rgba(220,215,201,0.35); margin-top: 0.1rem; }
+    .depo-name { font-family: 'Jost', sans-serif; font-size: 0.76rem; font-weight: 600; color: var(--text); letter-spacing: 0.04em; }
+    .depo-role { font-size: 0.72rem; color: var(--text-faint); margin-top: 0.1rem; }
 
     .pub-card-mini {
       border: 1px solid var(--creme-border);
       border-radius: 3px;
-      padding: 1.2rem;
-      background: var(--creme-accent);
+      padding: 1.3rem;
+      background: var(--creme-soft);
     }
     .pub-mini-label {
-      font-family: 'Gotu', serif;
+      font-family: 'Jost', sans-serif;
       font-size: 0.6rem;
-      letter-spacing: 0.2em;
+      font-weight: 500;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--creme);
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.7rem;
     }
-    .pub-mini-title { font-size: 0.84rem; color: var(--au-lait); line-height: 1.55; margin-bottom: 0.5rem; }
-    .pub-mini-meta { font-size: 0.76rem; color: rgba(220,215,201,0.45); }
+    .pub-mini-title { font-size: 0.85rem; font-weight: 400; color: var(--text); line-height: 1.6; margin-bottom: 0.55rem; }
+    .pub-mini-meta { font-size: 0.75rem; color: var(--text-meta); }
 
     /* ── FORM ── */
     #form-section {
-      background: var(--inkwell);
+      background: var(--bg);
       position: relative;
       overflow: hidden;
     }
@@ -374,69 +443,72 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(162,123,91,0.08) 0%, transparent 70%);
+      background: radial-gradient(ellipse 65% 75% at 50% 50%, rgba(162,123,91,0.06) 0%, transparent 70%);
       pointer-events: none;
     }
 
     .form-box {
-      background: rgba(63,78,79,0.4);
+      background: #fff;
       border: 1px solid var(--creme-border);
-      border-radius: 4px;
-      padding: 2.8rem;
-      max-width: 560px;
+      border-radius: 3px;
+      padding: 3.5rem;
+      max-width: 540px;
       margin: 0 auto;
       position: relative;
+      box-shadow: 0 8px 40px rgba(42,33,24,0.08);
     }
     .form-title {
-      font-family: 'Aboreto', serif;
-      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-family: 'Spectral', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.3rem);
       font-weight: 400;
-      color: var(--au-lait);
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
+      color: var(--text);
+      line-height: 1.18;
+      margin-bottom: 0.6rem;
       text-align: center;
     }
-    .form-title em { font-style: normal; color: var(--creme); }
+    .form-title em { font-style: italic; color: var(--creme); }
     .form-sub {
       text-align: center;
-      font-family: 'Gotu', serif;
+      font-family: 'Jost', sans-serif;
       font-size: 0.8rem;
-      color: rgba(220,215,201,0.45);
-      letter-spacing: 0.06em;
-      margin-bottom: 2rem;
+      font-weight: 400;
+      color: var(--text-meta);
+      letter-spacing: 0.04em;
+      margin-bottom: 2.5rem;
     }
 
-    .form-group { margin-bottom: 1.1rem; }
+    .form-group { margin-bottom: 1.2rem; }
     .form-group label {
       display: block;
-      font-family: 'Gotu', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: rgba(220,215,201,0.45);
-      margin-bottom: 0.4rem;
+      color: var(--text-meta);
+      margin-bottom: 0.45rem;
     }
     .form-group input {
       width: 100%;
-      background: rgba(44,54,57,0.7);
-      border: 1px solid rgba(220,215,201,0.1);
+      background: var(--bg);
+      border: 1px solid var(--border-m);
       border-radius: 2px;
-      padding: 0.85rem 1rem;
-      color: var(--au-lait);
-      font-family: 'Figtree', sans-serif;
+      padding: 0.9rem 1.1rem;
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
       font-size: 0.95rem;
       outline: none;
       transition: border-color 0.2s;
       -webkit-appearance: none;
     }
     .form-group input:focus { border-color: var(--creme); }
-    .form-group input::placeholder { color: rgba(220,215,201,0.25); }
+    .form-group input::placeholder { color: var(--text-faint); }
 
     .form-checkbox {
       display: flex;
       align-items: flex-start;
       gap: 0.75rem;
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.8rem;
     }
     .form-checkbox input[type="checkbox"] {
       width: 16px; height: 16px;
@@ -447,42 +519,48 @@
     }
     .form-checkbox label {
       font-size: 0.82rem;
-      color: rgba(220,215,201,0.5);
+      font-weight: 400;
+      color: var(--text-body);
       cursor: pointer;
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     .btn-submit {
       width: 100%;
       background: var(--verde);
       color: #fff;
-      padding: 1.05rem;
-      font-family: 'Figtree', sans-serif;
+      padding: 1.15rem;
+      font-family: 'Jost', sans-serif;
       font-size: 0.84rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
       border: none;
       border-radius: 2px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-      box-shadow: 0 4px 20px rgba(39,174,96,0.3);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 6px 28px rgba(39,174,96,0.30);
     }
-    .btn-submit:hover { background: var(--verde-dark); transform: translateY(-1px); }
-    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-submit:hover {
+      background: var(--verde-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 36px rgba(39,174,96,0.40);
+    }
+    .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
 
     .form-trust {
       text-align: center;
-      font-size: 0.75rem;
-      color: rgba(220,215,201,0.25);
-      margin-top: 1rem;
+      font-size: 0.74rem;
+      color: var(--text-faint);
+      margin-top: 1.1rem;
+      letter-spacing: 0.02em;
     }
 
     /* SUCCESS STATE */
     #success-section {
       display: none;
-      background: var(--inkwell);
-      padding: 5rem 2.5rem;
+      background: var(--bg);
+      padding: 7rem 2.5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -491,29 +569,31 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(39,174,96,0.08), transparent);
+      background: radial-gradient(ellipse 55% 65% at 50% 50%, rgba(39,174,96,0.06), transparent);
     }
-    .success-inner { position: relative; max-width: 540px; margin: 0 auto; }
+    .success-inner { position: relative; max-width: 520px; margin: 0 auto; }
     .success-icon {
       width: 64px; height: 64px;
       border-radius: 50%;
-      background: rgba(39,174,96,0.15);
-      border: 1.5px solid rgba(39,174,96,0.4);
+      background: rgba(39,174,96,0.10);
+      border: 1.5px solid rgba(39,174,96,0.28);
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.6rem;
+      margin: 0 auto 1.8rem;
       font-size: 1.6rem;
+      color: var(--verde);
     }
     .success-title {
-      font-family: 'Aboreto', serif;
-      font-size: 2rem;
-      color: var(--au-lait);
-      margin-bottom: 0.8rem;
+      font-family: 'Spectral', serif;
+      font-size: 2.2rem;
+      color: var(--text);
+      margin-bottom: 0.9rem;
     }
     .success-body {
-      font-size: 0.96rem;
-      color: rgba(220,215,201,0.6);
-      margin-bottom: 2rem;
-      line-height: 1.75;
+      font-size: 0.97rem;
+      font-weight: 400;
+      color: var(--text-body);
+      margin-bottom: 2.2rem;
+      line-height: 1.82;
     }
     .btn-download {
       display: inline-flex;
@@ -521,84 +601,144 @@
       gap: 0.5rem;
       background: var(--verde);
       color: #fff;
-      padding: 1rem 2.6rem;
-      font-family: 'Figtree', sans-serif;
+      padding: 1.1rem 2.8rem;
+      font-family: 'Jost', sans-serif;
       font-size: 0.82rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
       text-decoration: none;
       border-radius: 2px;
       transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 6px 28px rgba(39,174,96,0.3);
     }
     .btn-download:hover { background: var(--verde-dark); transform: translateY(-2px); }
     .success-note {
-      margin-top: 1rem;
-      font-size: 0.76rem;
-      color: rgba(220,215,201,0.25);
+      margin-top: 1.1rem;
+      font-size: 0.75rem;
+      color: var(--text-faint);
     }
 
     /* ── FAQ ── */
-    #faq { background: var(--eclipse); }
-    .faq-list { margin-top: 2.2rem; }
-    .faq-item { border-bottom: 1px solid rgba(220,215,201,0.08); }
-    .faq-item:first-child { border-top: 1px solid rgba(220,215,201,0.08); }
+    #faq { background: var(--surface); }
+
+    .faq-header { margin-bottom: 3rem; }
+    .faq-header h2 {
+      font-family: 'Spectral', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .faq-list { }
+    .faq-item { border-bottom: 1px solid var(--border-m); }
+    .faq-item:first-child { border-top: 1px solid var(--border-m); }
     .faq-q {
       width: 100%; background: none; border: none;
-      color: var(--au-lait);
-      font-family: 'Figtree', sans-serif;
-      font-size: 0.95rem; font-weight: 500; text-align: left;
-      padding: 1.2rem 0; cursor: pointer;
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.96rem; font-weight: 500; text-align: left;
+      padding: 1.3rem 0; cursor: pointer;
       display: flex; justify-content: space-between; align-items: center; gap: 1rem;
       transition: color 0.2s;
+      line-height: 1.5;
     }
     .faq-q:hover { color: var(--creme); }
-    .faq-icon { color: var(--creme); flex-shrink: 0; font-size: 1.4rem; font-weight: 300; line-height: 1; transition: transform 0.25s; }
+    .faq-icon {
+      color: var(--creme);
+      flex-shrink: 0;
+      font-size: 1.4rem;
+      font-weight: 300;
+      line-height: 1;
+      transition: transform 0.25s;
+    }
     .faq-item.open .faq-icon { transform: rotate(45deg); }
     .faq-a {
       max-height: 0; overflow: hidden;
       transition: max-height 0.32s ease, padding 0.32s;
-      font-size: 0.9rem; color: rgba(220,215,201,0.55); line-height: 1.85;
+      font-size: 0.93rem;
+      font-weight: 400;
+      color: var(--text-body);
+      line-height: 1.9;
     }
-    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.2rem; }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.4rem; }
 
     /* ── FOOTER ── */
     footer {
-      background: var(--inkwell);
-      border-top: 1px solid rgba(220,215,201,0.07);
-      padding: 2.5rem;
+      background: var(--nav);
+      border-top: 1px solid rgba(162,123,91,0.20);
+      padding: 2.8rem 2.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 1.5rem;
     }
-    .footer-logo { font-family: 'Aboreto', serif; font-size: 1rem; color: var(--creme); }
-    .footer-logo span { font-family: 'Gotu', serif; font-size: 0.7rem; color: rgba(220,215,201,0.3); display: block; letter-spacing: 0.1em; margin-top: 0.1rem; }
-    .footer-links { display: flex; flex-direction: column; gap: 0.3rem; align-items: flex-end; }
-    .footer-links a { font-size: 0.76rem; color: rgba(220,215,201,0.35); text-decoration: none; transition: color 0.2s; }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+    .footer-monogram {
+      height: 40px;
+      width: auto;
+      display: block;
+      flex-shrink: 0;
+      opacity: 0.82;
+    }
+    .footer-logo-text {
+      font-family: 'Spectral', serif;
+      font-size: 1rem;
+      color: var(--creme);
+    }
+    .footer-logo-text span {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: rgba(220,215,201,0.30);
+      display: block;
+      letter-spacing: 0.08em;
+      margin-top: 0.1rem;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-end; }
+    .footer-links a {
+      font-size: 0.76rem;
+      color: rgba(220,215,201,0.30);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
     .footer-links a:hover { color: var(--creme); }
+    .footer-copy {
+      font-size: 0.68rem;
+      color: rgba(220,215,201,0.18);
+      margin-top: 0.3rem;
+      text-align: right;
+    }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 860px) {
-      .problema-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .problema-grid { grid-template-columns: 1fr; gap: 3rem; }
       .prova-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 620px) {
-      section { padding: 4rem 1.5rem; }
-      #hero { padding: 5.5rem 1.5rem 4.5rem; min-height: 85vh; }
-      .nav-strip { padding: 0.9rem 1.5rem; }
-      .form-box { padding: 1.8rem 1.4rem; }
-      footer { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 2rem 1.5rem; }
+      section { padding: 5rem 1.5rem; }
+      #hero { padding: 6rem 1.5rem 5rem; min-height: 88vh; }
+      .nav-strip { padding: 0.85rem 1.5rem; }
+      .form-box { padding: 2rem 1.5rem; }
+      footer { flex-direction: column; align-items: flex-start; gap: 1.2rem; padding: 2.2rem 1.5rem; }
       .footer-links { align-items: flex-start; }
+      .footer-copy { text-align: left; }
       .btn-verde, .btn-submit { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── NAV STRIP ── -->
+<!-- ── NAV ── -->
 <nav class="nav-strip">
-  <a href="index.html" class="nav-logo">JK <span>Jurídico</span></a>
+  <a href="index.html" class="nav-logo">
+    <img src="monograma_jk_unificado_creme_pena_1.png" alt="JK" class="nav-monogram" />
+    <span class="nav-logo-text">Jurídico</span>
+  </a>
   <a href="index.html" class="nav-site-link">← Site principal</a>
 </nav>
 
@@ -623,26 +763,23 @@
 <!-- ── PROBLEMA ── -->
 <section id="problema">
   <div class="container">
-    <div class="section-label">Você se identifica?</div>
-    <h2 style="font-family:'Aboreto',serif; font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:400; color:var(--au-lait); line-height:1.2; margin-bottom:0.6rem;">Por que sua paráfrase parece original...<br />e ainda assim é plágio?</h2>
-    <div class="section-divider"></div>
-
+    <h2 class="section-h2">Por que sua paráfrase parece original...<br />e ainda assim é plágio?</h2>
     <div class="problema-grid">
       <div>
-        <p class="problema-intro">Plágio acidental não é falta de honestidade — é falta de técnica. A maioria dos alunos e pesquisadores que têm trabalhos reprovados ou questionados não copiou intencionalmente. Reescreveu com cuidado, colocou a citação, achou que estava seguro.</p>
-        <p class="problema-intro" style="margin-top:1rem;">O problema: existem formas de plágio que a maioria nunca aprendeu a identificar — e que os sistemas de detecção reconhecem com facilidade.</p>
+        <p class="problema-intro">Plágio acidental não é falta de honestidade — é falta de técnica. A maioria dos alunos e pesquisadores que têm trabalhos reprovados ou questionados não copiou intencionalmente.</p>
+        <p class="problema-intro">Reescreveu com cuidado, colocou a citação, achou que estava seguro. O problema: existem formas de plágio que a maioria nunca aprendeu a identificar — e que os sistemas de detecção reconhecem com facilidade.</p>
       </div>
       <div class="pain-cards">
         <div class="pain-card">
-          <div class="pain-card-label">❌ Erro frequente 1</div>
+          <div class="pain-card-label">✕ Erro frequente 1</div>
           <p>Você reescreve com suas palavras, mas a estrutura das frases é idêntica ao original → plágio estrutural</p>
         </div>
         <div class="pain-card">
-          <div class="pain-card-label">❌ Erro frequente 2</div>
+          <div class="pain-card-label">✕ Erro frequente 2</div>
           <p>Você cita o autor, mas apenas trocou palavras por sinônimos sem reformular o pensamento → plágio por sinônimos</p>
         </div>
         <div class="pain-card">
-          <div class="pain-card-label">❌ Erro frequente 3</div>
+          <div class="pain-card-label">✕ Erro frequente 3</div>
           <p>Você acha que está seguro... até a banca rodar o arquivo no Turnitin ou o orientador identificar o padrão</p>
         </div>
       </div>
@@ -652,10 +789,11 @@
 
 <!-- ── SOLUÇÃO ── -->
 <section id="solucao">
-  <div class="container" style="text-align:center;">
-    <div class="section-label" style="text-align:left; max-width:640px; margin:0 auto;">O que você vai receber</div>
-    <h2 style="font-family:'Aboreto',serif; font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:400; color:var(--au-lait); line-height:1.2; margin-bottom:0.5rem;">O Guia que detecta plágio<br /><em style="font-style:normal; color:var(--creme);">antes da banca</em></h2>
-    <p style="font-family:'Gotu',serif; font-size:0.82rem; color:rgba(220,215,201,0.45); letter-spacing:0.05em; margin-bottom:0;">Esses 7 pontos são exatamente o que orientadores e revisores procuram</p>
+  <div class="container">
+    <div class="solucao-header">
+      <h2>O Guia que detecta plágio<br /><em>antes da banca</em></h2>
+      <p>Esses 7 pontos são exatamente o que orientadores e revisores procuram</p>
+    </div>
 
     <div class="checklist-box">
       <div class="checklist-box-header">
@@ -711,15 +849,14 @@
 <!-- ── PROVA SOCIAL ── -->
 <section id="prova">
   <div class="container">
-    <div class="section-label">Por que confiar</div>
-    <h2 style="font-family:'Aboreto',serif; font-size:clamp(1.5rem,3vw,2.2rem); font-weight:400; color:var(--au-lait); line-height:1.2; margin-bottom:0.8rem;">Conteúdo criado por quem conhece as exigências acadêmicas</h2>
-    <div class="section-divider"></div>
-
+    <div class="prova-header">
+      <h2 class="prova-header-h2">Conteúdo criado por quem conhece<br />as exigências acadêmicas</h2>
+    </div>
     <div class="prova-grid">
       <div class="prova-card stat-card">
         <div class="stat-num">50+</div>
         <div class="stat-label">Trabalhos revisados</div>
-        <p style="font-size:0.82rem; color:rgba(220,215,201,0.45); margin-top:0.8rem; line-height:1.65;">Artigos, TCCs e monografias entregues com paráfrases e citações ABNT corretas.</p>
+        <p style="font-size:0.83rem; color:var(--text-body); margin-top:1rem; line-height:1.72;">Artigos, TCCs e monografias entregues com paráfrases e citações ABNT corretas.</p>
       </div>
 
       <div class="prova-card">
@@ -741,7 +878,7 @@
           <div class="pub-mini-title">Cursos Online e Direitos Autorais: A Proteção Jurídica dos Conteúdos Digitais no Brasil</div>
           <div class="pub-mini-meta">Revista Essência Jurídica QUID · UniCV · 2025</div>
         </div>
-        <p style="font-size:0.82rem; color:rgba(220,215,201,0.45); margin-top:1rem; line-height:1.65;">Quem cria o guia passou pelo mesmo processo que você. Sabe o que as bancas exigem na prática.</p>
+        <p style="font-size:0.83rem; color:var(--text-body); margin-top:1.1rem; line-height:1.72;">Quem cria o guia passou pelo mesmo processo que você. Sabe o que as bancas exigem na prática.</p>
       </div>
     </div>
   </div>
@@ -754,45 +891,27 @@
       <h2 class="form-title">Receba o Guia Completo<br /><em>+ 3 Exemplos Práticos</em></h2>
       <p class="form-sub">Gratuito. Acesso imediato. Leva menos de 2 minutos.</p>
 
-      <!--
-        CONFIGURAÇÃO MAILERLITE (gratuito até 1.000 contatos):
-        1. Crie conta em mailerlite.com
-        2. Crie um grupo: Subscribers → Groups → Add group → "Checklist Anti-Plágio"
-        3. Crie um formulário: Forms → Create form → Embedded form
-           - Adicione campos Name e Email → conecte ao grupo criado
-        4. Crie a automação: Automations → Create → Trigger: "Subscriber joins group: Checklist Anti-Plágio"
-           → Action: Send email → escreva o email com o link: jk-juridico.pages.dev/checklist-guia
-        5. No código embed gerado, localize account_id e form_id
-        6. Substitua MAILERLITE_ACCOUNT_ID e MAILERLITE_FORM_ID nas constantes do JavaScript abaixo
-      -->
       <form id="checklist-form" method="POST">
-
         <div class="form-group">
           <label for="nome">Nome completo</label>
           <input type="text" id="nome" name="nome" placeholder="Seu nome" required minlength="3" />
         </div>
-
         <div class="form-group">
           <label for="email">E-mail</label>
           <input type="email" id="email" name="email" placeholder="seu@email.com" required />
         </div>
-
         <div class="form-group">
           <label for="whatsapp">WhatsApp</label>
           <input type="tel" id="whatsapp" name="whatsapp" placeholder="(XX) 9XXXX-XXXX" required />
         </div>
-
         <div class="form-checkbox">
           <input type="checkbox" id="newsletter" name="newsletter" value="sim" checked />
           <label for="newsletter">Quero receber dicas de escrita acadêmica e evitar plágio por e-mail</label>
         </div>
-
         <button type="submit" class="btn-submit" id="submit-btn">
           Sim, quero o guia grátis
         </button>
-
         <p class="form-trust">Seu e-mail é seguro. Sem spam. Apenas conteúdo que importa.</p>
-
       </form>
     </div>
   </div>
@@ -815,10 +934,9 @@
 <!-- ── FAQ ── -->
 <section id="faq">
   <div class="container-narrow">
-    <div class="section-label">Dúvidas</div>
-    <h2 style="font-family:'Aboreto',serif; font-size:clamp(1.5rem,3vw,2.2rem); font-weight:400; color:var(--au-lait); margin-bottom:0.8rem;">Perguntas Frequentes</h2>
-    <div class="section-divider"></div>
-
+    <div class="faq-header">
+      <h2>Perguntas Frequentes</h2>
+    </div>
     <div class="faq-list">
       <div class="faq-item">
         <button class="faq-q">Esse guia funciona pra qualquer tipo de trabalho acadêmico?<span class="faq-icon">+</span></button>
@@ -842,21 +960,23 @@
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div class="footer-logo">
-    JK Jurídico
-    <span>Escrita, Revisão e Formatação</span>
+  <div class="footer-brand">
+    <img src="monograma_jk_unificado_creme_pena_1.png" alt="JK" class="footer-monogram" />
+    <div class="footer-logo-text">
+      JK Jurídico
+      <span>Escrita, Revisão e Formatação</span>
+    </div>
   </div>
   <div class="footer-links">
     <a href="index.html">Site principal</a>
     <a href="https://wa.me/5544991652729" target="_blank" rel="noopener">WhatsApp: (44) 99165-2729</a>
     <a href="mailto:juliaketelut.juridico@gmail.com">juliaketelut.juridico@gmail.com</a>
     <a href="https://instagram.com/juliaketelut.juridico" target="_blank" rel="noopener">@juliaketelut.juridico</a>
-    <span style="color:rgba(220,215,201,0.2); font-size:0.7rem; margin-top:0.3rem;">© 2026 Julia Ketelut · Todos os direitos reservados</span>
+    <div class="footer-copy">© 2026 Julia Ketelut · Todos os direitos reservados</div>
   </div>
 </footer>
 
 <script>
-  // FAQ accordion
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
@@ -866,17 +986,13 @@
     });
   });
 
-  // ── MailerLite integration ──
-  // Substituir pelos valores do seu painel MailerLite (Forms → embed code)
   const MAILERLITE_ACCOUNT_ID = '2316373';
   const MAILERLITE_FORM_ID    = '186557038182008640';
-
-  const form = document.getElementById('checklist-form');
+  const form      = document.getElementById('checklist-form');
   const submitBtn = document.getElementById('submit-btn');
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
     submitBtn.textContent = 'Enviando...';
     submitBtn.disabled = true;
 
@@ -891,15 +1007,9 @@
     try {
       const res = await fetch(
         `https://assets.mailerlite.com/jsonp/${MAILERLITE_ACCOUNT_ID}/forms/${MAILERLITE_FORM_ID}/subscribe`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: body.toString()
-        }
+        { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() }
       );
-
       const json = await res.json();
-
       if (json.success) {
         document.getElementById('form-section').style.display = 'none';
         const success = document.getElementById('success-section');
