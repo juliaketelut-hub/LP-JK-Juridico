@@ -46,9 +46,8 @@
     from { opacity: 0; transform: translateY(22px); }
     to   { opacity: 1; transform: none; }
   }
-  .login-logo { animation: loginFade 0.85s cubic-bezier(0.4,0,0.2,1) 0.1s both; }
-  .login-card { animation: loginFade 0.85s cubic-bezier(0.4,0,0.2,1) 0.35s both; }
-  .login-footer { animation: loginFade 0.85s cubic-bezier(0.4,0,0.2,1) 0.5s both; }
+  .login-card   { animation: loginFade 0.85s cubic-bezier(0.4,0,0.2,1) 0.15s both; }
+  .login-footer { animation: loginFade 0.85s cubic-bezier(0.4,0,0.2,1) 0.45s both; }
 
   .login-bg { position: absolute; inset: 0; pointer-events: none; }
   .login-bg::before {
@@ -395,70 +394,79 @@ const Login = ({ onLogin, onShowSetup }) => {
   return (
     <div style={{ minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", background:"var(--bg)", position:"relative" }}>
       <div className="login-bg"><div className="login-lines"/></div>
-      <div style={{ width:"100%", maxWidth:420, padding:"0 24px", position:"relative", zIndex:1 }}>
-        <div className="login-logo" style={{ textAlign:"center", marginBottom:40 }}>
-          <div style={{ display:"inline-flex", alignItems:"center", gap:10, marginBottom:16 }}>
-            <img src="monograma_jk_unificado_creme_pena_1.png" alt="JK Jurídico" style={{ height:38, width:"auto", display:"block" }} />
-            <span style={{ fontFamily:"var(--font-display)", fontSize:20, color:"var(--gold)", letterSpacing:"0.04em" }}>JK Jurídico</span>
-          </div>
-          <span style={{ display:"inline-block", fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:"0.8rem", letterSpacing:"0.07em", color:"var(--gold)", border:"1px solid rgba(162,123,91,0.30)", padding:"0.38rem 1.6rem", borderRadius:2, background:"rgba(162,123,91,0.08)" }}>Área de Membros</span>
-        </div>
+      <div style={{ width:"100%", maxWidth:440, padding:"0 24px", position:"relative", zIndex:1 }}>
 
-        {!IS_CONFIGURED && (
-          <div style={{ background:"#A27B5B18", border:"1px solid var(--gold)", borderRadius:"var(--radius)", padding:"12px 16px", marginBottom:16, display:"flex", alignItems:"center", justifyContent:"space-between", gap:10 }}>
-            <span style={{ fontSize:12, color:"var(--gold)" }}>⚠ Modo demo — Supabase não configurado</span>
-            <button onClick={onShowSetup} style={{ background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"5px 10px", color:"#2C3639", fontSize:11, fontWeight:600, cursor:"pointer" }}>Ver guia</button>
-          </div>
-        )}
+        <div className="login-card" style={{ borderRadius:"var(--radius-lg)", overflow:"hidden", border:"1px solid rgba(162,123,91,0.22)", boxShadow:"0 16px 56px rgba(42,33,24,0.10)" }}>
 
-        <div className="login-card" style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", padding:"32px 28px" }}>
-          <div style={{ display:"flex",gap:2,background:"var(--card)",borderRadius:"var(--radius)",padding:3,marginBottom:24,border:"1px solid var(--border)" }}>
-            {[["login","Entrar"],["signup","Criar conta"]].map(([id,label])=>(
-              <button key={id} onClick={()=>switchTab(id)} style={{ flex:1,padding:"8px",borderRadius:6,border:"none",background:tab===id?"var(--gold)":"none",color:tab===id?"#2C3639":"var(--text-muted)",fontSize:13,fontWeight:tab===id?600:400,cursor:"pointer",fontFamily:"var(--font-sans)",transition:"all var(--transition)" }}>
-                {label}
-              </button>
-            ))}
-          </div>
-
-          {tab==="login" && (
-            <form onSubmit={submit} style={{ display:"flex", flexDirection:"column", gap:14 }}>
-              <LoginField label="E-MAIL" id="email" type="email" ph="seu@email.com" val={email} set={setEmail}/>
-              <LoginField label="SENHA" id="password" type="password" ph="••••••••" val={pass} set={setPass} showToggle={true} showState={show} onToggle={()=>setShow(!show)}/>
-              {err && <div style={{ background:"#bf6f6f15",border:"1px solid #bf6f6f40",borderRadius:"var(--radius)",padding:"9px 13px",color:"var(--danger)",fontSize:13 }}>{err}</div>}
-              <button type="submit" disabled={loading} style={{ marginTop:4,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"12px",color:"#2C3639",fontSize:14,fontWeight:600,cursor:loading?"not-allowed":"pointer",opacity:loading?0.7:1 }}>
-                {loading?"Entrando...":"Entrar"}
-              </button>
-            </form>
-          )}
-
-          {tab==="signup" && !sSuccess && (
-            <form onSubmit={submitSignup} style={{ display:"flex", flexDirection:"column", gap:14 }}>
-              <LoginField label="NOME COMPLETO" id="name" type="text" ph="Seu nome completo" val={sName} set={setSName}/>
-              <LoginField label="E-MAIL" id="semail" type="email" ph="seu@email.com" val={sEmail} set={setSEmail}/>
-              <LoginField label="SENHA" id="spassword" type="password" ph="mínimo 6 caracteres" val={sPass} set={setSPass} showToggle={true} showState={sShow} onToggle={()=>setSShow(!sShow)}/>
-              {sErr && <div style={{ background:"#bf6f6f15",border:"1px solid #bf6f6f40",borderRadius:"var(--radius)",padding:"9px 13px",color:"var(--danger)",fontSize:13 }}>{sErr}</div>}
-              <button type="submit" disabled={sLoading} style={{ marginTop:4,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"12px",color:"#2C3639",fontSize:14,fontWeight:600,cursor:sLoading?"not-allowed":"pointer",opacity:sLoading?0.7:1 }}>
-                {sLoading?"Criando conta...":"Criar minha conta"}
-              </button>
-            </form>
-          )}
-
-          {tab==="signup" && sSuccess && (
-            <div style={{ textAlign:"center",padding:"8px 0" }}>
-              <div style={{ fontSize:32,marginBottom:12 }}>✅</div>
-              <div style={{ fontSize:15,color:"var(--text)",fontWeight:500,marginBottom:8 }}>Conta criada!</div>
-              <p style={{ fontSize:13,color:"var(--text-muted)",marginBottom:20,lineHeight:1.6 }}>Confirme seu e-mail e volte aqui para entrar.</p>
-              <button onClick={()=>{ setSSuccess(false); switchTab("login"); setEmail(sEmail); }} style={{ background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px 24px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>
-                Ir para o login
-              </button>
+          {/* Cabeçalho escuro — mesmo DNA do nav da LP */}
+          <div style={{ background:"#2A2118", padding:"30px 28px 26px", textAlign:"center", borderBottom:"1px solid rgba(162,123,91,0.18)" }}>
+            <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:14 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:11 }}>
+                <img src="monograma_jk_unificado_creme_pena_1.png" alt="JK Jurídico" style={{ height:42, width:"auto", display:"block" }} />
+                <span style={{ fontFamily:"var(--font-display)", fontSize:22, color:"#A27B5B", letterSpacing:"0.04em" }}>JK Jurídico</span>
+              </div>
+              <span style={{ display:"inline-block", fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:"0.78rem", letterSpacing:"0.08em", color:"rgba(220,215,201,0.60)", border:"1px solid rgba(162,123,91,0.22)", padding:"0.35rem 1.6rem", borderRadius:2, background:"rgba(162,123,91,0.07)" }}>Área de Membros</span>
             </div>
-          )}
+          </div>
 
-          {!IS_CONFIGURED && (
-            <div style={{ marginTop:16, paddingTop:14, borderTop:"1px solid var(--border)", fontSize:11, color:"var(--text-muted)" }}>
-              Demo: <strong style={{ color:"var(--text-secondary)" }}>admin@jkjuridico.com</strong> / admin123 · <strong style={{ color:"var(--text-secondary)" }}>maria@email.com</strong> / 123456
+          {/* Corpo do formulário */}
+          <div style={{ background:"var(--surface)", padding:"28px 28px 32px" }}>
+
+            {!IS_CONFIGURED && (
+              <div style={{ background:"rgba(162,123,91,0.10)", border:"1px solid rgba(162,123,91,0.35)", borderRadius:"var(--radius)", padding:"11px 14px", marginBottom:18, display:"flex", alignItems:"center", justifyContent:"space-between", gap:10 }}>
+                <span style={{ fontSize:12, color:"var(--gold)" }}>⚠ Modo demo — Supabase não configurado</span>
+                <button onClick={onShowSetup} style={{ background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"5px 10px", color:"#fff", fontSize:11, fontWeight:600, cursor:"pointer" }}>Ver guia</button>
+              </div>
+            )}
+
+            <div style={{ display:"flex", gap:2, background:"var(--bg)", borderRadius:"var(--radius)", padding:3, marginBottom:24, border:"1px solid var(--border)" }}>
+              {[["login","Entrar"],["signup","Criar conta"]].map(([id,label])=>(
+                <button key={id} onClick={()=>switchTab(id)} style={{ flex:1, padding:"9px", borderRadius:6, border:"none", background:tab===id?"var(--gold)":"none", color:tab===id?"#fff":"var(--text-muted)", fontSize:14, fontWeight:tab===id?600:400, cursor:"pointer", fontFamily:"var(--font-sans)", transition:"all var(--transition)" }}>
+                  {label}
+                </button>
+              ))}
             </div>
-          )}
+
+            {tab==="login" && (
+              <form onSubmit={submit} style={{ display:"flex", flexDirection:"column", gap:14 }}>
+                <LoginField label="E-MAIL" id="email" type="email" ph="seu@email.com" val={email} set={setEmail}/>
+                <LoginField label="SENHA" id="password" type="password" ph="••••••••" val={pass} set={setPass} showToggle={true} showState={show} onToggle={()=>setShow(!show)}/>
+                {err && <div style={{ background:"rgba(231,76,60,0.08)", border:"1px solid rgba(231,76,60,0.32)", borderRadius:"var(--radius)", padding:"9px 13px", color:"var(--danger)", fontSize:13 }}>{err}</div>}
+                <button type="submit" disabled={loading} style={{ marginTop:4, background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"13px", color:"#fff", fontSize:14, fontWeight:600, letterSpacing:"0.04em", cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1 }}>
+                  {loading?"Entrando...":"Entrar"}
+                </button>
+              </form>
+            )}
+
+            {tab==="signup" && !sSuccess && (
+              <form onSubmit={submitSignup} style={{ display:"flex", flexDirection:"column", gap:14 }}>
+                <LoginField label="NOME COMPLETO" id="name" type="text" ph="Seu nome completo" val={sName} set={setSName}/>
+                <LoginField label="E-MAIL" id="semail" type="email" ph="seu@email.com" val={sEmail} set={setSEmail}/>
+                <LoginField label="SENHA" id="spassword" type="password" ph="mínimo 6 caracteres" val={sPass} set={setSPass} showToggle={true} showState={sShow} onToggle={()=>setSShow(!sShow)}/>
+                {sErr && <div style={{ background:"rgba(231,76,60,0.08)", border:"1px solid rgba(231,76,60,0.32)", borderRadius:"var(--radius)", padding:"9px 13px", color:"var(--danger)", fontSize:13 }}>{sErr}</div>}
+                <button type="submit" disabled={sLoading} style={{ marginTop:4, background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"13px", color:"#fff", fontSize:14, fontWeight:600, letterSpacing:"0.04em", cursor:sLoading?"not-allowed":"pointer", opacity:sLoading?0.7:1 }}>
+                  {sLoading?"Criando conta...":"Criar minha conta"}
+                </button>
+              </form>
+            )}
+
+            {tab==="signup" && sSuccess && (
+              <div style={{ textAlign:"center", padding:"8px 0" }}>
+                <div style={{ fontSize:32, marginBottom:12 }}>✅</div>
+                <div style={{ fontSize:16, color:"var(--text)", fontWeight:500, marginBottom:8 }}>Conta criada!</div>
+                <p style={{ fontSize:14, color:"var(--text-muted)", marginBottom:20, lineHeight:1.6 }}>Confirme seu e-mail e volte aqui para entrar.</p>
+                <button onClick={()=>{ setSSuccess(false); switchTab("login"); setEmail(sEmail); }} style={{ background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"10px 24px", color:"#fff", fontSize:13, fontWeight:600, cursor:"pointer" }}>
+                  Ir para o login
+                </button>
+              </div>
+            )}
+
+            {!IS_CONFIGURED && (
+              <div style={{ marginTop:16, paddingTop:14, borderTop:"1px solid var(--border)", fontSize:11, color:"var(--text-muted)" }}>
+                Demo: <strong style={{ color:"var(--text-secondary)" }}>admin@jkjuridico.com</strong> / admin123 · <strong style={{ color:"var(--text-secondary)" }}>maria@email.com</strong> / 123456
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="login-footer" style={{ marginTop:20, textAlign:"center" }}>
