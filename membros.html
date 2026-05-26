@@ -6,7 +6,8 @@
 <title>JK Jurídico — Área de Membros</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Gotu&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script>(function(){var t=localStorage.getItem("jk-theme")||"light";document.documentElement.setAttribute("data-theme",t);})();</script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
@@ -14,31 +15,30 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #2C3639; --surface: #3F4E4F; --card: #344547; --card-hover: #3d5052;
-    --border: #4a5e60; --border-light: #5a7072;
-    --gold: #A27B5B; --gold-muted: #8a6849; --gold-dim: #A27B5B28;
-    --green: #4a7c5a; --text: #DCD7C9; --text-secondary: #b8b3a6;
-    --text-muted: #7a7570; --danger: #bf6f6f;
-    --font-display: 'Aboreto', Georgia, serif;
-    --font-label: 'Gotu', system-ui, sans-serif;
-    --font-sans: 'Figtree', system-ui, sans-serif;
+    --bg: #F7F3EC; --surface: #EDE8DE; --card: #FDFAF5; --card-hover: #EDE8DE;
+    --border: rgba(42,33,24,0.09); --border-light: rgba(42,33,24,0.13);
+    --gold: #A27B5B; --gold-muted: #8a6649; --gold-dim: rgba(162,123,91,0.12);
+    --green: #27AE60; --text: #2A2118; --text-secondary: rgba(42,33,24,0.82);
+    --text-muted: rgba(42,33,24,0.70); --danger: #E74C3C;
+    --hover-bg: rgba(42,33,24,0.04);
+    --font-display: 'Spectral', serif;
+    --font-label: 'Jost', sans-serif;
+    --font-sans: 'Jost', sans-serif;
     --radius: 8px; --radius-lg: 14px; --sidebar-w: 240px; --transition: 0.18s ease;
+  }
+  [data-theme="dark"] {
+    --bg: #2C3639; --surface: #3F4E4F; --card: #344547; --card-hover: #3d5052;
+    --border: rgba(220,215,201,0.07); --border-light: rgba(220,215,201,0.11);
+    --gold: #A27B5B; --gold-muted: #8a6849; --gold-dim: rgba(162,123,91,0.12);
+    --green: #27AE60; --text: #DCD7C9; --text-secondary: rgba(220,215,201,0.82);
+    --text-muted: rgba(220,215,201,0.65); --danger: #E74C3C;
+    --hover-bg: rgba(255,255,255,0.03);
   }
   html, body, #root { height: 100%; }
   body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
   * { scrollbar-width: thin; scrollbar-color: var(--border-light) transparent; }
   ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
   input, button, select, textarea { font-family: var(--font-sans); }
-</style>
-<style id="theme-light" disabled>
-  :root {
-    --bg: #F4EFE6; --surface: #EAE4D8; --card: #FDFAF5; --card-hover: #EEE8DE;
-    --border: #D4C8B6; --border-light: #C4B8A6;
-    --gold: #7A5535; --gold-muted: #6A4828; --gold-dim: #A27B5B22;
-    --green: #2D5B3A; --text: #2A2218; --text-secondary: #5A4E44;
-    --text-muted: #8A7C72; --danger: #A84444;
-  }
-  body { background: var(--bg); }
 </style>
 </head>
 <body>
@@ -471,7 +471,7 @@ const Sidebar = ({ user, view, onNav, onLogout, onShowSetup, theme, onToggleThem
           const active = view===item.id || (["product","lesson"].includes(view) && item.id==="dashboard");
           return (
             <button key={item.id} onClick={()=>onNav(item.id)} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"11px 18px", background:active?"var(--gold-dim)":"none", border:"none", borderLeft:`2px solid ${active?"var(--gold)":"transparent"}`, cursor:"pointer", color:active?"var(--gold)":"var(--text-muted)", fontSize:13, fontFamily:"var(--font-sans)", fontWeight:active?500:400, transition:"all var(--transition)" }}
-              onMouseEnter={e=>{ if(!active){ e.currentTarget.style.color="var(--text)"; e.currentTarget.style.background="#ffffff05"; }}}
+              onMouseEnter={e=>{ if(!active){ e.currentTarget.style.color="var(--text)"; e.currentTarget.style.background="var(--hover-bg)"; }}}
               onMouseLeave={e=>{ if(!active){ e.currentTarget.style.color="var(--text-muted)"; e.currentTarget.style.background="none"; }}}>
               <Icon name={item.icon} size={15} color="currentColor"/>{item.label}
             </button>
@@ -694,7 +694,7 @@ const ProductView = ({ product:p, onBack, onLesson }) => {
                   <div style={{ borderTop:"1px solid var(--border)" }}>
                     {(mod.lessons||[]).map((l,li) => (
                       <button key={l.id} onClick={()=>onLesson(p,mod,l)} style={{ width:"100%", display:"flex", alignItems:"center", gap:12, padding:"12px 18px", background:"none", border:"none", borderBottom:li<(mod.lessons.length-1)?"1px solid var(--border)":"none", cursor:"pointer", fontFamily:"var(--font-sans)", textAlign:"left", transition:"background var(--transition)" }}
-                        onMouseEnter={e=>e.currentTarget.style.background="#ffffff05"} onMouseLeave={e=>e.currentTarget.style.background="none"}>
+                        onMouseEnter={e=>e.currentTarget.style.background="var(--hover-bg)"} onMouseLeave={e=>e.currentTarget.style.background="none"}>
                         <div style={{ width:26, height:26, borderRadius:"50%", background:l.watched?"var(--green)":"var(--border)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                           {l.watched?<Icon name="check" size={11} color="#fff"/>:l.type==="video"?<Icon name="play" size={9} color="var(--text-muted)"/>:<Icon name="file" size={11} color="var(--text-muted)"/>}
                         </div>
@@ -786,7 +786,7 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav }) => {
                 const active=l.id===lesson.id;
                 return (
                   <button key={l.id} onClick={()=>onNav(l)} style={{ width:"100%",display:"flex",alignItems:"center",gap:9,padding:"9px 14px",background:active?"var(--gold-dim)":"none",border:"none",borderBottom:"1px solid var(--border)",cursor:"pointer",textAlign:"left",transition:"background var(--transition)" }}
-                    onMouseEnter={e=>{if(!active)e.currentTarget.style.background="#ffffff05";}} onMouseLeave={e=>{if(!active)e.currentTarget.style.background="none";}}>
+                    onMouseEnter={e=>{if(!active)e.currentTarget.style.background="var(--hover-bg)";}} onMouseLeave={e=>{if(!active)e.currentTarget.style.background="none";}}>
                     <div style={{ width:18,height:18,borderRadius:"50%",background:l.watched?"var(--green)":active?"var(--gold)":"var(--border)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
                       {l.watched?<Icon name="check" size={9} color="#fff"/>:l.type==="video"?<Icon name="play" size={7} color={active?"#2C3639":"var(--text-muted)"}/>:<Icon name="file" size={8} color={active?"#2C3639":"var(--text-muted)"}/>}
                     </div>
@@ -970,7 +970,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
               {members.map((m,i)=>(
                 <div key={m.id} onClick={()=>setSel(sel?.id===m.id?null:m)}
                   style={{ display:"flex",alignItems:"center",gap:12,padding:"12px 16px",borderBottom:i<members.length-1?"1px solid var(--border)":"none",cursor:"pointer",background:sel?.id===m.id?"var(--gold-dim)":"none",transition:"background var(--transition)" }}
-                  onMouseEnter={e=>{if(sel?.id!==m.id)e.currentTarget.style.background="#ffffff05";}} onMouseLeave={e=>{if(sel?.id!==m.id)e.currentTarget.style.background="none";}}>
+                  onMouseEnter={e=>{if(sel?.id!==m.id)e.currentTarget.style.background="var(--hover-bg)";}} onMouseLeave={e=>{if(sel?.id!==m.id)e.currentTarget.style.background="none";}}>
                   <div style={{ width:32,height:32,borderRadius:"50%",background:"var(--gold-dim)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
                     <span style={{ fontSize:11,fontWeight:600,color:"var(--gold)" }}>{m.avatar||m.name?.slice(0,2).toUpperCase()}</span>
                   </div>
@@ -1296,11 +1296,10 @@ const App = () => {
   const [showSetup,setShowSetup]=useState(false);
   const [availableProducts,setAvailableProducts]=useState([]);
   const [toast,setToast]=useState(null);
-  const [theme,setTheme]=useState(()=>localStorage.getItem("jk-theme")||"dark");
+  const [theme,setTheme]=useState(()=>localStorage.getItem("jk-theme")||"light");
 
   React.useEffect(()=>{
-    const sheet = document.getElementById("theme-light");
-    sheet.disabled = theme!=="light";
+    document.documentElement.setAttribute("data-theme",theme);
     localStorage.setItem("jk-theme",theme);
   },[theme]);
 
