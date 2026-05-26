@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>JK Jurídico — Área de Membros</title>
+<link rel="icon" type="image/png" href="monograma_jk_unificado_creme_pena_1.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -39,6 +40,38 @@
   * { scrollbar-width: thin; scrollbar-color: var(--border-light) transparent; }
   ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
   input, button, select, textarea { font-family: var(--font-sans); }
+
+  /* ── LOGIN SCREEN ── */
+  @keyframes loginFade {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .login-logo { animation: loginFade 0.85s cubic-bezier(0.4,0,0.2,1) 0.1s both; }
+  .login-card { animation: loginFade 0.85s cubic-bezier(0.4,0,0.2,1) 0.35s both; }
+  .login-footer { animation: loginFade 0.85s cubic-bezier(0.4,0,0.2,1) 0.5s both; }
+
+  .login-bg { position: absolute; inset: 0; pointer-events: none; }
+  .login-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(162,123,91,0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 45% 55% at 85% 75%, rgba(237,232,222,0.60) 0%, transparent 60%);
+  }
+  [data-theme="dark"] .login-bg::before {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(162,123,91,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 45% 55% at 85% 75%, rgba(30,37,39,0.80) 0%, transparent 60%);
+  }
+  .login-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(162,123,91,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(162,123,91,0.05) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 85% 70% at 50% 40%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 40%, black 30%, transparent 100%);
+  }
 </style>
 </head>
 <body>
@@ -361,16 +394,14 @@ const Login = ({ onLogin, onShowSetup }) => {
 
   return (
     <div style={{ minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", background:"var(--bg)", position:"relative" }}>
-      <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(ellipse at 60% 20%, #1a2e2218 0%, transparent 55%), radial-gradient(ellipse at 20% 80%, #2a1a0f18 0%, transparent 50%)", pointerEvents:"none" }} />
+      <div className="login-bg"><div className="login-lines"/></div>
       <div style={{ width:"100%", maxWidth:420, padding:"0 24px", position:"relative", zIndex:1 }}>
-        <div style={{ textAlign:"center", marginBottom:36 }}>
-          <div style={{ display:"inline-flex", alignItems:"center", gap:12, marginBottom:10 }}>
-            <div style={{ width:40, height:40, borderRadius:"50%", border:"1.5px solid var(--gold)", display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <span style={{ fontFamily:"var(--font-display)", fontSize:16, color:"var(--gold)" }}>JK</span>
-            </div>
-            <span style={{ fontFamily:"var(--font-display)", fontSize:19, color:"var(--text)", letterSpacing:"0.05em" }}>JK Jurídico</span>
+        <div className="login-logo" style={{ textAlign:"center", marginBottom:40 }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:10, marginBottom:16 }}>
+            <img src="monograma_jk_unificado_creme_pena_1.png" alt="JK Jurídico" style={{ height:38, width:"auto", display:"block" }} />
+            <span style={{ fontFamily:"var(--font-display)", fontSize:20, color:"var(--gold)", letterSpacing:"0.04em" }}>JK Jurídico</span>
           </div>
-          <p style={{ color:"var(--text-muted)", fontSize:11, fontFamily:"var(--font-label)", letterSpacing:"0.06em" }}>Escrita que comunica. Direito que convence.</p>
+          <span style={{ display:"inline-block", fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:"0.8rem", letterSpacing:"0.07em", color:"var(--gold)", border:"1px solid rgba(162,123,91,0.30)", padding:"0.38rem 1.6rem", borderRadius:2, background:"rgba(162,123,91,0.08)" }}>Área de Membros</span>
         </div>
 
         {!IS_CONFIGURED && (
@@ -380,7 +411,7 @@ const Login = ({ onLogin, onShowSetup }) => {
           </div>
         )}
 
-        <div style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", padding:"32px 28px" }}>
+        <div className="login-card" style={{ background:"var(--surface)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", padding:"32px 28px" }}>
           <div style={{ display:"flex",gap:2,background:"var(--card)",borderRadius:"var(--radius)",padding:3,marginBottom:24,border:"1px solid var(--border)" }}>
             {[["login","Entrar"],["signup","Criar conta"]].map(([id,label])=>(
               <button key={id} onClick={()=>switchTab(id)} style={{ flex:1,padding:"8px",borderRadius:6,border:"none",background:tab===id?"var(--gold)":"none",color:tab===id?"#2C3639":"var(--text-muted)",fontSize:13,fontWeight:tab===id?600:400,cursor:"pointer",fontFamily:"var(--font-sans)",transition:"all var(--transition)" }}>
@@ -430,7 +461,7 @@ const Login = ({ onLogin, onShowSetup }) => {
           )}
         </div>
 
-        <div style={{ marginTop:20, textAlign:"center" }}>
+        <div className="login-footer" style={{ marginTop:20, textAlign:"center" }}>
           <a href="index.html" style={{ display:"inline-flex", alignItems:"center", gap:6, color:"var(--text-muted)", fontSize:12, textDecoration:"none", fontFamily:"var(--font-label)", letterSpacing:"0.06em" }}
             onMouseEnter={e=>e.currentTarget.style.color="var(--gold)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
             <Icon name="arrowLeft" size={12} color="currentColor" />Voltar ao site
