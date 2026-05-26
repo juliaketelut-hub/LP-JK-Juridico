@@ -153,18 +153,19 @@ const Icon = ({ name, size = 16, color = "currentColor" }) => {
 // ─── THUMB ───────────────────────────────────────────────────
 const Thumb = ({ type, title }) => {
   const c = {
-    "visual-law": { bg: "#1a2e22", ac: "#4a7c5a", lbl: "VISUAL LAW" },
-    peticoes:     { bg: "#2a1a0f", ac: "#A27B5B", lbl: "PETIÇÕES" },
-    abnt:         { bg: "#1a1a2e", ac: "#6e7cc9", lbl: "ABNT" },
-    consultoria:  { bg: "#2a1e1a", ac: "#c49a6c", lbl: "CONSULTORIA" },
-    diagnostico:  { bg: "#1e1a2a", ac: "#9b7ec8", lbl: "DIAGNÓSTICO" },
-  }[type] || { bg: "#1a1a1a", ac: "#888", lbl: "CURSO" };
+    "visual-law": { bg: "#1D1810", ac: "#A27B5B", lbl: "VISUAL LAW" },
+    peticoes:     { bg: "#1A1410", ac: "#C4956A", lbl: "PETIÇÕES" },
+    abnt:         { bg: "#161210", ac: "#A27B5B", lbl: "ABNT" },
+    consultoria:  { bg: "#1E1912", ac: "#BF9068", lbl: "CONSULTORIA" },
+    diagnostico:  { bg: "#19140E", ac: "#A27B5B", lbl: "DIAGNÓSTICO" },
+  }[type] || { bg: "#181410", ac: "#A27B5B", lbl: "CURSO" };
   return (
     <div style={{ width:"100%", aspectRatio:"16/9", background:c.bg, borderRadius:"var(--radius)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", position:"relative", overflow:"hidden" }}>
-      <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse at 30% 40%, ${c.ac}22, transparent 60%)` }} />
-      <span style={{ fontFamily:"var(--font-label)", fontSize:10, letterSpacing:"0.22em", color:c.ac, opacity:0.8, marginBottom:8 }}>{c.lbl}</span>
-      <span style={{ fontFamily:"var(--font-display)", fontSize:14, color:"var(--text)", textAlign:"center", padding:"0 14px", lineHeight:1.3 }}>{title}</span>
-      <div style={{ position:"absolute", bottom:0, left:0, right:0, height:2, background:c.ac, opacity:0.4 }} />
+      <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse at 35% 40%, ${c.ac}1C, transparent 65%)` }} />
+      <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(162,123,91,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(162,123,91,0.035) 1px, transparent 1px)", backgroundSize:"40px 40px" }} />
+      <span style={{ fontFamily:"var(--font-label)", fontSize:"0.68rem", fontWeight:600, letterSpacing:"0.20em", color:c.ac, marginBottom:9, position:"relative", zIndex:1 }}>{c.lbl}</span>
+      <span style={{ fontFamily:"var(--font-display)", fontSize:15, color:"rgba(220,215,201,0.90)", textAlign:"center", padding:"0 18px", lineHeight:1.35, position:"relative", zIndex:1 }}>{title}</span>
+      <div style={{ position:"absolute", bottom:0, left:0, right:0, height:"1.5px", background:`linear-gradient(90deg, transparent, ${c.ac}99, transparent)` }} />
     </div>
   );
 };
