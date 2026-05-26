@@ -489,51 +489,49 @@ const Sidebar = ({ user, view, onNav, onLogout, onShowSetup, theme, onToggleThem
     ...(user.role==="admin" ? [{ id:"admin", label:"Painel Admin", icon:"shield" }] : []),
   ];
   return (
-    <aside style={{ width:"var(--sidebar-w)", minHeight:"100vh", background:"var(--surface)", borderRight:"1px solid var(--border)", display:"flex", flexDirection:"column", flexShrink:0 }}>
-      <div style={{ padding:"22px 18px", borderBottom:"1px solid var(--border)", display:"flex", alignItems:"center", gap:10 }}>
-        <div style={{ width:30, height:30, borderRadius:"50%", border:"1.5px solid var(--gold)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-          <span style={{ fontFamily:"var(--font-display)", fontSize:12, color:"var(--gold)" }}>JK</span>
-        </div>
-        <span style={{ fontFamily:"var(--font-display)", fontSize:14, color:"var(--text)", letterSpacing:"0.05em" }}>JK Jurídico</span>
+    <aside style={{ width:"var(--sidebar-w)", minHeight:"100vh", background:"#2A2118", borderRight:"1px solid rgba(162,123,91,0.22)", display:"flex", flexDirection:"column", flexShrink:0 }}>
+      <div style={{ padding:"20px 18px", borderBottom:"1px solid rgba(162,123,91,0.16)", display:"flex", alignItems:"center", gap:9 }}>
+        <img src="monograma_jk_unificado_creme_pena_1.png" alt="JK" style={{ height:28, width:"auto", flexShrink:0 }} />
+        <span style={{ fontFamily:"var(--font-display)", fontSize:15, color:"#A27B5B", letterSpacing:"0.04em" }}>JK Jurídico</span>
       </div>
-      <div style={{ padding:"14px 18px", borderBottom:"1px solid var(--border)", display:"flex", alignItems:"center", gap:10 }}>
-        <div style={{ width:30, height:30, borderRadius:"50%", background:"var(--gold-dim)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-          <span style={{ fontSize:11, fontWeight:600, color:"var(--gold)" }}>{user.avatar||user.name?.slice(0,2).toUpperCase()}</span>
+      <div style={{ padding:"13px 18px", borderBottom:"1px solid rgba(162,123,91,0.12)", display:"flex", alignItems:"center", gap:10 }}>
+        <div style={{ width:30, height:30, borderRadius:"50%", background:"rgba(162,123,91,0.14)", border:"1px solid rgba(162,123,91,0.28)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+          <span style={{ fontSize:11, fontWeight:600, color:"#A27B5B" }}>{user.avatar||user.name?.slice(0,2).toUpperCase()}</span>
         </div>
         <div style={{ overflow:"hidden" }}>
-          <div style={{ fontSize:13, fontWeight:500, color:"var(--text)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{user.name?.split(" ")[0]}</div>
-          <div style={{ fontSize:11, color:"var(--text-muted)" }}>{user.role==="admin"?"Administrador":"Membro"}</div>
+          <div style={{ fontSize:13, fontWeight:500, color:"rgba(220,215,201,0.88)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{user.name?.split(" ")[0]}</div>
+          <div style={{ fontSize:11, color:"rgba(220,215,201,0.50)" }}>{user.role==="admin"?"Administrador":"Membro"}</div>
         </div>
       </div>
       <nav style={{ flex:1, padding:"10px 0" }}>
         {nav.map(item => {
           const active = view===item.id || (["product","lesson"].includes(view) && item.id==="dashboard");
           return (
-            <button key={item.id} onClick={()=>onNav(item.id)} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"11px 18px", background:active?"var(--gold-dim)":"none", border:"none", borderLeft:`2px solid ${active?"var(--gold)":"transparent"}`, cursor:"pointer", color:active?"var(--gold)":"var(--text-muted)", fontSize:13, fontFamily:"var(--font-sans)", fontWeight:active?500:400, transition:"all var(--transition)" }}
-              onMouseEnter={e=>{ if(!active){ e.currentTarget.style.color="var(--text)"; e.currentTarget.style.background="var(--hover-bg)"; }}}
-              onMouseLeave={e=>{ if(!active){ e.currentTarget.style.color="var(--text-muted)"; e.currentTarget.style.background="none"; }}}>
+            <button key={item.id} onClick={()=>onNav(item.id)} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"11px 18px", background:active?"rgba(162,123,91,0.12)":"none", border:"none", borderLeft:`2px solid ${active?"#A27B5B":"transparent"}`, cursor:"pointer", color:active?"#A27B5B":"rgba(220,215,201,0.55)", fontSize:13, fontFamily:"var(--font-sans)", fontWeight:active?500:400, transition:"all var(--transition)" }}
+              onMouseEnter={e=>{ if(!active){ e.currentTarget.style.color="rgba(220,215,201,0.90)"; e.currentTarget.style.background="rgba(255,255,255,0.04)"; }}}
+              onMouseLeave={e=>{ if(!active){ e.currentTarget.style.color="rgba(220,215,201,0.55)"; e.currentTarget.style.background="none"; }}}>
               <Icon name={item.icon} size={15} color="currentColor"/>{item.label}
             </button>
           );
         })}
       </nav>
-      <div style={{ padding:"10px 0", borderTop:"1px solid var(--border)" }}>
-        <button onClick={onToggleTheme} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", fontSize:12, fontFamily:"var(--font-sans)", transition:"color var(--transition)" }}
-          onMouseEnter={e=>e.currentTarget.style.color="var(--text)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+      <div style={{ padding:"10px 0", borderTop:"1px solid rgba(162,123,91,0.14)" }}>
+        <button onClick={onToggleTheme} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"rgba(220,215,201,0.50)", fontSize:12, fontFamily:"var(--font-sans)", transition:"color var(--transition)" }}
+          onMouseEnter={e=>e.currentTarget.style.color="rgba(220,215,201,0.85)"} onMouseLeave={e=>e.currentTarget.style.color="rgba(220,215,201,0.50)"}>
           <Icon name={theme==="light"?"moon":"sun"} size={14} color="currentColor"/>
           {theme==="light"?"Tema escuro":"Tema claro"}
         </button>
         {!IS_CONFIGURED && (
-          <button onClick={onShowSetup} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--gold-muted)", fontSize:12, fontFamily:"var(--font-sans)" }}>
+          <button onClick={onShowSetup} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"rgba(162,123,91,0.70)", fontSize:12, fontFamily:"var(--font-sans)" }}>
             <Icon name="settings" size={14} color="currentColor"/>Configurar Supabase
           </button>
         )}
-        <a href="index.html" style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", fontSize:12, fontFamily:"var(--font-sans)", textDecoration:"none" }}
-          onMouseEnter={e=>e.currentTarget.style.color="var(--text)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+        <a href="index.html" style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"10px 18px", background:"none", border:"none", cursor:"pointer", color:"rgba(220,215,201,0.50)", fontSize:12, fontFamily:"var(--font-sans)", textDecoration:"none" }}
+          onMouseEnter={e=>e.currentTarget.style.color="rgba(220,215,201,0.85)"} onMouseLeave={e=>e.currentTarget.style.color="rgba(220,215,201,0.50)"}>
           <Icon name="arrowLeft" size={13} color="currentColor"/>Site principal
         </a>
-        <button onClick={onLogout} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"11px 18px", background:"none", border:"none", cursor:"pointer", color:"var(--text-muted)", fontSize:13, fontFamily:"var(--font-sans)", transition:"color var(--transition)" }}
-          onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+        <button onClick={onLogout} style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"11px 18px", background:"none", border:"none", cursor:"pointer", color:"rgba(220,215,201,0.50)", fontSize:13, fontFamily:"var(--font-sans)", transition:"color var(--transition)" }}
+          onMouseEnter={e=>e.currentTarget.style.color="#E74C3C"} onMouseLeave={e=>e.currentTarget.style.color="rgba(220,215,201,0.50)"}>
           <Icon name="logout" size={15} color="currentColor"/>Sair
         </button>
       </div>
@@ -556,7 +554,7 @@ const PurchaseCard = ({ p, onPurchase }) => {
   };
   return (
     <div onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
-      style={{ background:hov?"var(--card-hover)":"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", overflow:"hidden", transition:"all var(--transition)", transform:hov?"translateY(-2px)":"none", boxShadow:hov?"0 8px 28px #00000035":"none" }}>
+      style={{ background:hov?"var(--card-hover)":"var(--card)", border:`1px solid ${hov?"rgba(162,123,91,0.30)":"var(--border)"}`, borderRadius:"var(--radius-lg)", overflow:"hidden", transition:"all 0.25s cubic-bezier(0.4,0,0.2,1)", transform:hov?"translateY(-3px)":"none", boxShadow:hov?"0 10px 36px rgba(42,33,24,0.10)":"none" }}>
       <Thumb type={p.thumb} title={p.title}/>
       <div style={{ padding:"14px" }}>
         <div style={{ fontFamily:"var(--font-label)", fontSize:10, color:"var(--gold-muted)", letterSpacing:"0.16em", marginBottom:4 }}>{p.category?.toUpperCase()}</div>
@@ -582,7 +580,7 @@ const ProductCard = ({ p, onOpen }) => {
   const isPublic = p.visibility==="publico";
   return (
     <div onClick={()=>onOpen(p)} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
-      style={{ background:hov?"var(--card-hover)":"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", overflow:"hidden", cursor:"pointer", transition:"all var(--transition)", transform:hov?"translateY(-2px)":"none", boxShadow:hov?"0 8px 28px #00000035":"none" }}>
+      style={{ background:hov?"var(--card-hover)":"var(--card)", border:`1px solid ${hov?"rgba(162,123,91,0.30)":"var(--border)"}`, borderRadius:"var(--radius-lg)", overflow:"hidden", cursor:"pointer", transition:"all 0.25s cubic-bezier(0.4,0,0.2,1)", transform:hov?"translateY(-3px)":"none", boxShadow:hov?"0 10px 36px rgba(42,33,24,0.10)":"none" }}>
       <div style={{ position:"relative" }}>
         <Thumb type={p.thumb} title={p.title}/>
         <div style={{ position:"absolute", top:8, right:8, display:"flex", alignItems:"center", gap:4, background:isPublic?"#4a7c5a22":"#00000055", border:`1px solid ${isPublic?"#4a7c5a55":"var(--border)"}`, borderRadius:20, padding:"3px 8px" }}>
@@ -612,9 +610,9 @@ const Dashboard = ({ user, products, availableProducts=[], onOpen, onPurchase })
   return (
     <div style={{ flex:1, overflowY:"auto", padding:"32px 36px" }}>
       <div style={{ maxWidth:960, margin:"0 auto" }}>
-        <div style={{ marginBottom:30 }}>
-          <p style={{ fontFamily:"var(--font-label)", fontSize:11, color:"var(--text-muted)", letterSpacing:"0.14em", marginBottom:6 }}>BEM-VINDA DE VOLTA</p>
-          <h1 style={{ fontFamily:"var(--font-display)", fontSize:28, color:"var(--text)" }}>Olá, {user.name?.split(" ")[0]}</h1>
+        <div style={{ marginBottom:44, paddingBottom:32, borderBottom:"1px solid var(--border)" }}>
+          <div style={{ fontFamily:"var(--font-label)", fontSize:"0.60rem", fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--gold)", marginBottom:12 }}>Bem-vinda de volta</div>
+          <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(2rem, 4vw, 2.8rem)", color:"var(--text)", fontWeight:400, lineHeight:1.12 }}>Olá, {user.name?.split(" ")[0]}</h1>
         </div>
 
         {products.length===0 ? (
@@ -626,8 +624,9 @@ const Dashboard = ({ user, products, availableProducts=[], onOpen, onPurchase })
           <>
             {priv.length > 0 && (
               <>
-                <div style={{ marginBottom:14, paddingBottom:10, borderBottom:"1px solid var(--border)" }}>
-                  <span style={{ fontFamily:"var(--font-label)", fontSize:11, color:"var(--text-muted)", letterSpacing:"0.12em" }}>PRODUTOS EXCLUSIVOS ({priv.length})</span>
+                <div style={{ marginBottom:20 }}>
+                  <div style={{ fontFamily:"var(--font-label)", fontSize:"0.60rem", fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--gold)", marginBottom:8 }}>Produtos Exclusivos</div>
+                  <div style={{ width:36, height:"1.5px", background:"var(--gold)", opacity:0.50, borderRadius:1 }}/>
                 </div>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))", gap:18, marginBottom:32 }}>
                   {priv.map(p => <ProductCard key={p.id} p={p} onOpen={onOpen}/>)}
@@ -636,8 +635,9 @@ const Dashboard = ({ user, products, availableProducts=[], onOpen, onPurchase })
             )}
             {pub.length > 0 && (
               <>
-                <div style={{ marginBottom:14, paddingBottom:10, borderBottom:"1px solid var(--border)" }}>
-                  <span style={{ fontFamily:"var(--font-label)", fontSize:11, color:"var(--text-muted)", letterSpacing:"0.12em" }}>CONTEÚDO PÚBLICO ({pub.length})</span>
+                <div style={{ marginBottom:20 }}>
+                  <div style={{ fontFamily:"var(--font-label)", fontSize:"0.60rem", fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--gold)", marginBottom:8 }}>Conteúdo Público</div>
+                  <div style={{ width:36, height:"1.5px", background:"var(--gold)", opacity:0.50, borderRadius:1 }}/>
                 </div>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))", gap:18 }}>
                   {pub.map(p => <ProductCard key={p.id} p={p} onOpen={onOpen}/>)}
@@ -649,8 +649,9 @@ const Dashboard = ({ user, products, availableProducts=[], onOpen, onPurchase })
 
         {availableProducts.length > 0 && (
           <>
-            <div style={{ marginTop:40, marginBottom:14, paddingBottom:10, borderBottom:"1px solid var(--border)" }}>
-              <span style={{ fontFamily:"var(--font-label)", fontSize:11, color:"var(--text-muted)", letterSpacing:"0.12em" }}>DISPONÍVEL PARA COMPRA ({availableProducts.length})</span>
+            <div style={{ marginTop:52, marginBottom:20 }}>
+              <div style={{ fontFamily:"var(--font-label)", fontSize:"0.60rem", fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--gold)", marginBottom:8 }}>Disponível para Compra</div>
+              <div style={{ width:36, height:"1.5px", background:"var(--gold)", opacity:0.50, borderRadius:1 }}/>
             </div>
             <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))", gap:18 }}>
               {availableProducts.map(p => <PurchaseCard key={p.id} p={p} onPurchase={onPurchase}/>)}
@@ -970,8 +971,9 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
       <div style={{ maxWidth:940 }}>
         <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:24 }}>
           <div>
-            <p style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--text-muted)",letterSpacing:"0.14em",marginBottom:4 }}>ADMINISTRAÇÃO</p>
-            <h1 style={{ fontFamily:"var(--font-display)",fontSize:24,color:"var(--text)" }}>Painel Admin</h1>
+            <div style={{ fontFamily:"var(--font-label)", fontSize:"0.60rem", fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--gold)", marginBottom:10 }}>Administração</div>
+            <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(1.6rem,3vw,2.2rem)", color:"var(--text)", fontWeight:400 }}>Painel Admin</h1>
+            <div style={{ width:36, height:"1.5px", background:"var(--gold)", opacity:0.50, borderRadius:1, marginTop:10 }}/>
           </div>
           <Btn gold onClick={()=>tab==="members"?setModal(true):setProdModal(true)}>
             <Icon name="plus" size={14} color="#2C3639"/>{tab==="members"?"Novo membro":"Novo produto"}
@@ -1264,7 +1266,11 @@ const Account = ({ user }) => {
   return (
     <div style={{ flex:1,overflowY:"auto",padding:"28px 32px" }}>
       <div style={{ maxWidth:520 }}>
-        <h1 style={{ fontFamily:"var(--font-display)",fontSize:22,color:"var(--text)",marginBottom:24 }}>Minha Conta</h1>
+        <div style={{ marginBottom:32, paddingBottom:24, borderBottom:"1px solid var(--border)" }}>
+        <div style={{ fontFamily:"var(--font-label)", fontSize:"0.60rem", fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--gold)", marginBottom:10 }}>Perfil</div>
+        <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(1.6rem,3vw,2.2rem)", color:"var(--text)", fontWeight:400, lineHeight:1.15 }}>Minha Conta</h1>
+        <div style={{ width:36, height:"1.5px", background:"var(--gold)", opacity:0.50, borderRadius:1, marginTop:12 }}/>
+      </div>
         <div style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:22,marginBottom:16 }}>
           <div style={{ display:"flex",alignItems:"center",gap:14,marginBottom:18,paddingBottom:18,borderBottom:"1px solid var(--border)" }}>
             <div style={{ width:48,height:48,borderRadius:"50%",background:"var(--gold-dim)",display:"flex",alignItems:"center",justifyContent:"center" }}>
@@ -1305,7 +1311,11 @@ const Account = ({ user }) => {
 const Help = () => (
   <div style={{ flex:1,overflowY:"auto",padding:"28px 32px" }}>
     <div style={{ maxWidth:520 }}>
-      <h1 style={{ fontFamily:"var(--font-display)",fontSize:22,color:"var(--text)",marginBottom:24 }}>Ajuda</h1>
+      <div style={{ marginBottom:28, paddingBottom:24, borderBottom:"1px solid var(--border)" }}>
+        <div style={{ fontFamily:"var(--font-label)", fontSize:"0.60rem", fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--gold)", marginBottom:10 }}>Suporte</div>
+        <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(1.6rem,3vw,2.2rem)", color:"var(--text)", fontWeight:400, lineHeight:1.15 }}>Ajuda</h1>
+        <div style={{ width:36, height:"1.5px", background:"var(--gold)", opacity:0.50, borderRadius:1, marginTop:12 }}/>
+      </div>
       {[
         ["Como acesso meus produtos?","Clique em 'Meus Produtos' no menu lateral para ver seus cursos e materiais ativos."],
         ["Não estou vendo um produto?","Produtos privados precisam ser liberados manualmente. Entre em contato para solicitar acesso."],
