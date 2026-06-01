@@ -529,47 +529,89 @@
 
     .vl-intro { font-size: 1rem; font-weight: 400; color: var(--text-body); max-width: 640px; margin-bottom: 2.5rem; }
 
-    .vl-table-wrap {
-      background: #fff;
-      border: 1px solid var(--border-m);
-      border-radius: 3px;
-      overflow: hidden;
+    .vl-packages {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
       margin-bottom: 2rem;
     }
-    .vl-table-header {
-      background: var(--nav);
-      padding: 1rem 1.5rem;
-      display: flex; align-items: center; gap: 0.75rem;
-      border-bottom: 1px solid rgba(162,123,91,0.30);
-    }
-    .vl-table-header span { font-family: 'Jost', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--creme); }
 
-    .vl-table { width: 100%; border-collapse: collapse; }
-    .vl-table thead th {
-      font-size: 0.64rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text-body); padding: 0.8rem 1.5rem; text-align: left;
+    .vl-pkg {
+      background: var(--nav);
+      border: 1px solid var(--border-m);
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .vl-pkg-featured { border-color: rgba(162,123,91,0.45); }
+
+    .vl-pkg-header {
+      padding: 1.25rem 1.5rem 1rem;
       border-bottom: 1px solid var(--border);
     }
-    .vl-table thead th:last-child { text-align: right; }
-    .vl-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
-    .vl-table tbody tr:last-child { border-bottom: none; }
-    .vl-table tbody tr:hover { background: var(--creme-soft); }
-    .vl-table td { padding: 1rem 1.5rem; font-size: 0.9rem; vertical-align: top; }
-    .vl-table td:first-child { font-weight: 500; color: var(--text-body); }
-    .vl-table td:nth-child(2) { color: var(--text-body); font-size: 0.85rem; }
-    .vl-table td:last-child { text-align: right; font-weight: 600; color: var(--creme); white-space: nowrap; }
-
-    .vl-obs {
-      background: var(--creme-soft);
-      border: 1px solid var(--creme-border);
-      border-radius: 3px;
-      padding: 1.4rem 1.6rem;
-      font-size: 0.93rem;
-      font-weight: 400;
-      color: var(--text-body);
-      line-height: 1.75;
+    .vl-pkg-tag {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.63rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--creme);
+      margin-bottom: 0.35rem;
     }
-    .vl-obs strong { color: var(--text); font-weight: 600; }
+    .vl-pkg-name {
+      font-family: 'Spectral', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .vl-pkg-includes {
+      font-size: 0.8rem;
+      color: var(--text-body);
+      padding: 0.7rem 1.5rem 0;
+      font-style: italic;
+    }
+
+    .vl-pkg-table { width: 100%; border-collapse: collapse; flex: 1; }
+    .vl-pkg-table thead th {
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(220,215,201,0.45); padding: 0.6rem 1.5rem; text-align: left;
+      border-bottom: 1px solid rgba(220,215,201,0.07);
+    }
+    .vl-pkg-table tbody tr { border-bottom: 1px solid rgba(220,215,201,0.06); }
+    .vl-pkg-table tbody tr:last-child { border-bottom: none; }
+    .vl-pkg-table td { padding: 0.6rem 1.5rem; font-size: 0.83rem; vertical-align: top; line-height: 1.45; }
+    .vl-pkg-table td:first-child { font-weight: 500; color: var(--text-body); width: 48%; }
+    .vl-pkg-table td:last-child { color: rgba(220,215,201,0.55); font-size: 0.79rem; }
+
+    .vl-pkg-desc {
+      padding: 1rem 1.5rem;
+      font-size: 0.875rem;
+      color: var(--text-body);
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .vl-pkg-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: rgba(162,123,91,0.05);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .vl-pkg-price {
+      font-family: 'Spectral', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--creme);
+    }
+    .vl-pkg-price span { font-size: 0.78rem; font-weight: 400; color: var(--text-body); margin-left: 0.15rem; }
+    .vl-pkg-prazo { font-size: 0.75rem; color: var(--text-body); font-family: 'Jost', sans-serif; }
 
     /* ── MEMBROS DESTAQUE ── */
     #membros-destaque {
@@ -978,28 +1020,33 @@
       .pub-link-icon { display: none; }
       .preview-grid { grid-template-columns: 1fr; }
 
-      .preco-table thead,
-      .vl-table thead { display: none; }
+      .preco-table thead { display: none; }
 
-      .preco-table tbody tr,
-      .vl-table tbody tr {
+      .preco-table tbody tr {
         display: flex; flex-direction: column; padding: 1rem 1.2rem;
         border-bottom: 1px solid var(--border); gap: 0.3rem;
       }
 
-      .preco-table td,
-      .vl-table td { padding: 0; text-align: left !important; white-space: normal !important; font-size: 0.88rem; }
+      .preco-table td { padding: 0; text-align: left !important; white-space: normal !important; font-size: 0.88rem; }
 
-      .preco-table td:first-child,
-      .vl-table td:first-child {
+      .preco-table td:first-child {
         font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.02em;
         color: var(--text) !important; margin-bottom: 0.1rem;
       }
 
-      .vl-table td:nth-child(2) { color: var(--text-body) !important; font-size: 0.8rem !important; }
+      .preco-table td:last-child { color: var(--creme) !important; font-weight: 600; }
 
-      .preco-table td:last-child,
-      .vl-table td:last-child { color: var(--creme) !important; font-weight: 600; }
+      .vl-packages { grid-template-columns: 1fr; }
+
+      .vl-pkg-table thead { display: none; }
+
+      .vl-pkg-table tbody tr {
+        display: flex; flex-direction: column; padding: 0.75rem 1.25rem;
+        border-bottom: 1px solid rgba(220,215,201,0.08); gap: 0.2rem;
+      }
+      .vl-pkg-table td { padding: 0; font-size: 0.84rem; }
+      .vl-pkg-table td:first-child { font-weight: 600; color: var(--text) !important; }
+      .vl-pkg-table td:last-child { color: var(--text-body) !important; font-size: 0.79rem; }
     }
     /* ── SCROLL REVEAL ── */
     .reveal {
@@ -1421,30 +1468,70 @@
     <div class="section-divider"></div>
     <p class="vl-intro">Aplicação de elementos visuais em peças processuais e documentos jurídicos no Word — facilitando a leitura, a argumentação e o impacto da peça perante o juízo.</p>
 
-    <div class="vl-table-wrap">
-      <div class="vl-table-header">
-        <svg width="15" height="15" fill="none" stroke="#A27B5B" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        <span>Tabela de Valores — Visual Law em Word</span>
+    <div class="vl-packages">
+
+      <!-- Opção A -->
+      <div class="vl-pkg">
+        <div class="vl-pkg-header">
+          <div class="vl-pkg-tag">o mais limpo</div>
+          <div class="vl-pkg-name">Pacote Identidade Documental</div>
+        </div>
+        <table class="vl-pkg-table">
+          <thead><tr><th>Entrega</th><th>Detalhe</th></tr></thead>
+          <tbody>
+            <tr><td>Modelo de petição .docx</td><td>Formatado com identidade visual do advogado</td></tr>
+            <tr><td>Cabeçalho + rodapé</td><td>Logo, nome, OAB, contato</td></tr>
+            <tr><td>Modelo de tabelas</td><td>3 estilos (simples, comparativa, linha do tempo)</td></tr>
+            <tr><td>Banco de ícones Word</td><td>Ícones jurídicos nas cores do cliente</td></tr>
+            <tr><td>Papel timbrado</td><td>Para uso em correspondências</td></tr>
+            <tr><td>Guia rápido de uso</td><td>PDF de 1 página mostrando como editar</td></tr>
+          </tbody>
+        </table>
+        <div class="vl-pkg-footer">
+          <div class="vl-pkg-price">R$ 390 <span>fixo</span></div>
+          <div class="vl-pkg-prazo">5–7 dias úteis após briefing + materiais</div>
+        </div>
       </div>
-      <table class="vl-table">
-        <thead>
-          <tr><th>Faixa</th><th>Critério</th><th>Valor</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Peça simples</td><td>até ~15 páginas, poucos elementos</td><td>R$ 120 – R$ 160</td></tr>
-          <tr><td>Peça média</td><td>16–40 páginas</td><td>R$ 180 – R$ 280</td></tr>
-          <tr><td>Peça extensa</td><td>40+ páginas</td><td>R$ 300 – R$ 450</td></tr>
-          <tr><td>Acréscimo visual</td><td>timeline elaborada, infográfico, tabelas complexas</td><td>+ R$ 80 – R$ 150</td></tr>
-        </tbody>
-      </table>
+
+      <!-- Opção B -->
+      <div class="vl-pkg vl-pkg-featured">
+        <div class="vl-pkg-header">
+          <div class="vl-pkg-tag">maior ticket</div>
+          <div class="vl-pkg-name">Pacote Visual Law Completo</div>
+        </div>
+        <p class="vl-pkg-includes">Tudo do Pacote A, mais:</p>
+        <table class="vl-pkg-table">
+          <thead><tr><th>Extra</th><th>Por que agrega</th></tr></thead>
+          <tbody>
+            <tr><td>Modelo de proposta de honorários</td><td>Alta demanda — advogados jovens precisam muito</td></tr>
+            <tr><td>Modelo de contrato de honorários</td><td>Um dos mais solicitados em pacotes do mercado</td></tr>
+            <tr><td>Modelo de citação/destaque Word</td><td>Caixas de texto para argumentos-chave</td></tr>
+            <tr><td>1 rodada de ajuste inclusa</td><td>Diferencial contra produtos prontos</td></tr>
+          </tbody>
+        </table>
+        <div class="vl-pkg-footer">
+          <div class="vl-pkg-price">R$ 590 <span>fixo</span></div>
+          <div class="vl-pkg-prazo">7–10 dias úteis</div>
+        </div>
+      </div>
+
+      <!-- Opção C -->
+      <div class="vl-pkg">
+        <div class="vl-pkg-header">
+          <div class="vl-pkg-tag">diferencial de nicho</div>
+          <div class="vl-pkg-name">Pacote por Área Jurídica</div>
+        </div>
+        <p class="vl-pkg-desc">Igual ao Pacote B, mas os modelos são configurados para uma área específica — Trabalhista, Família, Cível ou Previdenciário. Ícones, terminologia e estrutura da petição já vêm do nicho do cliente.</p>
+        <div class="vl-pkg-footer">
+          <div class="vl-pkg-price">R$ 650<span>–720 fixo</span></div>
+          <div class="vl-pkg-prazo">Prazo a combinar</div>
+        </div>
+      </div>
+
     </div>
 
-    <div class="vl-obs">
-      <strong>Como funciona o orçamento:</strong> Você descreve a peça e informa o número aproximado de páginas. Com isso, enquadro rapidamente na faixa de investimento — sem necessidade de analisar o arquivo previamente. O prazo de entrega já é definido na proposta, respeitando o tempo necessário para um visual law bem executado.
-    </div>
-
-    <div class="preco-nota" style="margin-top:1.5rem">
-      Valores são referências de mercado. <a href="#contato">Orçamento personalizado mediante consulta.</a>
+    <div class="preco-nota" style="margin-top:0.5rem">
+      Valores fixos. <a href="#contato">Solicite via WhatsApp para iniciar.</a>
     </div>
   </div>
 </section>
