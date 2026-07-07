@@ -295,7 +295,7 @@ Hambúrguer: toggle da classe `nav.open` que expande `.nav-center` como dropdown
 
 | Arquivo | Uso | Observação |
 |---|---|---|
-| `monograma_jk.png` | Nav, sidebar, login, favicon | Circular, botânico, fundo transparente, cor `#A27B5B`. NUNCA substituir por texto puro. |
+| `monograma_jk.png` | Nav, sidebar, login, favicon | Brasão (escudo com JK + ramos de louro), linework dourado `#A27B5B`, fundo transparente. Vetor: `claude-design-social/logo-dourado.svg`. NUNCA substituir por texto puro. |
 | `julia.png` | Hero LP, seção Sobre | Blazer branco, fundo claro. Principal ativo de confiança. |
 
 ---
