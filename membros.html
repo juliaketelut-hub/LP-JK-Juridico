@@ -317,6 +317,18 @@ const authService = {
     return { user: { ...profile, email }, products };
   },
   async logout() { if (IS_CONFIGURED) await sb.auth.signOut(); },
+  async resetPassword(email) {
+    if (!IS_CONFIGURED) throw new Error("Indisponível no modo demo.");
+    const redirectTo = window.location.href.split("#")[0].split("?")[0];
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
+    if (error) throw new Error("Não foi possível enviar o e-mail. Confira o endereço e tente novamente.");
+  },
+  async setNewPassword(password) {
+    if (!IS_CONFIGURED) throw new Error("Indisponível no modo demo.");
+    const { error } = await sb.auth.updateUser({ password });
+    if (error) throw new Error(error.message.includes("different") ? "A nova senha precisa ser diferente da atual." : "Não foi possível redefinir a senha. Tente novamente.");
+    await sb.auth.signOut();
+  },
   async getMembers() {
     if (!IS_CONFIGURED) return DEMO_USERS.filter(u => u.role==="member").map(u => ({ ...u, productIds: u.products||[] }));
     const { data: profiles } = await sb.from("profiles").select("*").eq("role","member");
@@ -371,8 +383,17 @@ const Login = ({ onLogin, onShowSetup }) => {
   const [sName,setSName]=useState(""); const [sEmail,setSEmail]=useState(""); const [sPass,setSPass]=useState("");
   const [sShow,setSShow]=useState(false); const [sErr,setSErr]=useState(""); const [sLoading,setSLoading]=useState(false);
   const [sSuccess,setSSuccess]=useState(false);
+  const [fEmail,setFEmail]=useState(""); const [fErr,setFErr]=useState(""); const [fLoading,setFLoading]=useState(false);
+  const [fSuccess,setFSuccess]=useState(false);
 
-  const switchTab = (t) => { setTab(t); setErr(""); setSErr(""); setSSuccess(false); };
+  const switchTab = (t) => { setTab(t); setErr(""); setSErr(""); setSSuccess(false); setFErr(""); setFSuccess(false); };
+
+  const submitForgot = async (e) => {
+    e.preventDefault(); setFErr(""); setFLoading(true);
+    try { await authService.resetPassword(fEmail); setFSuccess(true); }
+    catch(ex) { setFErr(ex.message); }
+    setFLoading(false);
+  };
 
   const submit = async (e) => {
     e.preventDefault(); setErr(""); setLoading(true);
@@ -433,7 +454,35 @@ const Login = ({ onLogin, onShowSetup }) => {
                 <button type="submit" disabled={loading} style={{ marginTop:4, background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"13px", color:"#fff", fontSize:14, fontWeight:600, letterSpacing:"0.04em", cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1 }}>
                   {loading?"Entrando...":"Entrar"}
                 </button>
+                <button type="button" onClick={()=>{setTab("forgot");setFEmail(email);}} style={{ background:"none", border:"none", color:"var(--text-muted)", fontSize:12, cursor:"pointer", textDecoration:"underline", fontFamily:"var(--font-sans)", padding:"2px 0", alignSelf:"center" }}>
+                  Esqueci minha senha
+                </button>
               </form>
+            )}
+
+            {tab==="forgot" && !fSuccess && (
+              <form onSubmit={submitForgot} style={{ display:"flex", flexDirection:"column", gap:14 }}>
+                <p style={{ fontSize:13, color:"var(--text-muted)", lineHeight:1.6 }}>Informe seu e-mail de cadastro. Enviaremos um link para você definir uma nova senha.</p>
+                <LoginField label="E-MAIL" id="femail" type="email" ph="seu@email.com" val={fEmail} set={setFEmail}/>
+                {fErr && <div style={{ background:"rgba(231,76,60,0.08)", border:"1px solid rgba(231,76,60,0.32)", borderRadius:"var(--radius)", padding:"9px 13px", color:"var(--danger)", fontSize:13 }}>{fErr}</div>}
+                <button type="submit" disabled={fLoading} style={{ marginTop:4, background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"13px", color:"#fff", fontSize:14, fontWeight:600, letterSpacing:"0.04em", cursor:fLoading?"not-allowed":"pointer", opacity:fLoading?0.7:1 }}>
+                  {fLoading?"Enviando...":"Enviar link de redefinição"}
+                </button>
+                <button type="button" onClick={()=>switchTab("login")} style={{ background:"none", border:"none", color:"var(--text-muted)", fontSize:12, cursor:"pointer", textDecoration:"underline", fontFamily:"var(--font-sans)", padding:"2px 0", alignSelf:"center" }}>
+                  Voltar ao login
+                </button>
+              </form>
+            )}
+
+            {tab==="forgot" && fSuccess && (
+              <div style={{ textAlign:"center", padding:"8px 0" }}>
+                <div style={{ fontSize:32, marginBottom:12 }}>📩</div>
+                <div style={{ fontSize:16, color:"var(--text)", fontWeight:500, marginBottom:8 }}>Verifique seu e-mail</div>
+                <p style={{ fontSize:14, color:"var(--text-muted)", marginBottom:20, lineHeight:1.6 }}>Se <strong style={{color:"var(--text-secondary)"}}>{fEmail}</strong> estiver cadastrado, você receberá um link para redefinir a senha em instantes.</p>
+                <button onClick={()=>switchTab("login")} style={{ background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"10px 24px", color:"#fff", fontSize:13, fontWeight:600, cursor:"pointer" }}>
+                  Voltar ao login
+                </button>
+              </div>
             )}
 
             {tab==="signup" && !sSuccess && (
@@ -459,11 +508,6 @@ const Login = ({ onLogin, onShowSetup }) => {
               </div>
             )}
 
-            {!IS_CONFIGURED && (
-              <div style={{ marginTop:16, paddingTop:14, borderTop:"1px solid var(--border)", fontSize:11, color:"var(--text-muted)" }}>
-                Demo: <strong style={{ color:"var(--text-secondary)" }}>admin@jkjuridico.com</strong> / admin123 · <strong style={{ color:"var(--text-secondary)" }}>maria@email.com</strong> / 123456
-              </div>
-            )}
           </div>
         </div>
 
@@ -1334,6 +1378,64 @@ const Help = () => (
 );
 
 // ─── APP ────────────────────────────────────────────────────
+// ─── REDEFINIR SENHA (chegada pelo link do e-mail) ───────────
+const RecoveryScreen = ({ onDone }) => {
+  const [p1,setP1]=useState(""); const [p2,setP2]=useState("");
+  const [show,setShow]=useState(false); const [err,setErr]=useState("");
+  const [loading,setLoading]=useState(false); const [ok,setOk]=useState(false);
+
+  const submit = async (e) => {
+    e.preventDefault(); setErr("");
+    if(p1.length<6){setErr("A senha precisa ter no mínimo 6 caracteres.");return;}
+    if(p1!==p2){setErr("As senhas não coincidem.");return;}
+    setLoading(true);
+    try { await authService.setNewPassword(p1); setOk(true); }
+    catch(ex) { setErr(ex.message); }
+    setLoading(false);
+  };
+
+  return (
+    <div style={{ minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", background:"var(--bg)", position:"relative" }}>
+      <div className="login-bg"><div className="login-lines"/></div>
+      <div style={{ width:"100%", maxWidth:440, padding:"0 24px", position:"relative", zIndex:1 }}>
+        <div className="login-card" style={{ borderRadius:"var(--radius-lg)", overflow:"hidden", border:"1px solid rgba(162,123,91,0.22)", boxShadow:"0 16px 56px rgba(42,33,24,0.10)" }}>
+          <div style={{ background:"#2A2118", padding:"30px 28px 26px", textAlign:"center", borderBottom:"1px solid rgba(162,123,91,0.18)" }}>
+            <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:14 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:11 }}>
+                <img src="monograma_jk.png" alt="JK Jurídico" style={{ height:42, width:"auto", display:"block" }} />
+                <span style={{ fontFamily:"var(--font-display)", fontSize:22, color:"#A27B5B", letterSpacing:"0.04em" }}>JK Jurídico</span>
+              </div>
+              <span style={{ display:"inline-block", fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:"0.78rem", letterSpacing:"0.08em", color:"rgba(220,215,201,0.60)", border:"1px solid rgba(162,123,91,0.22)", padding:"0.35rem 1.6rem", borderRadius:2, background:"rgba(162,123,91,0.07)" }}>Redefinir senha</span>
+            </div>
+          </div>
+          <div style={{ background:"var(--surface)", padding:"28px 28px 32px" }}>
+            {!ok ? (
+              <form onSubmit={submit} style={{ display:"flex", flexDirection:"column", gap:14 }}>
+                <p style={{ fontSize:13, color:"var(--text-muted)", lineHeight:1.6 }}>Defina sua nova senha de acesso à Área de Membros.</p>
+                <LoginField label="NOVA SENHA" id="npassword" type="password" ph="mínimo 6 caracteres" val={p1} set={setP1} showToggle={true} showState={show} onToggle={()=>setShow(!show)}/>
+                <LoginField label="CONFIRMAR NOVA SENHA" id="cpassword" type="password" ph="repita a nova senha" val={p2} set={setP2}/>
+                {err && <div style={{ background:"rgba(231,76,60,0.08)", border:"1px solid rgba(231,76,60,0.32)", borderRadius:"var(--radius)", padding:"9px 13px", color:"var(--danger)", fontSize:13 }}>{err}</div>}
+                <button type="submit" disabled={loading} style={{ marginTop:4, background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"13px", color:"#fff", fontSize:14, fontWeight:600, letterSpacing:"0.04em", cursor:loading?"not-allowed":"pointer", opacity:loading?0.7:1 }}>
+                  {loading?"Salvando...":"Salvar nova senha"}
+                </button>
+              </form>
+            ) : (
+              <div style={{ textAlign:"center", padding:"8px 0" }}>
+                <div style={{ fontSize:32, marginBottom:12 }}>✅</div>
+                <div style={{ fontSize:16, color:"var(--text)", fontWeight:500, marginBottom:8 }}>Senha redefinida!</div>
+                <p style={{ fontSize:14, color:"var(--text-muted)", marginBottom:20, lineHeight:1.6 }}>Entre novamente com a sua nova senha.</p>
+                <button onClick={onDone} style={{ background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"10px 24px", color:"#fff", fontSize:13, fontWeight:600, cursor:"pointer" }}>
+                  Ir para o login
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   const [session,setSession]=useState(null);
   const [view,setView]=useState("dashboard");
@@ -1344,11 +1446,21 @@ const App = () => {
   const [availableProducts,setAvailableProducts]=useState([]);
   const [toast,setToast]=useState(null);
   const [theme,setTheme]=useState(()=>localStorage.getItem("jk-theme")||"light");
+  const [recovery,setRecovery]=useState(()=>window.location.hash.includes("type=recovery"));
 
   React.useEffect(()=>{
     document.documentElement.setAttribute("data-theme",theme);
     localStorage.setItem("jk-theme",theme);
   },[theme]);
+
+  // Chegada pelo link "redefinir senha" do e-mail
+  React.useEffect(()=>{
+    if(!sb) return;
+    const {data:{subscription}} = sb.auth.onAuthStateChange((event)=>{
+      if(event==="PASSWORD_RECOVERY") setRecovery(true);
+    });
+    return ()=>subscription.unsubscribe();
+  },[]);
 
   const handleToggleTheme = () => setTheme(t=>t==="dark"?"light":"dark");
 
@@ -1395,6 +1507,10 @@ const App = () => {
       alert("Não foi possível gerar o link de pagamento. Tente novamente."+detail);
     }
   };
+
+  if(recovery) return (
+    <RecoveryScreen onDone={()=>{ setRecovery(false); window.history.replaceState({},"",window.location.pathname); }}/>
+  );
 
   if(!session) return (
     <>
