@@ -948,6 +948,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
   const [formErr,setFormErr]=useState("");
   const [loading,setLoading]=useState(true);
   const [prodModal,setProdModal]=useState(false);
+  const [prodEditId,setProdEditId]=useState(null);
   const [prodForm,setProdForm]=useState({title:"",subtitle:"",category:"Consultoria",thumb:"visual-law",visibility:"privado"});
   const [prodErr,setProdErr]=useState("");
   const [modModal,setModModal]=useState(null);
@@ -966,15 +967,33 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
     if(onProductsUpdate) onProductsUpdate(updated);
     if(IS_CONFIGURED) await sb.from("products").update({modules}).eq("id",pid);
   };
-  const addProduct = async () => {
-    if(!prodForm.title){setProdErr("Título obrigatório.");return;}
-    const obj={...prodForm,modules:[]};
-    if(IS_CONFIGURED){
-      const {data}=await sb.from("products").insert(obj).select().single();
-      if(data)setProducts(prev=>[...prev,data]);
-    } else setProducts(prev=>[...prev,{id:Date.now(),...obj}]);
+  const openNewProduct = () => {
+    setProdEditId(null);
     setProdForm({title:"",subtitle:"",category:"Consultoria",thumb:"visual-law",visibility:"privado"});
-    setProdErr("");setProdModal(false);
+    setProdErr("");setProdModal(true);
+  };
+  const openEditProduct = (p) => {
+    setProdEditId(p.id);
+    setProdForm({title:p.title||"",subtitle:p.subtitle||"",category:p.category||"Consultoria",thumb:p.thumb||"visual-law",visibility:p.visibility||"privado"});
+    setProdErr("");setProdModal(true);
+  };
+  const saveProduct = async () => {
+    if(!prodForm.title){setProdErr("Título obrigatório.");return;}
+    if(prodEditId){
+      const fields={title:prodForm.title,subtitle:prodForm.subtitle,category:prodForm.category,thumb:prodForm.thumb,visibility:prodForm.visibility};
+      if(IS_CONFIGURED)await sb.from("products").update(fields).eq("id",prodEditId);
+      const updated=products.map(p=>p.id===prodEditId?{...p,...fields}:p);
+      setProducts(updated);
+      if(onProductsUpdate) onProductsUpdate(updated);
+    } else {
+      const obj={...prodForm,modules:[]};
+      if(IS_CONFIGURED){
+        const {data}=await sb.from("products").insert(obj).select().single();
+        if(data)setProducts(prev=>[...prev,data]);
+      } else setProducts(prev=>[...prev,{id:Date.now(),...obj}]);
+    }
+    setProdForm({title:"",subtitle:"",category:"Consultoria",thumb:"visual-law",visibility:"privado"});
+    setProdEditId(null);setProdErr("");setProdModal(false);
   };
   const delProduct = async (id) => {
     if(!confirm("Remover produto e todos os acessos?"))return;
@@ -1055,7 +1074,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
             <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(1.6rem,3vw,2.2rem)", color:"var(--text)", fontWeight:400 }}>Painel Admin</h1>
             <div style={{ width:36, height:"1.5px", background:"var(--gold)", opacity:0.50, borderRadius:1, marginTop:10 }}/>
           </div>
-          <Btn gold onClick={()=>tab==="members"?setModal(true):setProdModal(true)}>
+          <Btn gold onClick={()=>tab==="members"?setModal(true):openNewProduct()}>
             <Icon name="plus" size={14} color="#2C3639"/>{tab==="members"?"Novo membro":"Novo produto"}
           </Btn>
         </div>
@@ -1193,7 +1212,11 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
                       <Icon name={p.visibility==="publico"?"lock":"globe"} size={11} color="currentColor"/>
                       {p.visibility==="publico"?"Tornar privado":"Tornar público"}
                     </button>
-                    <button onClick={e=>{e.stopPropagation();delProduct(p.id);}} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:4 }}
+                    <button onClick={e=>{e.stopPropagation();openEditProduct(p);}} title="Editar produto" style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:4 }}
+                      onMouseEnter={e=>e.currentTarget.style.color="var(--gold)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+                      <Icon name="edit" size={14} color="currentColor"/>
+                    </button>
+                    <button onClick={e=>{e.stopPropagation();delProduct(p.id);}} title="Excluir produto" style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:4 }}
                       onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
                       <Icon name="trash" size={14} color="currentColor"/>
                     </button>
@@ -1266,7 +1289,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
       {prodModal&&(
         <div style={{ position:"fixed",inset:0,background:"#00000075",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100 }} onClick={()=>setProdModal(false)}>
           <div style={{ background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"24px",width:420,maxWidth:"92vw" }} onClick={e=>e.stopPropagation()}>
-            <h2 style={{ fontFamily:"var(--font-display)",fontSize:18,color:"var(--text)",marginBottom:18 }}>Novo produto</h2>
+            <h2 style={{ fontFamily:"var(--font-display)",fontSize:18,color:"var(--text)",marginBottom:18 }}>{prodEditId?"Editar produto":"Novo produto"}</h2>
             <Lbl t="TÍTULO"/><Inp val={prodForm.title} set={v=>setProdForm(p=>({...p,title:v}))} ph="Ex: Visual Law — Cliente X"/>
             <Lbl t="DESCRIÇÃO"/><Inp val={prodForm.subtitle} set={v=>setProdForm(p=>({...p,subtitle:v}))} ph="Descrição curta"/>
             <Lbl t="CATEGORIA"/><Sel val={prodForm.category} set={v=>setProdForm(p=>({...p,category:v}))} opts={["Consultoria","Curso","Mini-Curso","Templates","Outros"]}/>
@@ -1282,8 +1305,8 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
             </div>
             {prodErr&&<div style={{ fontSize:12,color:"var(--danger)",marginBottom:10 }}>{prodErr}</div>}
             <div style={{ display:"flex",gap:10 }}>
-              <button onClick={()=>{setProdModal(false);setProdErr("");}} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
-              <button onClick={addProduct} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>Criar</button>
+              <button onClick={()=>{setProdModal(false);setProdEditId(null);setProdErr("");}} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
+              <button onClick={saveProduct} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>{prodEditId?"Salvar alterações":"Criar"}</button>
             </div>
           </div>
         </div>
