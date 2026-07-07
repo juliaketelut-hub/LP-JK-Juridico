@@ -487,7 +487,7 @@ const Login = ({ onLogin, onShowSetup }) => {
               <div style={{ textAlign:"center", padding:"8px 0" }}>
                 <div style={{ fontSize:32, marginBottom:12 }}>📩</div>
                 <div style={{ fontSize:16, color:"var(--text)", fontWeight:500, marginBottom:8 }}>Verifique seu e-mail</div>
-                <p style={{ fontSize:14, color:"var(--text-muted)", marginBottom:20, lineHeight:1.6 }}>Se <strong style={{color:"var(--text-secondary)"}}>{fEmail}</strong> estiver cadastrado, você receberá um link para redefinir a senha em instantes.</p>
+                <p style={{ fontSize:14, color:"var(--text-muted)", marginBottom:20, lineHeight:1.6 }}>Se <strong style={{color:"var(--text-secondary)"}}>{fEmail}</strong> estiver cadastrado, você receberá um link para redefinir a senha em instantes. Verifique também a pasta de <strong style={{color:"var(--text-secondary)"}}>spam</strong>.</p>
                 <button onClick={()=>switchTab("login")} style={{ background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"10px 24px", color:"#fff", fontSize:13, fontWeight:600, cursor:"pointer" }}>
                   Voltar ao login
                 </button>
@@ -510,7 +510,7 @@ const Login = ({ onLogin, onShowSetup }) => {
               <div style={{ textAlign:"center", padding:"8px 0" }}>
                 <div style={{ fontSize:32, marginBottom:12 }}>✅</div>
                 <div style={{ fontSize:16, color:"var(--text)", fontWeight:500, marginBottom:8 }}>Conta criada!</div>
-                <p style={{ fontSize:14, color:"var(--text-muted)", marginBottom:20, lineHeight:1.6 }}>Confirme seu e-mail e volte aqui para entrar.</p>
+                <p style={{ fontSize:14, color:"var(--text-muted)", marginBottom:20, lineHeight:1.6 }}>Enviamos um e-mail de confirmação — verifique sua caixa de entrada e também a pasta de <strong style={{color:"var(--text-secondary)"}}>spam</strong>. Depois volte aqui para entrar.</p>
                 <button onClick={()=>{ setSSuccess(false); switchTab("login"); setEmail(sEmail); }} style={{ background:"var(--gold)", border:"none", borderRadius:"var(--radius)", padding:"10px 24px", color:"#fff", fontSize:13, fontWeight:600, cursor:"pointer" }}>
                   Ir para o login
                 </button>
