@@ -969,14 +969,16 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
     await updateMods(pid,(p.modules||[]).filter(m=>m.id!==mid));
   };
   const addLesson = async () => {
-    if(!lesForm.title||!lesForm.duration)return;
+    if(!lesForm.title){alert("Preencha o título da aula.");return;}
+    // Duração é opcional — usa um rótulo padrão conforme o tipo
+    const form={...lesForm, duration: lesForm.duration || (lesForm.type==="video"?"Aula":"Material")};
     const {pid,mid,lesEditId}=lesModal;
     const p=products.find(x=>x.id===pid);
     let mods;
     if(lesEditId) {
-      mods=(p.modules||[]).map(m=>m.id===mid?{...m,lessons:(m.lessons||[]).map(l=>l.id===lesEditId?{...l,...lesForm}:l)}:m);
+      mods=(p.modules||[]).map(m=>m.id===mid?{...m,lessons:(m.lessons||[]).map(l=>l.id===lesEditId?{...l,...form}:l)}:m);
     } else {
-      mods=(p.modules||[]).map(m=>m.id===mid?{...m,lessons:[...(m.lessons||[]),{id:Date.now(),...lesForm,watched:false}]}:m);
+      mods=(p.modules||[]).map(m=>m.id===mid?{...m,lessons:[...(m.lessons||[]),{id:Date.now(),...form,watched:false}]}:m);
     }
     await updateMods(pid,mods);
     setLesForm({title:"",duration:"",type:"video",url:""});setLesModal(null);
