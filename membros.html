@@ -957,9 +957,11 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
   const [lesForm,setLesForm]=useState({title:"",duration:"",type:"video",url:""});
   const [expandedProd,setExpandedProd]=useState(null);
   const [reportEdits,setReportEdits]=useState({});
+  const [prodNotes,setProdNotes]=useState({}); // {product_id: note} — anotações internas (só admin)
 
   useEffect(()=>{ authService.getMembers().then(m=>{setMembers(m);setLoading(false);}); },[]);
   useEffect(()=>{ if(IS_CONFIGURED) sb.from("products").select("*").then(({data})=>{if(data)setProducts(data);}); },[]);
+  useEffect(()=>{ if(IS_CONFIGURED) sb.from("product_admin_notes").select("product_id, note").then(({data})=>{ if(data) setProdNotes(Object.fromEntries(data.map(r=>[r.product_id,r.note]))); }); },[]);
 
   const updateMods = async (pid,modules) => {
     const updated = products.map(p=>p.id===pid?{...p,modules}:p);
@@ -969,13 +971,19 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
   };
   const openNewProduct = () => {
     setProdEditId(null);
-    setProdForm({title:"",subtitle:"",category:"Consultoria",thumb:"visual-law",visibility:"privado"});
+    setProdForm({title:"",subtitle:"",category:"Consultoria",thumb:"visual-law",visibility:"privado",note:""});
     setProdErr("");setProdModal(true);
   };
   const openEditProduct = (p) => {
     setProdEditId(p.id);
-    setProdForm({title:p.title||"",subtitle:p.subtitle||"",category:p.category||"Consultoria",thumb:p.thumb||"visual-law",visibility:p.visibility||"privado"});
+    setProdForm({title:p.title||"",subtitle:p.subtitle||"",category:p.category||"Consultoria",thumb:p.thumb||"visual-law",visibility:p.visibility||"privado",note:prodNotes[p.id]||""});
     setProdErr("");setProdModal(true);
+  };
+  const saveNote = async (productId, note) => {
+    setProdNotes(prev=>({...prev,[productId]:note}));
+    if(!IS_CONFIGURED) return;
+    if(note&&note.trim()) await sb.from("product_admin_notes").upsert({product_id:productId, note, updated_at:new Date().toISOString()});
+    else await sb.from("product_admin_notes").delete().eq("product_id",productId);
   };
   const saveProduct = async () => {
     if(!prodForm.title){setProdErr("Título obrigatório.");return;}
@@ -985,14 +993,15 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
       const updated=products.map(p=>p.id===prodEditId?{...p,...fields}:p);
       setProducts(updated);
       if(onProductsUpdate) onProductsUpdate(updated);
+      await saveNote(prodEditId, prodForm.note||"");
     } else {
-      const obj={...prodForm,modules:[]};
+      const obj={title:prodForm.title,subtitle:prodForm.subtitle,category:prodForm.category,thumb:prodForm.thumb,visibility:prodForm.visibility,modules:[]};
       if(IS_CONFIGURED){
         const {data}=await sb.from("products").insert(obj).select().single();
-        if(data)setProducts(prev=>[...prev,data]);
+        if(data){ setProducts(prev=>[...prev,data]); await saveNote(data.id, prodForm.note||""); }
       } else setProducts(prev=>[...prev,{id:Date.now(),...obj}]);
     }
-    setProdForm({title:"",subtitle:"",category:"Consultoria",thumb:"visual-law",visibility:"privado"});
+    setProdForm({title:"",subtitle:"",category:"Consultoria",thumb:"visual-law",visibility:"privado",note:""});
     setProdEditId(null);setProdErr("");setProdModal(false);
   };
   const delProduct = async (id) => {
@@ -1203,6 +1212,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
                       </div>
                       <div style={{ fontSize:14,fontWeight:500,color:"var(--text)" }}>{p.title}</div>
                       <div style={{ fontSize:11,color:"var(--text-muted)" }}>{(p.modules||[]).length} módulos · {(p.modules||[]).reduce((s,m)=>s+(m.lessons?.length||0),0)} aulas</div>
+                      {prodNotes[p.id]&&<div style={{ fontSize:11,color:"var(--gold-muted)",marginTop:4,display:"flex",alignItems:"flex-start",gap:5,maxWidth:520 }} title={prodNotes[p.id]}><Icon name="edit" size={10} color="currentColor"/><span style={{ whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{prodNotes[p.id]}</span></div>}
                     </div>
                   </div>
                   <div style={{ display:"flex",alignItems:"center",gap:8 }}>
@@ -1294,6 +1304,10 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
             <Lbl t="DESCRIÇÃO"/><Inp val={prodForm.subtitle} set={v=>setProdForm(p=>({...p,subtitle:v}))} ph="Descrição curta"/>
             <Lbl t="CATEGORIA"/><Sel val={prodForm.category} set={v=>setProdForm(p=>({...p,category:v}))} opts={["Consultoria","Curso","Mini-Curso","Templates","Outros"]}/>
             <Lbl t="VISUAL (thumb)"/><Sel val={prodForm.thumb} set={v=>setProdForm(p=>({...p,thumb:v}))} opts={[{value:"visual-law",label:"Visual Law"},{value:"peticoes",label:"Petições"},{value:"abnt",label:"ABNT"},{value:"consultoria",label:"Consultoria"},{value:"diagnostico",label:"Diagnóstico"}]}/>
+            <Lbl t="ANOTAÇÃO INTERNA (só você vê)"/>
+            <textarea value={prodForm.note||""} onChange={e=>setProdForm(p=>({...p,note:e.target.value}))} placeholder="Ex: serviço contratado, prazo, link do briefing... — visível apenas no painel admin, nunca para o aluno."
+              style={{ width:"100%",minHeight:80,resize:"vertical",background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px 12px",color:"var(--text)",fontSize:13,fontFamily:"var(--font-sans)",lineHeight:1.5,marginBottom:12,outline:"none" }}
+              onFocus={e=>e.target.style.borderColor="var(--gold-muted)"} onBlur={e=>e.target.style.borderColor="var(--border)"} />
             <Lbl t="VISIBILIDADE"/>
             <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10 }}>
               {[{v:"privado",icon:"lock",label:"Privado",desc:"Acesso por convite"},{v:"publico",icon:"globe",label:"Público",desc:"Todos os membros"}].map(opt=>(
