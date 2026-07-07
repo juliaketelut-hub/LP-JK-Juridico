@@ -369,7 +369,17 @@ const authService = {
     const initials = name.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase();
     return { id:user.id, name, email, role:"member", avatar:initials, productIds:[] };
   },
-  async removeMember(id) { if (IS_CONFIGURED) await sb.from("profiles").delete().eq("id",id); },
+  async removeMember(id) {
+    if (!IS_CONFIGURED) return;
+    // Exclusão real: Edge Function apaga a conta no Auth (cascateia perfil, acessos, compras e progresso)
+    const { data: { session } } = await sb.auth.getSession();
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/delete-member`, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${session?.access_token}`, "Content-Type": "application/json", "apikey": SUPABASE_KEY },
+      body: JSON.stringify({ member_id: id })
+    });
+    if (!res.ok) { const d = await res.json().catch(()=>({})); throw new Error(d.error || "Não foi possível excluir o membro."); }
+  },
 };
 
 // ─── LOGIN ───────────────────────────────────────────────────
@@ -1011,7 +1021,14 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
     setMembers(prev=>prev.map(x=>x.id!==mId?x:{...x,productIds:has?x.productIds.filter(id=>id!==pId):[...(x.productIds||[]),pId]}));
     if(sel?.id===mId)setSel(prev=>({...prev,productIds:has?prev.productIds.filter(id=>id!==pId):[...(prev.productIds||[]),pId]}));
   };
-  const remove = async (id) => { await authService.removeMember(id);setMembers(prev=>prev.filter(m=>m.id!==id));if(sel?.id===id)setSel(null); };
+  const remove = async (id) => {
+    if(!window.confirm("Excluir este membro? A conta, os acessos, as compras e o progresso serão apagados de forma definitiva."))return;
+    try {
+      await authService.removeMember(id);
+      setMembers(prev=>prev.filter(m=>m.id!==id));
+      if(sel?.id===id)setSel(null);
+    } catch(e) { alert(e.message); }
+  };
   const add = async () => {
     if(!form.name||!form.email||!form.password){setFormErr("Preencha todos os campos.");return;}
     if(form.password.length<6){setFormErr("Senha mínima: 6 caracteres.");return;}
