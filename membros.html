@@ -829,10 +829,11 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav }) => {
                   const u=lesson.url;
                   const ytMatch=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
                   const vimeoMatch=u.match(/vimeo\.com\/(\d+)/);
-                  const embedSrc=ytMatch?`https://www.youtube.com/embed/${ytMatch[1]}?rel=0&modestbranding=1`:vimeoMatch?`https://player.vimeo.com/video/${vimeoMatch[1]}`:null;
+                  const driveMatch=u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=)([A-Za-z0-9_-]{20,})/);
+                  const embedSrc=ytMatch?`https://www.youtube.com/embed/${ytMatch[1]}?rel=0&modestbranding=1`:vimeoMatch?`https://player.vimeo.com/video/${vimeoMatch[1]}`:driveMatch?`https://drive.google.com/file/d/${driveMatch[1]}/preview`:null;
                   return embedSrc
                     ?<iframe src={embedSrc} style={{ width:"100%",height:"100%",border:"none",position:"absolute",inset:0 }} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                    :<div style={{ width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",position:"absolute",inset:0 }}><p style={{fontSize:12,color:"var(--text-muted)"}}>Link não reconhecido — use YouTube ou Vimeo</p></div>;
+                    :<div style={{ width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",position:"absolute",inset:0 }}><p style={{fontSize:12,color:"var(--text-muted)"}}>Link não reconhecido — use YouTube, Vimeo ou Google Drive</p></div>;
                 })() : (
                   <div style={{ position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center" }}>
                     <div style={{ width:52,height:52,borderRadius:"50%",border:"2px solid var(--gold)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:10,background:"var(--gold-dim)" }}><Icon name="play" size={18} color="var(--gold)"/></div>
@@ -1271,7 +1272,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
             <Lbl t="TÍTULO"/><Inp val={lesForm.title} set={v=>setLesForm(p=>({...p,title:v}))} ph="Ex: Introdução ao Visual Law"/>
             <Lbl t="DURAÇÃO / FORMATO"/><Inp val={lesForm.duration} set={v=>setLesForm(p=>({...p,duration:v}))} ph="Ex: 18min / PDF / DOCX / Leitura"/>
             <Lbl t="TIPO"/><Sel val={lesForm.type} set={v=>setLesForm(p=>({...p,type:v}))} opts={[{value:"video",label:"Vídeo"},{value:"material",label:"Material / Download"}]}/>
-            <Lbl t={lesForm.type==="video"?"LINK DO VÍDEO (YouTube ou Vimeo)":"LINK DO MATERIAL ou E-MAIL"}/>
+            <Lbl t={lesForm.type==="video"?"LINK DO VÍDEO (YouTube, Vimeo ou Google Drive)":"LINK DO MATERIAL ou E-MAIL"}/>
             <Inp val={lesForm.url} set={v=>setLesForm(p=>({...p,url:v}))} ph={lesForm.type==="video"?"https://youtu.be/...":"https://drive.google.com/... ou mailto:julia@gmail.com?subject=..."}/>
             <div style={{ display:"flex",gap:10 }}>
               <button onClick={()=>setLesModal(null)} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
