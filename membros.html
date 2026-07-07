@@ -314,7 +314,16 @@ const authService = {
       products = [...(pubProds || []), ...(privProds || [])].filter(p => { if (seen.has(p.id)) return false; seen.add(p.id); return true; })
         .map(p => { const a=(access||[]).find(x=>x.product_id===p.id); return a?.report_url?{...p,report_url:a.report_url}:p; });
     }
+    // Hidrata o progresso de aulas do próprio usuário (tabela lesson_progress)
+    const { data: prog } = await sb.from("lesson_progress").select("product_id, lesson_id").eq("member_id", profile.id);
+    const progSet = new Set((prog||[]).map(r=>r.product_id+":"+r.lesson_id));
+    products = (products||[]).map(p=>({ ...p, modules:(p.modules||[]).map(m=>({ ...m, lessons:(m.lessons||[]).map(l=>({ ...l, watched: progSet.has(p.id+":"+l.id) })) })) }));
     return { user: { ...profile, email }, products };
+  },
+  async setWatched(memberId, productId, lessonId, watched) {
+    if (!IS_CONFIGURED) return;
+    if (watched) await sb.from("lesson_progress").upsert({ member_id: memberId, product_id: productId, lesson_id: lessonId });
+    else await sb.from("lesson_progress").delete().eq("member_id",memberId).eq("product_id",productId).eq("lesson_id",lessonId);
   },
   async logout() { if (IS_CONFIGURED) await sb.auth.signOut(); },
   async resetPassword(email) {
@@ -799,7 +808,7 @@ const ProductView = ({ product:p, onBack, onLesson }) => {
 };
 
 // ─── LESSON VIEW ─────────────────────────────────────────────
-const LessonView = ({ product, module:mod, lesson, onBack, onNav }) => {
+const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatched }) => {
   const all = (product.modules||[]).flatMap(m=>(m.lessons||[]).map(l=>({...l,modTitle:m.title})));
   const idx = all.findIndex(l=>l.id===lesson.id);
   const prev = idx>0?all[idx-1]:null;
@@ -815,6 +824,12 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav }) => {
           </div>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+          {onToggleWatched && (
+            <button onClick={()=>onToggleWatched(product.id, lesson.id)}
+              style={{ display:"flex", alignItems:"center", gap:6, background:lesson.watched?"var(--green)":"none", border:`1px solid ${lesson.watched?"var(--green)":"var(--border)"}`, borderRadius:"var(--radius)", padding:"6px 12px", color:lesson.watched?"#fff":"var(--text-secondary)", fontSize:12, fontWeight:lesson.watched?600:400, cursor:"pointer", transition:"all var(--transition)", marginRight:6 }}>
+              <Icon name="check" size={11} color={lesson.watched?"#fff":"var(--text-muted)"}/>{lesson.watched?"Assistida":"Marcar como assistida"}
+            </button>
+          )}
           <button onClick={()=>prev&&onNav(prev)} disabled={!prev} style={{ width:30, height:30, borderRadius:"var(--radius)", background:"var(--card)", border:"1px solid var(--border)", display:"flex", alignItems:"center", justifyContent:"center", cursor:prev?"pointer":"not-allowed", opacity:prev?1:0.3 }}><Icon name="chevL" size={13} color="var(--text-secondary)"/></button>
           <span style={{ fontSize:11, color:"var(--text-muted)" }}>{idx+1}/{all.length}</span>
           <button onClick={()=>next&&onNav(next)} disabled={!next} style={{ width:30, height:30, borderRadius:"var(--radius)", background:"var(--card)", border:"1px solid var(--border)", display:"flex", alignItems:"center", justifyContent:"center", cursor:next?"pointer":"not-allowed", opacity:next?1:0.3 }}><Icon name="chevR" size={13} color="var(--text-secondary)"/></button>
@@ -1487,6 +1502,23 @@ const App = () => {
     setActiveModule(mod);setActiveLesson(lesson);
   };
 
+  const handleToggleWatched = async (productId, lessonId) => {
+    if(!session) return;
+    const cur = session.products.find(x=>x.id===productId);
+    const curLesson = (cur?.modules||[]).flatMap(m=>m.lessons||[]).find(l=>l.id===lessonId);
+    const newWatched = !curLesson?.watched;
+    const updateProd = (prod) => prod.id!==productId ? prod :
+      ({ ...prod, modules:(prod.modules||[]).map(m=>({ ...m, lessons:(m.lessons||[]).map(l=>l.id===lessonId?{...l,watched:newWatched}:l) })) });
+    const newProducts = session.products.map(updateProd);
+    setSession(s=>({ ...s, products:newProducts }));
+    if(activeProduct?.id===productId){
+      const np = newProducts.find(x=>x.id===productId);
+      setActiveProduct(np);
+      if(activeLesson?.id===lessonId) setActiveLesson((np.modules||[]).flatMap(m=>m.lessons||[]).find(l=>l.id===lessonId));
+    }
+    await authService.setWatched(session.user.id, productId, lessonId, newWatched);
+  };
+
   React.useEffect(()=>{
     const params = new URLSearchParams(window.location.search);
     if(params.get("compra")==="sucesso"){
@@ -1532,7 +1564,7 @@ const App = () => {
       <Sidebar user={user} view={view} onNav={handleNav} onLogout={handleLogout} onShowSetup={()=>setShowSetup(true)} theme={theme} onToggleTheme={handleToggleTheme}/>
       {view==="dashboard"&&<Dashboard user={user} products={products} availableProducts={availableProducts} onOpen={handleOpenProduct} onPurchase={handlePurchase}/>}
       {view==="product"&&activeProduct&&<ProductView product={activeProduct} onBack={()=>handleNav("dashboard")} onLesson={handleOpenLesson}/>}
-      {view==="lesson"&&activeLesson&&<LessonView product={activeProduct} module={activeModule} lesson={activeLesson} onBack={()=>setView("product")} onNav={handleNavLesson}/>}
+      {view==="lesson"&&activeLesson&&<LessonView product={activeProduct} module={activeModule} lesson={activeLesson} onBack={()=>setView("product")} onNav={handleNavLesson} onToggleWatched={handleToggleWatched}/>}
       {view==="account"&&<Account user={user}/>}
       {view==="help"&&<Help/>}
       {view==="admin"&&user.role==="admin"&&<Admin products={products.length?products:DEMO_PRODUCTS} onProductsUpdate={updated=>setSession(s=>({...s,products:updated}))}/>}
