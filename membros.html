@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <script>(function(){var t=localStorage.getItem("jk-theme")||"light";document.documentElement.setAttribute("data-theme",t);})();</script>
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
@@ -85,11 +85,8 @@ const IS_CONFIGURED = SUPABASE_URL !== "COLE_SUA_URL_AQUI" && SUPABASE_KEY !== "
 const sb = IS_CONFIGURED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
 // ─── DEMO DATA ────────────────────────────────────────────────
-const DEMO_USERS = [
-  { id: "1", name: "Julia Ketelut", email: "admin@jkjuridico.com", password: "admin123", role: "admin", avatar: "JK" },
-  { id: "2", name: "Maria Souza",   email: "maria@email.com",      password: "123456",   role: "member", avatar: "MS", products: [1, 2] },
-  { id: "3", name: "Pedro Alves",   email: "pedro@email.com",      password: "123456",   role: "member", avatar: "PA", products: [1] },
-];
+// Credenciais demo removidas por segurança: sem Supabase configurado, o login apenas falha.
+const DEMO_USERS = [];
 const DEMO_PRODUCTS = [
   { id: 1, title: "Visual Law Masterclass", subtitle: "Comunicação jurídica visual", category: "Consultoria", thumb: "visual-law", visibility: "privado", modules: [
     { id: 1, title: "Fundamentos do Visual Law", lessons: [
@@ -1358,7 +1355,7 @@ const App = () => {
   const handleLogin = async ({user,products}) => {
     setSession({user,products});
     if(sb && user.role!=="admin"){
-      const {data:forSale} = await sb.from("products").select("*").eq("visibility","privado").gt("price",0);
+      const {data:forSale} = await sb.from("products_showcase").select("*");
       const ownedIds = new Set(products.map(p=>p.id));
       setAvailableProducts((forSale||[]).filter(p=>!ownedIds.has(p.id)));
     }
