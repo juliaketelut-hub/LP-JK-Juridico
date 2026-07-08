@@ -955,7 +955,25 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
   const [modForm,setModForm]=useState({title:""});
   const [lesModal,setLesModal]=useState(null);
   const [lesForm,setLesForm]=useState({title:"",duration:"",type:"video",url:""});
+  const [uploading,setUploading]=useState(false);
+  const [uploadName,setUploadName]=useState("");
   const [expandedProd,setExpandedProd]=useState(null);
+
+  const uploadMaterial = async (file) => {
+    if(!file) return;
+    if(!sb){ alert("Upload requer Supabase configurado."); return; }
+    if(file.size > 50*1024*1024){ alert("Arquivo muito grande (máx. 50 MB)."); return; }
+    setUploading(true); setUploadName(file.name);
+    try {
+      const safe = file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2,8)}-${safe}`;
+      const { error } = await sb.storage.from("materiais").upload(path, file, { upsert:false, contentType:file.type||undefined });
+      if(error) throw error;
+      const { data:pub } = sb.storage.from("materiais").getPublicUrl(path);
+      setLesForm(p=>({ ...p, url:pub.publicUrl, duration:p.duration || (file.name.split(".").pop()||"").toUpperCase() }));
+    } catch(e){ alert("Falha no upload: "+(e.message||e)); setUploadName(""); }
+    setUploading(false);
+  };
   const [reportEdits,setReportEdits]=useState({});
   const [prodNotes,setProdNotes]=useState({}); // {product_id: note} — anotações internas (só admin)
 
@@ -1239,7 +1257,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
                         <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8 }}>
                           <div style={{ fontSize:13,fontWeight:500,color:"var(--text)" }}>📁 {mod.title}</div>
                           <div style={{ display:"flex",gap:8 }}>
-                            <Btn small onClick={()=>setLesModal({pid:p.id,mid:mod.id})}><Icon name="plus" size={11} color="currentColor"/>Aula</Btn>
+                            <Btn small onClick={()=>{setUploadName("");setLesModal({pid:p.id,mid:mod.id});}}><Icon name="plus" size={11} color="currentColor"/>Aula</Btn>
                             <button onClick={()=>delModule(p.id,mod.id)} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
                               onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
                               <Icon name="trash" size={12} color="currentColor"/>
@@ -1256,7 +1274,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
                               </div>
                             </div>
                             <div style={{ display:"flex",gap:4 }}>
-                              <button title="Editar" onClick={()=>{setLesForm({title:l.title,duration:l.duration,type:l.type||"material",url:l.url||""});setLesModal({pid:p.id,mid:mod.id,lesEditId:l.id});}}
+                              <button title="Editar" onClick={()=>{setUploadName("");setLesForm({title:l.title,duration:l.duration,type:l.type||"material",url:l.url||""});setLesModal({pid:p.id,mid:mod.id,lesEditId:l.id});}}
                                 style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
                                 onMouseEnter={e=>e.currentTarget.style.color="var(--gold)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
                                 <Icon name="edit" size={11} color="currentColor"/>
@@ -1346,8 +1364,19 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
             <Lbl t="TÍTULO"/><Inp val={lesForm.title} set={v=>setLesForm(p=>({...p,title:v}))} ph="Ex: Introdução ao Visual Law"/>
             <Lbl t="DURAÇÃO / FORMATO"/><Inp val={lesForm.duration} set={v=>setLesForm(p=>({...p,duration:v}))} ph="Ex: 18min / PDF / DOCX / Leitura"/>
             <Lbl t="TIPO"/><Sel val={lesForm.type} set={v=>setLesForm(p=>({...p,type:v}))} opts={[{value:"video",label:"Vídeo"},{value:"material",label:"Material / Download"}]}/>
+            {lesForm.type==="material" && (
+              <div style={{ marginBottom:12 }}>
+                <Lbl t="ANEXAR ARQUIVO (upload direto)"/>
+                <label style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:8,border:"1px dashed var(--gold-muted)",borderRadius:"var(--radius)",padding:"13px",cursor:uploading?"wait":"pointer",background:"var(--gold-dim)",color:"var(--gold)",fontSize:13,fontWeight:500 }}>
+                  <Icon name="download" size={14} color="currentColor"/>
+                  <span style={{ overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{uploading?`Enviando ${uploadName}…`:(uploadName?`✓ ${uploadName}`:"Escolher arquivo (PDF, DOCX…)")}</span>
+                  <input type="file" style={{ display:"none" }} disabled={uploading} onChange={e=>e.target.files[0]&&uploadMaterial(e.target.files[0])}/>
+                </label>
+                <div style={{ textAlign:"center",fontSize:11,color:"var(--text-muted)",margin:"9px 0 2px" }}>— ou cole um link abaixo —</div>
+              </div>
+            )}
             <Lbl t={lesForm.type==="video"?"LINK DO VÍDEO (YouTube, Vimeo ou Google Drive)":"LINK DO MATERIAL ou E-MAIL"}/>
-            <Inp val={lesForm.url} set={v=>setLesForm(p=>({...p,url:v}))} ph={lesForm.type==="video"?"https://youtu.be/...":"https://drive.google.com/... ou mailto:julia@gmail.com?subject=..."}/>
+            <Inp val={lesForm.url} set={v=>setLesForm(p=>({...p,url:v}))} ph={lesForm.type==="video"?"https://youtu.be/...":"https://drive.google.com/... ou cole após anexar"}/>
             <div style={{ display:"flex",gap:10 }}>
               <button onClick={()=>setLesModal(null)} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
               <button onClick={addLesson} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>{lesModal?.lesEditId?"Salvar alterações":"Adicionar"}</button>
