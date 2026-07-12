@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mentoria Visual Law + IA para Advogados | JK Jurídico</title>
-  <meta name="description" content="Montamos os GPTs do seu escritório com trava antialucinação, o Visual Law das suas peças e o guia de conteúdo em conformidade com o Provimento 205/2021 da OAB. Para advogados." />
+  <meta name="description" content="Você constrói os GPTs do seu escritório, com a minha condução e o protocolo antialucinação. Mais o Visual Law das suas peças e o guia de conteúdo conforme o Provimento 205/2021 da OAB. Para advogados." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="icon" type="image/png" href="favicon-jk.png" />
@@ -274,8 +274,40 @@
       color: var(--creme);
     }
 
+    /* ── PROTOCOLO ── */
+    #protocolo { background: var(--bg); }
+    .camada-regra {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem;
+      color: var(--text-meta);
+      background: var(--surface);
+      border-left: 2px solid var(--creme);
+      padding: 0.55rem 0.9rem;
+      line-height: 1.5;
+    }
+    .camada-regra strong { color: var(--creme); font-weight: 600; }
+    .franqueza {
+      margin-top: 2.5rem;
+      border: 1px solid var(--border-m);
+      background: var(--surface);
+      padding: 1.6rem 1.8rem;
+      max-width: 72ch;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .franqueza h3 {
+      font-family: 'Spectral', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .franqueza p { font-size: 0.94rem; line-height: 1.72; }
+
     /* ── COMO FUNCIONA ── */
-    #processo { background: var(--bg); }
+    #processo { background: var(--surface); }
     .passos { display: flex; flex-direction: column; gap: 0; margin-top: 2.5rem; }
     .passo {
       display: grid;
@@ -303,7 +335,7 @@
     .passo p { font-size: 0.92rem; line-height: 1.65; max-width: 60ch; }
 
     /* ── PACOTES ── */
-    #pacotes { background: var(--surface); }
+    #pacotes { background: var(--bg); }
     .pkgs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -409,7 +441,7 @@
     .pkgs-nota { margin-top: 1.6rem; font-size: 0.85rem; color: var(--text-meta); }
 
     /* ── ESCOPO ── */
-    #escopo { background: var(--bg); }
+    #escopo { background: var(--surface); }
     .escopo-box {
       border: 1px solid var(--border-m);
       background: var(--surface);
@@ -429,7 +461,7 @@
     .escopo-box p { font-size: 0.92rem; line-height: 1.7; }
 
     /* ── AUTORIDADE ── */
-    #quem { background: var(--surface); }
+    #quem { background: var(--bg); }
     .quem-grid {
       display: grid;
       grid-template-columns: 260px 1fr;
@@ -447,7 +479,7 @@
     .quem-texto p + p { margin-top: 1rem; }
 
     /* ── FAQ ── */
-    #faq { background: var(--bg); }
+    #faq { background: var(--surface); }
     .faq-list { margin-top: 2.5rem; max-width: 780px; }
     .faq-item { border-bottom: 1px solid var(--border); }
     .faq-q {
@@ -633,27 +665,27 @@
 <!-- ── O QUE EU MONTO ── -->
 <section id="entrega">
   <div class="container">
-    <div class="section-label">O que você recebe</div>
-    <h2 class="section-title">Não é um curso. É o seu escritório, configurado.</h2>
+    <div class="section-label">Como a mentoria funciona</div>
+    <h2 class="section-title">Você constrói. Eu conduzo.</h2>
     <div class="section-divider"></div>
-    <p class="narrow">Você não sai daqui com aulas para assistir depois. Sai com ferramentas montadas, testadas e prontas para usar na segunda-feira — construídas a partir das suas peças, da sua área e da sua voz.</p>
+    <p class="narrow">Eu não entrego um GPT pronto e desapareço. Quem constrói a ferramenta é você — na sua conta, com a minha condução ao lado, entendendo cada instrução que entra ali dentro. Dá mais trabalho no primeiro dia e muda tudo a partir do segundo: <strong>o GPT é seu</strong>. Quando o escritório mudar de área, de peça ou de rotina, quem ajusta é você — sem me chamar, sem pagar de novo.</p>
 
     <div class="entrega-grid">
 
       <div class="entrega-card">
-        <div class="destaque">O coração da entrega</div>
-        <h3>GPTs com trava antialucinação</h3>
-        <p>Seus GPTs são construídos para <strong>não inventar jurisprudência, número de processo ou artigo de lei</strong>. Quando não têm a fonte, avisam — em vez de preencher a lacuna com algo verossímil. É a diferença entre uma ferramenta de trabalho e um passivo.</p>
+        <div class="destaque">O coração da mentoria</div>
+        <h3>O protocolo antialucinação</h3>
+        <p>É a parte que ninguém ensina. Você aprende a escrever as instruções que impedem o GPT de inventar fonte, a montar a base que ele tem permissão de consultar e a <strong>testar se a trava está de pé</strong>. As três camadas estão logo abaixo — sem mistério, porque o método é seu também.</p>
       </div>
 
       <div class="entrega-card">
         <h3>Um GPT que escreve como você</h3>
-        <p>O GPT de revisão é treinado com exemplos reais da sua escrita: corrige gramática e coesão <strong>preservando a sua voz autoral</strong>. O texto continua sendo seu. O que muda é quanto tempo ele leva para existir.</p>
+        <p>Você treina o GPT de revisão com exemplos reais da sua escrita, e ele passa a corrigir gramática e coesão <strong>preservando a sua voz autoral</strong>. O texto continua sendo seu. O que muda é quanto tempo ele leva para existir.</p>
       </div>
 
       <div class="entrega-card">
         <h3>Visual Law nas suas peças</h3>
-        <p>Modelo de petição em Word com a identidade do seu escritório, pacote de ícones, tabelas e linhas do tempo. Editável por você, sem depender de designer — e sem depender de mim depois da entrega.</p>
+        <p>Esta parte é minha: eu produzo o modelo de petição em Word com a identidade do escritório, o pacote de ícones, as tabelas e as linhas do tempo. Editável por você, sem depender de designer — e sem depender de mim depois da entrega.</p>
       </div>
 
       <div class="entrega-card">
@@ -661,6 +693,53 @@
         <p>O guia de conteúdo digital segue o <strong>Provimento 205/2021 do CFOAB</strong>: nada de prometer resultado, exibir caso concreto, citar honorários ou se autoenaltecer. Divulgar mal custa mais caro do que não divulgar.</p>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ── PROTOCOLO ANTIALUCINAÇÃO ── -->
+<section id="protocolo">
+  <div class="container">
+    <div class="section-label">O método</div>
+    <h2 class="section-title">O protocolo antialucinação, em três camadas</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">A IA não inventa jurisprudência por desonestidade. Inventa porque foi construída para sempre responder — e responde com a mesma confiança quando sabe e quando não sabe. Não existe instrução mágica que corrija isso. O que existe é um método para <strong>tirar da IA o papel de fonte</strong>.</p>
+
+    <div class="passos">
+
+      <div class="passo">
+        <div class="passo-n">01</div>
+        <div>
+          <h3>A regra de origem — o GPT nunca é a fonte</h3>
+          <p>A instrução mais importante do seu GPT é uma proibição: ele não cita jurisprudência, súmula, número de processo nem artigo de lei de memória. Quando o argumento pede um precedente, ele marca a lacuna e segue — a busca é sua, na fonte primária. Isso não reduz o risco de citação falsa: <strong>elimina a categoria inteira</strong>. Não existe citação inventada se a IA nunca produz citação.</p>
+          <div class="camada-regra"><strong>Na prática:</strong> em vez de um acórdão plausível, o texto vem com <em>[PRECEDENTE A INSERIR — tese X]</em>. Incômodo? É. Esse incômodo é o ponto.</div>
+        </div>
+      </div>
+
+      <div class="passo">
+        <div class="passo-n">02</div>
+        <div>
+          <h3>A base fechada — o que ele tem permissão de consultar</h3>
+          <p>O GPT só pode citar aquilo que <em>você</em> já conferiu e carregou dentro dele: as suas peças, as ementas que você levantou, as súmulas da sua área. A instrução é literal — cite exclusivamente o que está nos arquivos; se não estiver, diga que não está. É a diferença entre a IA <strong>lembrar</strong> e a IA <strong>consultar</strong>.</p>
+          <div class="camada-regra"><strong>É por isso que o pacote Escritório custa o que custa:</strong> nele nós montamos essa base juntos, com o material do seu escritório.</div>
+        </div>
+      </div>
+
+      <div class="passo">
+        <div class="passo-n">03</div>
+        <div>
+          <h3>O teste e a conferência — você audita a sua ferramenta</h3>
+          <p>Você aprende a testar a própria trava: pedir de propósito um precedente que não existe e observar se o GPT inventa. Se inventar, a instrução falhou e nós apertamos — isso se faz na mentoria, com você na frente do teclado. E o checklist antes do protocolo: nenhuma citação entra na peça sem que a fonte tenha sido aberta e lida.</p>
+          <div class="camada-regra">Continua dando trabalho. Mas é <strong>conferência</strong>, não resgate.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="franqueza">
+      <h3>O que eu não prometo</h3>
+      <p>Nenhuma instrução torna um modelo de linguagem incapaz de errar. Quem lhe vender um GPT que "não alucina" está vendendo o que não pode entregar — e o nome que vai na petição é o seu, não o dele.</p>
+      <p>O que este protocolo faz é retirar da inteligência artificial o papel de fonte, restringir o que ela pode consultar e lhe dar o hábito de auditar a ferramenta antes de confiar nela. É menos sedutor do que uma promessa. E é o que mantém o seu nome fora da petição errada.</p>
     </div>
   </div>
 </section>
@@ -683,22 +762,22 @@
       <div class="passo">
         <div class="passo-n">02</div>
         <div>
-          <h3>Montagem</h3>
-          <p>Eu construo os GPTs, escrevo as travas antialucinação e produzo o material em Visual Law. Você não precisa aprender a configurar nada — recebe pronto.</p>
+          <h3>Construção guiada — você no teclado</h3>
+          <p>O GPT é criado <strong>na sua conta e pelas suas mãos</strong>, comigo conduzindo cada decisão: quais instruções entram, por que cada trava está ali e o que acontece se ela sair. Você não sai com uma caixa-preta que funciona por motivos que desconhece — sai sabendo mexer no que construiu. Em paralelo, eu produzo o material em Visual Law; essa parte é minha.</p>
         </div>
       </div>
       <div class="passo">
         <div class="passo-n">03</div>
         <div>
-          <h3>Entrega e treinamento</h3>
-          <p>Nos pacotes Completo e Escritório, uma hora ao vivo: eu mostro como usar, onde a ferramenta acerta, onde ela precisa de conferência e como fazer a revisão antes do protocolo.</p>
+          <h3>Treinamento e teste</h3>
+          <p>Nos pacotes Completo e Escritório, uma hora ao vivo: usamos a ferramenta que <em>você</em> construiu em um caso real, tentamos fazê-la falhar de propósito e ajustamos as instruções até ela admitir o que não sabe. Você sai com o checklist de conferência antes do protocolo.</p>
         </div>
       </div>
       <div class="passo">
         <div class="passo-n">04</div>
         <div>
           <h3>Ajustes</h3>
-          <p>Você usa por alguns dias no trabalho real e me diz o que precisa mudar. Toda mentoria inclui uma rodada de ajustes; o pacote Escritório inclui duas e mais 30 dias de suporte.</p>
+          <p>Você usa por alguns dias no trabalho real e me traz o que precisa mudar — e ajustamos juntos, no seu GPT, com você aprendendo a fazer os próximos sozinho. Toda mentoria inclui uma rodada de ajustes; o pacote Escritório inclui duas e mais 30 dias de suporte.</p>
         </div>
       </div>
     </div>
@@ -711,7 +790,7 @@
     <div class="section-label">Investimento</div>
     <h2 class="section-title">Três formatos</h2>
     <div class="section-divider"></div>
-    <p class="narrow">A diferença entre eles não é a quantidade de material — é o quanto do seu escritório entra dentro da ferramenta.</p>
+    <p class="narrow">A diferença entre eles não é a quantidade de material — é o quanto do seu escritório entra dentro da ferramenta que você vai construir.</p>
 
     <div class="pkgs">
 
@@ -721,7 +800,7 @@
           <div class="pkg-name">Essencial</div>
         </div>
         <ul class="pkg-list">
-          <li><strong>1 GPT personalizado</strong> — minutas ou revisão de texto, com trava antialucinação</li>
+          <li><strong>1 GPT construído por você</strong>, com a minha condução — minutas ou revisão de texto, com o protocolo antialucinação</li>
           <li><strong>Modelo de peça em Visual Law</strong> (.docx) + pacote de ícones</li>
           <li><strong>Guia de uso em PDF</strong>, com o checklist de conferência antes do protocolo</li>
         </ul>
@@ -740,7 +819,7 @@
           <div class="pkg-name">Completo</div>
         </div>
         <ul class="pkg-list">
-          <li><strong>2 GPTs personalizados</strong> — minutas e revisão, ambos com trava antialucinação</li>
+          <li><strong>2 GPTs construídos por você</strong>, com a minha condução — minutas e revisão, ambos com o protocolo antialucinação</li>
           <li><strong>Modelo de peça em Visual Law</strong> (.docx) + pacote de ícones</li>
           <li><strong>Modelos de contrato</strong> e de proposta de honorários</li>
           <li><strong>Guia de conteúdo digital</strong> conforme o Provimento 205/2021 do CFOAB</li>
@@ -763,8 +842,8 @@
         </div>
         <p class="pkg-includes">Tudo do pacote Completo, mais:</p>
         <ul class="pkg-list">
-          <li><strong>Base de conhecimento</strong> — as peças-modelo do próprio escritório carregadas nos GPTs</li>
-          <li><strong>30 dias de suporte</strong> para ajuste dos GPTs</li>
+          <li><strong>Base de conhecimento</strong> — montamos juntos, com as peças-modelo do próprio escritório carregadas nos seus GPTs</li>
+          <li><strong>30 dias de suporte</strong> para ajuste dos seus GPTs</li>
         </ul>
         <div class="pkg-footer">
           <div>
@@ -790,8 +869,8 @@
 
     <div class="escopo-box">
       <h3>A responsabilidade técnica continua sendo sua</h3>
-      <p>Eu não redijo peças em nome do escritório nem pratico ato privativo da advocacia. Monto as ferramentas; quem assina, revisa e protocola é você — e é por isso que o checklist de conferência vai junto em todos os pacotes.</p>
-      <p>Nenhuma ferramenta, minha ou de qualquer outro, substitui a leitura do advogado antes do protocolo. A trava antialucinação existe para que essa leitura seja uma conferência, e não um resgate.</p>
+      <p>Eu não redijo peças em nome do escritório nem pratico ato privativo da advocacia. Conduzo a construção das ferramentas; quem as constrói, assina, revisa e protocola é você — e é por isso que o checklist de conferência vai junto em todos os pacotes.</p>
+      <p>Nenhuma ferramenta substitui a leitura do advogado antes do protocolo. O protocolo antialucinação existe para que essa leitura seja uma conferência, e não um resgate. E, porque o GPT é seu, a ferramenta continua funcionando — e evoluindo — no dia em que a mentoria acabar.</p>
     </div>
   </div>
 </section>
@@ -808,7 +887,7 @@
       <div class="quem-texto">
         <p>Bacharel em Direito e pesquisadora com publicação em periódico jurídico indexado. Trabalho com escrita e revisão acadêmica jurídica e com Visual Law aplicado a documentos Word.</p>
         <p>Caçar citação inventada é, literalmente, o meu ofício. Em um único artigo, conferi <strong>84 notas de rodapé</strong> uma a uma nas fontes originais — e encontrei referências fabricadas com aparência impecável: autor plausível, título plausível, página plausível, obra inexistente.</p>
-        <p>É essa desconfiança treinada que eu instalo dentro dos seus GPTs.</p>
+        <p>É essa desconfiança que eu ensino você a programar dentro do seu próprio GPT — e a testar depois, sozinho.</p>
       </div>
     </div>
   </div>
@@ -823,12 +902,12 @@
 
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-q">Preciso entender de tecnologia para usar?</button>
-        <div class="faq-a"><p>Não. Você recebe os GPTs prontos e um guia de uso em PDF. Se souber conversar por mensagem, sabe usar a ferramenta — a parte técnica fica comigo.</p></div>
+        <button class="faq-q">Preciso entender de tecnologia? Eu vou ter que programar?</button>
+        <div class="faq-a"><p>Não vai programar linha nenhuma de código. Construir um GPT é escrever instruções em português — dizer a ele o que fazer, o que nunca fazer e como se comportar quando não souber a resposta. O que muda tudo é <em>quais</em> instruções entram, e é exatamente isso que eu conduzo. Você faz; eu digo por quê.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">A trava antialucinação elimina o risco por completo?</button>
-        <div class="faq-a"><p>Não, e desconfie de quem prometer isso. A trava reduz drasticamente a invenção de fontes e faz o GPT admitir quando não sabe, mas a conferência final antes do protocolo continua sendo do advogado. O que eu entrego é uma ferramenta que trabalha a seu favor, não um substituto da sua leitura.</p></div>
+        <button class="faq-q">O protocolo antialucinação elimina o risco por completo?</button>
+        <div class="faq-a"><p>Não, e desconfie de quem prometer isso. Nenhuma instrução torna um modelo de linguagem incapaz de errar. O protocolo faz outra coisa, e é o que funciona: impede que o GPT seja a fonte da citação, restringe o que ele pode consultar à base que você conferiu e lhe dá o hábito de auditar a ferramenta. A conferência antes do protocolo continua sendo do advogado — mas passa a ser conferência, e não resgate.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">Serve para a minha área?</button>
@@ -836,11 +915,11 @@
       </div>
       <div class="faq-item">
         <button class="faq-q">E se o GPT não ficar do jeito que eu preciso?</button>
-        <div class="faq-a"><p>Toda mentoria inclui uma rodada de ajustes depois que você usa a ferramenta no trabalho real. O pacote Escritório inclui duas rodadas e mais 30 dias de suporte, porque nele os GPTs carregam as suas peças-modelo e o ajuste fino leva mais tempo.</p></div>
+        <div class="faq-a"><p>Você mesmo ajusta — essa é a razão de ser da mentoria. Como foi você quem escreveu as instruções, sabe onde mexer, e não precisa me contratar de novo para trocar uma frase. Ainda assim, toda mentoria inclui uma rodada de ajustes comigo depois que você usa a ferramenta no trabalho real; o pacote Escritório inclui duas e mais 30 dias de suporte.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">Qual a diferença para os pacotes de Visual Law do site?</button>
-        <div class="faq-a"><p>Nos pacotes de Visual Law, eu produzo os documentos e entrego. Na mentoria, você recebe as ferramentas que produzem os documentos — os GPTs, os modelos e o método — e passa a operar sem depender de mim.</p></div>
+        <div class="faq-a"><p>Nos pacotes de Visual Law, eu produzo os documentos e entrego — o trabalho é meu. Na mentoria, quem constrói as ferramentas é você, com a minha condução: sai com os GPTs, os modelos e o método, e passa a operar sem depender de mim. Um é serviço; o outro é autonomia.</p></div>
       </div>
     </div>
   </div>
