@@ -59,8 +59,8 @@ https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,
   --creme-soft:   rgba(162,123,91,0.12);
   --creme-border: rgba(162,123,91,0.30);
   --verde:        #27AE60;               /* CTA — único elemento saturado, SAGRADO */
-  --verde-dark:   #219A52;
-  --vermelho:     #E74C3C;               /* pain points */
+  --verde-hover:  #2ECC71;               /* hover CLAREIA (o texto sobre o verde é escuro) */
+  --vermelho:     #C0392B;               /* pain points — era #E74C3C, que reprovava em contraste (3.45:1) */
   --border:       rgba(42,33,24,0.09);
   --border-m:     rgba(42,33,24,0.13);
   --hover-bg:     rgba(42,33,24,0.04);
@@ -86,8 +86,8 @@ Paleta de marrons escuros quentes, mesma família do creme. **Não usar teal/ver
   --creme-soft:   rgba(162,123,91,0.14);
   --creme-border: rgba(162,123,91,0.25);
   --verde:        #27AE60;               /* mantém igual */
-  --verde-dark:   #219A52;
-  --vermelho:     #E74C3C;
+  --verde-hover:  #2ECC71;
+  --vermelho:     #C0392B;
   --border:       rgba(162,123,91,0.09);
   --border-m:     rgba(162,123,91,0.14);
   --hover-bg:     rgba(162,123,91,0.06);
@@ -210,9 +210,31 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 ### Botão CTA — verde (sagrado, apenas LP/captura)
 ```css
-background: #27AE60; /* var(--verde) */
-/* hover: */ background: #219A52;
+background: #27AE60;               /* var(--verde) */
+color: #2A2118;                    /* café — NUNCA branco */
+/* hover: */ background: #2ECC71;  /* clareia, não escurece */
 ```
+
+⚠️ **Texto branco sobre o verde é proibido:** contraste 2,87:1, reprova em WCAG AA. Com o café (#2A2118) sobe para 5,5:1 — e a cor da marca fica intacta.
+
+### Botão creme — usar `--creme-btn`, nunca `--creme`
+```css
+background: #8A6649;               /* var(--creme-btn) — branco sobre ele: 5,15:1 */
+color: #fff;
+/* hover: */ background: #75563D;
+```
+
+O creme da marca (#A27B5B) **não carrega texto legível em tamanho de botão**: branco dá 3,8:1 e café dá 4,15:1 — os dois reprovam. Por isso existe o `--creme-btn` (#8A6649), visualmente quase idêntico e aprovado. O #A27B5B continua valendo para texto sobre fundo claro, bordas e labels.
+
+Como o texto sobre o verde é escuro, o hover **clareia** (#2ECC71). Escurecer, como fazia o antigo `--verde-dark: #219A52`, derrubava o contraste para 4,37:1.
+
+### Botão secundário — café (pacotes, ações que recuam)
+```css
+background: #2A2118;  color: #DCD7C9;   /* 11:1 */
+/* hover: */ background: #3D3126;
+```
+
+Numa tabela de pacotes, **só o pacote em destaque usa o verde**; os demais usam o café. A cor passa a indicar o caminho recomendado, em vez de gritar em três lugares ao mesmo tempo — que é o que a regra do "verde sagrado" sempre quis dizer.
 
 ### Cards de conteúdo
 ```css

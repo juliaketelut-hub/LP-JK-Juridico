@@ -19,9 +19,11 @@
       --text-meta:    rgba(42,33,24,0.70);
       --text-faint:   rgba(42,33,24,0.52);
       --creme:        #A27B5B;
+      --creme-btn:    #8A6649;
       --creme-soft:   rgba(162,123,91,0.12);
       --creme-border: rgba(162,123,91,0.30);
-      --verde:        #27AE60;
+      --verde:        #27AE60;   /* sagrado — texto sobre ele é café, nunca branco */
+      --verde-hover:  #2ECC71;
       --vermelho:     #C0392B;
       --au-lait:      #DCD7C9;
       --border:       rgba(42,33,24,0.09);
@@ -75,18 +77,19 @@
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      background: var(--verde);
-      color: #fff;
+      background: transparent;
+      border: 1px solid var(--creme-border);
+      color: var(--au-lait);
       font-size: 0.76rem;
       font-weight: 600;
       letter-spacing: 0.04em;
-      padding: 0.6rem 1.1rem;
+      padding: 0.55rem 1.05rem;
       border-radius: 2px;
       text-decoration: none;
       white-space: nowrap;
-      transition: opacity 0.15s;
+      transition: border-color 0.2s, color 0.2s;
     }
-    .nav-cta:hover, .nav-cta:focus-visible { opacity: 0.88; }
+    .nav-cta:hover, .nav-cta:focus-visible { border-color: var(--creme); color: var(--creme); }
 
     /* ── BASE ── */
     section { padding: 6.5rem 2.5rem; }
@@ -176,16 +179,16 @@
       align-items: center;
       gap: 0.55rem;
       background: var(--verde);
-      color: #fff;
+      color: var(--nav);
       font-size: 0.88rem;
       font-weight: 600;
       letter-spacing: 0.03em;
       padding: 0.95rem 1.9rem;
       border-radius: 2px;
       text-decoration: none;
-      transition: opacity 0.15s, transform 0.15s;
+      transition: background 0.2s, transform 0.15s;
     }
-    .btn-primary:hover, .btn-primary:focus-visible { opacity: 0.9; transform: translateY(-1px); }
+    .btn-primary:hover, .btn-primary:focus-visible { background: var(--verde-hover); transform: translateY(-1px); }
     .btn-ghost {
       font-size: 0.82rem;
       font-weight: 500;
@@ -235,8 +238,9 @@
 
     .risco-fecho {
       margin-top: 2.5rem;
-      padding-left: 1.3rem;
-      border-left: 2px solid var(--creme);
+      padding: 1.4rem 1.6rem;
+      border: 1px solid var(--creme-border);
+      background: var(--creme-soft);
       max-width: 62ch;
     }
     .risco-fecho p { font-size: 1rem; }
@@ -278,13 +282,12 @@
     #protocolo { background: var(--bg); }
     .camada-regra {
       display: inline-block;
-      margin-top: 0.6rem;
-      font-family: 'Jost', sans-serif;
+      margin-top: 0.7rem;
       font-size: 0.82rem;
       color: var(--text-meta);
-      background: var(--surface);
-      border-left: 2px solid var(--creme);
-      padding: 0.55rem 0.9rem;
+      background: var(--bg);
+      border: 1px solid var(--border-m);
+      padding: 0.6rem 0.95rem;
       line-height: 1.5;
     }
     .camada-regra strong { color: var(--creme); font-weight: 600; }
@@ -411,8 +414,10 @@
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
+    /* deixa o texto quebrar dentro da própria coluna em vez de empurrar o botão para baixo */
+    .pkg-footer > div:first-child { min-width: 0; }
     .pkg-price {
       font-family: 'Spectral', serif;
       font-size: 1.4rem;
@@ -425,8 +430,8 @@
     .pkg-ajuste { font-size: 0.72rem; color: var(--text-meta); }
     .btn-pkg {
       display: inline-block;
-      background: var(--verde);
-      color: #fff;
+      background: var(--nav);
+      color: var(--au-lait);
       font-size: 0.8rem;
       font-weight: 600;
       padding: 0.55rem 1.1rem;
@@ -435,9 +440,13 @@
       letter-spacing: 0.03em;
       white-space: nowrap;
       flex-shrink: 0;
-      transition: opacity 0.15s;
+      transition: background 0.2s;
     }
-    .btn-pkg:hover, .btn-pkg:focus-visible { opacity: 0.88; }
+    .btn-pkg:hover, .btn-pkg:focus-visible { background: #3D3126; }
+
+    /* O verde marca o caminho recomendado: só o pacote em destaque o usa. */
+    .pkg-featured .btn-pkg { background: var(--verde); color: var(--nav); }
+    .pkg-featured .btn-pkg:hover, .pkg-featured .btn-pkg:focus-visible { background: var(--verde-hover); }
     .pkgs-nota { margin-top: 1.6rem; font-size: 0.85rem; color: var(--text-meta); }
 
     .pre-req {
@@ -595,13 +604,14 @@
 
     @media (max-width: 820px) {
       .pkgs { grid-template-columns: 1fr; }
+      .pkg-footer { flex-wrap: wrap; }
       .btn-pkg { width: 100%; text-align: center; margin-top: 0.25rem; }
     }
 
     @media (max-width: 620px) {
       nav { padding: 0.85rem 1.2rem; }
       .nav-right { gap: 0.9rem; }
-      .nav-back { display: none; }
+      .nav-back { font-size: 0.66rem; letter-spacing: 0.06em; }
       .nav-logo-text { display: none; }
       section { padding: 4.5rem 1.5rem; }
       .hero { padding: 5rem 1.5rem 4rem; }
@@ -908,7 +918,7 @@
     <div class="section-divider"></div>
 
     <div class="quem-grid">
-      <img src="julia.png" alt="Julia Ketelut" class="quem-foto" />
+      <img src="julia.png" alt="Julia Ketelut" class="quem-foto" width="896" height="1200" loading="lazy" />
       <div class="quem-texto">
         <p>Bacharel em Direito e pesquisadora com publicação em periódico jurídico indexado. Trabalho com escrita e revisão acadêmica jurídica e com Visual Law aplicado a documentos Word.</p>
         <p>Caçar citação inventada é, literalmente, o meu ofício. Em um único artigo, conferi <strong>84 notas de rodapé</strong> uma a uma nas fontes originais — e encontrei referências fabricadas com aparência impecável: autor plausível, título plausível, página plausível, obra inexistente.</p>
@@ -927,27 +937,27 @@
 
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-q">Preciso entender de tecnologia? Eu vou ter que programar?</button>
+        <button class="faq-q" aria-expanded="false">Preciso entender de tecnologia? Eu vou ter que programar?</button>
         <div class="faq-a"><p>Não vai programar linha nenhuma de código. Construir um GPT é escrever instruções em português — dizer a ele o que fazer, o que nunca fazer e como se comportar quando não souber a resposta. E as instruções chegam prontas, escritas por mim: o seu trabalho é entender o que cada uma faz, para poder ajustá-la depois. Em uma a duas horas, conforme o pacote, a ferramenta está de pé.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Preciso pagar alguma assinatura além da mentoria?</button>
+        <button class="faq-q" aria-expanded="false">Preciso pagar alguma assinatura além da mentoria?</button>
         <div class="faq-a"><p>Sim, uma: a <strong>conta paga do ChatGPT</strong> (Plus ou superior), hoje em torno de US$ 20 por mês. Não é uma escolha minha — GPTs personalizados simplesmente não existem no plano gratuito da OpenAI. A assinatura fica no seu nome, contratada direto com eles, e eu não recebo nada sobre ela. Prefiro que você saiba disso antes de contratar, e não no dia do nosso encontro.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">O protocolo antialucinação elimina o risco por completo?</button>
+        <button class="faq-q" aria-expanded="false">O protocolo antialucinação elimina o risco por completo?</button>
         <div class="faq-a"><p>Não, e desconfie de quem prometer isso. Nenhuma instrução torna um modelo de linguagem incapaz de errar. O protocolo faz outra coisa, e é o que funciona: impede que o GPT seja a fonte da citação, restringe o que ele pode consultar à base que você conferiu e lhe dá o hábito de auditar a ferramenta. A conferência antes do protocolo continua sendo do advogado — mas passa a ser conferência, e não resgate.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Serve para a minha área?</button>
+        <button class="faq-q" aria-expanded="false">Serve para a minha área?</button>
         <div class="faq-a"><p>Sim — os GPTs são montados a partir do seu briefing, então a área é justamente o que os personaliza. Já montei para Trabalhista; Família, Cível e Previdenciário seguem a mesma lógica, mudando terminologia, estrutura das peças e modelos.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">E se o GPT não ficar do jeito que eu preciso?</button>
+        <button class="faq-q" aria-expanded="false">E se o GPT não ficar do jeito que eu preciso?</button>
         <div class="faq-a"><p>Você mesmo ajusta — essa é a razão de ser da mentoria. Como foi você quem escreveu as instruções, sabe onde mexer, e não precisa me contratar de novo para trocar uma frase. Ainda assim, toda mentoria inclui uma rodada de ajustes comigo depois que você usa a ferramenta no trabalho real; o pacote Escritório inclui duas e mais 30 dias de suporte.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Qual a diferença para os pacotes de Visual Law do site?</button>
+        <button class="faq-q" aria-expanded="false">Qual a diferença para os pacotes de Visual Law do site?</button>
         <div class="faq-a"><p>Nos pacotes de Visual Law, eu produzo os documentos e entrego — o trabalho é meu. Na mentoria, quem constrói as ferramentas é você, com a minha condução: sai com os GPTs, os modelos e o método, e passa a operar sem depender de mim. Um é serviço; o outro é autonomia.</p></div>
       </div>
     </div>
@@ -993,8 +1003,14 @@
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 </script>

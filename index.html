@@ -19,6 +19,7 @@
       --text-meta:    rgba(42,33,24,0.70);
       --text-faint:   rgba(42,33,24,0.52);
       --creme:        #A27B5B;
+      --creme-btn:    #8A6649;   /* creme para botoes: o #A27B5B nao carrega texto legivel */
       --creme-soft:   rgba(162,123,91,0.12);
       --creme-border: rgba(162,123,91,0.30);
       --verde:        #27AE60;
@@ -97,7 +98,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      background: var(--creme);
+      background: var(--creme-btn);
       color: #fff;
       padding: 0.6rem 1.3rem;
       font-family: 'Jost', sans-serif;
@@ -110,7 +111,7 @@
       transition: background 0.2s, transform 0.15s;
       white-space: nowrap;
     }
-    .nav-cta:hover { background: #8a6649; transform: translateY(-1px); }
+    .nav-cta:hover, .nav-cta:focus-visible { background: #75563D; transform: translateY(-1px); }
     .nav-cta svg { flex-shrink: 0; }
 
     /* ── HERO ── */
@@ -222,7 +223,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: var(--creme);
+      background: var(--creme-btn);
       color: #fff;
       padding: 0.95rem 2.4rem;
       font-family: 'Jost', sans-serif;
@@ -234,7 +235,7 @@
       border-radius: 2px;
       transition: background 0.2s, transform 0.15s;
     }
-    .btn-primary:hover { background: #8a6649; transform: translateY(-2px); }
+    .btn-primary:hover { background: #75563D; transform: translateY(-2px); }
 
     .btn-outline {
       display: inline-flex;
@@ -474,7 +475,7 @@
 
     .badge-premium {
       display: inline-block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      background: var(--creme); color: #fff; padding: 0.14rem 0.42rem; border-radius: 2px; margin-top: 0.25rem;
+      background: var(--creme-btn); color: #fff; padding: 0.14rem 0.42rem; border-radius: 2px; margin-top: 0.25rem;
     }
 
     .fatores-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
@@ -500,8 +501,8 @@
     /* ── ESCOPO: incluído × orçado à parte ── */
     .escopo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
     .escopo-box { background: #fff; border: 1px solid var(--border-m); border-radius: 3px; padding: 1.6rem; }
-    .escopo-inclui { border-left: 2px solid var(--creme); }
-    .escopo-nao    { background: var(--surface); border-left: 2px solid var(--border-m); }
+    .escopo-inclui { border-color: var(--creme-border); }
+    .escopo-nao    { background: var(--surface); }
     .escopo-titulo {
       font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em;
       text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
@@ -542,7 +543,7 @@
     .ia-card-header span:first-of-type { font-family: 'Jost', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--creme); flex: 1; }
     .ia-card-badge {
       font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      background: var(--creme); color: #fff; padding: 0.15rem 0.5rem; border-radius: 2px;
+      background: var(--creme-btn); color: #fff; padding: 0.15rem 0.5rem; border-radius: 2px;
     }
     .ia-body { display: grid; grid-template-columns: repeat(3, 1fr); }
     .ia-faixa {
@@ -653,7 +654,7 @@
     .btn-vl-cta {
       display: inline-block;
       background: var(--verde);
-      color: #fff;
+      color: var(--nav);
       font-family: 'Jost', sans-serif;
       font-size: 0.8rem;
       font-weight: 600;
@@ -665,15 +666,13 @@
       flex-shrink: 0;
       transition: opacity 0.15s;
     }
-    .btn-vl-cta:hover { opacity: 0.88; }
+    .btn-vl-cta:hover, .btn-vl-cta:focus-visible { background: #2ECC71; }
 
     /* ── MENTORIA (vitrine — a venda acontece em mentoria.html) ── */
     #mentoria { background: var(--bg); }
 
     .mt-distincao {
       max-width: 640px;
-      padding-left: 1.1rem;
-      border-left: 2px solid var(--creme);
     }
     .mt-distincao p { font-size: 1rem; color: var(--text-body); line-height: 1.75; }
     .mt-distincao p + p { margin-top: 0.75rem; }
@@ -711,7 +710,7 @@
       border-radius: 2px;
       transition: background 0.2s, color 0.2s;
     }
-    .mt-cta:hover, .mt-cta:focus-visible { background: var(--creme); color: #fff; }
+    .mt-cta:hover, .mt-cta:focus-visible { background: var(--creme-btn); color: #fff; }
     .mt-cta span { transition: transform 0.2s; }
     .mt-cta:hover span { transform: translateX(3px); }
 
@@ -846,7 +845,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
-      background: var(--creme);
+      background: var(--creme-btn);
       color: #fff;
       padding: 1.1rem 2.8rem;
       font-family: 'Jost', sans-serif;
@@ -913,7 +912,7 @@
 
     .btn-submit {
       grid-column: 1 / -1;
-      background: var(--creme);
+      background: var(--creme-btn);
       color: #fff;
       padding: 1rem 2.5rem;
       font-family: 'Jost', sans-serif;
@@ -1068,7 +1067,6 @@
     }
 
     @media (max-width: 900px) {
-      .nav-center { gap: 1.2rem; }
       .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 0; }
       .hero-portrait { display: none; }
       .hero-ctas { justify-content: center; }
@@ -1840,23 +1838,23 @@
 
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-q">Qual é o prazo de entrega?<span class="faq-icon">+</span></button>
+        <button class="faq-q" aria-expanded="false">Qual é o prazo de entrega?<span class="faq-icon">+</span></button>
         <div class="faq-a">O prazo varia conforme o tipo de serviço e a extensão do trabalho. Para revisões, costumo entregar em 2 a 5 dias úteis. Para escrita completa de artigos, entre 7 e 15 dias. O prazo é combinado e confirmado na proposta — e eu o cumpro. Trabalhos urgentes têm acréscimo de 30 a 50%.</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">O trabalho é sigiloso?<span class="faq-icon">+</span></button>
+        <button class="faq-q" aria-expanded="false">O trabalho é sigiloso?<span class="faq-icon">+</span></button>
         <div class="faq-a">Sim. Tratamos todas as informações dos clientes com total sigilo. Nenhum dado, arquivo ou conteúdo de trabalhos é compartilhado ou divulgado. A confidencialidade é parte do serviço.</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Como funciona o pagamento?<span class="faq-icon">+</span></button>
+        <button class="faq-q" aria-expanded="false">Como funciona o pagamento?<span class="faq-icon">+</span></button>
         <div class="faq-a">Após a combinação do escopo e do valor, solicitamos 50% de entrada para iniciar o trabalho. O restante é pago na entrega. Aceitamos Pix. Para projetos maiores, o parcelamento pode ser negociado.</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Atende outras áreas além do Direito?<span class="faq-icon">+</span></button>
+        <button class="faq-q" aria-expanded="false">Atende outras áreas além do Direito?<span class="faq-icon">+</span></button>
         <div class="faq-a">Sim. Atendo qualquer área acadêmica — minha especialização é na escrita, revisão textual, formatação ABNT e estrutura do trabalho, não no conteúdo específico de cada disciplina. O único limite é quando o trabalho exige cálculos: nesse caso, os dados e resultados numéricos precisam ser fornecidos pelo cliente, e atuo apenas na parte textual e formal.</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">E se o orientador pedir alterações?<span class="faq-icon">+</span></button>
+        <button class="faq-q" aria-expanded="false">E se o orientador pedir alterações?<span class="faq-icon">+</span></button>
         <div class="faq-a">Todo contrato inclui <strong>uma rodada de ajustes sem custo adicional</strong>. Para utilizá-la, reúna todas as correções apontadas pelo orientador e me envie de uma única vez, em até 15 dias corridos da entrega.<br><br>A partir daí, cada nova devolutiva do orientador ou da banca constitui uma nova rodada, orçada à parte — assim como a mudança da norma de citação depois da entrega, a ampliação de conteúdo ou a alteração da estrutura aprovada. Tudo isso vai por escrito no orçamento, que você assina antes de eu começar, para que não haja surpresa de parte a parte.<br><br>Uma dica que evita custo: <strong>me envie o manual de normas da sua instituição logo no início</strong>. É o que garante que o trabalho já saia no padrão exigido pela banca.</div>
       </div>
     </div>
@@ -1956,8 +1954,14 @@
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 
