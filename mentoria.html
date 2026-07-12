@@ -440,6 +440,25 @@
     .btn-pkg:hover, .btn-pkg:focus-visible { opacity: 0.88; }
     .pkgs-nota { margin-top: 1.6rem; font-size: 0.85rem; color: var(--text-meta); }
 
+    .pre-req {
+      margin-top: 1.6rem;
+      border: 1px solid var(--creme-border);
+      background: var(--creme-soft);
+      padding: 1.3rem 1.5rem;
+      max-width: 72ch;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .pre-req-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--creme);
+    }
+    .pre-req p { font-size: 0.9rem; line-height: 1.7; }
+
     /* ── ESCOPO ── */
     #escopo { background: var(--surface); }
     .escopo-box {
@@ -808,7 +827,7 @@
         <div class="pkg-footer">
           <div>
             <div class="pkg-price">R$ 890 <span>fixo</span></div>
-            <div class="pkg-ajuste">1 rodada de ajustes inclusa</div>
+            <div class="pkg-ajuste">7 dias úteis · 1 rodada de ajustes</div>
           </div>
           <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20na%20Mentoria%20Visual%20Law%20%2B%20IA%20%E2%80%94%20pacote%20Essencial." class="btn-pkg" target="_blank" rel="noopener">Solicitar</a>
         </div>
@@ -830,7 +849,7 @@
         <div class="pkg-footer">
           <div>
             <div class="pkg-price">R$ 1.490 <span>fixo</span></div>
-            <div class="pkg-ajuste">1 rodada de ajustes inclusa</div>
+            <div class="pkg-ajuste">10 dias úteis · 1 rodada de ajustes</div>
           </div>
           <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20na%20Mentoria%20Visual%20Law%20%2B%20IA%20%E2%80%94%20pacote%20Completo." class="btn-pkg" target="_blank" rel="noopener">Solicitar</a>
         </div>
@@ -843,13 +862,13 @@
         </div>
         <p class="pkg-includes">Tudo do pacote Completo, mais:</p>
         <ul class="pkg-list">
-          <li><strong>Base de conhecimento</strong> — em uma sessão adicional, carregamos as peças-modelo do próprio escritório nos seus GPTs</li>
+          <li><strong>Base de conhecimento</strong> — <strong>mais 1 hora ao vivo</strong> (3 no total) para carregar as peças-modelo do escritório nos seus GPTs</li>
           <li><strong>30 dias de suporte</strong> para ajuste dos seus GPTs</li>
         </ul>
         <div class="pkg-footer">
           <div>
             <div class="pkg-price">R$ 2.400 <span>fixo</span></div>
-            <div class="pkg-ajuste">2 rodadas de ajustes inclusas</div>
+            <div class="pkg-ajuste">15 dias úteis · 2 rodadas de ajustes</div>
           </div>
           <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20na%20Mentoria%20Visual%20Law%20%2B%20IA%20%E2%80%94%20pacote%20Escrit%C3%B3rio." class="btn-pkg" target="_blank" rel="noopener">Solicitar</a>
         </div>
@@ -857,7 +876,12 @@
 
     </div>
 
-    <p class="pkgs-nota">Valores fixos, sem mensalidade e sem custo recorrente depois: as ferramentas ficam com você. Pagamento em duas etapas — metade na contratação, metade na entrega.</p>
+    <p class="pkgs-nota">Prazos contados a partir do briefing. Valores fixos, sem mensalidade: as ferramentas ficam com você. Pagamento em duas etapas — metade na contratação, metade na entrega — ou parcelado no cartão, com o acréscimo da operadora.</p>
+
+    <div class="pre-req">
+      <div class="pre-req-label">Antes de contratar</div>
+      <p>Os GPTs personalizados só existem em <strong>conta paga do ChatGPT</strong> (Plus ou superior) — é uma limitação da própria OpenAI, não da mentoria. A assinatura fica no seu nome, contratada direto com eles, e hoje custa cerca de US$ 20 por mês. Não recebo nada sobre isso, e prefiro que você saiba agora, e não no dia do nosso encontro.</p>
+    </div>
   </div>
 </section>
 
@@ -905,6 +929,10 @@
       <div class="faq-item">
         <button class="faq-q">Preciso entender de tecnologia? Eu vou ter que programar?</button>
         <div class="faq-a"><p>Não vai programar linha nenhuma de código. Construir um GPT é escrever instruções em português — dizer a ele o que fazer, o que nunca fazer e como se comportar quando não souber a resposta. E as instruções chegam prontas, escritas por mim: o seu trabalho é entender o que cada uma faz, para poder ajustá-la depois. Em uma a duas horas, conforme o pacote, a ferramenta está de pé.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Preciso pagar alguma assinatura além da mentoria?</button>
+        <div class="faq-a"><p>Sim, uma: a <strong>conta paga do ChatGPT</strong> (Plus ou superior), hoje em torno de US$ 20 por mês. Não é uma escolha minha — GPTs personalizados simplesmente não existem no plano gratuito da OpenAI. A assinatura fica no seu nome, contratada direto com eles, e eu não recebo nada sobre ela. Prefiro que você saiba disso antes de contratar, e não no dia do nosso encontro.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">O protocolo antialucinação elimina o risco por completo?</button>
