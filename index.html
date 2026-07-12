@@ -65,14 +65,15 @@
       letter-spacing: 0.04em;
     }
 
-    .nav-center { list-style: none; display: flex; gap: 2rem; }
+    .nav-center { list-style: none; display: flex; gap: 1.15rem; }
     .nav-center a {
       color: rgba(220,215,201,0.65);
       text-decoration: none;
       font-size: 0.78rem;
       font-weight: 500;
-      letter-spacing: 0.10em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
+      white-space: nowrap;
       transition: color 0.2s;
     }
     .nav-center a:hover { color: var(--creme); }
@@ -666,6 +667,72 @@
     }
     .btn-vl-cta:hover { opacity: 0.88; }
 
+    /* ── MENTORIA ── */
+    #mentoria { background: var(--bg); }
+
+    /* cards de mesma altura: alinha os três CTAs na mesma linha */
+    #mentoria .vl-packages { align-items: stretch; }
+
+    .mt-distincao {
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+      padding-left: 1.1rem;
+      border-left: 2px solid var(--creme);
+    }
+    .mt-distincao p { font-size: 1rem; color: var(--text-body); line-height: 1.75; }
+    .mt-distincao p + p { margin-top: 0.75rem; }
+    .mt-distincao strong { color: var(--text); font-weight: 600; }
+
+    .mt-list {
+      list-style: none;
+      padding: 1.2rem 1.5rem;
+      margin: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .mt-list li {
+      position: relative;
+      padding-left: 1.05rem;
+      font-size: 0.86rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+    .mt-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 5px;
+      height: 1px;
+      background: var(--creme);
+    }
+    .mt-list li strong { color: var(--text); font-weight: 600; }
+
+    .mt-trava {
+      margin-top: 2rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border-m);
+      border-radius: 2px;
+      display: flex;
+      gap: 1.25rem;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+    .mt-trava-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--creme);
+      white-space: nowrap;
+    }
+    .mt-trava p { font-size: 0.88rem; color: var(--text-body); line-height: 1.7; flex: 1; min-width: 260px; }
+    .mt-trava strong { color: var(--text); font-weight: 600; }
+
     /* ── MEMBROS DESTAQUE ── */
     #membros-destaque {
       background: var(--bg);
@@ -1041,7 +1108,9 @@
       .depo-grid { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 620px) {
+    /* O nav vira hambúrguer enquanto os links ainda cabem: abaixo disto,
+       a linha de links + o CTA excedem a largura e empurram a página. */
+    @media (max-width: 1240px) {
       .nav-center { display: none; }
       .nav-hamburger { display: flex; }
 
@@ -1065,7 +1134,9 @@
         font-size: 0.8rem;
         letter-spacing: 0.10em;
       }
+    }
 
+    @media (max-width: 620px) {
       section { padding: 5rem 1.5rem; }
       .hero { padding: 6rem 1.5rem 5rem; }
       nav { padding: 0.85rem 1.5rem; }
@@ -1133,6 +1204,7 @@
     <li><a href="#precos">Honorários</a></li>
     <li><a href="#diagnostico" style="color:var(--creme)">Diagnóstico R$ 97</a></li>
     <li><a href="#visual-law">Visual Law</a></li>
+    <li><a href="#mentoria">Mentoria</a></li>
     <li><a href="#contato">Contato</a></li>
   </ul>
   <div class="nav-right">
@@ -1631,6 +1703,96 @@
   </div>
 </section>
 
+<!-- ── MENTORIA VISUAL LAW + IA ── -->
+<section id="mentoria">
+  <div class="container">
+    <div class="section-label">Para advogados</div>
+    <h2 class="section-title">Mentoria: Visual Law + IA no seu escritório</h2>
+    <div class="section-divider"></div>
+
+    <div class="mt-distincao">
+      <p>Nos pacotes acima, <strong>eu produzo os seus documentos</strong>. Aqui, você sai com o sistema que os produz.</p>
+      <p>Monto e treino os seus GPTs — na sua área, na sua voz, com as suas peças — e entrego junto o Visual Law e o guia de conteúdo. Ao final, o escritório minuta e revisa com IA sem depender de mim, e sem depender de sorte.</p>
+    </div>
+
+    <div class="vl-packages">
+
+      <!-- Essencial -->
+      <div class="vl-pkg">
+        <div class="vl-pkg-header">
+          <div class="vl-pkg-tag">para começar com segurança</div>
+          <div class="vl-pkg-name">Essencial</div>
+        </div>
+        <ul class="mt-list">
+          <li><strong>1 GPT personalizado</strong> — minutas ou revisão de texto, com trava antialucinação</li>
+          <li><strong>Modelo de peça em Visual Law</strong> (.docx) + pacote de ícones</li>
+          <li><strong>Guia de uso em PDF</strong>, com o checklist de conferência antes do protocolo</li>
+        </ul>
+        <div class="vl-pkg-footer">
+          <div>
+            <div class="vl-pkg-price">R$ 890 <span>fixo</span></div>
+            <div class="vl-pkg-prazo">1 rodada de ajustes inclusa</div>
+          </div>
+          <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20na%20Mentoria%20Visual%20Law%20%2B%20IA%20%E2%80%94%20pacote%20Essencial." class="btn-vl-cta" target="_blank" rel="noopener">Solicitar</a>
+        </div>
+      </div>
+
+      <!-- Completo -->
+      <div class="vl-pkg vl-pkg-featured">
+        <div class="vl-pkg-header">
+          <div class="vl-pkg-tag">o escritório inteiro operando</div>
+          <div class="vl-pkg-name">Completo</div>
+        </div>
+        <ul class="mt-list">
+          <li><strong>2 GPTs personalizados</strong> — minutas e revisão, ambos com trava antialucinação</li>
+          <li><strong>Modelo de peça em Visual Law</strong> (.docx) + pacote de ícones</li>
+          <li><strong>Modelos de contrato</strong> e de proposta de honorários</li>
+          <li><strong>Guia de conteúdo digital</strong> em conformidade com o Provimento 205/2021 do CFOAB</li>
+          <li><strong>PDF de consulta</strong> reunindo tudo</li>
+          <li><strong>1 hora de treinamento ao vivo</strong></li>
+        </ul>
+        <div class="vl-pkg-footer">
+          <div>
+            <div class="vl-pkg-price">R$ 1.490 <span>fixo</span></div>
+            <div class="vl-pkg-prazo">1 rodada de ajustes inclusa</div>
+          </div>
+          <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20na%20Mentoria%20Visual%20Law%20%2B%20IA%20%E2%80%94%20pacote%20Completo." class="btn-vl-cta" target="_blank" rel="noopener">Solicitar</a>
+        </div>
+      </div>
+
+      <!-- Escritório -->
+      <div class="vl-pkg">
+        <div class="vl-pkg-header">
+          <div class="vl-pkg-tag">treinado nas suas próprias peças</div>
+          <div class="vl-pkg-name">Escritório</div>
+        </div>
+        <p class="vl-pkg-includes">Tudo do pacote Completo, mais:</p>
+        <ul class="mt-list">
+          <li><strong>Base de conhecimento</strong> — as peças-modelo do próprio escritório carregadas nos GPTs</li>
+          <li><strong>30 dias de suporte</strong> para ajuste dos GPTs</li>
+        </ul>
+        <div class="vl-pkg-footer">
+          <div>
+            <div class="vl-pkg-price">R$ 2.400 <span>fixo</span></div>
+            <div class="vl-pkg-prazo">2 rodadas de ajustes inclusas</div>
+          </div>
+          <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20na%20Mentoria%20Visual%20Law%20%2B%20IA%20%E2%80%94%20pacote%20Escrit%C3%B3rio." class="btn-vl-cta" target="_blank" rel="noopener">Solicitar</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-trava">
+      <div class="mt-trava-label">Trava antialucinação</div>
+      <p>Todo GPT que eu entrego é construído para <strong>não inventar jurisprudência, número de processo ou artigo de lei</strong>. Quando não tem a fonte, ele avisa — em vez de preencher a lacuna. É o que separa uma ferramenta de trabalho de um risco disciplinar. O guia de conteúdo segue o <strong>Provimento 205/2021 do CFOAB</strong>.</p>
+    </div>
+
+    <div class="preco-nota" style="margin-top:0.75rem">
+      Valores fixos. <a href="#contato">Solicite via WhatsApp para iniciar.</a>
+    </div>
+  </div>
+</section>
+
 <!-- ── MEMBROS DESTAQUE ── -->
 <section id="membros-destaque">
   <div class="membros-destaque-inner">
@@ -1804,6 +1966,7 @@
           <option>Revisão Acadêmica</option>
           <option>Revisão de Artigo Gerado por IA</option>
           <option>Visual Law em Documentos</option>
+          <option>Mentoria Visual Law + IA (advogados)</option>
           <option>Outro</option>
         </select>
       </div>
