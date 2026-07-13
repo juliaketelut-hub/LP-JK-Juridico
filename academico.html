@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escrita e Revisão Acadêmica Jurídica | JK Jurídico</title>
+  <meta name="description" content="Artigos, TCC e monografias em Direito: escrita do zero, revisão metodológica, formatação ABNT e revisão de textos gerados por IA. Atendimento remoto para todo o Brasil." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/png" href="favicon-jk.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="base.css" />
+  <style>
+    /* Alternância de fundos desta página */
+    #dores       { background: var(--surface); }
+    #servicos    { background: var(--bg); }
+    #honorarios  { background: var(--surface); }
+    #diagnostico { background: var(--bg); }
+    #escopo      { background: var(--surface); }
+    #quem        { background: var(--bg); }
+    #faq         { background: var(--surface); }
+
+    /* ── DORES ── */
+    .dores-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    .dor {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-top: 1px solid var(--creme-border);
+      padding: 1.6rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .dor h3 {
+      font-family: 'Spectral', serif;
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .dor p { font-size: 0.9rem; line-height: 1.6; }
+
+    /* ── HONORÁRIOS ── */
+    .tabela-wrap { overflow-x: auto; border: 1px solid var(--border-m); margin-top: 2rem; }
+    .preco-table { width: 100%; border-collapse: collapse; min-width: 460px; }
+    .preco-table caption {
+      text-align: left;
+      font-family: 'Spectral', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      padding: 1.1rem 1.4rem 0.8rem;
+      background: var(--bg);
+    }
+    .preco-table th {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-meta);
+      text-align: left;
+      padding: 0.7rem 1.4rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border-m);
+      border-top: 1px solid var(--border);
+    }
+    .preco-table td {
+      padding: 0.85rem 1.4rem;
+      font-size: 0.9rem;
+      color: var(--text-body);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .preco-table tbody tr:last-child td { border-bottom: none; }
+    .preco-table td:first-child { color: var(--text); font-weight: 500; }
+    .preco-table td:last-child {
+      text-align: right;
+      color: var(--creme);
+      font-weight: 600;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .preco-table td small { display: block; color: var(--text-meta); font-weight: 400; font-size: 0.78rem; margin-top: 0.1rem; }
+    .tabelas { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    /* ── DIAGNÓSTICO ── */
+    .diag {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 3rem;
+      align-items: center;
+      border: 1px solid var(--creme-border);
+      background: var(--creme-soft);
+      padding: 2.2rem 2.4rem;
+      margin-top: 2rem;
+    }
+    .diag-itens { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.2rem; }
+    .diag-itens li {
+      position: relative;
+      padding-left: 1.05rem;
+      font-size: 0.9rem;
+      color: var(--text-body);
+      line-height: 1.55;
+    }
+    .diag-itens li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0.6em;
+      width: 5px; height: 1px;
+      background: var(--creme);
+    }
+    .diag-itens strong { color: var(--text); font-weight: 600; }
+    .diag-preco { text-align: center; }
+    .diag-valor {
+      font-family: 'Spectral', serif;
+      font-size: 2.6rem;
+      font-weight: 600;
+      color: var(--creme);
+      line-height: 1;
+    }
+    .diag-prazo { font-size: 0.8rem; color: var(--text-meta); margin: 0.5rem 0 1.4rem; }
+
+    /* ── ESCOPO ── */
+    .escopo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.2rem; }
+    .escopo-col {
+      border: 1px solid var(--border-m);
+      background: var(--bg);
+      padding: 1.6rem 1.7rem;
+    }
+    .escopo-col.nao { background: var(--surface); border-style: dashed; }
+    .escopo-titulo {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      color: var(--creme);
+    }
+    .escopo-col.nao .escopo-titulo { color: var(--text-faint); }
+    .escopo-lista { list-style: none; }
+    .escopo-lista li {
+      font-size: 0.92rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .escopo-lista li:last-child { border-bottom: none; }
+    .escopo-col.nao .escopo-lista li { color: var(--text-meta); }
+    .escopo-regra {
+      margin-top: 1.6rem;
+      padding: 1.2rem 1.5rem;
+      background: var(--creme-soft);
+      border: 1px solid var(--creme-border);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-body);
+      max-width: 72ch;
+    }
+
+    @media (max-width: 900px) {
+      .dores-grid { grid-template-columns: 1fr; }
+      .diag { grid-template-columns: 1fr; gap: 1.8rem; }
+      .escopo-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="monograma_jk.png" alt="JK Jurídico" class="nav-monogram" />
+    <span class="nav-logo-text">Jurídico</span>
+  </a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Todos os serviços</a>
+    <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20Julia!%20Preciso%20de%20ajuda%20com%20um%20trabalho%20acad%C3%AAmico." class="nav-cta" target="_blank" rel="noopener">Falar com a Julia</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Escrita e revisão acadêmica · Direito</div>
+    <h1>O prazo não espera você ter tempo.</h1>
+    <div class="hero-lede">
+      <p>Você sabe o que quer dizer. O problema é que a defesa tem data, o orientador tem exigências, a ABNT tem regras — e o seu dia tem estágio, trabalho e prova.</p>
+      <span class="virada">Não falta capacidade. <em>Falta tempo — e é isso que eu devolvo.</em></span>
+    </div>
+    <div class="hero-actions">
+      <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20Julia!%20Preciso%20de%20ajuda%20com%20um%20trabalho%20acad%C3%AAmico%20e%20gostaria%20de%20um%20or%C3%A7amento." class="btn-primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.4 1.9.8 2.6.9 3.5.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        Pedir um orçamento
+      </a>
+      <a href="#honorarios" class="btn-ghost">Ver os honorários</a>
+    </div>
+  </div>
+</header>
+
+<!-- ── DORES ── -->
+<section id="dores">
+  <div class="container">
+    <div class="section-label">Se alguma destas é a sua</div>
+    <h2 class="section-title">Você não é o único a travar aqui</h2>
+    <div class="section-divider"></div>
+
+    <div class="dores-grid">
+      <div class="dor">
+        <h3>A data está marcada e o texto, não</h3>
+        <p>A entrega tem dia e hora. O arquivo tem três páginas e um sumário. Cada dia que passa custa mais caro em ansiedade do que em trabalho.</p>
+      </div>
+      <div class="dor">
+        <h3>A ABNT muda conforme quem olha</h3>
+        <p>Cada orientador pede uma coisa, a faculdade tem manual próprio, e um trabalho de conteúdo excelente volta por causa de margem, recuo e referência fora do padrão.</p>
+      </div>
+      <div class="dor">
+        <h3>Você usou IA e agora tem medo</h3>
+        <p>O texto saiu rápido, mas soa estranho — e as referências você não conferiu. É a hora de descobrir se alguma delas simplesmente não existe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVIÇOS ── -->
+<section id="servicos">
+  <div class="container">
+    <div class="section-label">O que eu faço</div>
+    <h2 class="section-title">Quatro formas de destravar o seu trabalho</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">Do texto que ainda não existe ao texto que existe e precisa ficar de pé. Tudo em Direito — que é a minha área, não uma entre várias.</p>
+
+    <div class="entrega-grid">
+
+      <div class="entrega-card">
+        <div class="destaque">Do zero</div>
+        <h3>Escrita de artigo, TCC e monografia</h3>
+        <p>Pesquisa, tese própria, argumentação e referências reais — conferidas uma a uma na fonte original. Nada de doutrina inventada com nome plausível.</p>
+      </div>
+
+      <div class="entrega-card">
+        <h3>Revisão acadêmica</h3>
+        <p>De um passe de gramática e coesão até a revisão completa — texto, método e conteúdo — preservando a sua voz. O trabalho continua sendo seu.</p>
+      </div>
+
+      <div class="entrega-card">
+        <h3>Formatação ABNT</h3>
+        <p>NBR 6022, 6023 e o manual da sua instituição, quando ele diverge da norma — porque diverge quase sempre. Sumário, citações, referências e paginação.</p>
+      </div>
+
+      <div class="entrega-card">
+        <div class="destaque">A mais pedida em 2026</div>
+        <h3>Revisão de texto gerado por IA</h3>
+        <p>Humanização da linguagem, coerência argumentativa e <strong>verificação de cada referência</strong>. Eu já conferi 84 notas de rodapé de um único artigo, uma a uma, e encontrei fontes que não existiam.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── HONORÁRIOS ── -->
+<section id="honorarios">
+  <div class="container">
+    <div class="section-label">Honorários</div>
+    <h2 class="section-title">Faixas, não surpresas</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">O valor final depende da extensão, do prazo e do estado em que o texto chega. Você recebe o orçamento por escrito antes de qualquer início — e o preço não muda no meio do caminho.</p>
+
+    <div class="tabelas">
+
+      <div class="tabela-wrap">
+        <table class="preco-table">
+          <caption>Escrita do zero</caption>
+          <thead>
+            <tr><th scope="col">Trabalho</th><th scope="col">Faixa</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Artigo simples<small>até 15 páginas</small></td><td>R$ 600 – R$ 800</td></tr>
+            <tr><td>Artigo intermediário<small>15 a 25 páginas</small></td><td>R$ 800 – R$ 1.500</td></tr>
+            <tr><td>TCC / Monografia<small>nível graduação</small></td><td>R$ 900 – R$ 2.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tabela-wrap">
+        <table class="preco-table">
+          <caption>Revisão</caption>
+          <thead>
+            <tr><th scope="col">Tipo</th><th scope="col">Faixa</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Revisão de texto<small>gramática e coesão</small></td><td>R$ 80 – R$ 200</td></tr>
+            <tr><td>Revisão metodológica<small>ABNT e estrutura</small></td><td>R$ 150 – R$ 300</td></tr>
+            <tr><td>Revisão completa<small>texto, método e conteúdo</small></td><td>R$ 250 – R$ 500</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="pre-req">
+      <div class="pre-req-label">Prazo curto</div>
+      <p>Trabalhos com prazo <strong>abaixo de cinco dias</strong> têm acréscimo de 30% a 50%. Não é penalidade: é a fila inteira reorganizada para caber o seu. Se ainda dá tempo de me chamar antes, o seu bolso agradece.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── DIAGNÓSTICO ── -->
+<section id="diagnostico">
+  <div class="container">
+    <div class="section-label">Produto de entrada</div>
+    <h2 class="section-title">Não sabe do que o seu texto precisa?</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">Antes de contratar revisão ou reescrita, descubra exatamente o que está faltando. É a forma mais barata de me conhecer — e de não pagar por um serviço maior do que você precisa.</p>
+
+    <div class="diag">
+      <div>
+        <h3 style="font-family:'Spectral',serif;font-size:1.3rem;color:var(--text);font-weight:600">Diagnóstico de Artigo</h3>
+        <ul class="diag-itens">
+          <li><strong>Qualidade textual</strong> — coesão, argumentação e clareza, com score por dimensão</li>
+          <li><strong>Conformidade ABNT</strong> — verificação das NBR 6022 e 6023, com mapa de pendências</li>
+          <li><strong>Gaps metodológicos</strong> — as lacunas do trabalho, com recomendações priorizadas</li>
+        </ul>
+      </div>
+      <div class="diag-preco">
+        <div class="diag-valor">R$ 97</div>
+        <div class="diag-prazo">Entrega em até 48h úteis</div>
+        <a href="membros.html" class="btn-primary" style="width:100%;justify-content:center">Solicitar diagnóstico</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ESCOPO ── -->
+<section id="escopo">
+  <div class="container">
+    <div class="section-label">Transparência</div>
+    <h2 class="section-title">O que está incluído — e o que não está</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">Prefiro combinar isso antes, e não no meio de uma discussão desagradável depois da entrega.</p>
+
+    <div class="escopo-grid">
+      <div class="escopo-col">
+        <div class="escopo-titulo">Todo orçamento inclui</div>
+        <ul class="escopo-lista">
+          <li>A redação e/ou formatação contratada, conforme discriminado na proposta.</li>
+          <li>A adequação à norma de citação informada no briefing — inclusive manual próprio da instituição.</li>
+          <li><strong>Uma rodada de ajustes</strong>, sem custo adicional.</li>
+        </ul>
+      </div>
+      <div class="escopo-col nao">
+        <div class="escopo-titulo">Orçado à parte</div>
+        <ul class="escopo-lista">
+          <li>Nova devolutiva do orientador ou da banca — cada devolutiva posterior à primeira é uma nova rodada.</li>
+          <li>Mudança de norma ou de padrão de formatação depois da entrega.</li>
+          <li>Ampliação de conteúdo, novas seções, novas fontes ou aumento da extensão.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="escopo-regra">
+      <strong>Como funciona a rodada incluída:</strong> reúna todas as correções apontadas pelo orientador e me envie <strong>de uma única vez</strong>, em até 15 dias corridos da entrega. Todo orçamento é enviado por escrito, com o escopo detalhado, para a sua assinatura antes do início.
+    </div>
+  </div>
+</section>
+
+<!-- ── QUEM ── -->
+<section id="quem">
+  <div class="container">
+    <div class="section-label">Quem escreve</div>
+    <h2 class="section-title">Julia Ketelut</h2>
+    <div class="section-divider"></div>
+
+    <div class="quem-grid">
+      <img src="julia.png" alt="Julia Ketelut" class="quem-foto" width="896" height="1200" loading="lazy" />
+      <div class="quem-texto">
+        <p>Bacharel em Direito e <strong>pesquisadora com publicação em periódico jurídico indexado</strong>. Já passei pelo outro lado da mesa: sei o que uma banca procura, o que um orientador implica e o que faz um artigo ser aceito ou devolvido.</p>
+        <p>Trabalho só com Direito. Isso significa que eu não vou te pedir para explicar o que é uma ADI, nem confundir doutrina com jurisprudência — e significa que eu leio o seu texto entendendo o argumento, não só a gramática.</p>
+        <p><a href="https://revista.unifcv.edu.br/index.php/revistadireito/article/view/593/397" target="_blank" rel="noopener" style="color:var(--creme)">Ler o artigo publicado →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label">Perguntas frequentes</div>
+    <h2 class="section-title">O que costumam me perguntar</h2>
+    <div class="section-divider"></div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Em quanto tempo você entrega?</button>
+        <div class="faq-a"><p>Depende da extensão e da fila. O prazo entra por escrito no orçamento, antes de começarmos — nunca é uma estimativa vaga. Trabalhos com menos de cinco dias de prazo têm acréscimo de 30% a 50%, porque reorganizam tudo o que está em andamento.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">E se o meu orientador pedir alterações?</button>
+        <div class="faq-a"><p>Uma rodada de ajustes já está inclusa. Reúna todas as correções e me envie de uma vez só, em até 15 dias corridos da entrega. Devolutivas seguintes — de uma nova leitura do orientador ou da banca — são orçadas à parte, porque são um novo trabalho, não um retoque.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">A minha faculdade tem manual próprio. Você segue?</button>
+        <div class="faq-a"><p>Sigo — e preciso dele <strong>antes</strong> de começar, não depois. Quase toda instituição diverge da ABNT em algum ponto, e refazer a formatação inteira no fim é o tipo de retrabalho que ninguém quer pagar. Se você não sabe onde encontrar o manual, eu te ajudo a procurar.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Meu texto foi escrito com ajuda de IA. Você revisa?</button>
+        <div class="faq-a"><p>Reviso, e é hoje um dos meus serviços mais procurados. Além de ajustar linguagem e argumentação, eu <strong>confiro cada referência na fonte original</strong>. É o ponto onde a IA mais falha: ela produz citações impecáveis de obras que nunca existiram — autor plausível, título plausível, página plausível. Uma banca encontra isso, e o estrago é grande.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">O que eu preciso te mandar para receber um orçamento?</button>
+        <div class="faq-a"><p>O que você tiver: o tema, o prazo, o manual da instituição e o arquivo no estado em que está — mesmo que sejam três páginas soltas. Com isso eu digo o que dá para fazer, em quanto tempo e por quanto. Se o que você precisa não for comigo, eu digo também.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA FINAL ── -->
+<section id="fechar" class="fechar">
+  <div class="container">
+    <div class="section-label">O próximo passo</div>
+    <h2 class="section-title">Me conte em que pé está o seu trabalho</h2>
+    <div class="section-divider"></div>
+    <p>Sem julgamento e sem sermão — chegou aqui quem já tentou dar conta sozinho. Me diga o tema e o prazo, e eu digo com franqueza o que dá para fazer.</p>
+    <div class="fechar-actions">
+      <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20Julia!%20Preciso%20de%20ajuda%20com%20um%20trabalho%20acad%C3%AAmico%20e%20gostaria%20de%20um%20or%C3%A7amento." class="btn-primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.4 1.9.8 2.6.9 3.5.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        Falar com a Julia no WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <img src="monograma_jk.png" alt="JK" class="footer-monogram" />
+    <div class="footer-logo">
+      JK Jurídico
+      <span>Escrita, Revisão e Formatação</span>
+    </div>
+  </div>
+  <div class="footer-text">
+    <div>© 2026 Julia Ketelut · Todos os direitos reservados</div>
+    <div style="margin-top:0.35rem">
+      <a href="index.html">Todos os serviços</a> &nbsp;·&nbsp;
+      <a href="mentoria.html">Mentoria para advogados</a> &nbsp;·&nbsp;
+      <a href="checklist-antiplagio.html">Guia Anti-Plágio</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
