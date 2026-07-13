@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual Law em Peças Processuais | JK Jurídico</title>
+  <meta name="description" content="Identidade visual profissional aplicada no Word: petições, contratos, tabelas, linhas do tempo e ícones. Editável por você, sem depender de designer. Para advogados." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/png" href="favicon-jk.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="base.css" />
+  <style>
+    /* Alternância de fundos desta página */
+    #porque   { background: var(--bg); }
+    #entrega  { background: var(--surface); }
+    #pacotes  { background: var(--bg); }
+    #processo { background: var(--surface); }
+    #escopo   { background: var(--bg); }
+    #quem     { background: var(--surface); }
+    #faq      { background: var(--bg); }
+
+    /* ── POR QUE ── */
+    .antes-depois {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border-m);
+      border: 1px solid var(--border-m);
+      margin-top: 2.5rem;
+    }
+    .ad-col { background: var(--bg); padding: 1.7rem 1.6rem; }
+    .ad-col.depois { background: var(--creme-soft); }
+    .ad-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 0.9rem;
+    }
+    .ad-col.depois .ad-label { color: var(--creme); }
+    .ad-lista { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .ad-lista li {
+      font-size: 0.92rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      padding-left: 1.05rem;
+      position: relative;
+    }
+    .ad-lista li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0.62em;
+      width: 5px; height: 1px;
+      background: var(--text-faint);
+    }
+    .ad-col.depois .ad-lista li::before { background: var(--creme); }
+    .ad-col.depois .ad-lista li { color: var(--text); }
+
+    @media (max-width: 760px) {
+      .antes-depois { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="monograma_jk.png" alt="JK Jurídico" class="nav-monogram" />
+    <span class="nav-logo-text">Jurídico</span>
+  </a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Todos os serviços</a>
+    <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20em%20Visual%20Law%20nas%20minhas%20pe%C3%A7as." class="nav-cta" target="_blank" rel="noopener">Falar com a Julia</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Visual Law · para advogados</div>
+    <h1>O juiz lê a sua petição depois de outras quarenta.</h1>
+    <div class="hero-lede">
+      <p>O argumento é bom. A tese está certa. Mas o texto chega em um bloco cinza de dez páginas, na mesma fonte de todo mundo, na trigésima hora de leitura de quem vai decidir.</p>
+      <span class="virada">Visual Law não é enfeite. <em>É fazer o seu melhor argumento ser encontrado.</em></span>
+    </div>
+    <div class="hero-actions">
+      <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20em%20Visual%20Law%20nas%20minhas%20pe%C3%A7as." class="btn-primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.4 1.9.8 2.6.9 3.5.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        Quero as minhas peças assim
+      </a>
+      <a href="#pacotes" class="btn-ghost">Ver os pacotes e valores</a>
+    </div>
+  </div>
+</header>
+
+<!-- ── POR QUE ── -->
+<section id="porque">
+  <div class="container">
+    <div class="section-label">O que muda na prática</div>
+    <h2 class="section-title">A mesma tese, encontrada em vez de procurada</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">Ninguém decide a favor de uma peça porque ela é bonita. Mas quem lê cinquenta petições por semana encontra mais rápido o argumento de quem organizou a leitura — e o que não é encontrado não pesa.</p>
+
+    <div class="antes-depois">
+      <div class="ad-col">
+        <div class="ad-label">A peça de sempre</div>
+        <ul class="ad-lista">
+          <li>Dez páginas de texto corrido, sem respiro visual</li>
+          <li>Cronologia dos fatos narrada em parágrafo — o juiz monta a linha do tempo na cabeça</li>
+          <li>Tabelas do Word no formato padrão, com bordas cinzas</li>
+          <li>Nenhuma identidade: poderia ser de qualquer escritório</li>
+        </ul>
+      </div>
+      <div class="ad-col depois">
+        <div class="ad-label">A sua peça, depois</div>
+        <ul class="ad-lista">
+          <li>Hierarquia visual: o argumento central salta na primeira leitura</li>
+          <li><strong>Linha do tempo</strong> dos fatos — a cronologia entendida em segundos</li>
+          <li>Tabelas comparativas que fazem o contraditório trabalhar a seu favor</li>
+          <li>Cabeçalho, ícones e papel timbrado com a identidade do seu escritório</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ENTREGA ── -->
+<section id="entrega">
+  <div class="container">
+    <div class="section-label">Como você recebe</div>
+    <h2 class="section-title">Em Word. Editável. Sem depender de mim depois.</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">Não é PDF bonito que você não consegue alterar, nem arquivo de designer que exige um programa que você não tem. É o Word que você já usa todos os dias — com a estrutura pronta.</p>
+
+    <div class="entrega-grid">
+      <div class="entrega-card">
+        <div class="destaque">O ponto principal</div>
+        <h3>Você edita sozinho, para sempre</h3>
+        <p>Os modelos são arquivos <strong>.docx</strong> comuns. Cada peça nova é um "salvar como": você troca o texto e a identidade continua lá. Não há licença para renovar nem designer para chamar.</p>
+      </div>
+      <div class="entrega-card">
+        <h3>Ícones jurídicos, nas suas cores</h3>
+        <p>Um banco de ícones pensado para o Direito — prazos, partes, provas, valores — já nas cores do seu escritório e prontos para colar no Word.</p>
+      </div>
+      <div class="entrega-card">
+        <h3>Sua identidade, não um template</h3>
+        <p>Cabeçalho e rodapé com o seu nome, a sua OAB e o seu contato. Um cliente que vê a sua proposta e a sua petição reconhece o mesmo escritório nas duas.</p>
+      </div>
+      <div class="entrega-card">
+        <h3>Guia rápido de uso</h3>
+        <p>Um PDF de uma página, direto ao ponto: como editar, como duplicar e como não quebrar a formatação. Ninguém precisa aprender diagramação.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PACOTES ── -->
+<section id="pacotes">
+  <div class="container">
+    <div class="section-label">Investimento</div>
+    <h2 class="section-title">Três pacotes</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">Valores fixos, sem mensalidade. O que muda entre eles é quanto do seu escritório ganha identidade — só a petição, ou também os documentos que fecham contrato.</p>
+
+    <div class="pkgs">
+
+      <div class="pkg">
+        <div class="pkg-header">
+          <div class="pkg-tag">sua marca em cada peça</div>
+          <div class="pkg-name">Identidade Documental</div>
+        </div>
+        <ul class="pkg-list">
+          <li><strong>Modelo de petição</strong> (.docx) com a sua identidade visual</li>
+          <li><strong>Cabeçalho e rodapé</strong> — logo, nome, OAB e contato</li>
+          <li><strong>Modelos de tabela</strong> — três estilos: simples, comparativa e linha do tempo</li>
+          <li><strong>Banco de ícones</strong> jurídicos nas suas cores</li>
+          <li><strong>Papel timbrado</strong> para correspondências</li>
+          <li><strong>Guia rápido de uso</strong> — PDF de 1 página</li>
+        </ul>
+        <div class="pkg-footer">
+          <div>
+            <div class="pkg-price">R$ 390 <span>fixo</span></div>
+            <div class="pkg-ajuste">5 a 7 dias úteis após o briefing</div>
+          </div>
+          <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20pacote%20Identidade%20Documental%20de%20Visual%20Law." class="btn-pkg" target="_blank" rel="noopener">Solicitar</a>
+        </div>
+      </div>
+
+      <div class="pkg pkg-featured">
+        <div class="pkg-header">
+          <div class="pkg-tag">da petição ao contrato</div>
+          <div class="pkg-name">Visual Law Completo</div>
+        </div>
+        <p class="pkg-includes">Tudo do pacote anterior, mais:</p>
+        <ul class="pkg-list">
+          <li><strong>Modelo de proposta de honorários</strong> — o documento que fecha (ou perde) o cliente</li>
+          <li><strong>Modelo de contrato de honorários</strong></li>
+          <li><strong>Caixas de destaque</strong> no Word para os argumentos-chave</li>
+          <li><strong>1 rodada de ajuste</strong> inclusa</li>
+        </ul>
+        <div class="pkg-footer">
+          <div>
+            <div class="pkg-price">R$ 590 <span>fixo</span></div>
+            <div class="pkg-ajuste">7 a 10 dias úteis</div>
+          </div>
+          <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20pacote%20Visual%20Law%20Completo." class="btn-pkg" target="_blank" rel="noopener">Solicitar</a>
+        </div>
+      </div>
+
+      <div class="pkg">
+        <div class="pkg-header">
+          <div class="pkg-tag">do seu nicho, do seu jeito</div>
+          <div class="pkg-name">Personalizado por Área</div>
+        </div>
+        <ul class="pkg-list">
+          <li><strong>Tudo do Visual Law Completo</strong>, configurado para a sua área</li>
+          <li><strong>Trabalhista, Família, Cível ou Previdenciário</strong> — ícones, terminologia e estrutura da peça já vêm do nicho</li>
+          <li>A entrega mais personalizada que eu faço em Word</li>
+        </ul>
+        <div class="pkg-footer">
+          <div>
+            <div class="pkg-price">R$ 650<span>–720 fixo</span></div>
+            <div class="pkg-ajuste">Prazo combinado no briefing</div>
+          </div>
+          <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20Visual%20Law%20personalizado%20por%20%C3%A1rea." class="btn-pkg" target="_blank" rel="noopener">Solicitar</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pre-req">
+      <div class="pre-req-label">Quer construir sozinho, em vez de receber pronto?</div>
+      <p>Aqui <strong>eu produzo os seus documentos</strong>. Se o que você quer é sair com as ferramentas — inclusive os GPTs do escritório — e passar a operar sem depender de mim, o caminho é outro: <a href="mentoria.html" style="color:var(--creme)">a mentoria de Visual Law + IA</a>. Um é serviço; o outro é autonomia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESSO ── -->
+<section id="processo">
+  <div class="container">
+    <div class="section-label">Como funciona</div>
+    <h2 class="section-title">Três etapas, e o arquivo é seu</h2>
+    <div class="section-divider"></div>
+
+    <div class="passos">
+      <div class="passo">
+        <div class="passo-n">01</div>
+        <div>
+          <h3>Briefing</h3>
+          <p>Você me manda o que já tem — uma peça sua, o logo se houver, as cores que usa — e me diz a sua área. Se não tiver logo nem cores, nós definimos juntos: isso não é impedimento.</p>
+        </div>
+      </div>
+      <div class="passo">
+        <div class="passo-n">02</div>
+        <div>
+          <h3>Produção</h3>
+          <p>Eu construo os modelos em Word, com a identidade aplicada, os ícones desenhados nas suas cores e as tabelas prontas. Essa parte é minha: você não precisa aprender nada.</p>
+        </div>
+      </div>
+      <div class="passo">
+        <div class="passo-n">03</div>
+        <div>
+          <h3>Entrega e ajuste</h3>
+          <p>Você recebe os arquivos e o guia de uso, testa em uma peça real e me diz o que quer diferente. O pacote Completo inclui uma rodada de ajuste. Depois disso, os arquivos são seus e não dependem mais de mim.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ESCOPO ── -->
+<section id="escopo">
+  <div class="container">
+    <div class="section-label">Transparência</div>
+    <h2 class="section-title">O que o Visual Law não é</h2>
+    <div class="section-divider"></div>
+
+    <div class="escopo-box">
+      <h3>Eu formato o argumento. Quem argumenta é você.</h3>
+      <p>Não redijo peças, não pratico ato privativo da advocacia e não opino sobre a estratégia do caso. O que eu entrego são <strong>modelos</strong> — a estrutura visual dentro da qual o seu texto entra.</p>
+      <p>E não prometo resultado processual. Nenhuma tabela ganha causa perdida. O que uma peça bem organizada faz é reduzir o esforço de quem lê — e isso, sim, você controla.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUEM ── -->
+<section id="quem">
+  <div class="container">
+    <div class="section-label">Quem produz</div>
+    <h2 class="section-title">Julia Ketelut</h2>
+    <div class="section-divider"></div>
+
+    <div class="quem-grid">
+      <img src="julia.png" alt="Julia Ketelut" class="quem-foto" width="896" height="1200" loading="lazy" />
+      <div class="quem-texto">
+        <p>Bacharel em Direito e pesquisadora com publicação em periódico jurídico indexado. Trabalho com <strong>Visual Law aplicado a documentos Word</strong> — não com design genérico adaptado ao Direito.</p>
+        <p>A diferença aparece nos detalhes: eu sei o que é uma qualificação, onde entra o pedido, e por que a linha do tempo dos fatos importa mais na trabalhista do que na tributária. Você não vai precisar explicar o seu ofício para quem está formatando a sua peça.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label">Perguntas frequentes</div>
+    <h2 class="section-title">O que costumam me perguntar</h2>
+    <div class="section-divider"></div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Preciso ter logo e identidade visual prontos?</button>
+        <div class="faq-a"><p>Não. Se você já tem, eu aplico. Se não tem, definimos no briefing a partir do que você quer transmitir — e a identidade nasce junto com os documentos. Muita gente descobre a própria marca nessa conversa.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Vou precisar de algum programa novo?</button>
+        <div class="faq-a"><p>Só o Word, que você já tem. Nada de Canva, InDesign ou assinatura mensal. Os modelos são .docx comuns, e cada peça nova é um "salvar como".</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">O tribunal aceita peça com elementos visuais?</button>
+        <div class="faq-a"><p>O Visual Law não altera nada do que a peça precisa ter — endereçamento, qualificação, fundamentos e pedidos continuam onde sempre estiveram. O que muda é a organização da leitura: tabelas, linhas do tempo e destaques, todos dentro do documento processual comum.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Qual a diferença para a mentoria?</button>
+        <div class="faq-a"><p>Aqui eu produzo os documentos e entrego — o trabalho é meu. Na <a href="mentoria.html" style="color:var(--creme)">mentoria</a>, quem constrói as ferramentas é você, com a minha condução, e sai também com os GPTs do escritório. Um é serviço; o outro é autonomia.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA FINAL ── -->
+<section id="fechar" class="fechar">
+  <div class="container">
+    <div class="section-label">O próximo passo</div>
+    <h2 class="section-title">Me mande uma peça sua</h2>
+    <div class="section-divider"></div>
+    <p>Uma petição qualquer, do jeito que ela está hoje. Eu digo o que dá para fazer com ela — e qual pacote faz sentido para o seu escritório, se algum fizer.</p>
+    <div class="fechar-actions">
+      <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20em%20Visual%20Law%20nas%20minhas%20pe%C3%A7as." class="btn-primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.4 1.9.8 2.6.9 3.5.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        Falar com a Julia no WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <img src="monograma_jk.png" alt="JK" class="footer-monogram" />
+    <div class="footer-logo">
+      JK Jurídico
+      <span>Escrita, Revisão e Formatação</span>
+    </div>
+  </div>
+  <div class="footer-text">
+    <div>© 2026 Julia Ketelut · Todos os direitos reservados</div>
+    <div style="margin-top:0.35rem">
+      <a href="index.html">Todos os serviços</a> &nbsp;·&nbsp;
+      <a href="mentoria.html">Mentoria</a> &nbsp;·&nbsp;
+      <a href="academico.html">Acadêmico</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

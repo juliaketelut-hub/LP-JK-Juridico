@@ -400,319 +400,68 @@
     .pub-link-icon { flex-shrink: 0; align-self: center; color: var(--creme); opacity: 0.6; transition: opacity 0.2s; }
     .pub-card:hover .pub-link-icon { opacity: 1; }
 
-    /* ── SERVIÇOS ── */
-    #servicos { background: var(--bg); }
+    /* ── PRODUTOS (vitrine) ── */
+    #produtos { background: var(--bg); }
+    .prod-intro { max-width: 620px; color: var(--text-body); font-size: 1rem; line-height: 1.75; }
 
-    .servicos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.4rem;
-      margin-top: 3rem;
-    }
-
-    .servico-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 2.2rem;
-      transition: border-color 0.25s, box-shadow 0.25s;
-    }
-    .servico-card:hover { border-color: var(--creme-border); box-shadow: 0 4px 24px rgba(42,33,24,0.08); }
-
-    .card-num {
-      font-family: 'Spectral', serif;
-      font-size: 2rem;
-      font-weight: 300;
-      color: var(--creme);
-      opacity: 0.40;
-      line-height: 1;
-      margin-bottom: 1rem;
-    }
-
-    .servico-card h3 { font-family: 'Jost', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.8rem; letter-spacing: 0.01em; }
-    .servico-card p { font-size: 0.93rem; font-weight: 400; color: var(--text-body); line-height: 1.75; margin-bottom: 1.2rem; }
-
-    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .card-tag {
-      font-size: 0.64rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-      border: 1px solid var(--creme-border); color: var(--text-meta);
-      padding: 0.22rem 0.55rem; border-radius: 2px;
-    }
-
-    /* ── PREÇOS ── */
-    #precos { background: var(--bg); }
-
-    .precos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem; }
-
-    .preco-bloco {
-      background: #fff;
-      border: 1px solid var(--border-m);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    .preco-bloco-header {
-      background: var(--nav);
-      padding: 1rem 1.4rem;
-      display: flex; align-items: center; gap: 0.75rem;
-      border-bottom: 1px solid rgba(162,123,91,0.30);
-    }
-    .preco-bloco-header span { font-family: 'Jost', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--creme); }
-    .preco-bloco-header svg { color: var(--creme); flex-shrink: 0; }
-
-    .preco-table { width: 100%; border-collapse: collapse; }
-    .preco-table thead th {
-      font-size: 0.64rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text-body); padding: 0.8rem 1.4rem; text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    .preco-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
-    .preco-table tbody tr:last-child { border-bottom: none; }
-    .preco-table tbody tr:hover { background: var(--creme-soft); }
-    .preco-table td { padding: 0.9rem 1.4rem; font-size: 0.9rem; color: var(--text); vertical-align: top; }
-    .preco-table td:first-child { font-weight: 500; color: var(--text-body); }
-    .preco-table td small { display: block; font-size: 0.82rem; color: var(--text-meta); font-weight: 400; margin-top: 0.15rem; }
-    .preco-table td:last-child { text-align: right; font-weight: 600; color: var(--creme); white-space: nowrap; }
-
-    .badge-premium {
-      display: inline-block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      background: var(--creme-btn); color: #fff; padding: 0.14rem 0.42rem; border-radius: 2px; margin-top: 0.25rem;
-    }
-
-    .fatores-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-
-    .fator-box { background: #fff; border: 1px solid var(--border-m); border-radius: 3px; padding: 1.6rem; }
-    .fator-box-title {
-      font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--creme); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
-    }
-    .fator-lista { list-style: none; }
-    .fator-lista li {
-      font-size: 0.93rem; font-weight: 400; color: var(--text-body); padding: 0.35rem 0;
-      border-bottom: 1px solid var(--border); display: flex; gap: 0.5rem; align-items: baseline;
-    }
-    .fator-lista li:last-child { border-bottom: none; }
-    .fator-lista li::before { content: '—'; color: var(--creme); flex-shrink: 0; opacity: 0.6; }
-    .fator-lista strong { color: var(--text); font-weight: 600; }
-    .obs-box p { font-size: 0.93rem; font-weight: 400; color: var(--text-body); line-height: 1.75; }
-    .obs-box strong { color: var(--text); font-weight: 600; }
-    .preco-nota { background: var(--surface); border-radius: 3px; padding: 1rem 1.5rem; text-align: center; margin-top: 2rem; font-size: 0.86rem; color: var(--text-meta); }
-    .preco-nota a { color: var(--creme); text-decoration: none; font-weight: 600; }
-
-    /* ── ESCOPO: incluído × orçado à parte ── */
-    .escopo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-    .escopo-box { background: #fff; border: 1px solid var(--border-m); border-radius: 3px; padding: 1.6rem; }
-    .escopo-inclui { border-color: var(--creme-border); }
-    .escopo-nao    { background: var(--surface); }
-    .escopo-titulo {
-      font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em;
-      text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
-    }
-    .escopo-inclui .escopo-titulo { color: var(--creme); }
-    .escopo-nao    .escopo-titulo { color: var(--text-faint); }
-    .escopo-lista { list-style: none; }
-    .escopo-lista li {
-      font-size: 0.93rem; font-weight: 400; color: var(--text-body); line-height: 1.65;
-      padding: 0.45rem 0; border-bottom: 1px solid var(--border);
-    }
-    .escopo-lista li:last-child { border-bottom: none; }
-    .escopo-lista strong { color: var(--text); font-weight: 600; }
-    .escopo-nao .escopo-lista li { color: var(--text-meta); }
-    .escopo-regra {
-      margin-top: 1.25rem; padding: 1.1rem 1.5rem; border-radius: 3px;
-      background: var(--creme-soft); border: 1px solid var(--creme-border);
-      font-size: 0.9rem; line-height: 1.7; color: var(--text-body);
-    }
-    .escopo-regra strong { color: var(--text); font-weight: 600; }
-    .escopo-regra em { font-style: italic; color: var(--creme); font-weight: 500; }
-    @media (max-width: 820px) { .escopo-grid { grid-template-columns: 1fr; gap: 1.25rem; } }
-
-    /* ── IA CARD ── */
-    .ia-card {
-      background: #fff;
-      border: 1px solid var(--border-m);
-      border-radius: 3px;
-      overflow: hidden;
-      grid-column: 1 / -1;
-    }
-    .ia-card-header {
-      background: var(--nav);
-      padding: 1rem 1.4rem;
-      display: flex; align-items: center; gap: 0.75rem;
-      border-bottom: 1px solid rgba(162,123,91,0.30);
-    }
-    .ia-card-header span:first-of-type { font-family: 'Jost', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--creme); flex: 1; }
-    .ia-card-badge {
-      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      background: var(--creme-btn); color: #fff; padding: 0.15rem 0.5rem; border-radius: 2px;
-    }
-    .ia-body { display: grid; grid-template-columns: repeat(3, 1fr); }
-    .ia-faixa {
-      padding: 1.2rem 1.4rem;
-      border-right: 1px solid var(--border);
-    }
-    .ia-faixa:last-child { border-right: none; }
-    .ia-faixa-titulo { font-size: 0.82rem; font-weight: 400; color: var(--text-meta); margin-bottom: 0.25rem; }
-    .ia-faixa-valor { font-size: 1.1rem; font-weight: 600; color: var(--creme); }
-
-    /* ── VISUAL LAW ── */
-    #visual-law { background: var(--surface); }
-
-    .vl-intro { font-size: 1rem; font-weight: 400; color: var(--text-body); max-width: 640px; margin-bottom: 2.5rem; line-height: 1.75; }
-
-    .vl-packages {
+    .prod-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.25rem;
-      margin-bottom: 2rem;
-      align-items: start;
+      margin-top: 2.5rem;
+      align-items: stretch;
     }
-
-    .vl-pkg {
-      background: var(--bg);
-      border: 1px solid var(--border-m);
-      border-radius: 2px;
+    .prod-card {
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      transition: box-shadow 0.2s ease;
+      gap: 0.6rem;
+      background: var(--surface);
+      border: 1px solid var(--border-m);
+      border-top: 2px solid var(--creme-border);
+      border-radius: 2px;
+      padding: 1.8rem 1.7rem;
+      text-decoration: none;
+      transition: box-shadow 0.2s ease, border-top-color 0.2s ease, transform 0.2s ease;
     }
-    .vl-pkg:hover { box-shadow: 0 4px 24px rgba(42,33,24,0.09); }
-
-    .vl-pkg-featured { border-color: var(--creme); }
-    .vl-pkg-featured .vl-pkg-header { background: rgba(162,123,91,0.07); }
-
-    .vl-pkg-header {
-      padding: 1.4rem 1.5rem 1.2rem;
-      border-bottom: 1px solid var(--border);
+    .prod-card:hover, .prod-card:focus-visible {
+      box-shadow: 0 6px 28px rgba(42,33,24,0.10);
+      border-top-color: var(--creme);
+      transform: translateY(-2px);
     }
-    .vl-pkg-tag {
+    .prod-card-destaque { border-top-color: var(--verde); }
+    .prod-para {
       font-family: 'Jost', sans-serif;
       font-size: 0.62rem;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--creme);
-      margin-bottom: 0.45rem;
     }
-    .vl-pkg-name {
+    .prod-card h3 {
       font-family: 'Spectral', serif;
-      font-size: 1.15rem;
+      font-size: 1.28rem;
       font-weight: 600;
       color: var(--text);
       line-height: 1.3;
     }
-
-    .vl-pkg-includes {
-      font-size: 0.78rem;
-      color: var(--text-meta);
-      padding: 0.85rem 1.5rem 0;
-      font-style: italic;
-    }
-
-    .vl-pkg-table { width: 100%; border-collapse: collapse; flex: 1; }
-    .vl-pkg-table thead th {
-      font-family: 'Jost', sans-serif;
-      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-meta); padding: 0.65rem 1.5rem; text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    .vl-pkg-table tbody tr { border-bottom: 1px solid var(--border); }
-    .vl-pkg-table tbody tr:last-child { border-bottom: none; }
-    .vl-pkg-table td { padding: 0.65rem 1.5rem; font-size: 0.84rem; vertical-align: top; line-height: 1.45; }
-    .vl-pkg-table td:first-child { font-weight: 500; color: var(--text); width: 46%; }
-    .vl-pkg-table td:last-child { color: var(--text-body); font-size: 0.8rem; }
-
-    .vl-pkg-desc {
-      padding: 1.1rem 1.5rem;
-      font-size: 0.88rem;
+    .prod-card p {
+      font-size: 0.92rem;
       color: var(--text-body);
-      line-height: 1.72;
+      line-height: 1.65;
       flex: 1;
     }
-
-    .vl-pkg-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid var(--border);
-      background: rgba(162,123,91,0.04);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .vl-pkg-price {
-      font-family: 'Spectral', serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--creme);
-      line-height: 1.1;
-      margin-bottom: 0.2rem;
-    }
-    .vl-pkg-price span { font-size: 0.82rem; font-weight: 400; color: var(--text-body); }
-    .vl-pkg-prazo { font-size: 0.72rem; color: var(--text-meta); font-family: 'Jost', sans-serif; }
-
-    .btn-vl-cta {
-      display: inline-block;
-      background: var(--verde);
-      color: var(--nav);
+    .prod-link {
       font-family: 'Jost', sans-serif;
       font-size: 0.8rem;
       font-weight: 600;
-      padding: 0.55rem 1.1rem;
-      border-radius: 2px;
-      text-decoration: none;
-      letter-spacing: 0.03em;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: opacity 0.15s;
-    }
-    .btn-vl-cta:hover, .btn-vl-cta:focus-visible { background: #2ECC71; }
-
-    /* ── MENTORIA (vitrine — a venda acontece em mentoria.html) ── */
-    #mentoria { background: var(--bg); }
-
-    .mt-distincao {
-      max-width: 640px;
-    }
-    .mt-distincao p { font-size: 1rem; color: var(--text-body); line-height: 1.75; }
-    .mt-distincao p + p { margin-top: 0.75rem; }
-    .mt-distincao strong { color: var(--text); font-weight: 600; }
-
-    .mt-provas {
-      display: flex;
-      gap: 2.5rem;
-      flex-wrap: wrap;
-      margin-top: 2.2rem;
-    }
-    .mt-prova { display: flex; flex-direction: column; gap: 0.15rem; }
-    .mt-prova-t {
-      font-family: 'Spectral', serif;
-      font-size: 1.05rem;
-      font-weight: 600;
+      letter-spacing: 0.04em;
       color: var(--creme);
-      line-height: 1.3;
-    }
-    .mt-prova-s { font-size: 0.78rem; color: var(--text-meta); }
-
-    .mt-cta {
+      margin-top: 0.4rem;
       display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 2.4rem;
-      font-family: 'Jost', sans-serif;
-      font-size: 0.84rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: var(--creme);
-      text-decoration: none;
-      border: 1px solid var(--creme-border);
-      padding: 0.8rem 1.5rem;
-      border-radius: 2px;
-      transition: background 0.2s, color 0.2s;
+      gap: 0.4rem;
     }
-    .mt-cta:hover, .mt-cta:focus-visible { background: var(--creme-btn); color: #fff; }
-    .mt-cta span { transition: transform 0.2s; }
-    .mt-cta:hover span { transform: translateX(3px); }
+    .prod-card:hover .prod-link span { transform: translateX(3px); }
+    .prod-link span { transition: transform 0.2s; }
 
     /* ── MEMBROS DESTAQUE ── */
     #membros-destaque {
@@ -1037,29 +786,6 @@
     .depo-name { font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; color: var(--text); }
     .depo-role { font-size: 0.74rem; color: var(--text-faint); letter-spacing: 0.04em; margin-top: 0.15rem; }
 
-    /* ── FAQ ── */
-    #faq { background: var(--surface); }
-    .faq-list { margin-top: 2.5rem; max-width: 720px; }
-    .faq-item { border-bottom: 1px solid var(--border-m); }
-    .faq-item:first-child { border-top: 1px solid var(--border-m); }
-    .faq-q {
-      width: 100%; background: none; border: none;
-      color: var(--text); font-family: 'Jost', sans-serif;
-      font-size: 0.97rem; font-weight: 500; text-align: left;
-      padding: 1.3rem 0; cursor: pointer;
-      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
-      transition: color 0.2s;
-    }
-    .faq-q:hover { color: var(--creme); }
-    .faq-icon { color: var(--creme); flex-shrink: 0; font-size: 1.4rem; font-weight: 300; line-height: 1; transition: transform 0.25s; }
-    .faq-item.open .faq-icon { transform: rotate(45deg); }
-    .faq-a {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.32s ease, padding 0.32s;
-      font-size: 0.93rem; font-weight: 400; color: var(--text-body); line-height: 1.85;
-    }
-    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.3rem; }
-
     /* ── RESPONSIVE ── */
     @media (max-width: 960px) {
       .membros-destaque-inner { grid-template-columns: 1fr; gap: 3rem; }
@@ -1140,7 +866,7 @@
 
       .preco-table td:last-child { color: var(--creme) !important; font-weight: 600; }
 
-      .vl-packages { grid-template-columns: 1fr; }
+      .prod-grid { grid-template-columns: 1fr; }
 
       .vl-pkg-table thead { display: none; }
 
@@ -1181,9 +907,7 @@
     <li><a href="#sobre">Sobre</a></li>
     <li><a href="#publicacao">Publicação</a></li>
     <li><a href="academico.html">Acadêmico</a></li>
-    <li><a href="#precos">Honorários</a></li>
-    <li><a href="#diagnostico" style="color:var(--creme)">Diagnóstico R$ 97</a></li>
-    <li><a href="#visual-law">Visual Law</a></li>
+    <li><a href="visual-law.html">Visual Law</a></li>
     <li><a href="mentoria.html">Mentoria</a></li>
     <li><a href="#contato">Contato</a></li>
   </ul>
@@ -1334,74 +1058,6 @@
   </div>
 </section>
 
-<!-- ── SERVIÇOS ── -->
-<section id="servicos">
-  <div class="container">
-    <div class="section-label">O que ofereço</div>
-    <h2 class="section-title">Frentes de Atuação</h2>
-    <div class="section-divider"></div>
-
-    <div class="servicos-grid">
-      <div class="servico-card reveal">
-        <div class="card-num">01</div>
-        <h3>Escrita de Artigos Acadêmicos</h3>
-        <p>Redação completa de artigos jurídicos do zero: problema de pesquisa, revisão bibliográfica, desenvolvimento argumentativo e conclusão — com formatação ABNT incluída.</p>
-        <div class="card-tags">
-          <span class="card-tag">Do zero</span>
-          <span class="card-tag">ABNT</span>
-          <span class="card-tag">Qualis</span>
-          <span class="card-tag">Todas as áreas</span>
-        </div>
-      </div>
-
-      <div class="servico-card reveal rv-d1">
-        <div class="card-num">02</div>
-        <h3>TCC & Monografia</h3>
-        <p>Escrita, estruturação e formatação de trabalhos de conclusão de curso e monografias. Desde a introdução até as considerações finais, com rigor metodológico e textual.</p>
-        <div class="card-tags">
-          <span class="card-tag">Graduação</span>
-          <span class="card-tag">Metodologia</span>
-        </div>
-      </div>
-
-      <div class="servico-card reveal rv-d2">
-        <div class="card-num">03</div>
-        <h3>Revisão Acadêmica</h3>
-        <p>Revisão textual (gramática e coesão), revisão metodológica ABNT e revisão completa. Adequação a normas de periódicos específicos e exigências institucionais.</p>
-        <div class="card-tags">
-          <span class="card-tag">Textual</span>
-          <span class="card-tag">Metodológica</span>
-          <span class="card-tag">Completa</span>
-        </div>
-      </div>
-
-      <div class="servico-card reveal rv-d3">
-        <div class="card-num">03<span style="font-size:1rem;opacity:0.55;font-family:'Jost',sans-serif;font-weight:300;letter-spacing:0">+</span></div>
-        <h3>Revisão de Artigos Gerados por IA</h3>
-        <p>Revisão especializada de textos acadêmicos produzidos com auxílio de inteligência artificial. Inclui adequação de linguagem, coerência argumentativa, humanização do texto e verificação de referências.</p>
-        <div class="card-tags">
-          <span class="card-tag">Humanização</span>
-          <span class="card-tag">Referências</span>
-          <span class="card-tag">ABNT</span>
-          <span class="card-tag">Graduação</span>
-        </div>
-      </div>
-
-      <div class="servico-card reveal rv-d4">
-        <div class="card-num">04</div>
-        <h3>Visual Law em Documentos</h3>
-        <p>Aplicação de visual law em peças processuais e documentos jurídicos no Word: linhas do tempo, infográficos, tabelas comparativas e elementos visuais que potencializam a argumentação.</p>
-        <div class="card-tags">
-          <span class="card-tag">Peças processuais</span>
-          <span class="card-tag">Timeline</span>
-          <span class="card-tag">Infográficos</span>
-          <span class="card-tag">Word</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── DEPOIMENTOS ── -->
 <section id="depoimentos">
   <div class="container">
@@ -1439,278 +1095,38 @@
   </div>
 </section>
 
-<!-- ── HONORÁRIOS ── -->
-<section id="precos">
+<!-- ── PRODUTOS (vitrine — cada um tem a sua página) ── -->
+<section id="produtos">
   <div class="container">
-    <div class="section-label">Honorários</div>
-    <h2 class="section-title">Escrita & Revisão Acadêmica</h2>
+    <div class="section-label">Como eu posso ajudar</div>
+    <h2 class="section-title">Três caminhos, três públicos</h2>
     <div class="section-divider"></div>
+    <p class="prod-intro">Cada um tem a sua página, com escopo, prazos e valores. Escolha o que descreve o seu problema — ou me chame no WhatsApp e eu digo qual serve.</p>
 
-    <div class="precos-grid">
-      <div class="preco-bloco">
-        <div class="preco-bloco-header">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-          <span>Escrita de Artigo Acadêmico — do zero</span>
-        </div>
-        <table class="preco-table">
-          <thead><tr><th>Tipo</th><th style="text-align:right">Faixa</th></tr></thead>
-          <tbody>
-            <tr><td>Artigo simples <small>até 15 páginas</small></td><td>R$ 600 – R$ 800</td></tr>
-            <tr><td>Artigo intermediário <small>15–25 páginas</small></td><td>R$ 800 – R$ 1.500</td></tr>
-            <tr><td>Periódico Qualis / indexado <br/><span class="badge-premium">Premium</span></td><td>R$ 1.200 – R$ 2.500+</td></tr>
-            <tr><td>TCC / Monografia <small>nível graduação</small></td><td>R$ 900 – R$ 2.000</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="prod-grid">
 
-      <div class="preco-bloco">
-        <div class="preco-bloco-header">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <span>Revisão Acadêmica</span>
-        </div>
-        <table class="preco-table">
-          <thead><tr><th>Tipo de Revisão</th><th style="text-align:right">Faixa</th></tr></thead>
-          <tbody>
-            <tr><td>Revisão de texto <small>gramática e coesão</small></td><td>R$ 80 – R$ 200</td></tr>
-            <tr><td>Revisão metodológica <small>ABNT e estrutura</small></td><td>R$ 150 – R$ 300</td></tr>
-            <tr><td>Revisão completa <small>texto + método + conteúdo</small></td><td>R$ 250 – R$ 500</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="ia-card">
-        <div class="ia-card-header">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-          <span>Revisão de Artigos Gerados por IA</span>
-          <span class="ia-card-badge">Novo</span>
-        </div>
-        <div class="ia-body">
-          <div class="ia-faixa">
-            <div class="ia-faixa-titulo">Até 15 páginas</div>
-            <div class="ia-faixa-valor">R$ 150</div>
-          </div>
-          <div class="ia-faixa">
-            <div class="ia-faixa-titulo">16 a 30 páginas</div>
-            <div class="ia-faixa-valor">R$ 250</div>
-          </div>
-          <div class="ia-faixa">
-            <div class="ia-faixa-titulo">Acima de 30 páginas</div>
-            <div class="ia-faixa-valor">Sob consulta</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="fatores-grid">
-      <div class="fator-box">
-        <div class="fator-box-title">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Fatores que justificam valor mais alto
-        </div>
-        <ul class="fator-lista">
-          <li><strong>Urgência:</strong> prazo abaixo de 5 dias → acréscimo de 30–50%</li>
-          <li><strong>Artigo publicado</strong> em periódico — diferencial real de credibilidade</li>
-          <li><strong>Periódico específico</strong> com normas próprias de submissão</li>
-          <li><strong>Formatação inclusa</strong> conforme normas ABNT</li>
-        </ul>
-      </div>
-      <div class="fator-box obs-box">
-        <div class="fator-box-title">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Observação sobre escopo
-        </div>
-        <p>Atuo na escrita, estruturação, revisão e formatação de trabalhos acadêmicos de diferentes áreas. <strong>Trabalhos que envolvam cálculos são aceitos desde que os dados e resultados numéricos sejam fornecidos pelo cliente</strong> — minha atuação se limita à parte textual, argumentativa e formal.</p>
-      </div>
-    </div>
-
-    <!-- Escopo: o que está e o que não está incluído -->
-    <div class="escopo-grid">
-      <div class="escopo-box escopo-inclui">
-        <div class="escopo-titulo">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          Todo orçamento inclui
-        </div>
-        <ul class="escopo-lista">
-          <li>A <strong>redação e/ou formatação</strong> contratada, conforme discriminado na proposta.</li>
-          <li>A adequação à <strong>norma de citação</strong> informada no briefing — inclusive manual próprio da instituição.</li>
-          <li><strong>Uma rodada de ajustes</strong>, sem custo adicional.</li>
-        </ul>
-      </div>
-      <div class="escopo-box escopo-nao">
-        <div class="escopo-titulo">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          Orçado à parte
-        </div>
-        <ul class="escopo-lista">
-          <li><strong>Nova devolutiva</strong> do orientador ou da banca — cada devolutiva posterior à primeira é uma nova rodada.</li>
-          <li><strong>Mudança de norma</strong> ou de padrão de formatação depois da entrega.</li>
-          <li><strong>Ampliação de conteúdo</strong>, novas seções, novas fontes ou aumento da extensão.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="escopo-regra">
-      <strong>Como funciona a rodada incluída:</strong> reúna todas as correções apontadas pelo orientador e me envie <em>de uma única vez</em>, em até 15 dias corridos da entrega. Todo orçamento é enviado por escrito, com o escopo detalhado, para sua assinatura antes do início.
-    </div>
-
-    <div class="preco-nota">Valores são referências de mercado. <a href="#contato">Orçamento personalizado mediante consulta.</a></div>
-  </div>
-</section>
-
-<!-- ── DIAGNÓSTICO DE ARTIGO ── -->
-<section id="diagnostico" style="background:linear-gradient(135deg,rgba(162,123,91,0.07) 0%,var(--bg) 70%);border-top:1px solid var(--creme-border);border-bottom:1px solid var(--creme-border);">
-  <div class="container">
-    <div class="section-label">Produto de Entrada</div>
-    <h2 class="section-title">Diagnóstico de Artigo</h2>
-    <div class="section-divider"></div>
-    <p style="max-width:580px;margin:0 auto 3rem;text-align:center;color:var(--text-body);font-size:1rem;line-height:1.75;font-family:'Jost',sans-serif;">
-      Antes de revisar ou reescrever, entenda <em style="font-style:italic;color:var(--creme)">exatamente</em> o que o seu artigo precisa.
-      Análise técnica completa entregue em até 48h úteis.
-    </p>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;max-width:760px;margin:0 auto 2.5rem;">
-      <div style="background:#fff;border:1px solid var(--border-m);border-radius:3px;padding:1.5rem 1.2rem;text-align:center;">
-        <svg style="color:var(--creme);opacity:0.75;margin:0 auto 0.9rem;display:block;" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        <div style="font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;color:var(--creme);margin-bottom:0.4rem;text-transform:uppercase;">Qualidade Textual</div>
-        <div style="font-size:0.82rem;font-weight:400;color:var(--text-body);line-height:1.6;">Coesão, argumentação e clareza — com score por dimensão</div>
-      </div>
-      <div style="background:#fff;border:1px solid var(--border-m);border-radius:3px;padding:1.5rem 1.2rem;text-align:center;">
-        <svg style="color:var(--creme);opacity:0.75;margin:0 auto 0.9rem;display:block;" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        <div style="font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;color:var(--creme);margin-bottom:0.4rem;text-transform:uppercase;">Conformidade ABNT</div>
-        <div style="font-size:0.82rem;font-weight:400;color:var(--text-body);line-height:1.6;">Verificação NBR 6022 e 6023 com mapa de pendências</div>
-      </div>
-      <div style="background:#fff;border:1px solid var(--border-m);border-radius:3px;padding:1.5rem 1.2rem;text-align:center;">
-        <svg style="color:var(--creme);opacity:0.75;margin:0 auto 0.9rem;display:block;" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <div style="font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;color:var(--creme);margin-bottom:0.4rem;text-transform:uppercase;">Gaps Metodológicos</div>
-        <div style="font-size:0.82rem;font-weight:400;color:var(--text-body);line-height:1.6;">Identificação de lacunas com recomendações priorizadas</div>
-      </div>
-    </div>
-
-    <div style="max-width:480px;margin:0 auto;background:#fff;border:1px solid var(--creme-border);border-radius:3px;padding:2.2rem 2rem 2rem;text-align:center;">
-      <div style="font-family:'Jost',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.18em;color:var(--text-meta);text-transform:uppercase;margin-bottom:0.5rem;">Investimento</div>
-      <div style="font-family:'Spectral',serif;font-size:2.8rem;color:var(--text);line-height:1;margin-bottom:0.25rem;">R$ 97<span style="font-size:1.1rem;color:var(--text-meta)">,00</span></div>
-      <div style="font-size:0.8rem;color:var(--text-body);margin-bottom:1.8rem;">entrega em até 48h úteis — por e-mail ou WhatsApp</div>
-      <a href="membros.html" class="btn-primary" style="display:inline-flex;">
-        Quero meu diagnóstico
+      <a href="academico.html" class="prod-card">
+        <div class="prod-para">Para estudantes e pesquisadores</div>
+        <h3>Escrita e revisão acadêmica</h3>
+        <p>Artigos, TCC e monografias em Direito: escrita do zero, revisão metodológica, formatação ABNT e revisão de textos gerados por IA — com cada referência conferida na fonte.</p>
+        <span class="prod-link">Ver serviços e honorários <span aria-hidden="true">→</span></span>
       </a>
-      <div style="margin-top:1.2rem;font-size:0.74rem;color:var(--text-meta);">Após o pagamento, você recebe as instruções de envio na área de membros.</div>
-    </div>
-  </div>
-</section>
 
-<!-- ── VISUAL LAW ── -->
-<section id="visual-law">
-  <div class="container">
-    <div class="section-label">Novo Serviço</div>
-    <h2 class="section-title">Visual Law em Peças Processuais</h2>
-    <div class="section-divider"></div>
-    <p class="vl-intro">Identidade visual profissional aplicada diretamente no Word — cabeçalhos, tabelas, ícones e papel timbrado que consolidam a autoridade do advogado e facilitam a leitura do julgador. Editável, sem depender de designer.</p>
+      <a href="visual-law.html" class="prod-card">
+        <div class="prod-para">Para advogados</div>
+        <h3>Visual Law em peças</h3>
+        <p>Identidade visual aplicada no Word: petições, contratos, tabelas comparativas, linhas do tempo e ícones. Editável por você, sem depender de designer.</p>
+        <span class="prod-link">Ver pacotes e valores <span aria-hidden="true">→</span></span>
+      </a>
 
-    <div class="vl-packages">
-
-      <!-- Opção A -->
-      <div class="vl-pkg">
-        <div class="vl-pkg-header">
-          <div class="vl-pkg-tag">sua marca em cada peça</div>
-          <div class="vl-pkg-name">Identidade Documental</div>
-        </div>
-        <table class="vl-pkg-table">
-          <thead><tr><th>Entrega</th><th>Detalhe</th></tr></thead>
-          <tbody>
-            <tr><td>Modelo de petição .docx</td><td>Identidade visual do advogado</td></tr>
-            <tr><td>Cabeçalho + rodapé</td><td>Logo, nome, OAB, contato</td></tr>
-            <tr><td>Modelo de tabelas</td><td>3 estilos: simples, comparativa, linha do tempo</td></tr>
-            <tr><td>Banco de ícones Word</td><td>Ícones jurídicos nas cores do cliente</td></tr>
-            <tr><td>Papel timbrado</td><td>Para correspondências</td></tr>
-            <tr><td>Guia rápido de uso</td><td>PDF de 1 página — como editar</td></tr>
-          </tbody>
-        </table>
-        <div class="vl-pkg-footer">
-          <div>
-            <div class="vl-pkg-price">R$ 390 <span>fixo</span></div>
-            <div class="vl-pkg-prazo">5–7 dias úteis após briefing</div>
-          </div>
-          <a href="https://wa.me/5544991652729?text=Olá%2C%20tenho%20interesse%20no%20Pacote%20A%20de%20Visual%20Law%20(Identidade%20Documental)." class="btn-vl-cta" target="_blank" rel="noopener">Solicitar</a>
-        </div>
-      </div>
-
-      <!-- Opção B -->
-      <div class="vl-pkg vl-pkg-featured">
-        <div class="vl-pkg-header">
-          <div class="vl-pkg-tag">da petição ao contrato</div>
-          <div class="vl-pkg-name">Visual Law Completo</div>
-        </div>
-        <p class="vl-pkg-includes">Tudo do Pacote A, mais:</p>
-        <table class="vl-pkg-table">
-          <thead><tr><th>Extra</th><th>Por que agrega</th></tr></thead>
-          <tbody>
-            <tr><td>Modelo de proposta de honorários</td><td>Alta demanda entre advogados jovens</td></tr>
-            <tr><td>Modelo de contrato de honorários</td><td>Um dos mais solicitados do mercado</td></tr>
-            <tr><td>Citação/destaque Word</td><td>Caixas para argumentos-chave</td></tr>
-            <tr><td>1 rodada de ajuste inclusa</td><td>Diferencial contra produtos prontos</td></tr>
-          </tbody>
-        </table>
-        <div class="vl-pkg-footer">
-          <div>
-            <div class="vl-pkg-price">R$ 590 <span>fixo</span></div>
-            <div class="vl-pkg-prazo">7–10 dias úteis</div>
-          </div>
-          <a href="https://wa.me/5544991652729?text=Olá%2C%20tenho%20interesse%20no%20Pacote%20B%20de%20Visual%20Law%20(Visual%20Law%20Completo)." class="btn-vl-cta" target="_blank" rel="noopener">Solicitar</a>
-        </div>
-      </div>
-
-      <!-- Opção C -->
-      <div class="vl-pkg">
-        <div class="vl-pkg-header">
-          <div class="vl-pkg-tag">do seu nicho, do seu jeito</div>
-          <div class="vl-pkg-name">Personalizado por Área</div>
-        </div>
-        <p class="vl-pkg-desc">Tudo do Pacote B, configurado para a sua área — Trabalhista, Família, Cível ou Previdenciário. Ícones, terminologia e estrutura da petição já vêm do nicho. A entrega mais personalizada do mercado de Visual Law em Word.</p>
-        <div class="vl-pkg-footer">
-          <div>
-            <div class="vl-pkg-price">R$ 650<span>–720 fixo</span></div>
-            <div class="vl-pkg-prazo">Prazo a combinar</div>
-          </div>
-          <a href="https://wa.me/5544991652729?text=Olá%2C%20tenho%20interesse%20no%20Pacote%20C%20de%20Visual%20Law%20(por%20Área%20Jurídica)." class="btn-vl-cta" target="_blank" rel="noopener">Solicitar</a>
-        </div>
-      </div>
+      <a href="mentoria.html" class="prod-card prod-card-destaque">
+        <div class="prod-para">Para advogados · ticket alto</div>
+        <h3>Mentoria: Visual Law + IA</h3>
+        <p>Você constrói os GPTs do seu escritório, com a minha condução e o protocolo antialucinação. A ferramenta é sua — e continua funcionando quando a mentoria acaba.</p>
+        <span class="prod-link">Conhecer a mentoria <span aria-hidden="true">→</span></span>
+      </a>
 
     </div>
-
-    <div class="preco-nota" style="margin-top:0.5rem">
-      Valores fixos. <a href="#contato">Solicite via WhatsApp para iniciar.</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── MENTORIA VISUAL LAW + IA ── -->
-<section id="mentoria">
-  <div class="container">
-    <div class="section-label">Para advogados</div>
-    <h2 class="section-title">Mentoria: Visual Law + IA no seu escritório</h2>
-    <div class="section-divider"></div>
-
-    <div class="mt-distincao">
-      <p>Você já usa inteligência artificial — e talvez já tenha conferido cada citação de uma minuta, uma a uma, com a sensação incômoda de que estava conferindo o próprio nome.</p>
-      <p>Eu ensino você a construir os GPTs do seu escritório <strong>com o protocolo antialucinação</strong> — treinados na sua área e na sua voz, e seus para sempre. Junto vão o Visual Law das suas peças e o guia de conteúdo em conformidade com o Provimento 205/2021 da OAB.</p>
-    </div>
-
-    <div class="mt-provas">
-      <div class="mt-prova">
-        <div class="mt-prova-t">A IA deixa de ser a fonte</div>
-        <div class="mt-prova-s">Sem jurisprudência inventada</div>
-      </div>
-      <div class="mt-prova">
-        <div class="mt-prova-t">A ferramenta é sua</div>
-        <div class="mt-prova-s">Construída com você, em duas horas</div>
-      </div>
-      <div class="mt-prova">
-        <div class="mt-prova-t">Conteúdo dentro do Provimento 205</div>
-        <div class="mt-prova-s">Sem risco disciplinar</div>
-      </div>
-    </div>
-
-    <a href="mentoria.html" class="mt-cta">Conhecer a mentoria <span>→</span></a>
   </div>
 </section>
 
@@ -1829,38 +1245,6 @@
   </div>
 </section>
 
-<!-- ── FAQ ── -->
-<section id="faq">
-  <div class="container">
-    <div class="section-label">Dúvidas frequentes</div>
-    <h2 class="section-title">Perguntas & Respostas</h2>
-    <div class="section-divider"></div>
-
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Qual é o prazo de entrega?<span class="faq-icon">+</span></button>
-        <div class="faq-a">O prazo varia conforme o tipo de serviço e a extensão do trabalho. Para revisões, costumo entregar em 2 a 5 dias úteis. Para escrita completa de artigos, entre 7 e 15 dias. O prazo é combinado e confirmado na proposta — e eu o cumpro. Trabalhos urgentes têm acréscimo de 30 a 50%.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">O trabalho é sigiloso?<span class="faq-icon">+</span></button>
-        <div class="faq-a">Sim. Tratamos todas as informações dos clientes com total sigilo. Nenhum dado, arquivo ou conteúdo de trabalhos é compartilhado ou divulgado. A confidencialidade é parte do serviço.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Como funciona o pagamento?<span class="faq-icon">+</span></button>
-        <div class="faq-a">Após a combinação do escopo e do valor, solicitamos 50% de entrada para iniciar o trabalho. O restante é pago na entrega. Aceitamos Pix. Para projetos maiores, o parcelamento pode ser negociado.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Atende outras áreas além do Direito?<span class="faq-icon">+</span></button>
-        <div class="faq-a">Sim. Atendo qualquer área acadêmica — minha especialização é na escrita, revisão textual, formatação ABNT e estrutura do trabalho, não no conteúdo específico de cada disciplina. O único limite é quando o trabalho exige cálculos: nesse caso, os dados e resultados numéricos precisam ser fornecidos pelo cliente, e atuo apenas na parte textual e formal.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">E se o orientador pedir alterações?<span class="faq-icon">+</span></button>
-        <div class="faq-a">Todo contrato inclui <strong>uma rodada de ajustes sem custo adicional</strong>. Para utilizá-la, reúna todas as correções apontadas pelo orientador e me envie de uma única vez, em até 15 dias corridos da entrega.<br><br>A partir daí, cada nova devolutiva do orientador ou da banca constitui uma nova rodada, orçada à parte — assim como a mudança da norma de citação depois da entrega, a ampliação de conteúdo ou a alteração da estrutura aprovada. Tudo isso vai por escrito no orçamento, que você assina antes de eu começar, para que não haja surpresa de parte a parte.<br><br>Uma dica que evita custo: <strong>me envie o manual de normas da sua instituição logo no início</strong>. É o que garante que o trabalho já saia no padrão exigido pela banca.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── CONTATO ── -->
 <section id="contato">
   <div class="container">
@@ -1949,22 +1333,6 @@
 </footer>
 
 <script>
-  // FAQ accordion
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => {
-        i.classList.remove('open');
-        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-      });
-      if (!isOpen) {
-        item.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
-    });
-  });
-
   // Hambúrguer
   const hamburger = document.getElementById('nav-hamburger');
   const navEl = document.querySelector('nav');
