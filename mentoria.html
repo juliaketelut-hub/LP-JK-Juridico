@@ -449,6 +449,56 @@
     .pkg-featured .btn-pkg:hover, .pkg-featured .btn-pkg:focus-visible { background: var(--verde-hover); }
     .pkgs-nota { margin-top: 1.6rem; font-size: 0.85rem; color: var(--text-meta); }
 
+    /* ── FONTES ── */
+    .multa-valor span { font-size: 0.9rem; font-weight: 400; color: var(--text-body); }
+    sup .ref {
+      color: var(--creme);
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0 0.1rem;
+    }
+    sup .ref:hover, sup .ref:focus-visible { text-decoration: underline; }
+
+    #fontes {
+      background: var(--nav);
+      padding: 2.6rem 2.5rem;
+      border-top: 1px solid rgba(162,123,91,0.20);
+    }
+    .fontes-inner { max-width: 1000px; margin: 0 auto; }
+    .fontes-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--creme);
+      margin-bottom: 0.9rem;
+    }
+    .fontes-lista {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      counter-reset: fonte;
+    }
+    .fontes-lista li {
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: rgba(220,215,201,0.55);
+      padding-left: 1.5rem;
+      position: relative;
+      counter-increment: fonte;
+    }
+    .fontes-lista li::before {
+      content: counter(fonte) '.';
+      position: absolute;
+      left: 0;
+      color: var(--creme);
+      font-weight: 600;
+    }
+    .fontes-lista a { color: var(--au-lait); text-decoration: none; border-bottom: 1px solid rgba(162,123,91,0.35); }
+    .fontes-lista a:hover, .fontes-lista a:focus-visible { color: var(--creme); border-bottom-color: var(--creme); }
+
     .pre-req {
       margin-top: 1.6rem;
       border: 1px solid var(--creme-border);
@@ -660,7 +710,7 @@
 <section id="risco">
   <div class="container">
     <div class="section-label">Por que isso importa agora</div>
-    <h2 class="section-title">Em 2026, os tribunais pararam de relevar</h2>
+    <h2 class="section-title">Os tribunais pararam de relevar</h2>
     <div class="section-divider"></div>
 
     <div class="risco-intro">
@@ -670,23 +720,23 @@
     <div class="multas">
       <div class="multa">
         <div class="multa-valor">20 salários mínimos</div>
-        <div class="multa-quem">2ª Vara Federal de Londrina</div>
-        <div class="multa-oque">Petições com artigos de lei inexistentes e jurisprudência inverídica.</div>
+        <div class="multa-quem">2ª Vara Federal de Londrina · 2025</div>
+        <div class="multa-oque">Duas multas de dez salários mínimos: artigos de lei inexistentes e uma "lei processual do tempo" que não existe.<sup><a href="#fontes" class="ref">1</a></sup></div>
       </div>
       <div class="multa">
-        <div class="multa-valor">5% da causa + ofício à OAB</div>
-        <div class="multa-quem">TRT da 2ª Região</div>
-        <div class="multa-oque">Litigância de má-fé por precedentes falsos. O caso foi encaminhado para apuração disciplinar.</div>
+        <div class="multa-valor">5% da causa <span>+ ofício à OAB</span></div>
+        <div class="multa-quem">TRT-2, 6ª Turma · fev. 2026</div>
+        <div class="multa-oque">Litigância de má-fé por jurisprudência fictícia. O caso foi encaminhado à OAB-SP para apuração disciplinar.<sup><a href="#fontes" class="ref">2</a></sup></div>
       </div>
       <div class="multa">
-        <div class="multa-valor">1% da causa</div>
-        <div class="multa-quem">Tribunal Superior do Trabalho</div>
-        <div class="multa-oque">Citação de jurisprudência inexistente, possivelmente gerada por IA.</div>
+        <div class="multa-valor">Multa ao advogado <span>e ao cliente</span></div>
+        <div class="multa-quem">TST, 6ª Turma · mar. 2026</div>
+        <div class="multa-oque">Os precedentes citados <strong>nunca foram autuados na corte</strong>. O tribunal viu criação intencional, não erro.<sup><a href="#fontes" class="ref">3</a></sup></div>
       </div>
     </div>
 
     <div class="risco-fecho">
-      <p>Não é uma questão de usar ou não usar inteligência artificial — <strong>77% dos advogados brasileiros já usam, toda semana</strong>. A questão é se a ferramenta que você usa foi construída para admitir o que não sabe.</p>
+      <p>Não é uma questão de usar ou não usar inteligência artificial — <strong>a maioria dos advogados já usa, toda semana</strong>.<sup><a href="#fontes" class="ref">4</a></sup> A questão é se a ferramenta que você usa foi construída para admitir o que não sabe.</p>
     </div>
   </div>
 </section>
@@ -977,6 +1027,19 @@
         Falar com a Julia no WhatsApp
       </a>
     </div>
+  </div>
+</section>
+
+<!-- ── FONTES ── -->
+<section id="fontes">
+  <div class="fontes-inner">
+    <div class="fontes-label">Fontes</div>
+    <ol class="fontes-lista">
+      <li>2ª Vara Federal de Londrina/PR, juiz federal substituto Igor de Lazari Barbosa Carneiro — duas multas de dez salários mínimos por litigância de má-fé. <a href="https://www.migalhas.com.br/quentes/433822/leis-e-jurisprudencia-inventadas-advogado-e-multado-por-uso-de-ia" target="_blank" rel="noopener">Migalhas</a>.</li>
+      <li>6ª Turma do TRT da 2ª Região — multa de 5% sobre o valor da causa e ofício à OAB-SP; a decisão invoca a Recomendação 1/2024 do CFOAB sobre supervisão humana no uso de IA generativa. <a href="https://www.conjur.com.br/2026-fev-16/uso-de-jurisprudencia-criada-por-ia-gera-multa-por-ma-fe-e-oficio-a-oab/" target="_blank" rel="noopener">ConJur</a>.</li>
+      <li>6ª Turma do Tribunal Superior do Trabalho — empresa e advogado multados; a verificação apontou que os processos citados nunca foram autuados na corte. <a href="https://www.tst.jus.br/-/empresa-e-advogado-sao-multados-por-uso-de-ia-com-decisoes-falsas" target="_blank" rel="noopener">TST</a>.</li>
+      <li>Levantamentos setoriais de 2026 indicam uso semanal de IA pela maioria dos advogados brasileiros. <a href="https://www.aurum.com.br/blog/produtividade-na-advocacia-com-ia/" target="_blank" rel="noopener">Aurum</a>.</li>
+    </ol>
   </div>
 </section>
 
