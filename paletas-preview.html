@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paletas — JK Jurídico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Gotu&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 3rem 2rem;
+    }
+    h1 {
+      font-family: 'Gotu', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .paletas { display: flex; flex-direction: column; gap: 4rem; }
+
+    .paleta { border-radius: 6px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
+
+    /* ── HEADER DE CADA PALETA ── */
+    .paleta-header {
+      background: #111;
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .paleta-numero {
+      font-family: 'Aboreto', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.3);
+    }
+    .paleta-nome {
+      font-family: 'Gotu', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.85);
+    }
+    .paleta-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── PREVIEW SIMULADO ── */
+    .paleta-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Coluna esquerda: hierarquia de cores */
+    .paleta-swatches {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .swatch-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .swatch {
+      width: 48px;
+      height: 48px;
+      border-radius: 3px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .swatch.sm { width: 36px; height: 36px; }
+    .swatch-info { display: flex; flex-direction: column; gap: 0.2rem; }
+    .swatch-label {
+      font-family: 'Gotu', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .swatch-hex {
+      font-family: 'Figtree', monospace;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+      font-weight: 500;
+    }
+    .swatch-desc {
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* Coluna direita: mini-page simulada */
+    .paleta-mockup {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── MOCKUP INTERNO DE CADA OPÇÃO ── */
+
+    /* OP1 — Editorial Claro */
+    .mock-1 { background: #F7F3EC; }
+    .mock-1 .m-nav { background: #2A2118; padding: 0.75rem 1.4rem; display: flex; align-items: center; justify-content: space-between; }
+    .mock-1 .m-logo { font-family: 'Aboreto', serif; font-size: 0.9rem; color: #A27B5B; letter-spacing: 0.06em; }
+    .mock-1 .m-cta-nav { background: #A27B5B; color: #F7F3EC; font-family: 'Gotu', serif; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 2px; }
+    .mock-1 .m-hero { padding: 2.5rem 1.4rem 2rem; }
+    .mock-1 .m-tag { font-family: 'Gotu', serif; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: #A27B5B; border: 1px solid rgba(162,123,91,0.4); display: inline-block; padding: 0.25rem 0.7rem; border-radius: 2px; margin-bottom: 0.8rem; }
+    .mock-1 .m-h1 { font-family: 'Aboreto', serif; font-size: 1.8rem; line-height: 1.1; color: #2A2118; margin-bottom: 0.6rem; }
+    .mock-1 .m-sub { font-family: 'Gotu', serif; font-size: 0.72rem; color: rgba(42,33,24,0.5); margin-bottom: 1.2rem; line-height: 1.6; }
+    .mock-1 .m-btns { display: flex; gap: 0.6rem; }
+    .mock-1 .m-btn-p { background: #A27B5B; color: #F7F3EC; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-1 .m-btn-v { background: #27AE60; color: #fff; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-1 .m-section { padding: 1.4rem 1.4rem 0; }
+    .mock-1 .m-card { background: #fff; border: 1px solid rgba(42,33,24,0.08); border-radius: 3px; padding: 0.9rem 1rem; margin-bottom: 0.5rem; }
+    .mock-1 .m-card-h { font-family: 'Gotu', serif; font-size: 0.72rem; color: #2A2118; margin-bottom: 0.3rem; }
+    .mock-1 .m-card-p { font-size: 0.66rem; color: rgba(42,33,24,0.5); line-height: 1.5; }
+
+    /* OP2 — Azul Safira */
+    .mock-2 { background: #1A2744; }
+    .mock-2 .m-nav { background: #141e38; padding: 0.75rem 1.4rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(196,164,107,0.2); }
+    .mock-2 .m-logo { font-family: 'Aboreto', serif; font-size: 0.9rem; color: #C4A46B; letter-spacing: 0.06em; }
+    .mock-2 .m-cta-nav { background: #C4A46B; color: #141e38; font-family: 'Gotu', serif; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 2px; font-weight: 700; }
+    .mock-2 .m-hero { padding: 2.5rem 1.4rem 2rem; }
+    .mock-2 .m-tag { font-family: 'Gotu', serif; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: #C4A46B; border: 1px solid rgba(196,164,107,0.35); display: inline-block; padding: 0.25rem 0.7rem; border-radius: 2px; margin-bottom: 0.8rem; }
+    .mock-2 .m-h1 { font-family: 'Aboreto', serif; font-size: 1.8rem; line-height: 1.1; color: #E8E4DC; margin-bottom: 0.6rem; }
+    .mock-2 .m-sub { font-family: 'Gotu', serif; font-size: 0.72rem; color: rgba(232,228,220,0.5); margin-bottom: 1.2rem; line-height: 1.6; }
+    .mock-2 .m-btns { display: flex; gap: 0.6rem; }
+    .mock-2 .m-btn-p { background: #C4A46B; color: #141e38; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-2 .m-btn-v { background: #27AE60; color: #fff; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-2 .m-section { padding: 1.4rem 1.4rem 0; }
+    .mock-2 .m-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(196,164,107,0.18); border-radius: 3px; padding: 0.9rem 1rem; margin-bottom: 0.5rem; }
+    .mock-2 .m-card-h { font-family: 'Gotu', serif; font-size: 0.72rem; color: #E8E4DC; margin-bottom: 0.3rem; }
+    .mock-2 .m-card-p { font-size: 0.66rem; color: rgba(232,228,220,0.45); line-height: 1.5; }
+
+    /* OP3 — Pergaminho Escuro */
+    .mock-3 { background: #2A2018; }
+    .mock-3 .m-nav { background: #1E1610; padding: 0.75rem 1.4rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(184,137,106,0.25); }
+    .mock-3 .m-logo { font-family: 'Aboreto', serif; font-size: 0.9rem; color: #B8896A; letter-spacing: 0.06em; }
+    .mock-3 .m-cta-nav { background: #B8896A; color: #1E1610; font-family: 'Gotu', serif; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 2px; font-weight: 700; }
+    .mock-3 .m-hero { padding: 2.5rem 1.4rem 2rem; }
+    .mock-3 .m-tag { font-family: 'Gotu', serif; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: #B8896A; border: 1px solid rgba(184,137,106,0.35); display: inline-block; padding: 0.25rem 0.7rem; border-radius: 2px; margin-bottom: 0.8rem; }
+    .mock-3 .m-h1 { font-family: 'Aboreto', serif; font-size: 1.8rem; line-height: 1.1; color: #EAE0CE; margin-bottom: 0.6rem; }
+    .mock-3 .m-sub { font-family: 'Gotu', serif; font-size: 0.72rem; color: rgba(234,224,206,0.48); margin-bottom: 1.2rem; line-height: 1.6; }
+    .mock-3 .m-btns { display: flex; gap: 0.6rem; }
+    .mock-3 .m-btn-p { background: #B8896A; color: #1E1610; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-3 .m-btn-v { background: #27AE60; color: #fff; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-3 .m-section { padding: 1.4rem 1.4rem 0; }
+    .mock-3 .m-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(184,137,106,0.16); border-radius: 3px; padding: 0.9rem 1rem; margin-bottom: 0.5rem; }
+    .mock-3 .m-card-h { font-family: 'Gotu', serif; font-size: 0.72rem; color: #EAE0CE; margin-bottom: 0.3rem; }
+    .mock-3 .m-card-p { font-size: 0.66rem; color: rgba(234,224,206,0.42); line-height: 1.5; }
+
+    /* OP4 — Grafite Neutro */
+    .mock-4 { background: #252628; }
+    .mock-4 .m-nav { background: #1C1D1F; padding: 0.75rem 1.4rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(162,123,91,0.3); }
+    .mock-4 .m-logo { font-family: 'Aboreto', serif; font-size: 0.9rem; color: #A27B5B; letter-spacing: 0.06em; }
+    .mock-4 .m-cta-nav { background: #A27B5B; color: #1C1D1F; font-family: 'Gotu', serif; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 2px; font-weight: 700; }
+    .mock-4 .m-hero { padding: 2.5rem 1.4rem 2rem; }
+    .mock-4 .m-tag { font-family: 'Gotu', serif; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: #A27B5B; border: 1px solid rgba(162,123,91,0.35); display: inline-block; padding: 0.25rem 0.7rem; border-radius: 2px; margin-bottom: 0.8rem; }
+    .mock-4 .m-h1 { font-family: 'Aboreto', serif; font-size: 1.8rem; line-height: 1.1; color: #E2DDD5; margin-bottom: 0.6rem; }
+    .mock-4 .m-sub { font-family: 'Gotu', serif; font-size: 0.72rem; color: rgba(226,221,213,0.48); margin-bottom: 1.2rem; line-height: 1.6; }
+    .mock-4 .m-btns { display: flex; gap: 0.6rem; }
+    .mock-4 .m-btn-p { background: #A27B5B; color: #1C1D1F; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-4 .m-btn-v { background: #27AE60; color: #fff; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-4 .m-section { padding: 1.4rem 1.4rem 0; }
+    .mock-4 .m-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(162,123,91,0.14); border-radius: 3px; padding: 0.9rem 1rem; margin-bottom: 0.5rem; }
+    .mock-4 .m-card-h { font-family: 'Gotu', serif; font-size: 0.72rem; color: #E2DDD5; margin-bottom: 0.3rem; }
+    .mock-4 .m-card-p { font-size: 0.66rem; color: rgba(226,221,213,0.42); line-height: 1.5; }
+
+    /* ── ATUAL (referência) ── */
+    .mock-0 { background: #2C3639; }
+    .mock-0 .m-nav { background: rgba(44,54,57,0.97); padding: 0.75rem 1.4rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(162,123,91,0.35); }
+    .mock-0 .m-logo { font-family: 'Aboreto', serif; font-size: 0.9rem; color: #A27B5B; letter-spacing: 0.06em; }
+    .mock-0 .m-cta-nav { background: #A27B5B; color: #2C3639; font-family: 'Gotu', serif; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 2px; font-weight: 700; }
+    .mock-0 .m-hero { padding: 2.5rem 1.4rem 2rem; }
+    .mock-0 .m-tag { font-family: 'Gotu', serif; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: #A27B5B; border: 1px solid rgba(162,123,91,0.4); display: inline-block; padding: 0.25rem 0.7rem; border-radius: 2px; margin-bottom: 0.8rem; }
+    .mock-0 .m-h1 { font-family: 'Aboreto', serif; font-size: 1.8rem; line-height: 1.1; color: #DCD7C9; margin-bottom: 0.6rem; }
+    .mock-0 .m-sub { font-family: 'Gotu', serif; font-size: 0.72rem; color: rgba(220,215,201,0.5); margin-bottom: 1.2rem; line-height: 1.6; }
+    .mock-0 .m-btns { display: flex; gap: 0.6rem; }
+    .mock-0 .m-btn-p { background: #A27B5B; color: #2C3639; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-0 .m-btn-v { background: #27AE60; color: #fff; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.55rem 1.2rem; border-radius: 2px; font-weight: 700; }
+    .mock-0 .m-section { padding: 1.4rem 1.4rem 0; }
+    .mock-0 .m-card { background: rgba(44,54,57,0.6); border: 1px solid rgba(220,215,201,0.08); border-radius: 3px; padding: 0.9rem 1rem; margin-bottom: 0.5rem; }
+    .mock-0 .m-card-h { font-family: 'Gotu', serif; font-size: 0.72rem; color: #DCD7C9; margin-bottom: 0.3rem; }
+    .mock-0 .m-card-p { font-size: 0.66rem; color: rgba(220,215,201,0.45); line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+<h1>JK Jurídico — Comparativo de Paletas</h1>
+
+<div class="paletas">
+
+  <!-- ATUAL -->
+  <div class="paleta">
+    <div class="paleta-header">
+      <span class="paleta-numero">ATUAL</span>
+      <span class="paleta-nome">Verde-Musgo Escuro (atual)</span>
+      <span class="paleta-tag">referência</span>
+    </div>
+    <div class="paleta-preview">
+      <div class="paleta-swatches" style="background:#1a1a1a">
+        <div class="swatch-row">
+          <div class="swatch" style="background:#2C3639"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Fundo principal</span>
+            <span class="swatch-hex">#2C3639</span>
+            <span class="swatch-desc">Inkwell — verde-musgo escuro</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#3F4E4F"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Superfície / cards</span>
+            <span class="swatch-hex">#3F4E4F</span>
+            <span class="swatch-desc">Eclipse</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#DCD7C9"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Texto principal</span>
+            <span class="swatch-hex">#DCD7C9</span>
+            <span class="swatch-desc">Au Lait</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#A27B5B"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Accent / logo</span>
+            <span class="swatch-hex">#A27B5B</span>
+            <span class="swatch-desc">Creme — mantido em todas</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch sm" style="background:#27AE60"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">CTA</span>
+            <span class="swatch-hex">#27AE60</span>
+            <span class="swatch-desc">Verde — fixo em todas</span>
+          </div>
+        </div>
+      </div>
+      <div class="paleta-mockup mock-0">
+        <div class="m-nav">
+          <span class="m-logo">JK Jurídico</span>
+          <span class="m-cta-nav">Área de Membros</span>
+        </div>
+        <div class="m-hero">
+          <div class="m-tag">Escrita que comunica</div>
+          <div class="m-h1">Julia Ketelut<br><em style="color:#A27B5B;font-style:normal">JK Jurídico</em></div>
+          <div class="m-sub">Bacharel em Direito especialista em escrita acadêmica e visual law.</div>
+          <div class="m-btns">
+            <span class="m-btn-p">Solicitar Orçamento</span>
+            <span class="m-btn-v">Guia Grátis</span>
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-card"><div class="m-card-h">Escrita de Artigos Acadêmicos</div><div class="m-card-p">Redação completa com formatação ABNT incluída.</div></div>
+          <div class="m-card"><div class="m-card-h">Revisão & Formatação</div><div class="m-card-p">ABNT, estrutura metodológica, coesão textual.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPÇÃO 1 -->
+  <div class="paleta">
+    <div class="paleta-header">
+      <span class="paleta-numero">Opção 01</span>
+      <span class="paleta-nome">Editorial Claro — Marfim Acadêmico</span>
+      <span class="paleta-tag">light mode · editorial · luxo</span>
+    </div>
+    <div class="paleta-preview">
+      <div class="paleta-swatches" style="background:#1a1a1a">
+        <div class="swatch-row">
+          <div class="swatch" style="background:#F7F3EC;border:1px solid rgba(255,255,255,0.15)"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Fundo principal</span>
+            <span class="swatch-hex">#F7F3EC</span>
+            <span class="swatch-desc">Marfim aquecido — papel acadêmico</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#FFFFFF;border:1px solid rgba(255,255,255,0.15)"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Superfície / cards</span>
+            <span class="swatch-hex">#FFFFFF</span>
+            <span class="swatch-desc">Branco puro — contraste com fundo</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#2A2118"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Texto principal</span>
+            <span class="swatch-hex">#2A2118</span>
+            <span class="swatch-desc">Charcoal quente — leitura confortável</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#2A2118"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Nav / header</span>
+            <span class="swatch-hex">#2A2118</span>
+            <span class="swatch-desc">Escuro — ancora o topo</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#A27B5B"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Accent / logo</span>
+            <span class="swatch-hex">#A27B5B</span>
+            <span class="swatch-desc">Creme — mantido</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch sm" style="background:#27AE60"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">CTA</span>
+            <span class="swatch-hex">#27AE60</span>
+            <span class="swatch-desc">Verde — fixo</span>
+          </div>
+        </div>
+      </div>
+      <div class="paleta-mockup mock-1">
+        <div class="m-nav">
+          <span class="m-logo">JK Jurídico</span>
+          <span class="m-cta-nav">Área de Membros</span>
+        </div>
+        <div class="m-hero">
+          <div class="m-tag">Escrita que comunica</div>
+          <div class="m-h1">Julia Ketelut<br><em style="color:#A27B5B;font-style:normal">JK Jurídico</em></div>
+          <div class="m-sub">Bacharel em Direito especialista em escrita acadêmica e visual law.</div>
+          <div class="m-btns">
+            <span class="m-btn-p">Solicitar Orçamento</span>
+            <span class="m-btn-v">Guia Grátis</span>
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-card"><div class="m-card-h">Escrita de Artigos Acadêmicos</div><div class="m-card-p">Redação completa com formatação ABNT incluída.</div></div>
+          <div class="m-card"><div class="m-card-h">Revisão & Formatação</div><div class="m-card-p">ABNT, estrutura metodológica, coesão textual.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPÇÃO 2 -->
+  <div class="paleta">
+    <div class="paleta-header">
+      <span class="paleta-numero">Opção 02</span>
+      <span class="paleta-nome">Azul Safira — Autoridade Clássica</span>
+      <span class="paleta-tag">dark mode · institucional · jurídico</span>
+    </div>
+    <div class="paleta-preview">
+      <div class="paleta-swatches" style="background:#1a1a1a">
+        <div class="swatch-row">
+          <div class="swatch" style="background:#1A2744"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Fundo principal</span>
+            <span class="swatch-hex">#1A2744</span>
+            <span class="swatch-desc">Azul marinho profundo</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#1F3055"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Superfície / cards</span>
+            <span class="swatch-hex">#1F3055</span>
+            <span class="swatch-desc">Azul médio — leve contraste</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#E8E4DC"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Texto principal</span>
+            <span class="swatch-hex">#E8E4DC</span>
+            <span class="swatch-desc">Creme claro — confortável sobre azul</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#C4A46B"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Accent / logo</span>
+            <span class="swatch-hex">#C4A46B</span>
+            <span class="swatch-desc">Dourado — mais luminoso que o creme atual</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch sm" style="background:#27AE60"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">CTA</span>
+            <span class="swatch-hex">#27AE60</span>
+            <span class="swatch-desc">Verde — fixo</span>
+          </div>
+        </div>
+      </div>
+      <div class="paleta-mockup mock-2">
+        <div class="m-nav">
+          <span class="m-logo">JK Jurídico</span>
+          <span class="m-cta-nav">Área de Membros</span>
+        </div>
+        <div class="m-hero">
+          <div class="m-tag">Escrita que comunica</div>
+          <div class="m-h1">Julia Ketelut<br><em style="color:#C4A46B;font-style:normal">JK Jurídico</em></div>
+          <div class="m-sub">Bacharel em Direito especialista em escrita acadêmica e visual law.</div>
+          <div class="m-btns">
+            <span class="m-btn-p">Solicitar Orçamento</span>
+            <span class="m-btn-v">Guia Grátis</span>
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-card"><div class="m-card-h">Escrita de Artigos Acadêmicos</div><div class="m-card-p">Redação completa com formatação ABNT incluída.</div></div>
+          <div class="m-card"><div class="m-card-h">Revisão & Formatação</div><div class="m-card-p">ABNT, estrutura metodológica, coesão textual.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPÇÃO 3 -->
+  <div class="paleta">
+    <div class="paleta-header">
+      <span class="paleta-numero">Opção 03</span>
+      <span class="paleta-nome">Pergaminho Escuro — Biblioteca Particular</span>
+      <span class="paleta-tag">dark mode · quente · autoral</span>
+    </div>
+    <div class="paleta-preview">
+      <div class="paleta-swatches" style="background:#1a1a1a">
+        <div class="swatch-row">
+          <div class="swatch" style="background:#2A2018"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Fundo principal</span>
+            <span class="swatch-hex">#2A2018</span>
+            <span class="swatch-desc">Marrom escuro — café concentrado</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#342A1E"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Superfície / cards</span>
+            <span class="swatch-hex">#342A1E</span>
+            <span class="swatch-desc">Marrom médio aquecido</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#EAE0CE"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Texto principal</span>
+            <span class="swatch-hex">#EAE0CE</span>
+            <span class="swatch-desc">Pergaminho — mais quente que au-lait</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#B8896A"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Accent / logo</span>
+            <span class="swatch-hex">#B8896A</span>
+            <span class="swatch-desc">Terra queimada — creme mais vivo</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch sm" style="background:#27AE60"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">CTA</span>
+            <span class="swatch-hex">#27AE60</span>
+            <span class="swatch-desc">Verde — fixo</span>
+          </div>
+        </div>
+      </div>
+      <div class="paleta-mockup mock-3">
+        <div class="m-nav">
+          <span class="m-logo">JK Jurídico</span>
+          <span class="m-cta-nav">Área de Membros</span>
+        </div>
+        <div class="m-hero">
+          <div class="m-tag">Escrita que comunica</div>
+          <div class="m-h1">Julia Ketelut<br><em style="color:#B8896A;font-style:normal">JK Jurídico</em></div>
+          <div class="m-sub">Bacharel em Direito especialista em escrita acadêmica e visual law.</div>
+          <div class="m-btns">
+            <span class="m-btn-p">Solicitar Orçamento</span>
+            <span class="m-btn-v">Guia Grátis</span>
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-card"><div class="m-card-h">Escrita de Artigos Acadêmicos</div><div class="m-card-p">Redação completa com formatação ABNT incluída.</div></div>
+          <div class="m-card"><div class="m-card-h">Revisão & Formatação</div><div class="m-card-p">ABNT, estrutura metodológica, coesão textual.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPÇÃO 4 -->
+  <div class="paleta">
+    <div class="paleta-header">
+      <span class="paleta-numero">Opção 04</span>
+      <span class="paleta-nome">Grafite Neutro — Ajuste Mínimo</span>
+      <span class="paleta-tag">dark mode · neutro · moderno</span>
+    </div>
+    <div class="paleta-preview">
+      <div class="paleta-swatches" style="background:#1a1a1a">
+        <div class="swatch-row">
+          <div class="swatch" style="background:#252628"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Fundo principal</span>
+            <span class="swatch-hex">#252628</span>
+            <span class="swatch-desc">Grafite neutro — sem tinte esverdeado</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#2F3235"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Superfície / cards</span>
+            <span class="swatch-hex">#2F3235</span>
+            <span class="swatch-desc">Grafite médio</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#E2DDD5"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Texto principal</span>
+            <span class="swatch-hex">#E2DDD5</span>
+            <span class="swatch-desc">Levemente mais quente que o atual</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch" style="background:#A27B5B"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">Accent / logo</span>
+            <span class="swatch-hex">#A27B5B</span>
+            <span class="swatch-desc">Creme — idêntico ao atual</span>
+          </div>
+        </div>
+        <div class="swatch-row">
+          <div class="swatch sm" style="background:#27AE60"></div>
+          <div class="swatch-info">
+            <span class="swatch-label">CTA</span>
+            <span class="swatch-hex">#27AE60</span>
+            <span class="swatch-desc">Verde — fixo</span>
+          </div>
+        </div>
+      </div>
+      <div class="paleta-mockup mock-4">
+        <div class="m-nav">
+          <span class="m-logo">JK Jurídico</span>
+          <span class="m-cta-nav">Área de Membros</span>
+        </div>
+        <div class="m-hero">
+          <div class="m-tag">Escrita que comunica</div>
+          <div class="m-h1">Julia Ketelut<br><em style="color:#A27B5B;font-style:normal">JK Jurídico</em></div>
+          <div class="m-sub">Bacharel em Direito especialista em escrita acadêmica e visual law.</div>
+          <div class="m-btns">
+            <span class="m-btn-p">Solicitar Orçamento</span>
+            <span class="m-btn-v">Guia Grátis</span>
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-card"><div class="m-card-h">Escrita de Artigos Acadêmicos</div><div class="m-card-p">Redação completa com formatação ABNT incluída.</div></div>
+          <div class="m-card"><div class="m-card-h">Revisão & Formatação</div><div class="m-card-p">ABNT, estrutura metodológica, coesão textual.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
