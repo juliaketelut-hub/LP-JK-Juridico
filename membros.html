@@ -819,6 +819,9 @@ const ProductView = ({ product:p, onBack, onLesson }) => {
 
 // ─── LESSON VIEW ─────────────────────────────────────────────
 const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatched }) => {
+  const [tab,setTab] = useState("desc");
+  useEffect(()=>{ setTab("desc"); },[lesson.id]);
+  const materials = lesson.materials||[];
   const all = (product.modules||[]).flatMap(m=>(m.lessons||[]).map(l=>({...l,modTitle:m.title})));
   const idx = all.findIndex(l=>l.id===lesson.id);
   const prev = idx>0?all[idx-1]:null;
@@ -869,22 +872,60 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatche
                   </div>
                 )}
               </div>
-              <div style={{ maxWidth:700 }}>
-                <h2 style={{ fontFamily:"var(--font-display)", fontSize:19, color:"var(--text)", marginBottom:6 }}>{lesson.title}</h2>
-                <p style={{ color:"var(--text-muted)", fontSize:13 }}>Vídeo · {lesson.duration}</p>
-              </div>
             </>
           ) : (
-            <div style={{ maxWidth:480 }}>
+            <div style={{ maxWidth:700, marginBottom:24 }}>
               <div style={{ width:60,height:60,borderRadius:"var(--radius-lg)",background:"var(--card)",border:"1px solid var(--border)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:18 }}><Icon name="file" size={26} color="var(--gold-muted)"/></div>
-              <h2 style={{ fontFamily:"var(--font-display)", fontSize:19, color:"var(--text)", marginBottom:8 }}>{lesson.title}</h2>
-              <p style={{ color:"var(--text-muted)", fontSize:13, marginBottom:20 }}>Material para download · {lesson.duration}</p>
               {lesson.url
                 ?<a href={lesson.url} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:8,background:"var(--gold)",borderRadius:"var(--radius)",padding:"11px 18px",color:"#2C3639",fontSize:13,fontWeight:600,textDecoration:"none" }}><Icon name="download" size={14} color="#2C3639"/>Baixar material</a>
                 :<p style={{ fontSize:13,color:"var(--text-muted)" }}>Nenhum link adicionado ainda.</p>
               }
             </div>
           )}
+          <div style={{ maxWidth:700 }}>
+            <h2 style={{ fontFamily:"var(--font-display)", fontSize:19, color:"var(--text)", marginBottom:14 }}>{lesson.title}</h2>
+            <div style={{ display:"flex", borderBottom:"1px solid var(--border)", marginBottom:18 }}>
+              {[["desc","Descrição",0],["mat","Materiais",materials.length]].map(([id,label,count])=>(
+                <button key={id} onClick={()=>setTab(id)}
+                  style={{ display:"flex", alignItems:"center", gap:7, background:"none", border:"none", borderBottom:`2px solid ${tab===id?"var(--gold)":"transparent"}`, padding:"9px 2px 10px", marginRight:26, marginBottom:-1, cursor:"pointer", color:tab===id?"var(--text)":"var(--text-muted)", fontSize:13, fontWeight:tab===id?600:400, fontFamily:"var(--font-sans)", transition:"color var(--transition)" }}
+                  onMouseEnter={e=>{if(tab!==id)e.currentTarget.style.color="var(--text-secondary)";}} onMouseLeave={e=>{if(tab!==id)e.currentTarget.style.color="var(--text-muted)";}}>
+                  {label}
+                  {count>0 && <span style={{ background:"var(--gold-dim)", color:"var(--gold)", borderRadius:9, padding:"1px 7px", fontSize:10, fontWeight:600 }}>{count}</span>}
+                </button>
+              ))}
+            </div>
+            {tab==="desc" && (
+              lesson.description
+                ? <p style={{ color:"var(--text-secondary)", fontSize:14, lineHeight:1.75, whiteSpace:"pre-wrap" }}>{lesson.description}</p>
+                : <p style={{ color:"var(--text-muted)", fontSize:13 }}>{lesson.type==="video"?"Vídeo":"Material"} · {lesson.duration}</p>
+            )}
+            {tab==="mat" && (
+              materials.length===0
+                ? <p style={{ color:"var(--text-muted)", fontSize:13 }}>Nenhum material anexado a esta aula.</p>
+                : <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                    {materials.map(m=>{
+                      const ext=(m.url||"").split("?")[0].split("#")[0].split(".").pop();
+                      const fmt=(ext&&ext.length<=5&&!ext.includes("/"))?ext.toUpperCase():"LINK";
+                      return (
+                        <a key={m.id} href={m.url} target="_blank" rel="noreferrer"
+                          style={{ display:"flex", alignItems:"center", gap:12, background:"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius)", padding:"12px 14px", textDecoration:"none", transition:"border-color var(--transition)" }}
+                          onMouseEnter={e=>e.currentTarget.style.borderColor="var(--gold-muted)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--border)"}>
+                          <div style={{ width:36, height:36, borderRadius:"var(--radius)", background:"var(--gold-dim)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                            <Icon name="file" size={15} color="var(--gold)"/>
+                          </div>
+                          <div style={{ flex:1, minWidth:0 }}>
+                            <div style={{ fontSize:13, color:"var(--text)", fontWeight:500, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{m.title}</div>
+                            <div style={{ fontSize:10, color:"var(--text-muted)", fontFamily:"var(--font-label)", letterSpacing:"0.08em", marginTop:1 }}>{fmt}</div>
+                          </div>
+                          <span style={{ display:"inline-flex", alignItems:"center", gap:6, color:"var(--gold)", fontSize:12, fontWeight:600, flexShrink:0 }}>
+                            <Icon name="download" size={13} color="currentColor"/>Baixar
+                          </span>
+                        </a>
+                      );
+                    })}
+                  </div>
+            )}
+          </div>
         </div>
         <div style={{ width:265,flexShrink:0,borderLeft:"1px solid var(--border)",background:"var(--surface)",overflowY:"auto" }}>
           <div style={{ padding:"14px 14px 10px",borderBottom:"1px solid var(--border)" }}>
@@ -954,7 +995,8 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
   const [modModal,setModModal]=useState(null);
   const [modForm,setModForm]=useState({title:""});
   const [lesModal,setLesModal]=useState(null);
-  const [lesForm,setLesForm]=useState({title:"",duration:"",type:"video",url:""});
+  const [lesForm,setLesForm]=useState({title:"",duration:"",type:"video",url:"",description:"",materials:[]});
+  const [matDraft,setMatDraft]=useState({title:"",url:""});
   const [uploading,setUploading]=useState(false);
   const [uploadName,setUploadName]=useState("");
   const [expandedProd,setExpandedProd]=useState(null);
@@ -974,6 +1016,31 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
     } catch(e){ alert("Falha no upload: "+(e.message||e)); setUploadName(""); }
     setUploading(false);
   };
+  // Materiais anexados à aula (aba "Materiais" da visão do aluno) — aceita vários arquivos
+  const uploadLessonMaterials = async (files) => {
+    if(!files||!files.length) return;
+    if(!sb){ alert("Upload requer Supabase configurado."); return; }
+    setUploading(true);
+    for(const file of Array.from(files)){
+      if(file.size > 50*1024*1024){ alert(`${file.name}: arquivo muito grande (máx. 50 MB).`); continue; }
+      setUploadName(file.name);
+      try {
+        const safe = file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+        const path = `${Date.now()}-${Math.random().toString(36).slice(2,8)}-${safe}`;
+        const { error } = await sb.storage.from("materiais").upload(path, file, { upsert:false, contentType:file.type||undefined });
+        if(error) throw error;
+        const { data:pub } = sb.storage.from("materiais").getPublicUrl(path);
+        setLesForm(p=>({ ...p, materials:[...(p.materials||[]), { id:Date.now()+Math.floor(Math.random()*1000), title:file.name, url:pub.publicUrl }] }));
+      } catch(e){ alert(`Falha no upload de ${file.name}: `+(e.message||e)); }
+    }
+    setUploadName(""); setUploading(false);
+  };
+  const addMaterialLink = () => {
+    if(!matDraft.url.trim()) return;
+    setLesForm(p=>({ ...p, materials:[...(p.materials||[]), { id:Date.now(), title:matDraft.title.trim()||matDraft.url.trim(), url:matDraft.url.trim() }] }));
+    setMatDraft({title:"",url:""});
+  };
+  const delMaterial = (id) => setLesForm(p=>({ ...p, materials:(p.materials||[]).filter(m=>m.id!==id) }));
   const [reportEdits,setReportEdits]=useState({});
   const [prodNotes,setProdNotes]=useState({}); // {product_id: note} — anotações internas (só admin)
 
@@ -1055,7 +1122,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
       mods=(p.modules||[]).map(m=>m.id===mid?{...m,lessons:[...(m.lessons||[]),{id:Date.now(),...form,watched:false}]}:m);
     }
     await updateMods(pid,mods);
-    setLesForm({title:"",duration:"",type:"video",url:""});setLesModal(null);
+    setLesForm({title:"",duration:"",type:"video",url:"",description:"",materials:[]});setMatDraft({title:"",url:""});setLesModal(null);
   };
   const delLesson = async (pid,mid,lid) => {
     const p=products.find(x=>x.id===pid);
@@ -1257,7 +1324,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
                         <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8 }}>
                           <div style={{ fontSize:13,fontWeight:500,color:"var(--text)" }}>📁 {mod.title}</div>
                           <div style={{ display:"flex",gap:8 }}>
-                            <Btn small onClick={()=>{setUploadName("");setLesModal({pid:p.id,mid:mod.id});}}><Icon name="plus" size={11} color="currentColor"/>Aula</Btn>
+                            <Btn small onClick={()=>{setUploadName("");setLesForm({title:"",duration:"",type:"video",url:"",description:"",materials:[]});setMatDraft({title:"",url:""});setLesModal({pid:p.id,mid:mod.id});}}><Icon name="plus" size={11} color="currentColor"/>Aula</Btn>
                             <button onClick={()=>delModule(p.id,mod.id)} style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
                               onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
                               <Icon name="trash" size={12} color="currentColor"/>
@@ -1270,11 +1337,11 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
                               <Icon name={l.type==="video"?"play":"file"} size={12} color="var(--text-muted)"/>
                               <div>
                                 <div style={{ fontSize:12,color:"var(--text)" }}>{l.title}</div>
-                                <div style={{ fontSize:10,color:"var(--text-muted)" }}>{l.type==="video"?"Vídeo":"Material"} · {l.duration}</div>
+                                <div style={{ fontSize:10,color:"var(--text-muted)" }}>{l.type==="video"?"Vídeo":"Material"} · {l.duration}{(l.materials||[]).length>0?` · ${l.materials.length} ${l.materials.length>1?"materiais":"material"}`:""}</div>
                               </div>
                             </div>
                             <div style={{ display:"flex",gap:4 }}>
-                              <button title="Editar" onClick={()=>{setUploadName("");setLesForm({title:l.title,duration:l.duration,type:l.type||"material",url:l.url||""});setLesModal({pid:p.id,mid:mod.id,lesEditId:l.id});}}
+                              <button title="Editar" onClick={()=>{setUploadName("");setLesForm({title:l.title,duration:l.duration,type:l.type||"material",url:l.url||"",description:l.description||"",materials:l.materials||[]});setMatDraft({title:"",url:""});setLesModal({pid:p.id,mid:mod.id,lesEditId:l.id});}}
                                 style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
                                 onMouseEnter={e=>e.currentTarget.style.color="var(--gold)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
                                 <Icon name="edit" size={11} color="currentColor"/>
@@ -1359,7 +1426,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
 
       {lesModal&&(
         <div style={{ position:"fixed",inset:0,background:"#00000075",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100 }} onClick={()=>setLesModal(null)}>
-          <div style={{ background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"24px",width:400,maxWidth:"92vw" }} onClick={e=>e.stopPropagation()}>
+          <div style={{ background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"24px",width:440,maxWidth:"92vw",maxHeight:"92vh",overflowY:"auto" }} onClick={e=>e.stopPropagation()}>
             <h2 style={{ fontFamily:"var(--font-display)",fontSize:18,color:"var(--text)",marginBottom:16 }}>{lesModal?.lesEditId?"Editar aula / material":"Nova aula / material"}</h2>
             <Lbl t="TÍTULO"/><Inp val={lesForm.title} set={v=>setLesForm(p=>({...p,title:v}))} ph="Ex: Introdução ao Visual Law"/>
             <Lbl t="DURAÇÃO / FORMATO"/><Inp val={lesForm.duration} set={v=>setLesForm(p=>({...p,duration:v}))} ph="Ex: 18min / PDF / DOCX / Leitura"/>
@@ -1377,6 +1444,39 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
             )}
             <Lbl t={lesForm.type==="video"?"LINK DO VÍDEO (YouTube, Vimeo ou Google Drive)":"LINK DO MATERIAL ou E-MAIL"}/>
             <Inp val={lesForm.url} set={v=>setLesForm(p=>({...p,url:v}))} ph={lesForm.type==="video"?"https://youtu.be/...":"https://drive.google.com/... ou cole após anexar"}/>
+            <Lbl t="DESCRIÇÃO DA AULA (opcional)"/>
+            <textarea value={lesForm.description||""} onChange={e=>setLesForm(p=>({...p,description:e.target.value}))} placeholder="Texto exibido na aba 'Descrição', abaixo do vídeo."
+              style={{ width:"100%",minHeight:70,resize:"vertical",background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"9px 12px",color:"var(--text)",fontSize:13,fontFamily:"var(--font-sans)",lineHeight:1.5,marginBottom:12,outline:"none" }}
+              onFocus={e=>e.target.style.borderColor="var(--gold-muted)"} onBlur={e=>e.target.style.borderColor="var(--border)"} />
+            <div style={{ borderTop:"1px solid var(--border)",paddingTop:12,marginBottom:14 }}>
+              <Lbl t={`MATERIAIS DA AULA (${(lesForm.materials||[]).length})`}/>
+              <div style={{ fontSize:11,color:"var(--text-muted)",marginBottom:8,lineHeight:1.5 }}>Arquivos de apoio exibidos na aba "Materiais" da aula, separados do vídeo.</div>
+              {(lesForm.materials||[]).map(m=>(
+                <div key={m.id} style={{ display:"flex",alignItems:"center",gap:8,background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"7px 10px",marginBottom:6 }}>
+                  <Icon name="file" size={12} color="var(--gold-muted)"/>
+                  <span style={{ flex:1,fontSize:12,color:"var(--text)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }} title={m.title}>{m.title}</span>
+                  <button onClick={()=>delMaterial(m.id)} title="Remover material" style={{ background:"none",border:"none",cursor:"pointer",color:"var(--text-muted)",padding:2 }}
+                    onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"} onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>
+                    <Icon name="trash" size={12} color="currentColor"/>
+                  </button>
+                </div>
+              ))}
+              <label style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:8,border:"1px dashed var(--gold-muted)",borderRadius:"var(--radius)",padding:"11px",cursor:uploading?"wait":"pointer",background:"var(--gold-dim)",color:"var(--gold)",fontSize:12,fontWeight:500,marginBottom:8 }}>
+                <Icon name="plus" size={13} color="currentColor"/>
+                <span style={{ overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{uploading?`Enviando ${uploadName}…`:"Anexar arquivos (PDF, DOCX…)"}</span>
+                <input type="file" multiple style={{ display:"none" }} disabled={uploading} onChange={e=>{uploadLessonMaterials(Array.from(e.target.files));e.target.value="";}}/>
+              </label>
+              <div style={{ display:"flex",gap:6 }}>
+                <input placeholder="Nome do material" value={matDraft.title} onChange={e=>setMatDraft(p=>({...p,title:e.target.value}))}
+                  style={{ flex:1,minWidth:0,background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"8px 10px",color:"var(--text)",fontSize:12,outline:"none" }}/>
+                <input placeholder="https://…" value={matDraft.url} onChange={e=>setMatDraft(p=>({...p,url:e.target.value}))}
+                  style={{ flex:1,minWidth:0,background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"8px 10px",color:"var(--text)",fontSize:12,outline:"none" }}/>
+                <button onClick={addMaterialLink} title="Adicionar por link" style={{ flexShrink:0,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"8px 12px",color:"#2C3639",cursor:"pointer",display:"flex",alignItems:"center" }}>
+                  <Icon name="plus" size={13} color="currentColor"/>
+                </button>
+              </div>
+              <div style={{ fontSize:10,color:"var(--text-muted)",marginTop:5 }}>Ou adicione por link (Google Drive, site etc.).</div>
+            </div>
             <div style={{ display:"flex",gap:10 }}>
               <button onClick={()=>setLesModal(null)} style={{ flex:1,background:"none",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"10px",color:"var(--text-muted)",fontSize:13,cursor:"pointer" }}>Cancelar</button>
               <button onClick={addLesson} style={{ flex:1,background:"var(--gold)",border:"none",borderRadius:"var(--radius)",padding:"10px",color:"#2C3639",fontSize:13,fontWeight:600,cursor:"pointer" }}>{lesModal?.lesEditId?"Salvar alterações":"Adicionar"}</button>
@@ -1465,7 +1565,7 @@ const Help = () => (
       {[
         ["Como acesso meus produtos?","Clique em 'Meus Produtos' no menu lateral para ver seus cursos e materiais ativos."],
         ["Não estou vendo um produto?","Produtos privados precisam ser liberados manualmente. Entre em contato para solicitar acesso."],
-        ["Como baixo materiais?","Dentro do produto, clique na aula/material desejado. Haverá um botão de download."],
+        ["Como baixo materiais?","Dentro da aula, abra a aba 'Materiais' abaixo do vídeo — lá ficam os arquivos de apoio para download."],
         ["Não consigo acessar?","Tente atualizar a página. Se o problema persistir, fale pelo e-mail abaixo."],
       ].map(([q,r])=>(
         <div key={q} style={{ background:"var(--card)",border:"1px solid var(--border)",borderRadius:"var(--radius-lg)",padding:"16px 18px",marginBottom:10 }}>
