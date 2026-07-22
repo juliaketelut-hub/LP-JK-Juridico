@@ -896,7 +896,7 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatche
             </div>
             {tab==="desc" && (
               lesson.description
-                ? <p style={{ color:"var(--text-secondary)", fontSize:14, lineHeight:1.75, whiteSpace:"pre-wrap" }}>{lesson.description}</p>
+                ? <p style={{ color:"var(--text)", fontSize:15, lineHeight:1.75, whiteSpace:"pre-wrap" }}>{lesson.description}</p>
                 : <p style={{ color:"var(--text-muted)", fontSize:13 }}>{lesson.type==="video"?"Vídeo":"Material"} · {lesson.duration}</p>
             )}
             {tab==="mat" && (
@@ -929,11 +929,11 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatche
         </div>
         <div style={{ width:265,flexShrink:0,borderLeft:"1px solid var(--border)",background:"var(--surface)",overflowY:"auto" }}>
           <div style={{ padding:"14px 14px 10px",borderBottom:"1px solid var(--border)" }}>
-            <div style={{ fontFamily:"var(--font-label)",fontSize:10,color:"var(--text-muted)",letterSpacing:"0.1em" }}>{product.title}</div>
+            <div style={{ fontFamily:"var(--font-label)",fontSize:11,color:"var(--text-secondary)",letterSpacing:"0.08em",fontWeight:500 }}>{product.title}</div>
           </div>
           {(product.modules||[]).map(m=>(
             <div key={m.id}>
-              <div style={{ padding:"11px 14px 7px",fontSize:11,fontWeight:600,color:"var(--text-secondary)",borderBottom:"1px solid var(--border)" }}>{m.title}</div>
+              <div style={{ padding:"11px 14px 7px",fontSize:12.5,fontWeight:600,color:"var(--text)",borderBottom:"1px solid var(--border)" }}>{m.title}</div>
               {(m.lessons||[]).map(l=>{
                 const active=l.id===lesson.id;
                 return (
@@ -943,8 +943,8 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatche
                       {l.watched?<Icon name="check" size={9} color="#fff"/>:l.type==="video"?<Icon name="play" size={7} color={active?"#2C3639":"var(--text-muted)"}/>:<Icon name="file" size={8} color={active?"#2C3639":"var(--text-muted)"}/>}
                     </div>
                     <div style={{ flex:1,overflow:"hidden" }}>
-                      <div style={{ fontSize:11,color:active?"var(--gold)":l.watched?"var(--text-muted)":"var(--text)",lineHeight:1.3,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{l.title}</div>
-                      <div style={{ fontSize:10,color:"var(--text-muted)" }}>{l.duration}</div>
+                      <div style={{ fontSize:13,fontWeight:active?600:500,color:active?"var(--gold)":l.watched?"var(--text-muted)":"var(--text)",lineHeight:1.35,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{l.title}</div>
+                      <div style={{ fontSize:11,color:"var(--text-secondary)",marginTop:1 }}>{l.duration}</div>
                     </div>
                   </button>
                 );
