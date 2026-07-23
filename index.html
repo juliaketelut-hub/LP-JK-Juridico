@@ -25,6 +25,9 @@
       --verde:        #27AE60;
       --border:       rgba(42,33,24,0.09);
       --border-m:     rgba(42,33,24,0.13);
+      /* Easing refinado — deceleração natural, sem bounce/elastic (datado) */
+      --ease-quint:   cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-expo:    cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,6 +53,13 @@
       top: 0;
       z-index: 100;
       border-bottom: 1px solid rgba(162,123,91,0.25);
+      transition: padding 0.35s var(--ease-quint), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    /* Ao rolar, o nav condensa e ganha profundidade — pista sutil de scroll */
+    nav.scrolled {
+      padding-block: 0.62rem;
+      box-shadow: 0 10px 30px rgba(42,33,24,0.16);
+      border-bottom-color: rgba(162,123,91,0.38);
     }
 
     .nav-logo {
@@ -309,7 +319,11 @@
       opacity: 0.55;
       margin: 1rem 0 2.5rem;
       border-radius: 1px;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.6s var(--ease-quint) 0.1s;
     }
+    .section-divider.visible { transform: scaleX(1); }
 
     .section-title {
       font-family: 'Spectral', serif;
@@ -884,14 +898,30 @@
     /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+      transform: translateY(24px);
+      transition: opacity 0.7s var(--ease-quint), transform 0.7s var(--ease-quint);
     }
     .reveal.visible { opacity: 1; transform: none; }
-    .rv-d1 { transition-delay: 0.12s; }
-    .rv-d2 { transition-delay: 0.24s; }
-    .rv-d3 { transition-delay: 0.36s; }
-    .rv-d4 { transition-delay: 0.48s; }
+    .rv-d1 { transition-delay: 0.10s; }
+    .rv-d2 { transition-delay: 0.20s; }
+    .rv-d3 { transition-delay: 0.30s; }
+    .rv-d4 { transition-delay: 0.40s; }
+
+    /* Feedback tátil — o botão "afunda" de leve ao ser pressionado */
+    .btn-primary:active, .btn-outline:active, .btn-submit:active,
+    .btn-membros:active, .nav-cta:active { transform: translateY(0) scale(0.985); }
+
+    /* ── ACESSIBILIDADE: respeita quem pediu menos movimento ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      .section-divider { transform: none !important; }
+    }
 
   </style>
 </head>
@@ -954,11 +984,11 @@
 <div class="stats-bar">
   <div class="stats-inner">
     <div>
-      <div class="stat-num">50+</div>
+      <div class="stat-num" data-count="50" data-suffix="+">50+</div>
       <div class="stat-label">Trabalhos Entregues</div>
     </div>
     <div>
-      <div class="stat-num">100%</div>
+      <div class="stat-num" data-count="100" data-suffix="%">100%</div>
       <div class="stat-label">Atendimento Remoto</div>
     </div>
     <div>
@@ -1001,11 +1031,11 @@
 <section id="sobre">
   <div class="container">
     <div class="sobre-grid">
-      <div class="sobre-foto">
+      <div class="sobre-foto reveal">
         <img src="julia.png" alt="Julia Ketelut — Bacharel em Direito" />
         <div class="foto-frame"></div>
       </div>
-      <div class="sobre-content">
+      <div class="sobre-content reveal rv-d1">
         <div class="section-label">Sobre mim</div>
         <h2 class="section-title">Julia Ketelut</h2>
         <div class="section-divider"></div>
@@ -1105,21 +1135,21 @@
 
     <div class="prod-grid">
 
-      <a href="academico.html" class="prod-card">
+      <a href="academico.html" class="prod-card reveal">
         <div class="prod-para">Para estudantes e pesquisadores</div>
         <h3>Escrita e revisão acadêmica</h3>
         <p>Artigos, TCC e monografias em Direito: escrita do zero, revisão metodológica, formatação ABNT e revisão de textos gerados por IA — com cada referência conferida na fonte.</p>
         <span class="prod-link">Ver serviços e honorários <span aria-hidden="true">→</span></span>
       </a>
 
-      <a href="visual-law.html" class="prod-card">
+      <a href="visual-law.html" class="prod-card reveal rv-d1">
         <div class="prod-para">Para advogados · eu produzo</div>
         <h3>Visual Law em peças</h3>
         <p>Identidade visual aplicada no Word: petições, contratos, tabelas comparativas, linhas do tempo e ícones. Editável por você, sem depender de designer.</p>
         <span class="prod-link">Ver pacotes e valores <span aria-hidden="true">→</span></span>
       </a>
 
-      <a href="mentoria.html" class="prod-card prod-card-destaque">
+      <a href="mentoria.html" class="prod-card prod-card-destaque reveal rv-d2">
         <div class="prod-para">Para advogados · você constrói</div>
         <h3>Mentoria: Visual Law + IA</h3>
         <p>Você constrói os GPTs do seu escritório, com a minha condução e as travas que impedem a invenção. A ferramenta é sua — e continua funcionando quando a mentoria acaba.</p>
@@ -1135,7 +1165,7 @@
   <div class="membros-destaque-inner">
 
     <!-- Preview mockup -->
-    <div class="membros-left">
+    <div class="membros-left reveal">
       <div class="membros-preview">
         <div class="membros-preview-bar">
           <div class="dot dot-r"></div>
@@ -1199,7 +1229,7 @@
     </div>
 
     <!-- Content -->
-    <div class="membros-right">
+    <div class="membros-right reveal rv-d1">
       <div class="section-label">Área Exclusiva</div>
       <h2 class="section-title">Conteúdo para<br /><em style="font-style:italic;color:var(--creme)">clientes e membros</em></h2>
       <div class="section-divider"></div>
@@ -1253,7 +1283,7 @@
     <div class="section-divider"></div>
     <p class="contato-sub">Descreva seu projeto e retorno em até 24 horas com proposta detalhada.</p>
 
-    <form class="contato-form" action="https://formspree.io/f/xgoraojy" method="POST">
+    <form class="contato-form reveal" action="https://formspree.io/f/xgoraojy" method="POST">
       <div class="form-group">
         <label>Nome completo</label>
         <input type="text" name="nome" placeholder="Seu nome" required />
@@ -1282,7 +1312,7 @@
       <button type="submit" class="btn-submit">Enviar Mensagem</button>
     </form>
 
-    <div class="contato-links">
+    <div class="contato-links reveal rv-d1">
       <a href="mailto:juliaketelut.juridico@gmail.com" class="contato-link">
         <div class="contato-link-left">
           <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
@@ -1343,13 +1373,41 @@
     });
   }
 
-  // Scroll reveal
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Scroll reveal — blocos e divisores entram ao aparecer
   const revealObserver = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  document.querySelectorAll('.reveal, .section-divider').forEach(el => revealObserver.observe(el));
+
+  // Contador dos números — a prova de autoridade ganhando vida
+  function countUp(el) {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    if (reduceMotion) { el.textContent = target + suffix; return; }
+    const dur = 1300, start = performance.now();
+    el.textContent = '0' + suffix;
+    (function tick(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);        // easeOutCubic — desacelera natural
+      el.textContent = Math.round(eased * target) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+  const countObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { countUp(e.target); countObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.stat-num[data-count]').forEach(el => countObserver.observe(el));
+
+  // Nav condensa e ganha sombra depois do primeiro scroll
+  const onScroll = () => navEl.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 </script>
 </body>
 </html>

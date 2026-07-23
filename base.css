@@ -23,6 +23,9 @@
   --au-lait:      #DCD7C9;
   --border:       rgba(42,33,24,0.09);
   --border-m:     rgba(42,33,24,0.13);
+  /* Easing refinado — deceleração natural, sem bounce/elástico (datado) */
+  --ease-quint:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo:    cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -593,4 +596,57 @@ a:focus-visible, button:focus-visible {
   footer { justify-content: center; text-align: center; }
   .hero-actions { gap: 1.1rem; }
   .btn-primary { width: 100%; justify-content: center; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOVIMENTO — entrada, scroll-reveal e micro-interações
+   Ativado por html.anim (script no <head>). Sem JS, tudo aparece
+   normal — nada fica escondido. Skill `animate`: motion com
+   propósito, sem bounce/elástico.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Entrada do herói ao carregar */
+@keyframes heroRise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+.anim .hero-eyebrow { animation: heroRise 0.7s var(--ease-quint) 0.05s both; }
+.anim .hero h1      { animation: heroRise 0.7s var(--ease-quint) 0.16s both; }
+.anim .hero-lede    { animation: heroRise 0.7s var(--ease-quint) 0.30s both; }
+.anim .hero-actions { animation: heroRise 0.75s var(--ease-quint) 0.44s both; }
+
+/* Nav condensa e ganha profundidade depois do primeiro scroll */
+nav { transition: padding 0.35s var(--ease-quint), box-shadow 0.35s ease, border-color 0.35s ease; }
+nav.scrolled { padding-block: 0.62rem; box-shadow: 0 10px 30px rgba(42,33,24,0.16); border-bottom-color: rgba(162,123,91,0.38); }
+
+/* Feedback tátil — o botão afunda de leve ao ser pressionado (o verde continua sagrado) */
+.btn-primary:active, .btn-pkg:active, .nav-cta:active { transform: translateY(0) scale(0.985); }
+
+/* Divisor de seção desenha da esquerda quando a seção entra */
+.anim .section-divider { transform: scaleX(0); transform-origin: left center; transition: transform 0.6s var(--ease-quint) 0.1s; }
+.anim .section-divider.vis { transform: scaleX(1); }
+.anim .fechar .section-divider { transform-origin: center; }
+
+/* Blocos que sobem suavemente ao entrar na tela */
+.anim :is(.diag, .escopo-box, .quem-grid, .faq-list, .risco-intro, .risco-fecho, .franqueza) {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s var(--ease-quint), transform 0.7s var(--ease-quint);
+}
+.anim :is(.diag, .escopo-box, .quem-grid, .faq-list, .risco-intro, .risco-fecho, .franqueza).vis { opacity: 1; transform: none; }
+
+/* Grades com filhos escalonados (cards, pacotes, etapas) */
+.anim :is(.dores-grid, .entrega-grid, .tabelas, .escopo-grid, .antes-depois, .pkgs, .passos, .multas) > * {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity 0.6s var(--ease-quint), transform 0.6s var(--ease-quint);
+}
+.anim :is(.dores-grid, .entrega-grid, .tabelas, .escopo-grid, .antes-depois, .pkgs, .passos, .multas).vis > * { opacity: 1; transform: none; }
+.anim :is(.dores-grid, .entrega-grid, .tabelas, .escopo-grid, .antes-depois, .pkgs, .passos, .multas).vis > *:nth-child(2) { transition-delay: 0.07s; }
+.anim :is(.dores-grid, .entrega-grid, .tabelas, .escopo-grid, .antes-depois, .pkgs, .passos, .multas).vis > *:nth-child(3) { transition-delay: 0.14s; }
+.anim :is(.dores-grid, .entrega-grid, .tabelas, .escopo-grid, .antes-depois, .pkgs, .passos, .multas).vis > *:nth-child(4) { transition-delay: 0.21s; }
+.anim :is(.dores-grid, .entrega-grid, .tabelas, .escopo-grid, .antes-depois, .pkgs, .passos, .multas).vis > *:nth-child(5) { transition-delay: 0.28s; }
+.anim :is(.dores-grid, .entrega-grid, .tabelas, .escopo-grid, .antes-depois, .pkgs, .passos, .multas).vis > *:nth-child(6) { transition-delay: 0.35s; }
+
+/* Acessibilidade — reforça o respeito a quem pediu menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .anim .hero-eyebrow, .anim .hero h1, .anim .hero-lede, .anim .hero-actions { animation: none !important; }
+  .anim :is(.diag, .escopo-box, .quem-grid, .faq-list, .risco-intro, .risco-fecho, .franqueza),
+  .anim :is(.dores-grid, .entrega-grid, .tabelas, .escopo-grid, .antes-depois, .pkgs, .passos, .multas) > * { opacity: 1 !important; transform: none !important; }
+  .anim .section-divider { transform: none !important; }
 }
