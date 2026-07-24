@@ -67,7 +67,13 @@ https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,
 }
 ```
 
-### Modo Escuro — "Inkwell Quente" (toggle)
+### Modo Escuro — "Inkwell Quente" (só na área de membros)
+
+> **Onde vale:** `membros.html` e o painel — ferramentas de uso prolongado, onde alternar tema faz diferença real para quem passa tempo na tela.
+>
+> **Onde NÃO vale:** o site institucional (`index.html`, `academico.html`, `visual-law.html`, `mentoria.html`, checklists). Essas páginas são de visita curta e existem **só no modo claro**, por decisão de 24/07/2026 — não têm `data-theme`, nem `prefers-color-scheme`, nem botão de alternância, e não é omissão.
+>
+> Motivo: o ganho é pequeno numa visita de três minutos, e o custo é alto — as seções que já são café escuro (`.fechar`, `.fontes`, o mockup da área de membros) precisariam de tratamento próprio para não virar escuro sobre escuro, e cada cor de texto teria que ser reauditada no fundo novo. Se um dia o site ganhar modo escuro, é esse o trabalho.
 
 Paleta de marrons escuros quentes, mesma família do creme. **Não usar teal/verde** — a paleta original Inkwell (#2C3639, #3F4E4F) foi descartada.
 
