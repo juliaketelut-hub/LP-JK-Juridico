@@ -889,8 +889,14 @@
 
     @media (max-width: 620px) {
       section { padding: 5rem 1.5rem; }
-      .hero { padding: 6rem 1.5rem 5rem; }
       nav { padding: 0.85rem 1.5rem; }
+      /* Heroi mais compacto no celular: o espacamento era herdado do desktop.
+         Com a barra do navegador sobram ~750px de altura util — assim os dois
+         botoes cabem na primeira tela ate no iPhone SE. */
+      .hero { padding: 2.25rem 1.5rem 4rem; }
+      .hero-tag { margin-bottom: 1.1rem; padding: 0.45rem 1.4rem; }
+      .hero h1 { margin-bottom: 1.1rem; }
+      .hero-sub { margin: 0 auto 1.6rem; }
       /* Sem espaco para o botao ao lado do logo: ele ja aparece no menu e no heroi */
       .nav-cta { display: none; }
       .pub-card { flex-direction: column; }
