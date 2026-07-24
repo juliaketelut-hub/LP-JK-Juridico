@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Julia Ketelut — JK Jurídico | Escrita Acadêmica & Visual Law</title>
   <meta name="description" content="Bacharel em Direito especialista em escrita acadêmica jurídica, revisão ABNT e visual law em documentos Word. Atendimento remoto para todo o Brasil." />
+  <link rel="canonical" href="https://meudocjuridico.pages.dev/" />
+
+  <!-- Previa ao compartilhar o link (WhatsApp, Instagram, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="JK Jurídico" />
+  <meta property="og:url" content="https://meudocjuridico.pages.dev/" />
+  <meta property="og:title" content="Julia Ketelut — JK Jurídico" />
+  <meta property="og:description" content="Escrita que comunica. Direito que convence. Escrita e revisão acadêmica jurídica, ABNT e Visual Law. Atendimento remoto para todo o Brasil." />
+  <meta property="og:image" content="https://meudocjuridico.pages.dev/og-jk.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Julia Ketelut, bacharel em Direito, com o Código Civil Interpretado" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Julia Ketelut — JK Jurídico" />
+  <meta name="twitter:description" content="Escrita e revisão acadêmica jurídica, ABNT e Visual Law. Atendimento remoto para todo o Brasil." />
+  <meta name="twitter:image" content="https://meudocjuridico.pages.dev/og-jk.jpg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="icon" type="image/png" href="favicon-jk.png" />
@@ -18,8 +36,11 @@
       --text-body:    rgba(42,33,24,0.82);
       --text-meta:    rgba(42,33,24,0.70);
       --text-faint:   rgba(42,33,24,0.52);
-      --creme:        #A27B5B;
+      --creme:        #A27B5B;   /* decoracao: bordas, icones, fundos e texto sobre fundo escuro */
       --creme-btn:    #8A6649;   /* creme para botoes: o #A27B5B nao carrega texto legivel */
+      --creme-txt:    #7D5B40;   /* creme para TEXTO sobre fundo claro: 5,52 no marfim e 5,00 na superficie
+                                    (o #A27B5B da 3,44 e 3,12 — reprova em AA; o #8A6649 falha na superficie) */
+      --creme-esc:    #B08A67;   /* creme para texto sobre o cafe escuro do nav/rodape: 5,02 (o #A27B5B da 4,15) */
       --creme-soft:   rgba(162,123,91,0.12);
       --creme-border: rgba(162,123,91,0.30);
       --verde:        #27AE60;
@@ -72,7 +93,7 @@
     .nav-logo-text {
       font-family: 'Spectral', serif;
       font-size: 1.15rem;
-      color: var(--creme);
+      color: var(--creme-esc);
       letter-spacing: 0.04em;
     }
 
@@ -101,6 +122,11 @@
       line-height: 0;
       border-radius: 2px;
       transition: color 0.2s;
+      /* alvo de toque confortavel sem mudar o desenho do icone */
+      min-width: 44px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
     }
     .nav-hamburger:hover { color: var(--creme); }
 
@@ -158,6 +184,7 @@
       border: 1px solid var(--creme-border);
       animation: heroFade 0.85s cubic-bezier(0.4,0,0.2,1) 0.38s both;
     }
+    .hero-portrait picture { display: block; width: 100%; height: 100%; }
     .hero-portrait img {
       width: 100%;
       height: 100%;
@@ -195,7 +222,7 @@
       font-style: italic;
       font-size: 1rem;
       letter-spacing: 0.08em;
-      color: var(--creme);
+      color: var(--creme-txt);
       border: 1px solid var(--creme-border);
       padding: 0.55rem 2rem;
       border-radius: 2px;
@@ -252,7 +279,7 @@
       align-items: center;
       gap: 0.5rem;
       border: 1px solid var(--creme-border);
-      color: var(--creme);
+      color: var(--creme-txt);
       padding: 0.92rem 2.2rem;
       font-family: 'Jost', sans-serif;
       font-size: 0.78rem;
@@ -304,11 +331,11 @@
     .section-label {
       display: block;
       font-family: 'Jost', sans-serif;
-      font-size: 0.62rem;
+      font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--creme);
+      color: var(--creme-txt);
       margin-bottom: 0.75rem;
     }
     .section-divider {
@@ -346,8 +373,12 @@
     }
 
     .sobre-foto { position: relative; }
+    .sobre-foto picture { display: block; }
     .sobre-foto img {
       width: 100%;
+      /* precisa ser explicito: sem isto o atributo height="1200" do <img> vira altura fixa
+         (presentational hint) e o aspect-ratio abaixo deixa de valer */
+      height: auto;
       border-radius: 3px;
       display: block;
       object-fit: cover;
@@ -370,11 +401,11 @@
     .sobre-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
     .tag {
       font-family: 'Jost', sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.74rem;
       font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--creme);
+      color: var(--creme-txt);
       border: 1px solid var(--creme-border);
       padding: 0.35rem 0.85rem;
       border-radius: 2px;
@@ -407,7 +438,7 @@
     }
     .pub-icon svg { color: var(--creme); }
     .pub-body { flex: 1; }
-    .pub-label { font-family: 'Jost', sans-serif; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--creme); margin-bottom: 0.5rem; }
+    .pub-label { font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--creme-txt); margin-bottom: 0.5rem; }
     .pub-title { font-family: 'Jost', sans-serif; font-size: 1.05rem; font-weight: 400; color: var(--text); margin-bottom: 0.6rem; letter-spacing: 0.01em; line-height: 1.5; }
     .pub-meta { font-size: 0.85rem; color: var(--text-meta); }
     .pub-meta strong { color: var(--text-body); font-weight: 600; }
@@ -445,11 +476,11 @@
     .prod-card-destaque { border-top-color: var(--verde); }
     .prod-para {
       font-family: 'Jost', sans-serif;
-      font-size: 0.62rem;
+      font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--creme);
+      color: var(--creme-txt);
     }
     .prod-card h3 {
       font-family: 'Spectral', serif;
@@ -469,7 +500,7 @@
       font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.04em;
-      color: var(--creme);
+      color: var(--creme-txt);
       margin-top: 0.4rem;
       display: inline-flex;
       gap: 0.4rem;
@@ -628,7 +659,7 @@
       font-size: 0.8rem;
       color: var(--text-body);
     }
-    .membros-nota a { color: var(--creme); text-decoration: none; }
+    .membros-nota a { color: var(--creme-txt); text-decoration: none; }
     .membros-nota a:hover { color: var(--creme); }
 
     /* ── CONTATO ── */
@@ -713,7 +744,7 @@
     .contato-link-left svg { color: var(--creme); flex-shrink: 0; }
     .contato-link-left div { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
 
-    .contato-link-label { font-family: 'Jost', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--creme); }
+    .contato-link-label { font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--creme-txt); }
     .contato-link-value { font-size: 0.84rem; color: var(--text-meta); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .contato-arrow { color: var(--creme); opacity: 0.4; flex-shrink: 0; transition: opacity 0.2s, transform 0.2s; }
     .contato-link:hover .contato-arrow { opacity: 0.9; transform: translate(2px, -2px); }
@@ -729,7 +760,7 @@
     }
     .footer-brand { display: flex; align-items: center; gap: 0.9rem; }
     .footer-monogram { height: 40px; width: auto; display: block; flex-shrink: 0; opacity: 0.82; }
-    .footer-logo { font-family: 'Spectral', serif; font-size: 1rem; color: var(--creme); letter-spacing: 0.03em; }
+    .footer-logo { font-family: 'Spectral', serif; font-size: 1rem; color: var(--creme-esc); letter-spacing: 0.03em; }
     .footer-logo span { font-family: 'Jost', sans-serif; font-size: 0.7rem; font-weight: 400; color: rgba(220,215,201,0.30); display: block; letter-spacing: 0.08em; margin-top: 0.1rem; }
     .footer-text { font-size: 0.78rem; color: rgba(220,215,201,0.30); text-align: right; }
     .footer-text a { color: rgba(220,215,201,0.45); text-decoration: none; transition: color 0.2s; }
@@ -751,7 +782,7 @@
     .dor-card h3 { font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.02em; color: var(--text); margin-bottom: 0.6rem; }
     .dor-card p { font-size: 0.93rem; font-weight: 400; color: var(--text-body); line-height: 1.75; }
     .dores-cta { text-align: center; margin-top: 2.8rem; font-size: 0.93rem; color: var(--text-body); }
-    .dores-cta a { color: var(--creme); text-decoration: none; font-weight: 500; }
+    .dores-cta a { color: var(--creme-txt); text-decoration: none; font-weight: 500; }
     .dores-cta a:hover { text-decoration: underline; }
 
     /* ── DEPOIMENTOS ── */
@@ -763,7 +794,7 @@
       border-radius: 3px;
       padding: 2rem;
     }
-    .depo-stars { color: var(--creme); font-size: 0.78rem; letter-spacing: 3px; margin-bottom: 1rem; }
+    .depo-stars { color: var(--creme-txt); font-size: 0.78rem; letter-spacing: 3px; margin-bottom: 1rem; }
     .depo-quote {
       font-family: 'Spectral', serif;
       font-size: 6.5rem;
@@ -794,7 +825,7 @@
       font-family: 'Jost', sans-serif;
       font-size: 0.78rem;
       font-weight: 600;
-      color: var(--creme);
+      color: var(--creme-txt);
       flex-shrink: 0;
     }
     .depo-name { font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; color: var(--text); }
@@ -860,6 +891,8 @@
       section { padding: 5rem 1.5rem; }
       .hero { padding: 6rem 1.5rem 5rem; }
       nav { padding: 0.85rem 1.5rem; }
+      /* Sem espaco para o botao ao lado do logo: ele ja aparece no menu e no heroi */
+      .nav-cta { display: none; }
       .pub-card { flex-direction: column; }
       .pub-link-icon { display: none; }
       .preview-grid { grid-template-columns: 1fr; }
@@ -878,7 +911,7 @@
         color: var(--text) !important; margin-bottom: 0.1rem;
       }
 
-      .preco-table td:last-child { color: var(--creme) !important; font-weight: 600; }
+      .preco-table td:last-child { color: var(--creme-txt) !important; font-weight: 600; }
 
       .prod-grid { grid-template-columns: 1fr; }
 
@@ -924,13 +957,19 @@
     }
 
   </style>
+
+  <!-- Rede de seguranca: sem JS, os blocos animados aparecem do mesmo jeito -->
+  <noscript><style>
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .section-divider { transform: none !important; }
+  </style></noscript>
 </head>
 <body>
 
 <!-- ── NAV ── -->
 <nav>
   <a href="#" class="nav-logo">
-    <img src="monograma_jk.png" alt="JK" class="nav-monogram" />
+    <img src="monograma_jk-120.png" alt="JK" class="nav-monogram" />
     <span class="nav-logo-text">Jurídico</span>
 </a>
   <ul class="nav-center">
@@ -975,7 +1014,11 @@
       </div>
     </div>
     <div class="hero-portrait">
-      <img src="julia.png" alt="Julia Ketelut — Bacharel em Direito" />
+      <picture>
+        <source type="image/webp" srcset="julia-hero-480.webp 480w, julia-hero-900.webp 900w" sizes="300px" />
+        <img src="julia-hero-900.jpg" width="900" height="1200" loading="lazy" decoding="async"
+             alt="Julia Ketelut, bacharel em Direito, segurando um exemplar do Código Civil Interpretado" />
+      </picture>
     </div>
   </div>
 </section>
@@ -1032,7 +1075,12 @@
   <div class="container">
     <div class="sobre-grid">
       <div class="sobre-foto reveal">
-        <img src="julia.png" alt="Julia Ketelut — Bacharel em Direito" />
+        <picture>
+          <source type="image/webp" srcset="julia-sobre-480.webp 480w, julia-sobre-900.webp 900w"
+                  sizes="(max-width: 968px) 340px, 400px" />
+          <img src="julia-sobre-900.jpg" width="900" height="1200" loading="lazy" decoding="async"
+               alt="Julia Ketelut sentada em seu escritório, sorrindo para a câmera" />
+        </picture>
         <div class="foto-frame"></div>
       </div>
       <div class="sobre-content reveal rv-d1">
@@ -1166,7 +1214,10 @@
 
     <!-- Preview mockup -->
     <div class="membros-left reveal">
-      <div class="membros-preview">
+      <!-- Ilustracao da interface: o texto miniatura aqui dentro e figurativo, nao conteudo.
+           O role/aria-label faz o leitor de tela anunciar a figura em vez de soletrar o mockup. -->
+      <div class="membros-preview" role="img"
+           aria-label="Prévia da área de membros: painel escuro com cartões de consultoria em Visual Law, curso de ABNT, templates de petições e materiais de conteúdo, alguns com acesso livre e outros restritos.">
         <div class="membros-preview-bar">
           <div class="dot dot-r"></div>
           <div class="dot dot-y"></div>
@@ -1285,16 +1336,16 @@
 
     <form class="contato-form reveal" action="https://formspree.io/f/xgoraojy" method="POST">
       <div class="form-group">
-        <label>Nome completo</label>
-        <input type="text" name="nome" placeholder="Seu nome" required />
+        <label for="f-nome">Nome completo</label>
+        <input id="f-nome" type="text" name="nome" placeholder="Seu nome" required />
       </div>
       <div class="form-group">
-        <label>E-mail</label>
-        <input type="email" name="email" placeholder="seu@email.com" required />
+        <label for="f-email">E-mail</label>
+        <input id="f-email" type="email" name="email" placeholder="seu@email.com" required />
       </div>
       <div class="form-group full">
-        <label>Serviço de interesse</label>
-        <select name="servico">
+        <label for="f-servico">Serviço de interesse</label>
+        <select id="f-servico" name="servico">
           <option value="">Selecione...</option>
           <option>Escrita de Artigo Acadêmico</option>
           <option>TCC / Monografia</option>
@@ -1306,8 +1357,8 @@
         </select>
       </div>
       <div class="form-group full">
-        <label>Mensagem</label>
-        <textarea name="mensagem" placeholder="Descreva brevemente seu projeto, prazo e necessidades..." required></textarea>
+        <label for="f-mensagem">Mensagem</label>
+        <textarea id="f-mensagem" name="mensagem" placeholder="Descreva brevemente seu projeto, prazo e necessidades..." required></textarea>
       </div>
       <button type="submit" class="btn-submit">Enviar Mensagem</button>
     </form>
@@ -1350,7 +1401,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">
-    <img src="monograma_jk.png" alt="JK" class="footer-monogram" />
+    <img src="monograma_jk-120.png" alt="JK" class="footer-monogram" />
     <div class="footer-logo">
       JK Jurídico
       <span>Escrita, Revisão e Formatação</span>

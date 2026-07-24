@@ -7,6 +7,24 @@
   <meta name="description" content="Artigos, TCC e monografias em Direito: escrita do zero, revisão metodológica, formatação ABNT e revisão de textos gerados por IA. Atendimento remoto para todo o Brasil." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="canonical" href="https://meudocjuridico.pages.dev/academico.html" />
+
+  <!-- Previa ao compartilhar o link (WhatsApp, Instagram, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="JK Jurídico" />
+  <meta property="og:url" content="https://meudocjuridico.pages.dev/academico.html" />
+  <meta property="og:title" content="Escrita e Revisão Acadêmica Jurídica — JK Jurídico" />
+  <meta property="og:description" content="Artigos, TCC e monografias em Direito: escrita do zero, revisão metodológica, formatação ABNT e revisão de textos gerados por IA. Atendimento remoto para todo o Brasil." />
+  <meta property="og:image" content="https://meudocjuridico.pages.dev/og-jk.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Julia Ketelut, bacharel em Direito, com o Código Civil Interpretado" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Escrita e Revisão Acadêmica Jurídica — JK Jurídico" />
+  <meta name="twitter:description" content="Artigos, TCC e monografias em Direito: escrita do zero, revisão metodológica, formatação ABNT e revisão de textos gerados por IA. Atendimento remoto para todo o Brasil." />
+  <meta name="twitter:image" content="https://meudocjuridico.pages.dev/og-jk.jpg" />
+
   <link rel="icon" type="image/png" href="favicon-jk.png" />
   <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="base.css" />
@@ -82,7 +100,7 @@
     .preco-table td:first-child { color: var(--text); font-weight: 500; }
     .preco-table td:last-child {
       text-align: right;
-      color: var(--creme);
+      color: var(--creme-txt);
       font-weight: 600;
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
@@ -141,7 +159,7 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       margin-bottom: 1rem;
-      color: var(--creme);
+      color: var(--creme-txt);
     }
     .escopo-col.nao .escopo-titulo { color: var(--text-faint); }
     .escopo-lista { list-style: none; }
@@ -177,7 +195,7 @@
 
 <nav>
   <a href="index.html" class="nav-logo">
-    <img src="monograma_jk.png" alt="JK Jurídico" class="nav-monogram" />
+    <img src="monograma_jk-120.png" alt="JK Jurídico" class="nav-monogram" />
     <span class="nav-logo-text">Jurídico</span>
   </a>
   <div class="nav-right">
@@ -379,11 +397,15 @@
     <div class="section-divider"></div>
 
     <div class="quem-grid">
-      <img src="julia.png" alt="Julia Ketelut" class="quem-foto" width="896" height="1200" loading="lazy" />
+      <picture>
+        <source type="image/webp" srcset="julia-sobre-480.webp 480w, julia-sobre-900.webp 900w" sizes="260px" />
+        <img src="julia-sobre-900.jpg" alt="Julia Ketelut, bacharel em Direito, em seu escritório"
+             class="quem-foto" width="900" height="1200" loading="lazy" decoding="async" />
+      </picture>
       <div class="quem-texto">
         <p>Bacharel em Direito e <strong>pesquisadora com publicação em periódico jurídico indexado</strong>. Já passei pelo outro lado da mesa: sei o que uma banca procura, o que um orientador implica e o que faz um artigo ser aceito ou devolvido.</p>
         <p>Trabalho só com Direito. Isso significa que eu não vou te pedir para explicar o que é uma ADI, nem confundir doutrina com jurisprudência — e significa que eu leio o seu texto entendendo o argumento, não só a gramática.</p>
-        <p><a href="https://revista.unifcv.edu.br/index.php/revistadireito/article/view/593/397" target="_blank" rel="noopener" style="color:var(--creme)">Ler o artigo publicado →</a></p>
+        <p><a href="https://revista.unifcv.edu.br/index.php/revistadireito/article/view/593/397" target="_blank" rel="noopener" style="color:var(--creme-txt)">Ler o artigo publicado →</a></p>
       </div>
     </div>
   </div>
@@ -439,7 +461,7 @@
 
 <footer>
   <div class="footer-brand">
-    <img src="monograma_jk.png" alt="JK" class="footer-monogram" />
+    <img src="monograma_jk-120.png" alt="JK" class="footer-monogram" />
     <div class="footer-logo">
       JK Jurídico
       <span>Escrita, Revisão e Formatação</span>

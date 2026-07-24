@@ -6,6 +6,14 @@ client_secret*.json
 .env.*
 !.env.example
 
+# Material de origem — este repositorio e publicado, tudo aqui vira URL publica.
+# Os originais do ensaio (~17 MB, 2449x3673) ficam so no computador/JK-Interno;
+# no repositorio entram apenas os derivados que as paginas usam (julia-*.webp/jpg).
+Fotos - LP/
+Fotos - LP.zip
+*.CR2
+*.NEF
+
 # Sistema operacional
 .DS_Store
 Thumbs.db

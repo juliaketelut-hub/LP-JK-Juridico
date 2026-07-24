@@ -224,7 +224,29 @@ color: #fff;
 /* hover: */ background: #75563D;
 ```
 
-O creme da marca (#A27B5B) **não carrega texto legível em tamanho de botão**: branco dá 3,8:1 e café dá 4,15:1 — os dois reprovam. Por isso existe o `--creme-btn` (#8A6649), visualmente quase idêntico e aprovado. O #A27B5B continua valendo para texto sobre fundo claro, bordas e labels.
+O creme da marca (#A27B5B) **não carrega texto legível em tamanho de botão**: branco dá 3,8:1 e café dá 4,15:1 — os dois reprovam. Por isso existe o `--creme-btn` (#8A6649), visualmente quase idêntico e aprovado.
+
+### ⚠️ O #A27B5B não carrega texto NENHUM — corrigido em 23/07/2026
+
+Este trecho antes dizia que o #A27B5B "continua valendo para texto sobre fundo claro, bordas e labels". **A parte de texto estava errada** e foi a origem de 29 pontos reprovados na home. Medições reais:
+
+| Uso | Contraste | Veredito |
+|---|---|---|
+| #A27B5B sobre o marfim (#F7F3EC) | 3,44:1 | reprova (mínimo 4,5) |
+| #A27B5B sobre a superfície (#EDE8DE) | 3,12:1 | reprova |
+| #A27B5B sobre o café do nav (#2A2118) | 4,15:1 | reprova |
+| #8A6649 sobre a superfície | 4,22:1 | reprova — o `--creme-btn` **não** resolve texto |
+
+Três tokens, três funções — não trocar um pelo outro:
+
+```css
+--creme:     #A27B5B;   /* SÓ decoração: bordas, ícones, fundos, filetes. Nunca texto. */
+--creme-btn: #8A6649;   /* fundo de botão, com texto branco por cima (5,15:1) */
+--creme-txt: #7D5B40;   /* TEXTO sobre fundo claro: 5,52 no marfim, 5,00 na superfície */
+--creme-esc: #B08A67;   /* TEXTO sobre o café escuro do nav/rodapé: 5,02:1 */
+```
+
+Regra prática: se o olho precisa **ler**, nunca use `--creme`. Vale para labels de seção, links de card, tags, valores e o logotipo em texto.
 
 Como o texto sobre o verde é escuro, o hover **clareia** (#2ECC71). Escurecer, como fazia o antigo `--verde-dark: #219A52`, derrubava o contraste para 4,37:1.
 
@@ -317,8 +339,14 @@ Hambúrguer: toggle da classe `nav.open` que expande `.nav-center` como dropdown
 
 | Arquivo | Uso | Observação |
 |---|---|---|
-| `monograma_jk.png` | Nav, sidebar, login, favicon | Brasão (escudo com JK + ramos de louro), linework dourado `#A27B5B`, fundo transparente. Vetor: `claude-design-social/logo-dourado.svg`. NUNCA substituir por texto puro. |
-| `julia.png` | Hero LP, seção Sobre | Blazer branco, fundo claro. Principal ativo de confiança. |
+| `monograma_jk-120.png` | Nav, rodapé de **todas** as páginas | Versão web do brasão: 120×120, 10 KB. É esta que o HTML referencia. |
+| `monograma_jk.png` | Master — impressão, DOCX, gerar novos tamanhos | Brasão (escudo com JK + ramos de louro), linework dourado `#A27B5B`, fundo transparente, 1000×1000. Vetor no repo **JK-Interno**. NUNCA substituir por texto puro. Não referenciar direto no HTML: 65 KB para exibir a 38px. |
+| `julia-hero-{480,900}.webp` + `.jpg` | Herói da home | Do ensaio `_MG_7358` — em pé com o Código Civil. Estabelece autoridade. Crop 3:4 central. |
+| `julia-sobre-{480,900}.webp` + `.jpg` | Seção Sobre da home e "Quem" das 3 páginas de venda | Do ensaio `_MG_7368` — sentada, sorriso aberto. Calor humano. Crop 3:4 central. |
+| `og-jk.jpg` | Prévia ao compartilhar link | 1200×630, 68 KB. Fundo café + monograma + foto. Gerado por Chrome headless com as fontes reais. |
+| ~~`julia.png`~~ | **órfã desde 23/07/2026** | Foto antiga (blazer branco), 1,76 MB — PNG de fotografia. Nenhuma página aponta mais para ela. Pode ser removida do repositório. |
+
+**Fotos — regra de peso:** fotografia nunca em PNG. WebP (q80) com JPEG de reserva, servidos por `srcset`/`sizes` no tamanho que a tela pede. Originais do ensaio (~3,3 MB cada) ficam fora do repositório — ver `.gitignore`, porque tudo aqui vira URL pública. A home saiu de 1,76 MB para 87 KB no celular assim.
 
 ---
 

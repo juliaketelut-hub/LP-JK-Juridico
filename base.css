@@ -13,8 +13,11 @@
   --text-body:    rgba(42,33,24,0.82);
   --text-meta:    rgba(42,33,24,0.70);
   --text-faint:   rgba(42,33,24,0.52);
-  --creme:        #A27B5B;
-  --creme-btn:    #8A6649;   /* creme que carrega texto: o #A27B5B reprova em contraste */
+  --creme:        #A27B5B;   /* SO decoracao: bordas, icones, fundos, filetes. Nunca texto. */
+  --creme-btn:    #8A6649;   /* fundo de botao, com texto branco por cima (5,15) */
+  --creme-txt:    #7D5B40;   /* TEXTO sobre fundo claro: 5,52 no marfim, 5,00 na superficie.
+                                O #A27B5B da 3,44/3,12 e o proprio --creme-btn da 4,22 — os dois reprovam. */
+  --creme-esc:    #B08A67;   /* TEXTO sobre o cafe escuro do nav/rodape: 5,02 (o #A27B5B da 4,15) */
   --creme-soft:   rgba(162,123,91,0.12);
   --creme-border: rgba(162,123,91,0.30);
   --verde:        #27AE60;   /* sagrado — o texto sobre ele é café, nunca branco */
@@ -56,7 +59,7 @@ nav {
 .nav-logo-text {
   font-family: 'Spectral', serif;
   font-size: 1.15rem;
-  color: var(--creme);
+  color: var(--creme-esc);
   letter-spacing: 0.04em;
 }
 .nav-back {
@@ -69,7 +72,7 @@ nav {
   transition: color 0.2s;
   white-space: nowrap;
 }
-.nav-back:hover, .nav-back:focus-visible { color: var(--creme); }
+.nav-back:hover, .nav-back:focus-visible { color: var(--creme-esc); }
 .nav-right { display: flex; align-items: center; gap: 1.5rem; }
 .nav-cta {
   display: inline-flex;
@@ -87,7 +90,7 @@ nav {
   white-space: nowrap;
   transition: border-color 0.2s, color 0.2s;
 }
-.nav-cta:hover, .nav-cta:focus-visible { border-color: var(--creme); color: var(--creme); }
+.nav-cta:hover, .nav-cta:focus-visible { border-color: var(--creme); color: var(--creme-esc); }
 
 /* ── ESTRUTURA ── */
 section { padding: 6.5rem 2.5rem; }
@@ -103,7 +106,7 @@ section { padding: 6.5rem 2.5rem; }
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--creme);
+  color: var(--creme-txt);
   margin-bottom: 0.75rem;
 }
 .section-divider {
@@ -140,7 +143,7 @@ strong { color: var(--text); font-weight: 600; }
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--creme);
+  color: var(--creme-txt);
   margin-bottom: 1.6rem;
 }
 .hero h1 {
@@ -167,7 +170,7 @@ strong { color: var(--text); font-weight: 600; }
   line-height: 1.5;
   color: var(--text);
 }
-.hero-lede .virada em { color: var(--creme); font-style: italic; }
+.hero-lede .virada em { color: var(--creme-txt); font-style: italic; }
 .hero-actions {
   margin-top: 2.8rem;
   display: flex;
@@ -204,7 +207,7 @@ strong { color: var(--text); font-weight: 600; }
   padding-bottom: 2px;
   transition: color 0.2s;
 }
-.btn-ghost:hover, .btn-ghost:focus-visible { color: var(--creme); }
+.btn-ghost:hover, .btn-ghost:focus-visible { color: var(--creme-txt); }
 
 /* ── PACOTES ── */
 .pkgs {
@@ -232,7 +235,7 @@ strong { color: var(--text); font-weight: 600; }
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--creme);
+  color: var(--creme-txt);
   margin-bottom: 0.45rem;
 }
 .pkg-name {
@@ -290,7 +293,7 @@ strong { color: var(--text); font-weight: 600; }
   font-family: 'Spectral', serif;
   font-size: 1.4rem;
   font-weight: 600;
-  color: var(--creme);
+  color: var(--creme-txt);
   line-height: 1.1;
   margin-bottom: 0.2rem;
 }
@@ -349,7 +352,7 @@ strong { color: var(--text); font-weight: 600; }
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--creme);
+  color: var(--creme-txt);
 }
 
 /* ── PASSOS / ETAPAS NUMERADAS ── */
@@ -366,7 +369,7 @@ strong { color: var(--text); font-weight: 600; }
 .passo-n {
   font-family: 'Spectral', serif;
   font-size: 1.5rem;
-  color: var(--creme);
+  color: var(--creme-txt);
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
 }
@@ -395,7 +398,7 @@ strong { color: var(--text); font-weight: 600; }
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--creme);
+  color: var(--creme-txt);
 }
 .pre-req p { font-size: 0.9rem; line-height: 1.7; }
 
@@ -425,6 +428,8 @@ strong { color: var(--text); font-weight: 600; }
   gap: 3rem;
   align-items: center;
 }
+/* a foto mora dentro de <picture> (WebP + JPEG de reserva); o picture e que ocupa a coluna do grid */
+.quem-grid picture { display: block; width: 100%; }
 .quem-foto {
   width: 100%;
   height: auto;
@@ -484,12 +489,12 @@ strong { color: var(--text); font-weight: 600; }
 .fechar .section-title { color: var(--au-lait); }
 .fechar p { color: rgba(220,215,201,0.72); max-width: 56ch; margin: 0 auto; }
 .fechar .section-divider { margin: 1rem auto 2.5rem; }
-.fechar .section-label { color: var(--creme); }
+.fechar .section-label { color: var(--creme-esc); }   /* a secao de fecho tem fundo cafe escuro */
 .fechar-actions { margin-top: 2.5rem; display: flex; justify-content: center; }
 
 /* ── FONTES ── */
 sup .ref {
-  color: var(--creme);
+  color: var(--creme-txt);
   text-decoration: none;
   font-size: 0.7rem;
   font-weight: 600;
@@ -508,7 +513,7 @@ sup .ref:hover, sup .ref:focus-visible { text-decoration: underline; }
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--creme);
+  color: var(--creme-esc);
   margin-bottom: 0.9rem;
 }
 .fontes-lista {
@@ -534,7 +539,7 @@ sup .ref:hover, sup .ref:focus-visible { text-decoration: underline; }
   font-weight: 600;
 }
 .fontes-lista a { color: var(--au-lait); text-decoration: none; border-bottom: 1px solid rgba(162,123,91,0.35); }
-.fontes-lista a:hover, .fontes-lista a:focus-visible { color: var(--creme); border-bottom-color: var(--creme); }
+.fontes-lista a:hover, .fontes-lista a:focus-visible { color: var(--creme-esc); border-bottom-color: var(--creme); }
 
 /* ── FOOTER ── */
 footer {
@@ -549,7 +554,7 @@ footer {
 }
 .footer-brand { display: flex; align-items: center; gap: 0.9rem; }
 .footer-monogram { height: 40px; width: auto; display: block; opacity: 0.82; }
-.footer-logo { font-family: 'Spectral', serif; font-size: 1rem; color: var(--creme); letter-spacing: 0.03em; }
+.footer-logo { font-family: 'Spectral', serif; font-size: 1rem; color: var(--creme-esc); letter-spacing: 0.03em; }
 .footer-logo span {
   font-size: 0.7rem;
   font-weight: 400;
@@ -561,7 +566,7 @@ footer {
 }
 .footer-text { font-size: 0.78rem; color: rgba(220,215,201,0.30); text-align: right; }
 .footer-text a { color: rgba(220,215,201,0.45); text-decoration: none; transition: color 0.2s; }
-.footer-text a:hover, .footer-text a:focus-visible { color: var(--creme); }
+.footer-text a:hover, .footer-text a:focus-visible { color: var(--creme-esc); }
 
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--creme);
@@ -575,7 +580,7 @@ a:focus-visible, button:focus-visible {
 /* ── RESPONSIVO ── */
 @media (max-width: 900px) {
   .quem-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .quem-foto { max-width: 240px; }
+  .quem-grid picture, .quem-foto { max-width: 240px; }
   .entrega-grid { grid-template-columns: 1fr; }
 }
 
