@@ -222,6 +222,9 @@ const Icon = ({ name, size = 16, color = "currentColor" }) => {
     logout:   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>,
     shield:   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
     menu:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>,
+    star:     <svg width={size} height={size} viewBox="0 0 24 24" fill={color} stroke={color} strokeWidth="1.6" strokeLinejoin="round"><polygon points="12 2.6 15 8.9 21.8 9.9 16.9 14.6 18.1 21.4 12 18.2 5.9 21.4 7.1 14.6 2.2 9.9 9 8.9"/></svg>,
+    starO:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.6" strokeLinejoin="round"><polygon points="12 2.6 15 8.9 21.8 9.9 16.9 14.6 18.1 21.4 12 18.2 5.9 21.4 7.1 14.6 2.2 9.9 9 8.9"/></svg>,
+    reply:    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>,
     settings: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
     play:     <svg width={size} height={size} viewBox="0 0 24 24" fill={color} stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
     file:     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>,
@@ -746,6 +749,18 @@ const Sidebar = ({ user, view, onNav, onLogout, onShowSetup, theme, onToggleThem
 // ─── HELPERS (definidos fora dos componentes para evitar re-criação) ──────────
 const pct = (p) => { const t=p.modules?.reduce((s,m)=>s+(m.lessons?.length||0),0)||1; const w=p.modules?.reduce((s,m)=>s+(m.lessons?.filter(l=>l.watched).length||0),0)||0; return Math.round(w/t*100); };
 
+const iniciais = (n) => (n||"?").trim().split(/\s+/).slice(0,2).map(w=>w[0]||"").join("").toUpperCase() || "?";
+const primeiroNome = (n) => (n||"").trim().split(/\s+/)[0] || "Aluna";
+const tempoAtras = (iso) => {
+  const seg = Math.max(1, Math.floor((Date.now() - new Date(iso).getTime())/1000));
+  if (seg < 60) return "agora há pouco";
+  const min = Math.floor(seg/60);  if (min < 60) return `há ${min} min`;
+  const h   = Math.floor(min/60);  if (h < 24)   return `há ${h} h`;
+  const d   = Math.floor(h/24);    if (d < 30)   return `há ${d} ${d===1?"dia":"dias"}`;
+  const mes = Math.floor(d/30);    if (mes < 12) return `há ${mes} ${mes===1?"mês":"meses"}`;
+  const a   = Math.floor(mes/12);  return `há ${a} ${a===1?"ano":"anos"}`;
+};
+
 // ─── PURCHASE CARD ───────────────────────────────────────────
 const PurchaseCard = ({ p, onPurchase }) => {
   const [hov,setHov] = useState(false);
@@ -995,7 +1010,177 @@ const ProductView = ({ product:p, onBack, onLesson }) => {
 };
 
 // ─── LESSON VIEW ─────────────────────────────────────────────
-const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatched }) => {
+// ─── AVALIAÇÃO DA AULA ───────────────────────────────────────
+const Estrelas = ({ product, lesson, user }) => {
+  const [nota,setNota] = useState(0);
+  const [hov,setHov]   = useState(0);
+  const [msg,setMsg]   = useState("");
+  useEffect(()=>{
+    let vivo = true;
+    setNota(0); setMsg(""); setHov(0);
+    if(!sb || !user) return;
+    sb.from("lesson_ratings").select("stars")
+      .eq("product_id",product.id).eq("lesson_id",lesson.id).eq("member_id",user.id)
+      .maybeSingle()
+      .then(({data})=>{ if(vivo && data) setNota(data.stars); });
+    return ()=>{ vivo = false; };
+  },[product.id, lesson.id, user?.id]);
+
+  const salvar = async (n) => {
+    setNota(n);
+    if(!sb || !user) return;
+    const { error } = await sb.from("lesson_ratings").upsert(
+      { product_id:product.id, lesson_id:lesson.id, member_id:user.id, stars:n },
+      { onConflict:"product_id,lesson_id,member_id" }
+    );
+    setMsg(error ? "Não foi possível salvar a nota" : "Obrigada pela nota");
+    setTimeout(()=>setMsg(""), 2800);
+  };
+
+  const ativo = hov || nota;
+  return (
+    <div style={{ display:"flex", alignItems:"center", gap:9 }}>
+      <div style={{ display:"flex", gap:2 }} onMouseLeave={()=>setHov(0)}>
+        {[1,2,3,4,5].map(n=>(
+          <button key={n} onClick={()=>salvar(n)} onMouseEnter={()=>setHov(n)}
+            title={`${n} ${n===1?"estrela":"estrelas"}`} aria-label={`Avaliar com ${n} de 5`}
+            style={{ background:"none", border:"none", padding:1, cursor:"pointer", lineHeight:0 }}>
+            <Icon name={n<=ativo?"star":"starO"} size={15} color={n<=ativo?"var(--gold)":"rgba(162,123,91,0.40)"}/>
+          </button>
+        ))}
+      </div>
+      {msg && <span style={{ fontSize:11, color:"var(--text-muted)", whiteSpace:"nowrap" }}>{msg}</span>}
+    </div>
+  );
+};
+
+// ─── COMENTÁRIOS DA AULA ─────────────────────────────────────
+const Comentarios = ({ product, lesson, user }) => {
+  const [lista,setLista]         = useState([]);
+  const [carregando,setCarreg]   = useState(true);
+  const [texto,setTexto]         = useState("");
+  const [respondendo,setResp]    = useState(null);
+  const [enviando,setEnviando]   = useState(false);
+  const [erro,setErro]           = useState("");
+
+  const carregar = async () => {
+    if(!sb){ setCarreg(false); return; }
+    const { data, error } = await sb.from("lesson_comments")
+      .select("id,parent_id,member_id,body,author_name,author_role,created_at")
+      .eq("product_id",product.id).eq("lesson_id",lesson.id)
+      .order("created_at",{ ascending:true });
+    setLista(error ? [] : (data||[]));
+    setCarreg(false);
+  };
+  useEffect(()=>{ setCarreg(true); setTexto(""); setResp(null); setErro(""); carregar(); },[product.id, lesson.id]);
+
+  const enviar = async () => {
+    const corpo = texto.trim();
+    if(!corpo || enviando || !sb) return;
+    setEnviando(true); setErro("");
+    const { error } = await sb.from("lesson_comments")
+      .insert({ product_id:product.id, lesson_id:lesson.id, body:corpo, parent_id:respondendo });
+    setEnviando(false);
+    if(error){ setErro("Não foi possível enviar o comentário. Tente novamente."); return; }
+    setTexto(""); setResp(null); carregar();
+  };
+
+  const apagar = async (id) => {
+    if(!window.confirm("Apagar este comentário? As respostas a ele também serão apagadas.")) return;
+    const { error } = await sb.from("lesson_comments").delete().eq("id",id);
+    if(error) setErro("Não foi possível apagar."); else carregar();
+  };
+
+  const raizes = lista.filter(c=>!c.parent_id);
+  const respostas = (id) => lista.filter(c=>c.parent_id===id);
+  const podeApagar = (c) => user && (c.member_id===user.id || user.role==="admin");
+  const alvo = lista.find(c=>c.id===respondendo);
+
+  const Item = ({ c, aninhado }) => (
+    <div style={{ display:"flex", gap:11, marginBottom:16, marginLeft:aninhado?44:0 }}>
+      <div style={{ width:34, height:34, borderRadius:"50%", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center",
+        background:c.author_role==="admin"?"var(--gold)":"var(--gold-muted)", color:"#F7F3EC", fontSize:11, fontWeight:500 }}>
+        {iniciais(c.author_name)}
+      </div>
+      <div style={{ minWidth:0, flex:1 }}>
+        <div style={{ display:"flex", alignItems:"baseline", gap:9, flexWrap:"wrap", marginBottom:3 }}>
+          <b style={{ fontSize:13.5, fontWeight:500, color:"var(--text)" }}>{c.author_name || "Aluna"}</b>
+          {c.author_role==="admin" && (
+            <span style={{ fontSize:9, letterSpacing:"0.16em", textTransform:"uppercase", fontWeight:600,
+              color:"var(--gold)", border:"1px solid var(--gold-muted)", borderRadius:20, padding:"2px 8px" }}>Autora</span>
+          )}
+          <time style={{ fontSize:11.5, color:"var(--text-muted)" }}>{tempoAtras(c.created_at)}</time>
+        </div>
+        <p style={{ fontSize:14, color:"var(--text-secondary)", lineHeight:1.6, whiteSpace:"pre-wrap", margin:"0 0 5px" }}>{c.body}</p>
+        <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+          {!aninhado && (
+            <button onClick={()=>{ setResp(c.id); setErro(""); }}
+              style={{ background:"none", border:"none", padding:0, cursor:"pointer", fontFamily:"var(--font-sans)",
+                fontSize:12, fontWeight:500, color:"var(--gold-muted)" }}>Responder</button>
+          )}
+          {podeApagar(c) && (
+            <button onClick={()=>apagar(c.id)} title="Apagar comentário"
+              style={{ background:"none", border:"none", padding:0, cursor:"pointer", fontFamily:"var(--font-sans)",
+                fontSize:12, color:"var(--text-muted)" }}
+              onMouseEnter={e=>e.currentTarget.style.color="var(--danger)"}
+              onMouseLeave={e=>e.currentTarget.style.color="var(--text-muted)"}>Apagar</button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{ marginTop:32, borderTop:"1px solid var(--border)", paddingTop:24 }}>
+      <h3 style={{ fontFamily:"var(--font-sans)", fontSize:15, fontWeight:500, color:"var(--text)", marginBottom:18 }}>
+        Comentários {lista.length>0 && <span style={{ color:"var(--gold-muted)" }}>{lista.length}</span>}
+      </h3>
+
+      {respondendo && (
+        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8, fontSize:12, color:"var(--text-muted)" }}>
+          <Icon name="reply" size={12} color="var(--gold-muted)"/>
+          Respondendo a <b style={{ fontWeight:500, color:"var(--text-secondary)" }}>{primeiroNome(alvo?.author_name)}</b>
+          <button onClick={()=>setResp(null)} style={{ background:"none", border:"none", cursor:"pointer", color:"var(--gold-muted)", fontSize:12, fontFamily:"var(--font-sans)", padding:0 }}>cancelar</button>
+        </div>
+      )}
+
+      <div style={{ display:"flex", gap:11, alignItems:"flex-start", marginBottom:24 }}>
+        <div style={{ width:34, height:34, borderRadius:"50%", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center",
+          background:"var(--gold-dim)", border:"1px solid var(--gold-muted)", color:"var(--gold-muted)", fontSize:11, fontWeight:600 }}>
+          {iniciais(user?.name)}
+        </div>
+        <textarea value={texto} onChange={e=>setTexto(e.target.value)} rows={2} maxLength={2000}
+          placeholder={respondendo?"Escreva a sua resposta...":"Escreva o seu comentário..."}
+          style={{ flex:1, minWidth:0, resize:"vertical", background:"var(--card)", border:"1px solid var(--border)",
+            borderRadius:"var(--radius)", padding:"11px 13px", color:"var(--text)", fontSize:14, lineHeight:1.5,
+            fontFamily:"var(--font-sans)", outline:"none" }}
+          onFocus={e=>e.target.style.borderColor="var(--gold-muted)"} onBlur={e=>e.target.style.borderColor="var(--border)"}/>
+        <button onClick={enviar} disabled={!texto.trim()||enviando}
+          style={{ flexShrink:0, background:"var(--gold-muted)", color:"#F7F3EC", border:"none", borderRadius:"var(--radius)",
+            padding:"11px 18px", fontFamily:"var(--font-sans)", fontSize:13, fontWeight:500,
+            cursor:(!texto.trim()||enviando)?"not-allowed":"pointer", opacity:(!texto.trim()||enviando)?0.5:1 }}>
+          {enviando?"Enviando...":"Comentar"}
+        </button>
+      </div>
+
+      {erro && <p style={{ fontSize:12.5, color:"var(--danger)", marginBottom:14 }}>{erro}</p>}
+
+      {carregando
+        ? <p style={{ fontSize:13, color:"var(--text-muted)" }}>Carregando comentários...</p>
+        : lista.length===0
+          ? <p style={{ fontSize:13.5, color:"var(--text-muted)" }}>Nenhum comentário ainda. Escreva o primeiro.</p>
+          : raizes.map(c=>(
+              <div key={c.id}>
+                <Item c={c}/>
+                {respostas(c.id).map(r=><Item key={r.id} c={r} aninhado/>)}
+              </div>
+            ))
+      }
+    </div>
+  );
+};
+
+const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatched, user }) => {
   const [tab,setTab] = useState("desc");
   useEffect(()=>{ setTab("desc"); },[lesson.id]);
   const materials = lesson.materials||[];
@@ -1057,10 +1242,17 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatche
             </div>
           )}
           <div style={{ maxWidth:700 }}>
-            <div style={{ fontFamily:"var(--font-label)", fontSize:10.5, fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--gold-muted)", marginBottom:7 }}>
-              {mod?.title}
+            <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:18, flexWrap:"wrap", marginBottom:16 }}>
+              <div style={{ minWidth:0 }}>
+                <div style={{ fontFamily:"var(--font-label)", fontSize:10.5, fontWeight:600, letterSpacing:"0.22em", textTransform:"uppercase", color:"var(--gold-muted)", marginBottom:7 }}>
+                  {mod?.title}
+                </div>
+                <h2 style={{ fontFamily:"var(--font-display)", fontWeight:400, fontSize:24, lineHeight:1.16, color:"var(--text)", letterSpacing:"-0.01em" }}>{lesson.title}</h2>
+              </div>
+              <div style={{ flexShrink:0, paddingTop:6 }}>
+                <Estrelas product={product} lesson={lesson} user={user}/>
+              </div>
             </div>
-            <h2 style={{ fontFamily:"var(--font-display)", fontWeight:400, fontSize:24, lineHeight:1.16, color:"var(--text)", marginBottom:16, letterSpacing:"-0.01em" }}>{lesson.title}</h2>
             <div style={{ display:"flex", borderBottom:"1px solid var(--border)", marginBottom:18 }}>
               {[["desc","Descrição",0],["mat","Materiais",materials.length]].map(([id,label,count])=>(
                 <button key={id} onClick={()=>setTab(id)}
@@ -1102,6 +1294,7 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatche
                     })}
                   </div>
             )}
+            <Comentarios product={product} lesson={lesson} user={user}/>
           </div>
         </div>
         <div className="jk-lesson-side" style={{ width:292,flexShrink:0,borderLeft:"1px solid var(--border)",background:"var(--card)",overflowY:"auto" }}>
@@ -1180,6 +1373,92 @@ const PwInp = ({ph, val, set}) => (
     style={{ width:"100%",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:"var(--radius)",padding:"9px 12px",color:"var(--text)",fontSize:13,outline:"none",marginBottom:10 }}
     onFocus={e=>e.target.style.borderColor="var(--gold-muted)"} onBlur={e=>e.target.style.borderColor="var(--border)"} />
 );
+
+// ─── ADMIN · AVALIAÇÕES POR AULA ─────────────────────────────
+const Avaliacoes = ({ products }) => {
+  const [notas,setNotas] = useState([]);
+  const [coments,setComents] = useState([]);
+  const [carregando,setCarreg] = useState(true);
+
+  useEffect(()=>{
+    let vivo = true;
+    (async ()=>{
+      if(!sb){ setCarreg(false); return; }
+      const [{data:n},{data:c}] = await Promise.all([
+        sb.from("lesson_ratings").select("product_id,lesson_id,stars"),
+        sb.from("lesson_comments").select("product_id,lesson_id"),
+      ]);
+      if(!vivo) return;
+      setNotas(n||[]); setComents(c||[]); setCarreg(false);
+    })();
+    return ()=>{ vivo = false; };
+  },[]);
+
+  const num = (v) => v.toLocaleString("pt-BR",{ minimumFractionDigits:1, maximumFractionDigits:1 });
+
+  const linhas = (products||[]).map(p=>{
+    const aulas = (p.modules||[]).flatMap(m=>(m.lessons||[]).map(l=>{
+      const ns = notas.filter(x=>x.product_id===p.id && String(x.lesson_id)===String(l.id));
+      const cs = coments.filter(x=>x.product_id===p.id && String(x.lesson_id)===String(l.id));
+      const media = ns.length ? ns.reduce((s,x)=>s+x.stars,0)/ns.length : null;
+      return { id:l.id, titulo:l.title, modulo:m.title, media, qtd:ns.length, coment:cs.length };
+    })).filter(a=>a.qtd>0 || a.coment>0);
+    const todas = aulas.filter(a=>a.media!==null);
+    const geral = todas.length ? todas.reduce((s,a)=>s+a.media*a.qtd,0)/todas.reduce((s,a)=>s+a.qtd,0) : null;
+    return { produto:p, aulas, geral };
+  }).filter(x=>x.aulas.length>0);
+
+  if(carregando) return <div style={{ padding:"30px 0", color:"var(--text-muted)", fontSize:13 }}>Carregando avaliações...</div>;
+
+  if(linhas.length===0) return (
+    <div style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", padding:"44px 24px", textAlign:"center" }}>
+      <Icon name="star" size={26} color="var(--border-light)"/>
+      <p style={{ marginTop:14, fontSize:14, color:"var(--text-secondary)" }}>Nenhuma aula avaliada ou comentada ainda.</p>
+      <p style={{ marginTop:6, fontSize:12.5, color:"var(--text-muted)" }}>Assim que as alunas começarem, a média de cada aula aparece aqui.</p>
+    </div>
+  );
+
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+      {linhas.map(({produto,aulas,geral})=>(
+        <div key={produto.id} style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius-lg)", overflow:"hidden" }}>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:14, padding:"14px 18px", borderBottom:"1px solid var(--border)" }}>
+            <div style={{ minWidth:0 }}>
+              <div style={{ fontSize:14, fontWeight:500, color:"var(--text)" }}>{produto.title}</div>
+              <div style={{ fontSize:11.5, color:"var(--text-muted)", marginTop:1 }}>{aulas.length} {aulas.length===1?"aula com retorno":"aulas com retorno"}</div>
+            </div>
+            {geral!==null && (
+              <div style={{ textAlign:"right", flexShrink:0 }}>
+                <div style={{ fontFamily:"var(--font-display)", fontSize:22, color:"var(--gold)", lineHeight:1 }}>{num(geral)}</div>
+                <div style={{ fontSize:10.5, color:"var(--text-muted)", marginTop:3 }}>média geral</div>
+              </div>
+            )}
+          </div>
+          {aulas.map(a=>(
+            <div key={a.id} style={{ display:"flex", alignItems:"center", gap:14, padding:"11px 18px", borderBottom:"1px solid var(--border)" }}>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontSize:13, color:"var(--text)", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{a.titulo}</div>
+                <div style={{ fontSize:11, color:"var(--text-muted)", marginTop:1 }}>{a.modulo}</div>
+              </div>
+              <div style={{ display:"flex", gap:1.5, flexShrink:0 }}>
+                {[1,2,3,4,5].map(n=>(
+                  <Icon key={n} name={a.media!==null && n<=Math.round(a.media)?"star":"starO"} size={12}
+                        color={a.media!==null && n<=Math.round(a.media)?"var(--gold)":"rgba(162,123,91,0.30)"}/>
+                ))}
+              </div>
+              <div style={{ width:96, textAlign:"right", flexShrink:0, fontSize:12, color:"var(--text-secondary)" }}>
+                {a.qtd>0 ? <><b style={{ fontWeight:500, color:"var(--text)" }}>{num(a.media)}</b> · {a.qtd} {a.qtd===1?"nota":"notas"}</> : <span style={{ color:"var(--text-muted)" }}>sem nota</span>}
+              </div>
+              <div style={{ width:104, textAlign:"right", flexShrink:0, fontSize:12, color:a.coment>0?"var(--gold-muted)":"var(--text-muted)" }}>
+                {a.coment} {a.coment===1?"comentário":"comentários"}
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 // ─── ADMIN ───────────────────────────────────────────────────
 const Admin = ({ products:initProds, onProductsUpdate }) => {
@@ -1392,9 +1671,11 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
             <h1 style={{ fontFamily:"var(--font-display)", fontSize:"clamp(1.6rem,3vw,2.2rem)", color:"var(--text)", fontWeight:400 }}>Painel Admin</h1>
             <div style={{ width:36, height:"1.5px", background:"var(--gold)", opacity:0.50, borderRadius:1, marginTop:10 }}/>
           </div>
-          <Btn gold onClick={()=>tab==="members"?setModal(true):openNewProduct()}>
-            <Icon name="plus" size={14} color="#2C3639"/>{tab==="members"?"Novo membro":"Novo produto"}
-          </Btn>
+          {tab!=="ratings" && (
+            <Btn gold onClick={()=>tab==="members"?setModal(true):openNewProduct()}>
+              <Icon name="plus" size={14} color="#2C3639"/>{tab==="members"?"Novo membro":"Novo produto"}
+            </Btn>
+          )}
         </div>
 
         <div style={{ display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:22 }}>
@@ -1410,7 +1691,7 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
         </div>
 
         <div style={{ display:"flex",gap:2,marginBottom:18,background:"var(--card)",borderRadius:"var(--radius)",padding:4,width:"fit-content",border:"1px solid var(--border)" }}>
-          {[["members","Membros","users"],["products","Produtos","book"]].map(([id,label,icon])=>(
+          {[["members","Membros","users"],["products","Produtos","book"],["ratings","Avaliações","star"]].map(([id,label,icon])=>(
             <button key={id} onClick={()=>setTab(id)} style={{ display:"flex",alignItems:"center",gap:7,padding:"7px 16px",borderRadius:6,border:"none",background:tab===id?"var(--gold)":"none",color:tab===id?"#2C3639":"var(--text-muted)",fontSize:13,fontWeight:tab===id?600:400,cursor:"pointer",fontFamily:"var(--font-sans)",transition:"all var(--transition)" }}>
               <Icon name={icon} size={13} color="currentColor"/>{label}
             </button>
@@ -1502,6 +1783,8 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
             )}
           </div>
         )}
+
+        {tab==="ratings" && <Avaliacoes products={products}/>}
 
         {tab==="products" && (
           <div style={{ display:"flex",flexDirection:"column",gap:10 }}>
@@ -1994,7 +2277,7 @@ const App = () => {
       <Sidebar user={user} view={view} onNav={navAndClose} onLogout={handleLogout} onShowSetup={()=>setShowSetup(true)} theme={theme} onToggleTheme={handleToggleTheme} open={navOpen}/>
       {view==="dashboard"&&<Dashboard user={user} products={products} availableProducts={availableProducts} onOpen={handleOpenProduct} onPurchase={handlePurchase}/>}
       {view==="product"&&activeProduct&&<ProductView product={activeProduct} onBack={()=>handleNav("dashboard")} onLesson={handleOpenLesson}/>}
-      {view==="lesson"&&activeLesson&&<LessonView product={activeProduct} module={activeModule} lesson={activeLesson} onBack={()=>setView("product")} onNav={handleNavLesson} onToggleWatched={handleToggleWatched}/>}
+      {view==="lesson"&&activeLesson&&<LessonView product={activeProduct} module={activeModule} lesson={activeLesson} onBack={()=>setView("product")} onNav={handleNavLesson} onToggleWatched={handleToggleWatched} user={user}/>}
       {view==="account"&&<Account user={user}/>}
       {view==="help"&&<Help/>}
       {view==="admin"&&user.role==="admin"&&<Admin products={products.length?products:DEMO_PRODUCTS} onProductsUpdate={updated=>setSession(s=>({...s,products:updated}))}/>}
