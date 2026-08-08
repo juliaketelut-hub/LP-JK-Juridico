@@ -19,6 +19,7 @@
       --text-meta:    rgba(42,33,24,0.70);
       --text-faint:   rgba(42,33,24,0.52);
       --creme:        #A27B5B;
+      --creme-txt:    #7D5B40;
       --creme-soft:   rgba(162,123,91,0.12);
       --creme-border: rgba(162,123,91,0.30);
       --verde:        #27AE60;
@@ -417,10 +418,23 @@
     .depo-role { font-size: 0.72rem; color: var(--text-faint); margin-top: 0.1rem; }
 
     .pub-card-mini {
+      display: block;
       border: 1px solid var(--creme-border);
       border-radius: 3px;
       padding: 1.3rem;
       background: var(--creme-soft);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.25s ease;
+    }
+    a.pub-card-mini:hover,
+    a.pub-card-mini:focus-visible { border-color: var(--creme); }
+    .pub-mini-link {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: var(--creme-txt);
+      margin-top: 0.75rem;
     }
     .pub-mini-label {
       font-family: 'Jost', sans-serif;
@@ -890,11 +904,12 @@
       </div>
 
       <div class="prova-card">
-        <div class="pub-card-mini">
+        <a class="pub-card-mini" href="https://doi.org/10.5281/zenodo.21854547" target="_blank" rel="noopener">
           <div class="pub-mini-label">Artigo Publicado — Pesquisadora Ativa</div>
           <div class="pub-mini-title">Cursos Online e Direitos Autorais: A Proteção Jurídica dos Conteúdos Digitais no Brasil</div>
           <div class="pub-mini-meta">Revista Essência Jurídica QUID · UniCV · 2025</div>
-        </div>
+          <div class="pub-mini-link">Ler o artigo →</div>
+        </a>
         <p style="font-size:0.83rem; color:var(--text-body); margin-top:1.1rem; line-height:1.72;">Quem cria o guia passou pelo mesmo processo que você. Sabe o que as bancas exigem na prática.</p>
       </div>
     </div>
