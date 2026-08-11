@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kit de Citação Jurídica ABNT — 43 casos resolvidos | JK Jurídico</title>
+  <meta name="description" content="Como citar lei, súmula e acórdão pela ABNT: 43 casos resolvidos, com a referência e a chamada no texto nos dois sistemas. Mais os modelos de TCC e artigo prontos, 36 leis já referenciadas e o checklist de entrega. R$ 37." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="canonical" href="https://meudocjuridico.pages.dev/kit-abnt.html" />
+
+  <!-- Previa ao compartilhar o link (WhatsApp, Instagram, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="JK Jurídico" />
+  <meta property="og:url" content="https://meudocjuridico.pages.dev/kit-abnt.html" />
+  <meta property="og:title" content="Como citar lei, súmula e acórdão pela ABNT — 43 casos resolvidos" />
+  <meta property="og:description" content="A ABNT trata documento jurídico em uma única seção, e nenhum modelo gratuito passa de citação direta, indireta e nota de rodapé. Este kit resolve os 43 casos que aparecem de verdade num trabalho de Direito." />
+  <meta property="og:image" content="https://meudocjuridico.pages.dev/og-jk.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Julia Ketelut, bacharel em Direito, com o Código Civil Interpretado" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Como citar lei, súmula e acórdão pela ABNT — 43 casos resolvidos" />
+  <meta name="twitter:description" content="43 casos resolvidos, modelos de TCC e artigo prontos, 36 leis já referenciadas e o checklist de entrega. R$ 37." />
+  <meta name="twitter:image" content="https://meudocjuridico.pages.dev/og-jk.jpg" />
+
+  <link rel="icon" type="image/png" href="favicon-jk.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="base.css" />
+  <style>
+    /* Alternância de fundos desta página */
+    #dor     { background: var(--bg); }
+    #dentro  { background: var(--surface); }
+    #amostra { background: var(--bg); }
+    #quem    { background: var(--surface); }
+    #preco   { background: var(--bg); }
+    #escopo  { background: var(--surface); }
+    #faq     { background: var(--bg); }
+
+    /* ── POR QUE EXISTE ── */
+    .dor-intro { max-width: 62ch; margin-bottom: 3rem; }
+
+    .lacunas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1px;
+      background: var(--border-m);
+      border: 1px solid var(--border-m);
+    }
+    .lacuna {
+      background: var(--bg);
+      padding: 1.5rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .lacuna-t {
+      font-family: 'Spectral', serif;
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .lacuna-q {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--vermelho);
+    }
+    .lacuna p { font-size: 0.85rem; color: var(--text-body); line-height: 1.55; }
+
+    .dor-fecho {
+      margin-top: 2.5rem;
+      padding: 1.4rem 1.6rem;
+      border: 1px solid var(--creme-border);
+      background: var(--creme-soft);
+      max-width: 66ch;
+    }
+    .dor-fecho p { font-size: 1rem; }
+
+    /* ── O QUE VEM DENTRO ── */
+    .pecas { display: flex; flex-direction: column; gap: 1px; background: var(--border-m); border: 1px solid var(--border-m); }
+    .peca {
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 44px 1fr 132px;
+      gap: 1.4rem;
+      align-items: start;
+      padding: 1.6rem 1.5rem;
+    }
+    .peca-n {
+      font-family: 'Spectral', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--creme-txt);
+      line-height: 1;
+    }
+    .peca-nome {
+      font-family: 'Spectral', serif;
+      font-size: 1.16rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      line-height: 1.25;
+    }
+    .peca p { font-size: 0.9rem; line-height: 1.65; color: var(--text-body); }
+    .peca-fmt {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text-meta);
+      text-align: right;
+      padding-top: 0.35rem;
+      line-height: 1.6;
+    }
+    .heroi {
+      display: inline-block;
+      margin-left: 0.5rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--creme-txt);
+      border: 1px solid var(--creme-border);
+      background: var(--creme-soft);
+      padding: 0.18rem 0.5rem;
+      vertical-align: 3px;
+    }
+
+    /* ── AMOSTRA ── */
+    .casos { display: flex; flex-direction: column; gap: 1.6rem; }
+    .caso { border: 1px solid var(--border-m); background: var(--surface); }
+    .caso-cab {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-m);
+      background: var(--bg);
+    }
+    .caso-nome { font-family: 'Spectral', serif; font-size: 1.06rem; font-weight: 600; color: var(--text); }
+    .caso-norma { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-meta); font-weight: 600; }
+    .caso-corpo { padding: 1.4rem 1.5rem; display: flex; flex-direction: column; gap: 1.1rem; }
+    .campo-rot {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--creme-txt);
+      margin-bottom: 0.4rem;
+    }
+    /* a referência traz endereço e número de processo longos: sem isto, eles
+       vazam a tela no celular sem que a caixa cresça */
+    .campo-txt { font-size: 0.9rem; line-height: 1.7; color: var(--text-body); overflow-wrap: break-word; }
+    .campo-txt em { font-style: italic; }
+    .caso-erro {
+      border-left: 2px solid var(--vermelho);
+      padding: 0.9rem 1.1rem;
+      background: rgba(192,57,43,0.05);
+      font-size: 0.87rem;
+      line-height: 1.65;
+      color: var(--text-body);
+      overflow-wrap: break-word;
+    }
+    .caso-erro strong { color: var(--vermelho); font-weight: 600; }
+    .caso-erro code {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.83rem;
+      background: var(--bg);
+      border: 1px solid var(--border-m);
+      padding: 0.05rem 0.35rem;
+      margin-right: -0.18rem;   /* o padding abria um vão antes do ponto final */
+    }
+    .amostra-nota { margin-top: 2rem; font-size: 0.9rem; color: var(--text-meta); max-width: 66ch; }
+
+    /* ── PREÇO ── */
+    .oferta {
+      border: 1px solid var(--creme-border);
+      background: var(--surface);
+      max-width: 620px;
+      padding: 2.2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .oferta-preco {
+      font-family: 'Spectral', serif;
+      font-size: 3rem;
+      font-weight: 600;
+      color: var(--creme-txt);
+      line-height: 1;
+    }
+    .oferta-preco span { font-size: 0.95rem; font-weight: 400; color: var(--text-body); display: block; margin-top: 0.5rem; }
+    .oferta-lista { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .oferta-lista li { font-size: 0.92rem; line-height: 1.6; color: var(--text-body); padding-left: 1.3rem; position: relative; }
+    .oferta-lista li::before { content: '·'; position: absolute; left: 0.35rem; color: var(--creme-txt); font-weight: 700; }
+    .oferta-lista strong { color: var(--text); font-weight: 600; }
+    .entrega-nota {
+      border-top: 1px solid var(--border-m);
+      padding-top: 1.1rem;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--text-meta);
+    }
+    .entrega-nota strong { color: var(--text-body); font-weight: 600; }
+
+    @media (max-width: 720px) {
+      .peca { grid-template-columns: 34px 1fr; gap: 1rem; padding: 1.3rem 1.1rem; }
+      .peca-fmt { grid-column: 2; text-align: left; padding-top: 0; }
+      .oferta { padding: 1.6rem 1.3rem; }
+      .oferta-preco { font-size: 2.4rem; }
+      .caso-corpo, .caso-cab { padding-left: 1.1rem; padding-right: 1.1rem; }
+    }
+    @media (max-width: 620px) {
+      .lacunas { grid-template-columns: 1fr; }
+    }
+  </style>
+  <script>document.documentElement.className += ' anim';</script>
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1983967878986074');
+    fbq('track', 'PageView');
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest) return;
+      var c = e.target.closest('[data-comprar]');
+      if (c) { fbq('track', 'InitiateCheckout', { value: 37.00, currency: 'BRL', content_name: 'Kit de Citacao Juridica ABNT' }); return; }
+      var a = e.target.closest('a[href*="wa.me"]');
+      if (a) fbq('track', 'Contact');
+    });
+  </script>
+  <noscript><img height="1" width="1" style="display:none" alt=""
+    src="https://www.facebook.com/tr?id=1983967878986074&ev=PageView&noscript=1" /></noscript>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="monograma_jk-120.png" alt="JK Jurídico" class="nav-monogram" />
+    <span class="nav-logo-text">Jurídico</span>
+  </a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Todos os serviços</a>
+    <a href="https://loja.infinitepay.io/juliaketelut/deq9502-kit-de-citacao-juridica-abnt" class="nav-cta" data-comprar target="_blank" rel="noopener">Comprar · R$ 37</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Material digital · Kit de Citação Jurídica ABNT</div>
+    <h1>Como citar lei, súmula e acórdão pela ABNT</h1>
+    <div class="hero-lede">
+      <p>A norma de referências trata todo o documento jurídico em uma única seção, e os modelos gratuitos que circulam por aí param em citação direta, indireta e nota de rodapé. Nenhum deles diz o que fazer com um tema de repercussão geral, um enunciado de jornada ou um acórdão que corre em segredo de justiça.</p>
+      <span class="virada">São <em>43 casos resolvidos</em>, com a referência pronta e a chamada no texto nos dois sistemas.</span>
+    </div>
+    <div class="hero-actions">
+      <a href="https://loja.infinitepay.io/juliaketelut/deq9502-kit-de-citacao-juridica-abnt" class="btn-primary" data-comprar target="_blank" rel="noopener">Quero o kit por R$ 37</a>
+      <a href="#dentro" class="btn-ghost">Ver o que vem dentro</a>
+    </div>
+  </div>
+</header>
+
+<!-- ── POR QUE EXISTE ── -->
+<section id="dor">
+  <div class="container">
+    <div class="section-label">Por que este material existe</div>
+    <h2 class="section-title">O modelo genérico não chega no Direito</h2>
+    <div class="section-divider"></div>
+
+    <div class="dor-intro">
+      <p>Modelo de TCC formatado é fácil de achar e costuma ser gratuito. O problema aparece na primeira vez que você precisa citar a fonte com que o Direito trabalha todo dia, porque aí o modelo cala e a norma responde em uma linha só.</p>
+    </div>
+
+    <div class="lacunas">
+      <div class="lacuna">
+        <div class="lacuna-q">Erro nº 1</div>
+        <div class="lacuna-t">Inventar página em lei</div>
+        <p>A Constituição não tem página, e quem cita coloca <em>p. 1</em> assim mesmo. A norma manda indicar a localização como consta no documento: artigo, inciso, alínea.</p>
+      </div>
+      <div class="lacuna">
+        <div class="lacuna-q">Erro nº 2</div>
+        <div class="lacuna-t">Copiar o botão do tribunal</div>
+        <p>Quase todo tribunal tem um botão de "ementa pré-formatada para citação". Ele entrega o padrão da peça processual, que não é o padrão da universidade.</p>
+      </div>
+      <div class="lacuna">
+        <div class="lacuna-q">Erro nº 3</div>
+        <div class="lacuna-t">Abrir tudo com BRASIL</div>
+        <p>Acórdão do TJPR abre com <em>Paraná</em>, e enunciado de jornada abre com o Conselho da Justiça Federal. Errar aí é erro de natureza da fonte, não de formatação.</p>
+      </div>
+    </div>
+
+    <div class="dor-fecho">
+      <p>Há ainda um detalhe que denuncia o trabalho formatado por modelo velho: desde 2023 o sobrenome na chamada autor-data vai em <strong>maiúsculas e minúsculas</strong> — <em>(Silva, 2019)</em>, e não <em>(SILVA, 2019)</em>. Quase todo modelo que circula na internet ainda está na forma anterior. Este kit segue as edições vigentes: <strong>NBR 14724:2024</strong> e <strong>NBR 10520:2023</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── O QUE VEM DENTRO ── -->
+<section id="dentro">
+  <div class="container">
+    <div class="section-label">O que você recebe</div>
+    <h2 class="section-title">Cinco peças, e uma delas é o produto</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">A folha de citação é o motivo de este kit existir. O resto vem junto para você não precisar montar o trabalho em outro lugar.</p>
+
+    <div class="pecas">
+
+      <div class="peca">
+        <div class="peca-n">1</div>
+        <div>
+          <div class="peca-nome">Folha de Citação Jurídica<span class="heroi">o produto</span></div>
+          <p>Os 43 casos do Direito, um a um: lei, medida provisória, ato de conselho de classe, tratado, acórdão do STF e do STJ, tema de repercussão geral, súmula, voto vencido, enunciado de jornada, parecer, doutrina comentada. Cada caso traz a referência pronta, a chamada no texto em autor-data, a mesma chamada em nota de rodapé e o erro que aquele tipo de fonte costuma produzir.</p>
+        </div>
+        <div class="peca-fmt">PDF<br />35 folhas</div>
+      </div>
+
+      <div class="peca">
+        <div class="peca-n">2</div>
+        <div>
+          <div class="peca-nome">Modelos de trabalho</div>
+          <p>TCC e artigo científico, cada um em Arial e em Times New Roman. Com estilos nomeados de verdade: numeração 1 / 1.1 / 1.1.1 que se renumera sozinha, sumário que se atualiza no F9, capa que não conta folha e paginação começando na primeira folha do texto. Mudar uma regra é um clique, e o documento inteiro obedece.</p>
+        </div>
+        <div class="peca-fmt">4 arquivos<br />Word (.docx)</div>
+      </div>
+
+      <div class="peca">
+        <div class="peca-n">3</div>
+        <div>
+          <div class="peca-nome">Biblioteca de referências</div>
+          <p>36 diplomas de dez áreas já referenciados e conferidos na fonte oficial, do Código Civil ao Estatuto da Pessoa Idosa. Cada um aparece em duas versões, a de quem consultou o Diário Oficial e a de quem consultou online, porque são documentos diferentes. Você copia a linha e cola no seu trabalho, já no estilo dos modelos.</p>
+        </div>
+        <div class="peca-fmt">2 arquivos<br />Word (.docx)</div>
+      </div>
+
+      <div class="peca">
+        <div class="peca-n">4</div>
+        <div>
+          <div class="peca-nome">Guia de uso</div>
+          <p>O "comece por aqui": o que é cada arquivo, em que ordem usar e onde fica cada botão do Word, com as telas fotografadas. Por que a Introdução é a folha 11, o que fazer quando o manual da sua instituição pede diferente e como mudar um estilo sem reformatar quarenta páginas.</p>
+        </div>
+        <div class="peca-fmt">PDF<br />10 folhas</div>
+      </div>
+
+      <div class="peca">
+        <div class="peca-n">5</div>
+        <div>
+          <div class="peca-nome">Checklist de entrega</div>
+          <p>Uma folha para conferir com o trabalho pronto, antes de enviar. Vinte e dois itens que se respondem com sim ou não, cada um com a norma ao lado, e o que muda entre o TCC e o artigo vem marcado.</p>
+        </div>
+        <div class="peca-fmt">PDF<br />1 folha</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── AMOSTRA ── -->
+<section id="amostra">
+  <div class="container">
+    <div class="section-label">Amostra</div>
+    <h2 class="section-title">Três dos 43 casos, como eles aparecem</h2>
+    <div class="section-divider"></div>
+    <p class="narrow">Estes são recortes reais da folha de citação, sem adaptação para esta página. O formato se repete nos 43.</p>
+
+    <div class="casos">
+
+      <div class="caso">
+        <div class="caso-cab">
+          <span class="caso-nome">Caso 01 · Constituição Federal</span>
+          <span class="caso-norma">6023, 7.11.1 · 10520, 7.1.4</span>
+        </div>
+        <div class="caso-corpo">
+          <div>
+            <div class="campo-rot">Referência</div>
+            <div class="campo-txt">BRASIL. [Constituição (1988)]. <em>Constituição da República Federativa do Brasil de 1988</em>. Brasília, DF: Presidência da República, [2016]. Disponível em: https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm. Acesso em: 7 ago. 2026.</div>
+          </div>
+          <div>
+            <div class="campo-rot">No texto — autor-data</div>
+            <div class="campo-txt">“Todos são iguais perante a lei, sem distinção de qualquer natureza [...]” (Brasil, 1988, art. 5º, <em>caput</em>).</div>
+          </div>
+          <div class="caso-erro"><strong>Erro que este caso produz:</strong> a Constituição não tem página, e o aluno inventa uma. A norma manda indicar a localização como consta no documento — artigo, inciso, alínea. Nunca <code>p. 1</code>.</div>
+        </div>
+      </div>
+
+      <div class="caso">
+        <div class="caso-cab">
+          <span class="caso-nome">Caso 17 · Súmula vinculante do STF</span>
+          <span class="caso-norma">6023, 7.11.3</span>
+        </div>
+        <div class="caso-corpo">
+          <div>
+            <div class="campo-rot">Referência</div>
+            <div class="campo-txt">BRASIL. Supremo Tribunal Federal. <em>Súmula Vinculante n. 11</em>. Só é lícito o uso de algemas em casos de resistência e de fundado receio de fuga ou de perigo à integridade física própria ou alheia, por parte do preso ou de terceiros [...]. Diário da Justiça Eletrônico: n. 157, Brasília, DF, p. 1, 22 ago. 2008.</div>
+          </div>
+          <div>
+            <div class="campo-rot">No texto — autor-data</div>
+            <div class="campo-txt">O emprego de algemas depende de justificativa escrita e excepcional (Brasil, 2008, Súmula Vinculante 11).</div>
+          </div>
+          <div class="caso-erro"><strong>Erro que este caso produz:</strong> usar a data da sessão que aprovou o enunciado no lugar da data de publicação. A Súmula Vinculante 11 foi aprovada em 13 de agosto de 2008 e publicada em 22 — a chamada acompanha a fonte que você consultou.</div>
+        </div>
+      </div>
+
+      <div class="caso">
+        <div class="caso-cab">
+          <span class="caso-nome">Caso 21 · Acórdão de tribunal estadual</span>
+          <span class="caso-norma">6023, 7.11.3</span>
+        </div>
+        <div class="caso-corpo">
+          <div>
+            <div class="campo-rot">Referência</div>
+            <div class="campo-txt">PARANÁ. Tribunal de Justiça do Estado do Paraná (11. Câmara Cível). <em>Apelação Cível 0002492-04.2019.8.16.0187</em>. Apelação cível e recurso adesivo – Direito de família – União estável [...]. Contrato de namoro. Caracterização de namoro qualificado no segundo período [...]. Curitiba. Relator: Des. Sigurd Roberto Bengtsson, 30 de novembro de 2022. Publicado em 1º de dezembro de 2022. Decisão unânime.</div>
+          </div>
+          <div class="caso-erro"><strong>A armadilha deste caso:</strong> o buscador do TJPR tem um botão chamado "Ementa pré-formatada para citação", e ele devolve <code>(TJPR - 11ª Câmara Cível - 0002492-04.2019.8.16.0187 - Rel.: ...)</code>. Esse formato não está errado: ele está certo para outro uso, o de peça processual. Quem lê "para citação" cola no TCC e entrega o formato do processo no lugar do formato da universidade, convencido de ter copiado da fonte mais confiável possível.</div>
+          <div class="caso-erro"><strong>E ainda:</strong> a jurisdição aqui é o <strong>Paraná</strong>, não Brasil. Como todo feito de família, o processo corre em segredo de justiça, o que não impede citar — mas faz as partes saírem da referência, uma regra que a ABNT não prevê e o kit explica.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="amostra-nota">Os outros 40 seguem a mesma estrutura, e cobrem desde medida provisória e tratado internacional até <em>apud</em>, expressões latinas em nota de rodapé e documento sem data, sem local ou sem autor.</p>
+  </div>
+</section>
+
+<!-- ── QUEM ── -->
+<section id="quem">
+  <div class="container">
+    <div class="section-label">Quem escreveu</div>
+    <h2 class="section-title">Julia Ketelut</h2>
+    <div class="section-divider"></div>
+
+    <div class="quem-grid">
+      <picture>
+        <source type="image/webp" srcset="julia-sobre-480.webp 480w, julia-sobre-900.webp 900w" sizes="260px" />
+        <img src="julia-sobre-900.jpg" alt="Julia Ketelut, bacharel em Direito, em seu escritório"
+             class="quem-foto" width="900" height="1200" loading="lazy" decoding="async" />
+      </picture>
+      <div class="quem-texto">
+        <p>Bacharel em Direito e pesquisadora com publicação em periódico jurídico indexado. Trabalho com escrita e revisão acadêmica jurídica, Visual Law e formatação ABNT, atendendo alunos de todo o Brasil.</p>
+        <p>Conferir citação uma a uma é, literalmente, o meu ofício. Num único artigo, conferi <strong>84 notas de rodapé</strong> nas fontes originais. Este kit é o que eu uso: cada um dos 43 casos foi verificado no texto integral das normas e na fonte oficial de cada documento, e não em guia de faculdade nem em blog.</p>
+        <p>É por isso que ele resolve casos que nenhum modelo gratuito toca — eles nascem do trabalho real, com prazo em cima.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PREÇO ── -->
+<section id="preco">
+  <div class="container">
+    <div class="section-label">Investimento</div>
+    <h2 class="section-title">O kit completo</h2>
+    <div class="section-divider"></div>
+
+    <div class="oferta">
+      <div>
+        <div class="oferta-preco">R$ 37<span>preço de lançamento · depois passa a R$ 47</span></div>
+      </div>
+      <ul class="oferta-lista">
+        <li><strong>Folha de Citação Jurídica</strong> — 43 casos, PDF de 35 folhas</li>
+        <li><strong>Modelos de TCC e de artigo</strong> — 4 arquivos Word, em Arial e Times</li>
+        <li><strong>Biblioteca de referências</strong> — 36 diplomas prontos, 2 arquivos Word</li>
+        <li><strong>Guia de uso</strong> — PDF de 10 folhas, com as telas do Word</li>
+        <li><strong>Checklist de entrega</strong> — PDF de 1 folha</li>
+      </ul>
+      <div class="hero-actions">
+        <a href="https://loja.infinitepay.io/juliaketelut/deq9502-kit-de-citacao-juridica-abnt" class="btn-primary" data-comprar target="_blank" rel="noopener">Comprar o kit</a>
+        <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20o%20Kit%20de%20Cita%C3%A7%C3%A3o%20Jur%C3%ADdica%20ABNT." class="btn-ghost" target="_blank" rel="noopener">Tenho uma dúvida antes</a>
+      </div>
+      <div class="entrega-nota">
+        <strong>Como chega até você:</strong> os arquivos vão para o seu e-mail em <strong>até 24 horas após a compra</strong>. O envio é feito por mim, não por um robô — e é o meu e-mail que você tem para chamar se algum arquivo não abrir.<br /><br />
+        <strong>Licença:</strong> uso pessoal de quem comprou. A redistribuição e a revenda não estão autorizadas.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ESCOPO ── -->
+<section id="escopo">
+  <div class="container">
+    <div class="section-label">Transparência</div>
+    <h2 class="section-title">O que o kit não é</h2>
+    <div class="section-divider"></div>
+
+    <div class="escopo-box">
+      <h3>Ele formata e ensina a citar. Ele não escreve o seu trabalho.</h3>
+      <p>O kit entrega a estrutura pronta e resolve a citação. O texto, a pesquisa e o argumento continuam sendo seus — e é assim que tem que ser, porque é o seu nome na capa. Se o que você precisa é de alguém para escrever, revisar ou complementar o trabalho, isso é serviço, tem outro preço e a gente conversa pelo WhatsApp.</p>
+      <p>E um aviso que eu prefiro dar antes da compra: <strong>quando o manual da sua instituição conflitar com a ABNT, vale o manual da instituição</strong>. Nenhuma norma da ABNT se sobrepõe ao regulamento da sua faculdade. Os modelos foram feitos para serem ajustados em um clique quando isso acontecer, e o guia mostra onde.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label">Perguntas frequentes</div>
+    <h2 class="section-title">O que costumam me perguntar</h2>
+    <div class="section-divider"></div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Serve para o meu curso, ou só para Direito?</button>
+        <div class="faq-a"><p>Os modelos, o guia e o checklist valem para qualquer curso — são a NBR 14724 e as normas de apresentação, que regem todo trabalho acadêmico. A folha de citação é a parte especializada: ela resolve lei, jurisprudência, súmula, enunciado e parecer, que são as fontes com que o Direito trabalha todo dia. Fora do Direito, quem escreve sobre legislação cita exatamente as mesmas fontes, e para essas pessoas ela funciona igual.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Preciso saber mexer no Word?</button>
+        <div class="faq-a"><p>Precisa saber abrir o arquivo e digitar. O resto está no guia de uso, com as telas fotografadas e o caminho de cada botão. A parte que costuma assustar — sumário, numeração das seções, paginação que começa no meio do documento — já vem montada e funcionando; você escreve por cima.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Qual fonte eu escolho, Arial ou Times New Roman?</button>
+        <div class="faq-a"><p>A que a sua instituição pedir. A ABNT não manda usar nenhuma das duas: não há uma única menção a família tipográfica na NBR 14724, só o tamanho 12. Quem define é o manual do seu curso, e por isso o kit vem nas duas. Se o manual não disser nada, escolha a que preferir e não mude no meio.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">As normas mudam. O material vai ficar velho?</button>
+        <div class="faq-a"><p>O kit reflete as edições vigentes em agosto de 2026, inclusive a NBR 14724:2024, que cancelou a de 2011, e a NBR 10520:2023, que mudou a caixa do sobrenome na chamada autor-data. É justamente aí que a maioria dos modelos gratuitos está desatualizada. Se sair edição nova de alguma dessas normas <strong>dentro de doze meses da sua compra</strong>, você recebe a versão atualizada por e-mail, sem pagar de novo. Depois desse prazo os arquivos continuam seus para sempre; o que deixa de estar incluído é a revisão.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Posso pedir reembolso?</button>
+        <div class="faq-a"><p>Pode. É produto digital comprado à distância, então vale o direito de arrependimento em sete dias do Código de Defesa do Consumidor: você me escreve nesse prazo e eu devolvo o valor, sem precisar justificar.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Como recebo os arquivos?</button>
+        <div class="faq-a"><p>Por e-mail, no endereço que você usar na compra, em até 24 horas. O envio é manual, feito por mim, e na prática costuma sair bem antes disso. Se as 24 horas passarem e nada tiver chegado, me chame no WhatsApp que eu resolvo na hora.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA FINAL ── -->
+<section id="fechar" class="fechar">
+  <div class="container">
+    <div class="section-label">O próximo passo</div>
+    <h2 class="section-title">Pare de perder tempo formatando</h2>
+    <div class="section-divider"></div>
+    <p>Quarenta e três casos resolvidos, os modelos prontos e a conferência final numa folha. Por R$ 37, menos do que costuma custar a formatação de dez páginas.</p>
+    <div class="fechar-actions">
+      <a href="https://loja.infinitepay.io/juliaketelut/deq9502-kit-de-citacao-juridica-abnt" class="btn-primary" data-comprar target="_blank" rel="noopener">Quero o kit por R$ 37</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <img src="monograma_jk-120.png" alt="JK" class="footer-monogram" />
+    <div class="footer-logo">
+      JK Jurídico
+      <span>Escrita, Revisão e Formatação</span>
+    </div>
+  </div>
+  <div class="footer-text">
+    <div>© 2026 Julia Ketelut · Todos os direitos reservados</div>
+    <div style="margin-top:0.35rem">
+      <a href="index.html">Todos os serviços</a> &nbsp;·&nbsp;
+      <a href="membros.html">Área de Membros</a> &nbsp;·&nbsp;
+      <a href="mailto:juliaketelut.juridico@gmail.com">Contato</a>
+    </div>
+  </div>
+</footer>
+
+<script src="base.js"></script>
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
