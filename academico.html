@@ -200,7 +200,10 @@
     fbq('init', '1983967878986074');
     fbq('track', 'PageView');
     document.addEventListener('click', function (e) {
-      var a = e.target.closest ? e.target.closest('a[href*="wa.me"]') : null;
+      if (!e.target.closest) return;
+      var c = e.target.closest('[data-comprar]');
+      if (c) { fbq('track', 'InitiateCheckout', { value: 97.00, currency: 'BRL', content_name: 'Diagnostico de Artigo' }); return; }
+      var a = e.target.closest('a[href*="wa.me"]');
       if (a) fbq('track', 'Contact');
     });
   </script>
@@ -352,21 +355,21 @@
     <div class="section-label">Comece por aqui</div>
     <h2 class="section-title">Não sabe do que o seu texto precisa?</h2>
     <div class="section-divider"></div>
-    <p class="narrow">Antes de contratar revisão ou reescrita, descubra exatamente o que está faltando. É a forma mais barata de me conhecer — e de não pagar por um serviço maior do que você precisa.</p>
+    <p class="narrow">Antes de contratar revisão ou reescrita, descubra exatamente o que está faltando. É a forma mais barata de me conhecer — e de não pagar por um serviço maior do que você precisa. Serve também para quem usou inteligência artificial na pesquisa e quer saber, antes da banca, se as fontes citadas existem mesmo.</p>
 
     <div class="diag">
       <div>
         <h3 style="font-family:'Spectral',serif;font-size:1.3rem;color:var(--text);font-weight:600">Diagnóstico de Artigo</h3>
         <ul class="diag-itens">
-          <li><strong>Qualidade textual</strong> — coesão, argumentação e clareza, com score por dimensão</li>
-          <li><strong>Conformidade ABNT</strong> — verificação das NBR 6022 e 6023, com mapa de pendências</li>
-          <li><strong>Gaps metodológicos</strong> — as lacunas do trabalho, com recomendações priorizadas</li>
+          <li><strong>Fontes conferidas uma a uma</strong> — cada referência buscada na origem: confere, diverge ou não foi localizada</li>
+          <li><strong>Citação × referência</strong> — cruzamento nos dois sentidos, e a chamada no texto conferida contra o que a fonte diz</li>
+          <li><strong>ABNT e estrutura</strong> — NBR 10520 e 6023 e a norma do seu tipo de trabalho, com a ordem do que corrigir primeiro</li>
         </ul>
       </div>
       <div class="diag-preco">
         <div class="diag-valor">R$ 97</div>
         <div class="diag-prazo">Entrega em até 48h úteis</div>
-        <a href="membros.html" class="btn-primary" style="width:100%;justify-content:center">Solicitar diagnóstico</a>
+        <a href="https://loja.infinitepay.io/juliaketelut/nnw8266-diagnostico-de-artigo" class="btn-primary" data-comprar target="_blank" rel="noopener" style="width:100%;justify-content:center">Solicitar diagnóstico</a>
       </div>
     </div>
   </div>
