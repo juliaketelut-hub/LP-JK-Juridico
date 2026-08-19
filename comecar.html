@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Julia Ketelut — descubra o melhor caminho</title>
+<meta name="description" content="Responda 5 perguntas e descubra qual serviço resolve o seu trabalho jurídico ou acadêmico: revisão, formatação ABNT, Visual Law ou material para fazer sozinho.">
+<link rel="canonical" href="https://meudocjuridico.com.br/comecar">
+<meta property="og:title" content="Julia Ketelut — descubra o melhor caminho">
+<meta property="og:description" content="Responda 5 perguntas e receba a indicação certa para o seu trabalho.">
+<meta property="og:image" content="https://meudocjuridico.com.br/og-jk.jpg">
+<meta property="og:url" content="https://meudocjuridico.com.br/comecar">
+<link rel="icon" href="monograma_jk-120.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:           #F7F3EC;
+  --surface:      #EDE8DE;
+  --card:         #FDFAF5;
+  --nav:          #2A2118;
+  --text:         #2A2118;
+  --text-body:    rgba(42,33,24,0.82);
+  --text-meta:    rgba(42,33,24,0.70);
+  --text-faint:   rgba(42,33,24,0.52);
+  --au-lait:      #DCD7C9;
+  --creme:        #A27B5B;
+  --creme-txt:    #7D5B40;
+  --creme-esc:    #B08A67;
+  --creme-soft:   rgba(162,123,91,0.12);
+  --creme-border: rgba(162,123,91,0.30);
+  --verde:        #27AE60;
+  --verde-hover:  #2ECC71;
+  --vermelho:     #C0392B;
+  --border:       rgba(42,33,24,0.09);
+  --border-m:     rgba(42,33,24,0.13);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  background: var(--bg);
+  font-family: 'Jost', sans-serif;
+  color: var(--text-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- tela inicial ---------- */
+#view-welcome {
+  min-height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+#view-welcome::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(162,123,91,0.09) 0%, transparent 70%),
+    linear-gradient(rgba(162,123,91,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(162,123,91,0.04) 1px, transparent 1px);
+  background-size: auto, 80px 80px, 80px 80px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 40%, black 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 70% at 50% 40%, black 30%, transparent 100%);
+}
+.welcome-inner { position:relative; max-width: 420px; width:100%; animation: fadeUp .85s cubic-bezier(0.4,0,0.2,1) .1s both; }
+.brand-row {
+  display:flex; align-items:center; justify-content:center; gap:.55rem;
+  margin-bottom: 2.2rem;
+}
+.brand-row img { height: 26px; width:auto; }
+.brand-row span {
+  font-family:'Spectral', serif; font-size: .95rem;
+  color: var(--creme-txt); letter-spacing: .04em;
+}
+.avatar-ring {
+  width: 132px; height: 132px; margin: 0 auto 1.4rem;
+  border-radius: 50%; padding: 4px;
+  background: linear-gradient(135deg, var(--creme), #C4956A, var(--creme-txt));
+}
+.avatar-ring img {
+  width:100%; height:100%; border-radius:50%;
+  object-fit: cover; object-position: center 18%;
+  border: 3px solid var(--bg); display:block;
+}
+.profile-name {
+  font-family:'Spectral', serif; font-weight: 600;
+  font-size: 1.75rem; color: var(--text); letter-spacing:.01em;
+}
+.profile-role {
+  font-size:.68rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+  color: var(--creme-txt); margin:.4rem 0 1rem;
+}
+.profile-bio { font-size: 1.02rem; line-height:1.55; color: var(--text-body); }
+.profile-bio strong { color: var(--text); font-weight:600; }
+.start-card {
+  display:block; width:100%; margin-top:1.8rem; padding:1.15rem 1.4rem;
+  background: var(--verde); border:none; border-radius:3px;
+  cursor:pointer; text-align:left;
+  font-family:'Jost', sans-serif;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  box-shadow: 0 10px 30px rgba(39,174,96,0.22);
+}
+.start-card:hover { background: var(--verde-hover); transform: translateY(-2px); }
+.start-title { display:block; font-size:1.02rem; font-weight:600; color:#2A2118; }
+.start-sub { display:block; font-size:.85rem; color:rgba(42,33,24,0.75); margin-top:.2rem; }
+.welcome-perks {
+  display:flex; justify-content:center; gap:1.3rem; flex-wrap:wrap;
+  margin-top:1.5rem; font-size:.78rem; color:var(--text-meta);
+}
+.welcome-perks span::before { content:'✓ '; color: var(--creme-txt); }
+.welcome-foot {
+  position:relative; margin-top:2.6rem; font-size:.72rem; color:var(--text-faint);
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:none; } }
+
+/* ---------- chat ---------- */
+#view-chat {
+  display:none; position:fixed; inset:0; z-index:50;
+  background: var(--bg);
+  flex-direction: column;
+}
+#view-chat.aberto { display:flex; }
+.chat-shell {
+  width:100%; max-width: 560px; margin:0 auto; height:100%;
+  display:flex; flex-direction:column;
+  background: var(--bg);
+}
+@media (min-width: 600px) {
+  .chat-shell { border-left:1px solid var(--border); border-right:1px solid var(--border); }
+}
+.chat-header {
+  display:flex; align-items:center; gap:.75rem;
+  background: var(--nav); padding:.8rem 1rem;
+  border-bottom: 1px solid rgba(162,123,91,0.25);
+  flex-shrink:0;
+}
+.chat-header img { width:38px; height:38px; border-radius:50%; object-fit:cover; object-position: center 18%; border:2px solid var(--creme); }
+.chat-header .name { font-family:'Spectral', serif; font-size:.98rem; color:var(--au-lait); }
+.chat-header .status { font-size:.72rem; color:var(--creme-esc); display:flex; align-items:center; gap:.3rem; }
+.chat-header .status::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--verde); }
+.chat-close {
+  margin-left:auto; background:none; border:none; color:var(--au-lait);
+  font-size:1.05rem; cursor:pointer; padding:.4rem .6rem; opacity:.7;
+}
+.chat-close:hover { opacity:1; }
+.chat-body {
+  flex:1; overflow-y:auto; padding:1.2rem 1rem 1.6rem;
+  display:flex; flex-direction:column; gap:.55rem;
+}
+.msg { display:flex; gap:.5rem; align-items:flex-end; animation: msgIn .35s cubic-bezier(0.4,0,0.2,1) both; }
+.msg.bot { justify-content:flex-start; }
+.msg.user { justify-content:flex-end; }
+.msg .mini { width:26px; height:26px; border-radius:50%; object-fit:cover; object-position:center 18%; flex-shrink:0; }
+.bolha {
+  max-width:76%; padding:.7rem .95rem; border-radius:12px;
+  font-size:.94rem; line-height:1.5;
+}
+.msg.bot .bolha {
+  background: var(--surface); color: var(--text-body);
+  border-bottom-left-radius:5px; border:1px solid var(--border);
+}
+.msg.user .bolha {
+  background: var(--nav); color: var(--au-lait);
+  border-bottom-right-radius:5px;
+}
+@keyframes msgIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.digitando { display:inline-flex; gap:4px; padding:.35rem 0; }
+.digitando i {
+  width:6px; height:6px; border-radius:50%; background:var(--creme);
+  animation: pula 1s infinite;
+}
+.digitando i:nth-child(2){ animation-delay:.15s; }
+.digitando i:nth-child(3){ animation-delay:.3s; }
+@keyframes pula { 0%,60%,100%{ transform:none; opacity:.45; } 30%{ transform:translateY(-5px); opacity:1; } }
+
+.quick { display:flex; flex-direction:column; gap:.45rem; padding:.3rem 0 .3rem 2rem; animation: msgIn .35s both; }
+.quick button {
+  text-align:left; padding:.75rem 1rem;
+  background: var(--card); border:1px solid var(--border-m); border-radius:10px;
+  font-family:'Jost',sans-serif; font-size:.92rem; color:var(--text);
+  cursor:pointer; transition: border-color .2s, background .2s;
+}
+.quick button:hover { border-color: var(--creme); background: var(--creme-soft); }
+
+.entrada { display:flex; gap:.5rem; padding:.3rem 0 .3rem 2rem; animation: msgIn .35s both; }
+.entrada input {
+  flex:1; padding:.75rem 1rem;
+  background:var(--card); border:1px solid var(--border-m); border-radius:10px;
+  font-family:'Jost',sans-serif; font-size:.95rem; color:var(--text);
+}
+.entrada input:focus { outline:none; border-color: var(--creme); }
+.entrada button {
+  padding:.75rem 1.2rem; background: var(--nav); color: var(--au-lait);
+  border:none; border-radius:10px; font-family:'Jost',sans-serif;
+  font-size:.88rem; font-weight:500; cursor:pointer;
+}
+.entrada button:hover { background:#3D3126; }
+.aviso-lgpd { padding:0 0 0 2rem; font-size:.72rem; color:var(--text-faint); }
+
+/* ---------- resultado ---------- */
+.resultado { padding:.4rem 0 0 2rem; display:flex; flex-direction:column; gap:.8rem; animation: msgIn .4s both; }
+.res-card {
+  background: var(--card); border:1px solid var(--border-m);
+  border-radius:6px; padding:1.3rem 1.3rem 1.4rem;
+}
+.res-card.principal {
+  border:1px solid var(--creme-border);
+  box-shadow: 0 8px 32px rgba(42,33,24,0.10);
+  background: var(--card);
+}
+.res-badge {
+  display:inline-block; font-size:.62rem; font-weight:600;
+  letter-spacing:.18em; text-transform:uppercase;
+  color: var(--creme-txt); background: var(--creme-soft);
+  border:1px solid var(--creme-border);
+  padding:.3rem .7rem; border-radius:2px; margin-bottom:.75rem;
+}
+.res-nome { font-family:'Spectral',serif; font-size:1.3rem; font-weight:600; color:var(--text); }
+.res-preco { font-family:'Spectral',serif; font-size:.95rem; color:var(--creme-txt); margin-left:.4rem; }
+.res-tag { font-size:.92rem; color:var(--text-body); margin:.45rem 0 .2rem; line-height:1.5; }
+.res-quem { font-size:.8rem; color:var(--text-meta); }
+.res-cta {
+  display:block; width:100%; margin-top:1rem; padding:.95rem 1.2rem;
+  background: var(--verde); color:#2A2118; text-align:center;
+  border:none; border-radius:3px; text-decoration:none;
+  font-family:'Jost',sans-serif; font-size:.85rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; cursor:pointer;
+  transition: background .2s, transform .15s;
+}
+.res-cta:hover { background: var(--verde-hover); transform:translateY(-2px); }
+.res-card:not(.principal) .res-nome { font-size:1.05rem; }
+.res-cta.secundario {
+  background: var(--nav); color: var(--au-lait);
+  font-weight:600; letter-spacing:.08em;
+}
+.res-cta.secundario:hover { background:#3D3126; }
+.res-zap {
+  display:block; text-align:center; margin-top:.3rem; padding:.8rem;
+  font-size:.88rem; color:var(--creme-txt); text-decoration:none;
+}
+.res-zap:hover { text-decoration:underline; }
+.res-refazer {
+  background:none; border:none; font-family:'Jost',sans-serif;
+  font-size:.78rem; color:var(--text-faint); cursor:pointer;
+  padding:.5rem; text-decoration:underline;
+}
+</style>
+</head>
+<body>
+
+<main id="view-welcome">
+  <div class="welcome-inner">
+    <div class="brand-row">
+      <img src="monograma_jk-120.png" alt="JK">
+      <span>Meu Doc Jurídico</span>
+    </div>
+    <div class="avatar-ring"><img src="julia-sobre-480.webp" alt="Julia Ketelut"></div>
+    <h1 class="profile-name">Julia Ketelut</h1>
+    <div class="profile-role">Escrita acadêmica jurídica · Visual Law</div>
+    <p class="profile-bio">Responda <strong>5 perguntas</strong> e descubra o melhor caminho para o seu trabalho.</p>
+    <button class="start-card" id="start-chat">
+      <span class="start-title">Como eu posso te ajudar?</span>
+      <span class="start-sub">Vamos descobrir juntas o que resolve o seu caso</span>
+    </button>
+    <div class="welcome-perks">
+      <span>menos de 2 minutos</span>
+      <span>indicação na hora</span>
+      <span>100% grátis</span>
+    </div>
+  </div>
+  <div class="welcome-foot">Seus dados ficam só com a Julia e não são compartilhados.</div>
+</main>
+
+<div id="view-chat">
+  <div class="chat-shell">
+    <header class="chat-header">
+      <img src="julia-sobre-480.webp" alt="">
+      <div>
+        <div class="name">Julia Ketelut</div>
+        <div class="status">online</div>
+      </div>
+      <button class="chat-close" id="chat-close" aria-label="Fechar">✕</button>
+    </header>
+    <div class="chat-body" id="chat-body"></div>
+  </div>
+</div>
+
+<script>
+/* ---------- configuração ---------- */
+const SUPABASE_URL = 'https://ggmsslrsufbfrdpifbww.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_SyYfPTyy746tYO5u_gkNZg_wDZuitX7';
+const WHATSAPP = '5544991652729';
+
+function zap(texto) {
+  return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`;
+}
+
+/* ---------- catálogo ---------- */
+const PRODUCTS = {
+  kit_abnt: {
+    name: 'Kit de Citação Jurídica ABNT', preco: 'R$ 37',
+    tagline: 'Cite lei, doutrina e jurisprudência do jeito certo, sem decorar norma nenhuma.',
+    forWho: 'Para resolver sozinho(a), hoje.',
+    ctaText: 'Quero o kit', ctaUrl: '/kit-abnt',
+  },
+  diagnostico: {
+    name: 'Diagnóstico de Artigo', preco: 'R$ 97',
+    tagline: 'Seu texto conferido fonte por fonte, com relatório do que ajustar antes da entrega.',
+    forWho: 'Para quem já tem o texto pronto e quer segurança.',
+    ctaText: 'Quero o diagnóstico',
+    ctaUrl: zap('Oi, Julia! Fiz o quiz do seu site e quero o Diagnóstico de Artigo (R$ 97).'),
+  },
+  revisao: {
+    name: 'Revisão e Formatação', preco: '',
+    tagline: 'Seu trabalho revisado e formatado nas normas, pronto para entregar no prazo.',
+    forWho: 'Para quem quer entregar com segurança, sem virar noites com a ABNT.',
+    ctaText: 'Falar com a Julia',
+    ctaUrl: zap('Oi, Julia! Fiz o quiz do seu site e preciso de revisão e formatação do meu trabalho.'),
+  },
+  escrita: {
+    name: 'Apoio na Escrita Acadêmica', preco: '',
+    tagline: 'Estrutura, metodologia e texto lado a lado com uma pesquisadora publicada.',
+    forWho: 'Para artigo, TCC e publicação em revista.',
+    ctaText: 'Falar com a Julia',
+    ctaUrl: zap('Oi, Julia! Fiz o quiz do seu site e quero apoio na escrita do meu trabalho acadêmico.'),
+  },
+  visual_law: {
+    name: 'Visual Law', preco: '',
+    tagline: 'Petições com hierarquia visual que o juiz lê primeiro.',
+    forWho: 'Para advogados(as) que querem se diferenciar.',
+    ctaText: 'Conhecer o Visual Law', ctaUrl: '/visual-law',
+  },
+};
+
+/* ---------- perguntas ---------- */
+const QUESTIONS = [
+  { id:'objetivo', q:'O que te traz aqui hoje?', opts:[
+    { v:'tcc_apertado', l:'TCC ou artigo com prazo apertado' },
+    { v:'publicar',     l:'Quero publicar em revista científica' },
+    { v:'advogado',     l:'Sou advogado(a) e quero peças com mais impacto' },
+    { v:'so_formatar',  l:'Só preciso formatar e citar do jeito certo' },
+  ]},
+  { id:'etapa', q:'Em que pé está o seu material?', opts:[
+    { v:'nao_comecei', l:'Ainda não comecei a escrever' },
+    { v:'travado',     l:'Comecei, mas estou travado(a)' },
+    { v:'rascunho',    l:'Tenho um rascunho quase completo' },
+    { v:'pronto',      l:'Está pronto — falta revisar e conferir' },
+  ]},
+  { id:'aperto', q:'E qual é o maior aperto agora?', opts:[
+    { v:'prazo',       l:'O prazo está em cima' },
+    { v:'plagio',      l:'Medo de plágio ou da banca' },
+    { v:'metodologia', l:'Metodologia e fontes' },
+    { v:'normas',      l:'As normas ABNT me confundem' },
+    { v:'visual',      l:'Minhas peças não têm impacto visual' },
+  ]},
+  { id:'prazo', q:'Quanto tempo você tem?', opts:[
+    { v:'ate_1sem',  l:'Menos de 1 semana' },
+    { v:'ate_1mes',  l:'De 1 a 4 semanas' },
+    { v:'mais_1mes', l:'Mais de 1 mês' },
+    { v:'sem_prazo', l:'Sem prazo definido' },
+  ]},
+  { id:'preferencia', q:'Última: como você prefere resolver?', opts:[
+    { v:'sozinho',      l:'Eu mesmo(a), com um bom material de apoio' },
+    { v:'especialista', l:'Entregar para uma especialista cuidar' },
+    { v:'conversar',    l:'Quero conversar antes de decidir' },
+  ]},
+];
+
+/* ---------- pontuação ---------- */
+const SCORE_RULES = {
+  objetivo: {
+    tcc_apertado: { revisao:4, escrita:3 },
+    publicar:     { escrita:4, diagnostico:3 },
+    advogado:     { visual_law:8 },
+    so_formatar:  { kit_abnt:4, revisao:2 },
+  },
+  etapa: {
+    nao_comecei: { escrita:4 },
+    travado:     { escrita:4, revisao:1 },
+    rascunho:    { revisao:3, escrita:1 },
+    pronto:      { diagnostico:4, revisao:2, kit_abnt:1 },
+  },
+  aperto: {
+    prazo:       { revisao:3, escrita:2 },
+    plagio:      { diagnostico:4, revisao:1 },
+    metodologia: { escrita:3, diagnostico:2 },
+    normas:      { kit_abnt:4, revisao:2 },
+    visual:      { visual_law:6 },
+  },
+  prazo: {
+    ate_1sem:  { revisao:3, diagnostico:2, kit_abnt:1 },
+    ate_1mes:  { revisao:2, escrita:2 },
+    mais_1mes: { escrita:2 },
+    sem_prazo: { kit_abnt:1 },
+  },
+  preferencia: {
+    sozinho:      { kit_abnt:5, visual_law:1 },
+    especialista: { revisao:3, escrita:3, diagnostico:1 },
+    conversar:    { revisao:1, escrita:1, visual_law:1 },
+  },
+};
+
+function computeRecommendation(answers) {
+  const scores = {};
+  Object.keys(PRODUCTS).forEach(k => scores[k] = 0);
+  Object.keys(answers).forEach(qid => {
+    const rule = (SCORE_RULES[qid] || {})[answers[qid]] || {};
+    Object.keys(rule).forEach(p => { scores[p] += rule[p]; });
+  });
+  let ranked = Object.entries(scores).sort((a,b) => b[1]-a[1]).map(r => r[0]);
+  // Trava: quem quer resolver sozinho não recebe serviço completo como principal.
+  if (answers.preferencia === 'sozinho' && ['revisao','escrita'].includes(ranked[0])) {
+    const alvo = ranked.find(p => ['kit_abnt','diagnostico','visual_law'].includes(p));
+    if (alvo) ranked = [alvo, ...ranked.filter(p => p !== alvo)];
+  }
+  return { scores, primary: ranked[0], alternatives: ranked.slice(1,3) };
+}
+
+// A frase do porquê: cita o aperto que a pessoa mesma escolheu.
+const APERTO_FRASE = {
+  prazo:'com o prazo em cima', plagio:'com o medo da banca',
+  metodologia:'com a metodologia', normas:'com as normas ABNT',
+  visual:'com o impacto das suas peças',
+};
+function fraseMotivo(primary, answers) {
+  const aperto = APERTO_FRASE[answers.aperto] || 'com o seu momento';
+  return `Pelo que você respondeu, é o caminho que mais te ajuda ${aperto}.`;
+}
+
+/* ---------- origem ---------- */
+const urlParams = new URLSearchParams(location.search);
+const ORIGEM = {
+  origem: urlParams.get('from') || 'linkbio',
+  utm_source: urlParams.get('utm_source') || null,
+  utm_medium: urlParams.get('utm_medium') || null,
+  utm_campaign: urlParams.get('utm_campaign') || null,
+};
+
+/* ---------- estado ---------- */
+const state = {
+  answers:{}, contact:{ nome:'', whatsapp:'', email:'' }, recommendation:null,
+  // A página gera o identificador do lead: é ele que liga os cliques depois.
+  leadUid: (crypto.randomUUID ? crypto.randomUUID() : 'u-' + Date.now() + '-' + Math.random().toString(36).slice(2)),
+};
+const body = document.getElementById('chat-body');
+const viewChat = document.getElementById('view-chat');
+
+/* ---------- helpers ---------- */
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => (
+    { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+function scrollDown() { body.scrollTop = body.scrollHeight; }
+function addMsg(texto, who = 'bot') {
+  const el = document.createElement('div');
+  el.className = `msg ${who}`;
+  el.innerHTML = who === 'bot'
+    ? `<img class="mini" src="julia-sobre-480.webp" alt=""><div class="bolha">${texto}</div>`
+    : `<div class="bolha">${texto}</div>`;
+  body.appendChild(el);
+  scrollDown();
+}
+function addTyping(ms) {
+  return new Promise(res => {
+    const el = document.createElement('div');
+    el.className = 'msg bot';
+    el.innerHTML = `<img class="mini" src="julia-sobre-480.webp" alt="">
+      <div class="bolha"><span class="digitando"><i></i><i></i><i></i></span></div>`;
+    body.appendChild(el);
+    scrollDown();
+    setTimeout(() => { el.remove(); res(); }, ms);
+  });
+}
+function addQuickReplies(opts, onPick) {
+  const box = document.createElement('div');
+  box.className = 'quick';
+  opts.forEach(o => {
+    const b = document.createElement('button');
+    b.textContent = o.l;
+    b.onclick = () => { box.remove(); addMsg(esc(o.l), 'user'); onPick(o.v); };
+    box.appendChild(b);
+  });
+  body.appendChild(box);
+  scrollDown();
+}
+function addInput({ placeholder, type = 'text', nome = '', auto = 'on', validar, aviso }, onOk) {
+  const box = document.createElement('div');
+  box.className = 'entrada';
+  box.innerHTML = `<input type="${type}" name="${nome}" id="campo-${nome}" placeholder="${placeholder}" autocomplete="${auto}">
+    <button>Enviar</button>`;
+  const input = box.querySelector('input');
+  const btn = box.querySelector('button');
+  const tenta = () => {
+    const v = input.value.trim();
+    if (!validar(v)) { input.style.borderColor = 'var(--vermelho)'; addMsg(aviso); return; }
+    box.remove();
+    addMsg(esc(v), 'user');
+    onOk(v);
+  };
+  btn.onclick = tenta;
+  input.onkeydown = e => { if (e.key === 'Enter') tenta(); };
+  body.appendChild(box);
+  input.focus();
+  scrollDown();
+}
+
+/* ---------- banco ---------- */
+async function salvarLead() {
+  try {
+    // Sem Prefer: return=representation — devolver a linha exigiria policy de
+    // SELECT, e a tabela não tem nenhuma de propósito (ninguém lê os leads de fora).
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/jk_leads`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        uid: state.leadUid,
+        nome: state.contact.nome,
+        whatsapp: state.contact.whatsapp,
+        email: state.contact.email,
+        ...state.answers,
+        recomendado: state.recommendation.primary,
+        alternativas: state.recommendation.alternatives,
+        pontuacoes: state.recommendation.scores,
+        ...ORIGEM,
+        user_agent: navigator.userAgent,
+      }),
+    });
+    if (res.ok && typeof fbq === 'function') {
+      fbq('track', 'Lead', { content_category: state.recommendation.primary });
+    }
+  } catch (e) { console.warn('Lead não salvo:', e); } // nunca trava a pessoa
+}
+
+function registrarClique(destino) {
+  try {
+    const dados = JSON.stringify({ lead_uid: state.leadUid, destino });
+    fetch(`${SUPABASE_URL}/rest/v1/jk_leads_cliques`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: dados,
+      keepalive: true,
+    });
+  } catch (e) { /* clique perdido não é crítico */ }
+}
+
+/* ---------- resultado ---------- */
+function cardResultado(key, principal) {
+  const p = PRODUCTS[key];
+  const preco = p.preco ? `<span class="res-preco">${p.preco}</span>` : '';
+  return `
+    <div class="res-card ${principal ? 'principal' : ''}">
+      ${principal ? '<span class="res-badge">Recomendado para você</span>' : ''}
+      <div class="res-nome">${p.name}${preco}</div>
+      <p class="res-tag">${p.tagline}</p>
+      <p class="res-quem">${p.forWho}</p>
+      <a class="res-cta ${principal ? '' : 'secundario'}" href="${p.ctaUrl}"
+         ${p.ctaUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}
+         data-destino="${key}">${p.ctaText}</a>
+    </div>`;
+}
+function mostrarResultado() {
+  const r = state.recommendation;
+  const box = document.createElement('div');
+  box.className = 'resultado';
+  box.innerHTML = `
+    ${cardResultado(r.primary, true)}
+    ${r.alternatives.map(k => cardResultado(k, false)).join('')}
+    <a class="res-zap" href="${zap('Oi, Julia! Acabei de fazer o quiz do seu site e quero conversar.')}"
+       target="_blank" rel="noopener">Prefere conversar primeiro? Me chama no WhatsApp →</a>
+    <button class="res-refazer" onclick="location.reload()">Refazer o quiz</button>`;
+  box.querySelectorAll('[data-destino]').forEach(a => {
+    a.addEventListener('click', () => registrarClique(a.dataset.destino));
+  });
+  body.appendChild(box);
+  scrollDown();
+}
+
+/* ---------- fluxo ---------- */
+async function fluxo() {
+  await addTyping(700);
+  addMsg('Oi! Que bom ter você aqui. 🙂');
+  await addTyping(1000);
+  addMsg('Vou fazer <strong>5 perguntas rápidas</strong> para entender o seu momento e indicar o caminho certo.');
+
+  for (const q of QUESTIONS) {
+    await addTyping(800);
+    addMsg(q.q);
+    await new Promise(res => addQuickReplies(q.opts, v => { state.answers[q.id] = v; res(); }));
+  }
+
+  await addTyping(800);
+  addMsg('Perfeito! Para eu te mandar a indicação certinha: <strong>como posso te chamar?</strong>');
+  const lgpd = document.createElement('div');
+  lgpd.className = 'aviso-lgpd';
+  lgpd.textContent = 'Seus dados ficam só com a Julia e não são compartilhados.';
+  body.appendChild(lgpd);
+  await new Promise(res => addInput({
+    placeholder: 'Seu nome', nome: 'nome', auto: 'name',
+    validar: v => v.length >= 2,
+    aviso: 'Pode me dizer seu nome?',
+  }, v => { state.contact.nome = v; res(); }));
+
+  await addTyping(700);
+  addMsg(`Prazer, <strong>${esc(state.contact.nome.split(' ')[0])}</strong>! Qual o seu WhatsApp, com DDD?`);
+  await new Promise(res => addInput({
+    placeholder: '(44) 99999-9999', type: 'tel', nome: 'whatsapp', auto: 'tel-national',
+    validar: v => v.replace(/\D/g, '').length >= 10 && v.replace(/\D/g, '').length <= 13,
+    aviso: 'Confere o número para mim? Precisa do DDD junto.',
+  }, v => { state.contact.whatsapp = v; res(); }));
+
+  await addTyping(700);
+  addMsg('E o seu e-mail?');
+  await new Promise(res => addInput({
+    placeholder: 'voce@email.com', type: 'email', nome: 'email', auto: 'email',
+    validar: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+    aviso: 'Esse e-mail não parece completo. Confere para mim?',
+  }, v => { state.contact.email = v; res(); }));
+
+  state.recommendation = computeRecommendation(state.answers);
+  await addTyping(900);
+  addMsg('Analisando suas respostas...');
+  await Promise.all([salvarLead(), addTyping(1400)]);
+  addMsg(`Pronto! ${fraseMotivo(state.recommendation.primary, state.answers)}`);
+  mostrarResultado();
+}
+
+/* ---------- abrir/fechar ---------- */
+document.getElementById('start-chat').onclick = () => {
+  viewChat.classList.add('aberto');
+  if (!body.hasChildNodes()) fluxo();
+};
+document.getElementById('chat-close').onclick = () => viewChat.classList.remove('aberto');
+</script>
+
+<!-- Meta Pixel -->
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1983967878986074');
+  fbq('track', 'PageView');
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest) return;
+    var a = e.target.closest('a[href*="wa.me"]');
+    if (a) fbq('track', 'Contact');
+  });
+</script>
+<noscript><img height="1" width="1" style="display:none" alt=""
+  src="https://www.facebook.com/tr?id=1983967878986074&ev=PageView&noscript=1"></noscript>
+
+</body>
+</html>
