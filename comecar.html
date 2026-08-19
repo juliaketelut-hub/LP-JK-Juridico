@@ -343,6 +343,16 @@ const QUESTIONS = [
     { v:'advogado',     l:'Sou advogado(a) e quero peças com mais impacto' },
     { v:'so_formatar',  l:'Só preciso formatar e citar do jeito certo' },
   ]},
+  // Só para advogados (sugestão da 1ª usuária real, 19/08): qualifica o lead —
+  // quem não tem identidade precisa de mais que modelos. Não entra na pontuação.
+  { id:'identidade',
+    q:'Já que você é advogado(a): suas peças têm identidade visual definida — tipografia e paleta de cores?',
+    quando: a => a.objetivo === 'advogado',
+    opts:[
+      { v:'tenho_uso',        l:'Já tenho e uso nas peças' },
+      { v:'tenho_nao_aplico', l:'Tenho a da marca ou escritório, mas não aplico nas peças' },
+      { v:'nao_tenho',        l:'Ainda não tenho nada definido' },
+    ]},
   { id:'etapa', q:'Em que pé está o seu material?', opts:[
     { v:'nao_comecei', l:'Ainda não comecei a escrever' },
     { v:'travado',     l:'Comecei, mas estou travado(a)' },
@@ -592,6 +602,7 @@ async function fluxo() {
   addMsg('Vou fazer <strong>5 perguntas rápidas</strong> para entender o seu momento e indicar o caminho certo.');
 
   for (const q of QUESTIONS) {
+    if (q.quando && !q.quando(state.answers)) continue;
     await addTyping(800);
     addMsg(q.q);
     await new Promise(res => addQuickReplies(q.opts, v => { state.answers[q.id] = v; res(); }));
