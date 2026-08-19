@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raio-X das suas Petições — Julia Ketelut</title>
+<meta name="description" content="Responda 7 perguntas e receba um raio-x personalizado das suas peças: o que o juiz vê, o que ele pula e por onde começar com Visual Law. Grátis, com PDF.">
+<link rel="canonical" href="https://meudocjuridico.com.br/raio-x">
+<meta property="og:title" content="Raio-X das suas Petições — grátis, personalizado">
+<meta property="og:description" content="7 perguntas e a IA escreve um diagnóstico único das suas peças, na metodologia da Julia Ketelut.">
+<meta property="og:image" content="https://meudocjuridico.com.br/og-jk.jpg">
+<meta property="og:url" content="https://meudocjuridico.com.br/raio-x">
+<link rel="icon" href="monograma_jk-120.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+<style>
+:root {
+  --bg:           #F7F3EC;
+  --surface:      #EDE8DE;
+  --card:         #FDFAF5;
+  --nav:          #2A2118;
+  --text:         #2A2118;
+  --text-body:    rgba(42,33,24,0.82);
+  --text-meta:    rgba(42,33,24,0.70);
+  --text-faint:   rgba(42,33,24,0.52);
+  --au-lait:      #DCD7C9;
+  --creme:        #A27B5B;
+  --creme-txt:    #7D5B40;
+  --creme-btn:    #8A6649;
+  --creme-esc:    #B08A67;
+  --creme-soft:   rgba(162,123,91,0.12);
+  --creme-border: rgba(162,123,91,0.30);
+  --verde:        #27AE60;
+  --verde-hover:  #2ECC71;
+  --vermelho:     #C0392B;
+  --border:       rgba(42,33,24,0.09);
+  --border-m:     rgba(42,33,24,0.13);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { min-height:100%; }
+body {
+  background: var(--bg);
+  font-family: 'Jost', sans-serif;
+  color: var(--text-body);
+  -webkit-font-smoothing: antialiased;
+}
+.pagina {
+  max-width: 640px; margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  position: relative;
+}
+.fundo-hero {
+  position:fixed; inset:0; pointer-events:none; z-index:-1;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 10%, rgba(162,123,91,0.09) 0%, transparent 70%),
+    linear-gradient(rgba(162,123,91,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(162,123,91,0.04) 1px, transparent 1px);
+  background-size: auto, 80px 80px, 80px 80px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 30%, black 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 70% at 50% 30%, black 30%, transparent 100%);
+}
+.brand-row {
+  display:flex; align-items:center; justify-content:center; gap:.55rem;
+  margin-bottom: 2.4rem;
+}
+.brand-row img { height: 26px; width:auto; }
+.brand-row span { font-family:'Spectral', serif; font-size:.95rem; color: var(--creme-txt); letter-spacing:.04em; }
+
+/* ---------- hero ---------- */
+#tela-hero { text-align:center; animation: fadeUp .85s cubic-bezier(0.4,0,0.2,1) .1s both; }
+.hero-badge {
+  display:inline-block; font-size:.64rem; font-weight:600;
+  letter-spacing:.22em; text-transform:uppercase;
+  color: var(--creme-txt); background: var(--creme-soft);
+  border:1px solid var(--creme-border);
+  padding:.35rem .85rem; border-radius:2px; margin-bottom:1.2rem;
+}
+h1 {
+  font-family:'Spectral', serif; font-weight:600;
+  font-size: clamp(2rem, 6vw, 2.8rem); line-height:1.15;
+  color: var(--text); letter-spacing:.01em;
+}
+.hero-sub { font-size:1.05rem; line-height:1.6; margin:1.1rem auto 0; max-width:34rem; }
+.hero-sub strong { color: var(--text); font-weight:600; }
+.btn-verde {
+  display:inline-block; margin-top:1.8rem; padding:1rem 2.6rem;
+  background: var(--verde); color:#2A2118;
+  border:none; border-radius:3px; cursor:pointer; text-decoration:none;
+  font-family:'Jost',sans-serif; font-size:.9rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  transition: background .2s, transform .15s;
+  box-shadow: 0 10px 30px rgba(39,174,96,0.22);
+}
+.btn-verde:hover { background: var(--verde-hover); transform: translateY(-2px); }
+.hero-perks {
+  display:flex; justify-content:center; gap:1.3rem; flex-wrap:wrap;
+  margin-top:1.4rem; font-size:.78rem; color:var(--text-meta);
+}
+.hero-perks span::before { content:'✓ '; color: var(--creme-txt); }
+.hero-quem {
+  margin-top:3rem; display:flex; align-items:center; gap:1rem;
+  text-align:left; background: var(--card); border:1px solid var(--border);
+  border-radius:4px; padding:1.1rem 1.3rem;
+}
+.hero-quem img { width:58px; height:58px; border-radius:50%; object-fit:cover; object-position:center 18%; border:2px solid var(--creme); flex-shrink:0; }
+.hero-quem .q-nome { font-family:'Spectral',serif; font-weight:600; color:var(--text); font-size:.98rem; }
+.hero-quem .q-desc { font-size:.82rem; color:var(--text-meta); line-height:1.45; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:none; } }
+
+/* ---------- quiz ---------- */
+#tela-quiz { display:none; animation: fadeUp .5s both; }
+.progresso { margin-bottom:1.6rem; }
+.progresso-txt { font-size:.75rem; color:var(--text-meta); margin-bottom:.45rem; display:flex; justify-content:space-between; }
+.progresso-barra { height:4px; background: var(--surface); border-radius:2px; overflow:hidden; }
+.progresso-fill { height:100%; background: var(--creme); border-radius:2px; transition: width .35s cubic-bezier(0.4,0,0.2,1); }
+.pergunta-titulo {
+  font-family:'Spectral',serif; font-weight:600;
+  font-size:1.45rem; line-height:1.3; color:var(--text); margin-bottom:.4rem;
+}
+.pergunta-dica { font-size:.85rem; color:var(--text-meta); margin-bottom:1.2rem; }
+.opcoes { display:flex; flex-direction:column; gap:.55rem; }
+.opcao {
+  display:flex; align-items:center; gap:.75rem;
+  padding:.95rem 1.1rem; background:var(--card);
+  border:1px solid var(--border-m); border-radius:8px;
+  cursor:pointer; transition: border-color .15s, background .15s;
+  font-size:.95rem; color:var(--text);
+}
+.opcao:hover { border-color: var(--creme); background: var(--creme-soft); }
+.opcao.marcada { border-color: var(--creme); background: var(--creme-soft); }
+.opcao .bolinha {
+  width:18px; height:18px; border-radius:50%;
+  border:2px solid var(--border-m); flex-shrink:0; position:relative;
+  transition: border-color .15s;
+}
+.opcao.quadrada .bolinha { border-radius:4px; }
+.opcao.marcada .bolinha { border-color: var(--creme-txt); }
+.opcao.marcada .bolinha::after {
+  content:''; position:absolute; inset:3px; border-radius:50%;
+  background: var(--creme-txt);
+}
+.opcao.quadrada.marcada .bolinha::after { border-radius:1px; }
+textarea.livre, input.campo-txt {
+  width:100%; padding:.95rem 1.1rem;
+  background:var(--card); border:1px solid var(--border-m); border-radius:8px;
+  font-family:'Jost',sans-serif; font-size:.98rem; color:var(--text);
+  resize:vertical;
+}
+textarea.livre { min-height:110px; }
+textarea.livre:focus, input.campo-txt:focus { outline:none; border-color: var(--creme); }
+.campo-grupo { display:flex; flex-direction:column; gap:.8rem; }
+.campo-grupo label { font-size:.8rem; font-weight:500; color:var(--text-meta); margin-bottom:.25rem; display:block; }
+.aviso-lgpd { font-size:.74rem; color:var(--text-faint); margin-top:.9rem; }
+.quiz-botoes { display:flex; justify-content:space-between; align-items:center; margin-top:1.8rem; }
+.btn-voltar {
+  background:none; border:none; font-family:'Jost',sans-serif;
+  font-size:.85rem; color:var(--text-meta); cursor:pointer; padding:.6rem;
+}
+.btn-voltar:hover { color:var(--text); }
+.btn-proxima {
+  padding:.85rem 2.2rem; background: var(--nav); color: var(--au-lait);
+  border:none; border-radius:3px; cursor:pointer;
+  font-family:'Jost',sans-serif; font-size:.82rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase;
+  transition: background .2s;
+}
+.btn-proxima:hover { background:#3D3126; }
+.btn-proxima.final { background: var(--verde); color:#2A2118; font-weight:700; letter-spacing:.1em; }
+.btn-proxima.final:hover { background: var(--verde-hover); }
+.erro-campo { font-size:.8rem; color: var(--vermelho); margin-top:.6rem; display:none; }
+
+/* ---------- loading ---------- */
+#tela-loading { display:none; text-align:center; padding:4rem 0; animation: fadeUp .4s both; }
+.spinner {
+  width:52px; height:52px; margin:0 auto 1.6rem;
+  border:3px solid var(--surface); border-top-color: var(--creme);
+  border-radius:50%; animation: gira 1s linear infinite;
+}
+@keyframes gira { to { transform: rotate(360deg); } }
+.loading-titulo { font-family:'Spectral',serif; font-size:1.4rem; font-weight:600; color:var(--text); }
+.loading-passo { font-size:.92rem; color:var(--text-meta); margin-top:.8rem; min-height:1.4em; transition: opacity .3s; }
+
+/* ---------- resultado ---------- */
+#tela-resultado { display:none; animation: fadeUp .5s both; }
+.res-header { text-align:center; margin-bottom:2rem; }
+.res-header .hero-badge { margin-bottom:.9rem; }
+.res-header h2 { font-family:'Spectral',serif; font-weight:600; font-size:1.7rem; color:var(--text); line-height:1.2; }
+.res-secao {
+  background: var(--card); border:1px solid var(--border);
+  border-radius:6px; padding:1.5rem 1.5rem 1.6rem; margin-bottom:1rem;
+}
+.res-secao h3 {
+  font-family:'Spectral',serif; font-weight:600; font-size:1.12rem;
+  color: var(--creme-txt); margin-bottom:.7rem;
+  padding-bottom:.55rem; border-bottom:1px solid var(--border);
+}
+.res-secao .corpo { font-size:.95rem; line-height:1.65; color:var(--text-body); }
+.res-secao .corpo p { margin-bottom:.7rem; }
+.res-secao .corpo p:last-child { margin-bottom:0; }
+.res-secao .corpo ol, .res-secao .corpo ul { margin:.4rem 0 .7rem 1.3rem; }
+.res-secao .corpo li { margin-bottom:.45rem; }
+.res-secao .corpo strong { color: var(--text); }
+.res-acoes { display:flex; flex-direction:column; gap:.7rem; margin-top:1.6rem; }
+.btn-pdf {
+  padding:1rem 1.4rem; background: var(--creme-btn); color:#fff;
+  border:none; border-radius:3px; cursor:pointer; text-align:center;
+  font-family:'Jost',sans-serif; font-size:.85rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  transition: background .2s;
+}
+.btn-pdf:hover { background:#75563D; }
+.cta-mentoria {
+  background: var(--nav); border-radius:6px; padding:1.6rem;
+  margin-top:1.8rem; text-align:center;
+}
+.cta-mentoria .cm-titulo { font-family:'Spectral',serif; font-size:1.2rem; font-weight:600; color:var(--au-lait); }
+.cta-mentoria .cm-sub { font-size:.88rem; color: var(--creme-esc); margin:.5rem 0 1.1rem; line-height:1.5; }
+.cta-mentoria a.btn-verde { margin-top:0; box-shadow:none; }
+.link-zap { display:block; text-align:center; margin-top:1rem; font-size:.88rem; color:var(--creme-txt); text-decoration:none; }
+.link-zap:hover { text-decoration:underline; }
+
+/* ---------- erro ---------- */
+#tela-erro { display:none; text-align:center; padding:4rem 0; animation: fadeUp .4s both; }
+#tela-erro h2 { font-family:'Spectral',serif; font-size:1.5rem; font-weight:600; color:var(--text); margin-bottom:.6rem; }
+#tela-erro p { color:var(--text-meta); margin-bottom:1.4rem; }
+
+/* ---------- pdf (escondido) ---------- */
+#pdf-doc { position:absolute; left:-9999px; top:0; width:700px; background:#fff; }
+</style>
+</head>
+<body>
+<div class="fundo-hero"></div>
+<div class="pagina">
+  <div class="brand-row">
+    <img src="monograma_jk-120.png" alt="JK">
+    <span>Meu Doc Jurídico</span>
+  </div>
+
+  <!-- HERO -->
+  <section id="tela-hero">
+    <span class="hero-badge">Para advogados e advogadas · grátis</span>
+    <h1>Raio-X das suas Petições</h1>
+    <p class="hero-sub">Responda <strong>7 perguntas</strong> e receba um diagnóstico <strong>escrito na hora para o seu caso</strong>: o que o juiz vê nas suas peças, o que ele pula, e por onde começar com Visual Law.</p>
+    <button class="btn-verde" onclick="iniciarQuiz()">Começar meu raio-x</button>
+    <div class="hero-perks">
+      <span>menos de 5 minutos</span>
+      <span>resultado + PDF</span>
+      <span>100% grátis</span>
+    </div>
+    <div class="hero-quem">
+      <img src="julia-sobre-480.webp" alt="Julia Ketelut">
+      <div>
+        <div class="q-nome">Julia Ketelut</div>
+        <div class="q-desc">Especialista em Visual Law e escrita jurídica. O raio-x é gerado por IA na metodologia dela, único para as suas respostas.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="tela-quiz">
+    <div class="progresso">
+      <div class="progresso-txt"><span id="prog-label">pergunta 1 de 8</span><span id="prog-pct">0% concluído</span></div>
+      <div class="progresso-barra"><div class="progresso-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div id="quiz-corpo"></div>
+    <div class="erro-campo" id="erro-campo"></div>
+    <div class="quiz-botoes">
+      <button class="btn-voltar" id="btn-voltar" onclick="voltar()">← voltar</button>
+      <button class="btn-proxima" id="btn-proxima" onclick="proxima()">Próxima</button>
+    </div>
+  </section>
+
+  <!-- LOADING -->
+  <section id="tela-loading">
+    <div class="spinner"></div>
+    <div class="loading-titulo">Escrevendo o seu raio-x…</div>
+    <div class="loading-passo" id="loading-passo">lendo as suas respostas</div>
+  </section>
+
+  <!-- RESULTADO -->
+  <section id="tela-resultado">
+    <div class="res-header">
+      <span class="hero-badge">Seu raio-x está pronto</span>
+      <h2 id="res-titulo">Raio-X das Petições</h2>
+    </div>
+    <div id="res-secoes"></div>
+    <div class="res-acoes">
+      <button class="btn-pdf" onclick="baixarPDF()">Baixar meu raio-x em PDF</button>
+    </div>
+    <div class="cta-mentoria">
+      <div class="cm-titulo">Quer aplicar isso com acompanhamento?</div>
+      <div class="cm-sub">Na Mentoria de Visual Law, a Julia implementa a identidade visual das suas peças com você, do zero ao modelo pronto.</div>
+      <a class="btn-verde" href="/mentoria">Conhecer a mentoria</a>
+    </div>
+    <a class="link-zap" href="https://wa.me/5544991652729?text=Oi%2C%20Julia!%20Acabei%20de%20receber%20o%20meu%20Raio-X%20das%20Peti%C3%A7%C3%B5es%20e%20quero%20conversar." target="_blank" rel="noopener">Prefere conversar direto? Me chama no WhatsApp →</a>
+  </section>
+
+  <!-- ERRO -->
+  <section id="tela-erro">
+    <h2>Ops, deu um errinho.</h2>
+    <p>Não conseguimos gerar o seu raio-x agora. Suas respostas estão guardadas — é só tentar de novo.</p>
+    <button class="btn-verde" onclick="tentarDeNovo()">Tentar de novo</button>
+  </section>
+</div>
+
+<!-- documento do PDF (fora da tela) -->
+<div id="pdf-doc"></div>
+
+<script>
+/* ---------- configuração ---------- */
+const FUNCAO_URL = 'https://ggmsslrsufbfrdpifbww.supabase.co/functions/v1/raiox';
+
+const urlParams = new URLSearchParams(location.search);
+const ORIGEM = {
+  origem: urlParams.get('from') || 'raio-x',
+  utm_source: urlParams.get('utm_source') || null,
+  utm_medium: urlParams.get('utm_medium') || null,
+  utm_campaign: urlParams.get('utm_campaign') || null,
+};
+
+/* ---------- perguntas ---------- */
+const Q = [
+  { id:'area', tipo:'radio', titulo:'Qual é a sua área principal de atuação?', opts:[
+    { v:'civel', l:'Cível' }, { v:'familia', l:'Família e Sucessões' },
+    { v:'trabalhista', l:'Trabalhista' }, { v:'previdenciario', l:'Previdenciário' },
+    { v:'criminal', l:'Criminal' }, { v:'empresarial', l:'Empresarial / Tributário' },
+    { v:'consumidor', l:'Consumidor' }, { v:'outra', l:'Outra' },
+  ]},
+  { id:'producao', tipo:'radio', titulo:'Como as suas peças nascem hoje?', opts:[
+    { v:'word_puro', l:'Word puro, sem modelo definido' },
+    { v:'template_escritorio', l:'Uso um template do escritório' },
+    { v:'ja_tentei', l:'Já tentei aplicar Visual Law por conta própria' },
+  ]},
+  { id:'identidade', tipo:'radio', titulo:'Suas peças têm identidade visual definida — tipografia e paleta de cores?', opts:[
+    { v:'tenho_uso', l:'Já tenho e uso nas peças' },
+    { v:'tenho_nao_aplico', l:'Tenho a da marca ou escritório, mas não aplico nas peças' },
+    { v:'nao_tenho', l:'Ainda não tenho nada definido' },
+  ]},
+  { id:'incomodos', tipo:'checkbox', max:2, titulo:'O que mais te incomoda nas suas peças?', dica:'Escolha até 2.', opts:[
+    { v:'juiz_nao_le', l:'Sinto que o juiz não lê' },
+    { v:'iguais_colegas', l:'Parecem iguais às de todos os colegas' },
+    { v:'longas', l:'Ficam longas demais' },
+    { v:'cliente_nao_entende', l:'O cliente não entende o que está escrito' },
+    { v:'nao_sei_comecar', l:'Não sei por onde começar com Visual Law' },
+  ]},
+  { id:'peca_frequente', tipo:'textarea', titulo:'Descreva a peça que você mais faz no dia a dia.',
+    dica:'É isso que deixa o seu raio-x específico. Ex: "petição inicial de alimentos com pedido de liminar", "contestação trabalhista para empresas do varejo".',
+    placeholder:'Ex: petição inicial de cobrança para condomínios…' },
+  { id:'volume', tipo:'radio', titulo:'Quantas peças você produz por semana?', opts:[
+    { v:'ate_5', l:'Até 5' }, { v:'de_5_a_15', l:'De 5 a 15' }, { v:'mais_15', l:'Mais de 15' },
+  ]},
+  { id:'momento', tipo:'radio', titulo:'Como você prefere evoluir nisso?', opts:[
+    { v:'sozinho', l:'Aprender e aplicar por conta própria' },
+    { v:'acompanhamento', l:'Com acompanhamento de quem já faz' },
+    { v:'explorando', l:'Estou só explorando o tema' },
+  ]},
+  { id:'contato', tipo:'contato', titulo:'Para onde enviamos o seu raio-x?',
+    dica:'O resultado aparece aqui na tela e fica no PDF com o seu nome.' },
+];
+
+const state = { passo: 0, respostas: {}, contato: { nome:'', whatsapp:'', email:'' }, raiox: null };
+
+/* ---------- helpers ---------- */
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => (
+    { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+function mostrar(idTela) {
+  ['tela-hero','tela-quiz','tela-loading','tela-resultado','tela-erro']
+    .forEach(id => document.getElementById(id).style.display = id === idTela ? 'block' : 'none');
+  window.scrollTo({ top: 0 });
+}
+function mostrarErroCampo(msg) {
+  const el = document.getElementById('erro-campo');
+  el.textContent = msg; el.style.display = 'block';
+}
+function limparErroCampo() { document.getElementById('erro-campo').style.display = 'none'; }
+
+/* ---------- quiz ---------- */
+function iniciarQuiz() { state.passo = 0; renderPasso(); mostrar('tela-quiz'); }
+
+function renderPasso() {
+  const q = Q[state.passo];
+  const corpo = document.getElementById('quiz-corpo');
+  limparErroCampo();
+
+  document.getElementById('prog-label').textContent = `pergunta ${state.passo + 1} de ${Q.length}`;
+  const pct = Math.round((state.passo / Q.length) * 100);
+  document.getElementById('prog-pct').textContent = `${pct}% concluído`;
+  document.getElementById('prog-fill').style.width = `${pct}%`;
+  document.getElementById('btn-voltar').style.visibility = state.passo === 0 ? 'hidden' : 'visible';
+  const btnProx = document.getElementById('btn-proxima');
+  btnProx.textContent = state.passo === Q.length - 1 ? 'Gerar meu raio-x' : 'Próxima';
+  btnProx.classList.toggle('final', state.passo === Q.length - 1);
+
+  let html = `<div class="pergunta-titulo">${q.titulo}</div>`;
+  if (q.dica) html += `<div class="pergunta-dica">${q.dica}</div>`;
+
+  if (q.tipo === 'radio' || q.tipo === 'checkbox') {
+    const marcados = q.tipo === 'checkbox' ? (state.respostas[q.id] || []) : [state.respostas[q.id]];
+    html += `<div class="opcoes">${q.opts.map(o => `
+      <div class="opcao ${q.tipo === 'checkbox' ? 'quadrada' : ''} ${marcados.includes(o.v) ? 'marcada' : ''}"
+           onclick="marcar('${o.v}')">
+        <span class="bolinha"></span><span>${o.l}</span>
+      </div>`).join('')}</div>`;
+  } else if (q.tipo === 'textarea') {
+    html += `<textarea class="livre" id="campo-livre" maxlength="500"
+      placeholder="${q.placeholder || ''}">${esc(state.respostas[q.id] || '')}</textarea>`;
+  } else if (q.tipo === 'contato') {
+    html += `<div class="campo-grupo">
+      <div><label for="c-nome">Seu nome</label>
+        <input class="campo-txt" id="c-nome" name="nome" autocomplete="name" value="${esc(state.contato.nome)}"></div>
+      <div><label for="c-whatsapp">WhatsApp (com DDD)</label>
+        <input class="campo-txt" id="c-whatsapp" name="whatsapp" type="tel" autocomplete="tel-national" placeholder="(44) 99999-9999" value="${esc(state.contato.whatsapp)}"></div>
+      <div><label for="c-email">E-mail</label>
+        <input class="campo-txt" id="c-email" name="email" type="email" autocomplete="email" placeholder="voce@email.com" value="${esc(state.contato.email)}"></div>
+    </div>
+    <p class="aviso-lgpd">Seus dados ficam só com a Julia e não são compartilhados.</p>`;
+  }
+  corpo.innerHTML = html;
+  if (q.tipo === 'textarea') document.getElementById('campo-livre').focus();
+}
+
+function marcar(valor) {
+  const q = Q[state.passo];
+  limparErroCampo();
+  if (q.tipo === 'radio') {
+    state.respostas[q.id] = valor;
+    renderPasso();
+  } else {
+    const atual = state.respostas[q.id] || [];
+    if (atual.includes(valor)) state.respostas[q.id] = atual.filter(v => v !== valor);
+    else if (atual.length < q.max) state.respostas[q.id] = [...atual, valor];
+    else { mostrarErroCampo(`Escolha no máximo ${q.max}. Desmarque uma para trocar.`); return; }
+    renderPasso();
+  }
+}
+
+function voltar() { if (state.passo > 0) { state.passo--; renderPasso(); } }
+
+function proxima() {
+  const q = Q[state.passo];
+  if (q.tipo === 'radio' && !state.respostas[q.id]) return mostrarErroCampo('Escolha uma opção para continuar.');
+  if (q.tipo === 'checkbox' && !(state.respostas[q.id] || []).length) return mostrarErroCampo('Escolha pelo menos uma opção.');
+  if (q.tipo === 'textarea') {
+    const v = document.getElementById('campo-livre').value.trim();
+    if (v.length < 10) return mostrarErroCampo('Descreva a peça com um pouco mais de detalhe — é isso que personaliza o resultado.');
+    state.respostas[q.id] = v;
+  }
+  if (q.tipo === 'contato') {
+    const nome = document.getElementById('c-nome').value.trim();
+    const zap = document.getElementById('c-whatsapp').value.trim();
+    const email = document.getElementById('c-email').value.trim();
+    if (nome.length < 2) return mostrarErroCampo('Pode me dizer seu nome?');
+    const dig = zap.replace(/\D/g, '');
+    if (dig.length < 10 || dig.length > 13) return mostrarErroCampo('Confere o WhatsApp? Precisa do DDD junto.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return mostrarErroCampo('Esse e-mail não parece completo.');
+    state.contato = { nome, whatsapp: zap, email };
+    return gerar();
+  }
+  state.passo++;
+  renderPasso();
+}
+
+/* ---------- geração ---------- */
+const PASSOS_LOADING = [
+  'lendo as suas respostas',
+  'mapeando o que o juiz vê primeiro',
+  'escolhendo os elementos visuais para a sua peça',
+  'escrevendo o seu raio-x — quase lá',
+];
+let loadingTimer = null;
+
+async function gerar() {
+  mostrar('tela-loading');
+  let i = 0;
+  const passoEl = document.getElementById('loading-passo');
+  passoEl.textContent = PASSOS_LOADING[0];
+  loadingTimer = setInterval(() => {
+    i = Math.min(i + 1, PASSOS_LOADING.length - 1);
+    passoEl.textContent = PASSOS_LOADING[i];
+  }, 5000);
+
+  try {
+    const res = await fetch(FUNCAO_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: state.contato.nome,
+        whatsapp: state.contato.whatsapp,
+        email: state.contato.email,
+        ...state.respostas,
+        ...ORIGEM,
+        user_agent: navigator.userAgent,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.raiox) throw new Error(data.error || 'falha na geração');
+    state.raiox = data.raiox;
+    if (typeof fbq === 'function') fbq('track', 'Lead', { content_category: 'raio-x' });
+    mostrarResultado();
+  } catch (e) {
+    console.warn(e);
+    mostrar('tela-erro');
+  } finally {
+    clearInterval(loadingTimer);
+  }
+}
+
+function tentarDeNovo() { gerar(); }
+
+/* ---------- resultado ---------- */
+function separarSecoes(md) {
+  // descarta qualquer título/preâmbulo antes da primeira seção
+  const inicio = md.search(/^##\s/m);
+  if (inicio > 0) md = md.slice(inicio);
+  // divide o markdown pelos headers ## — cada seção vira um card
+  const partes = md.split(/^##\s+/m).filter(p => p.trim());
+  return partes.map(p => {
+    const quebra = p.indexOf('\n');
+    return {
+      titulo: quebra === -1 ? p.trim() : p.slice(0, quebra).trim(),
+      corpo: quebra === -1 ? '' : p.slice(quebra + 1).trim(),
+    };
+  });
+}
+
+function mostrarResultado() {
+  const primeiroNome = state.contato.nome.split(' ')[0];
+  document.getElementById('res-titulo').textContent = `Raio-X das Petições de ${primeiroNome}`;
+  const secoes = separarSecoes(state.raiox);
+  document.getElementById('res-secoes').innerHTML = secoes.map(s => `
+    <div class="res-secao">
+      <h3>${esc(s.titulo)}</h3>
+      <div class="corpo">${marked.parse(s.corpo)}</div>
+    </div>`).join('');
+  mostrar('tela-resultado');
+}
+
+/* ---------- PDF ---------- */
+function baixarPDF() {
+  const primeiroNome = state.contato.nome.split(' ')[0];
+  const secoes = separarSecoes(state.raiox);
+  const hoje = new Date().toLocaleDateString('pt-BR');
+  const doc = document.getElementById('pdf-doc');
+  doc.innerHTML = `
+    <div style="font-family: Georgia, 'Times New Roman', serif; color:#2A2118; padding:48px 52px;">
+      <div style="display:flex; align-items:center; gap:10px; border-bottom:2px solid #A27B5B; padding-bottom:16px;">
+        <img src="monograma_jk-120.png" style="height:42px;">
+        <div>
+          <div style="font-size:20px; font-weight:bold;">Raio-X das Petições</div>
+          <div style="font-size:12px; color:#7D5B40;">preparado para ${esc(state.contato.nome)} · ${hoje} · meudocjuridico.com.br</div>
+        </div>
+      </div>
+      ${secoes.map(s => `
+        <div style="margin-top:26px;">
+          <div style="font-size:15px; font-weight:bold; color:#7D5B40; margin-bottom:8px;">${esc(s.titulo)}</div>
+          <div style="font-size:12.5px; line-height:1.65;">${marked.parse(s.corpo)}</div>
+        </div>`).join('')}
+      <div style="margin-top:34px; padding:18px; background:#F7F3EC; border:1px solid #A27B5B; border-radius:4px; font-size:12px; line-height:1.6;">
+        <strong>Quer aplicar com acompanhamento?</strong> Na Mentoria de Visual Law, a Julia implementa a identidade
+        visual das suas peças com você. Saiba mais em <strong>meudocjuridico.com.br/mentoria</strong>
+        ou chame no WhatsApp: <strong>(44) 99165-2729</strong>.
+      </div>
+    </div>`;
+  html2pdf().set({
+    margin: 0,
+    filename: `raio-x-peticoes-${primeiroNome.toLowerCase()}.pdf`,
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all', 'css'] },
+  }).from(doc).save();
+}
+</script>
+
+<!-- Meta Pixel -->
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1983967878986074');
+  fbq('track', 'PageView');
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest) return;
+    var a = e.target.closest('a[href*="wa.me"]');
+    if (a) fbq('track', 'Contact');
+  });
+</script>
+<noscript><img height="1" width="1" style="display:none" alt=""
+  src="https://www.facebook.com/tr?id=1983967878986074&ev=PageView&noscript=1"></noscript>
+
+</body>
+</html>
