@@ -297,6 +297,10 @@ body {
 }
 .entrada button:hover { background:#3D3126; }
 .aviso-lgpd { padding:0 0 0 2rem; font-size:.72rem; color:var(--text-faint); }
+/* Navegador do Instagram: o teclado cobre a metade de baixo da tela sem
+   avisar a página. Com um campo em foco, este respiro extra permite rolar
+   a conversa até o campo ficar na parte de cima, acima de qualquer teclado. */
+.chat-body.teclado-aberto { padding-bottom: 65vh; }
 
 /* ---------- resultado do quiz ---------- */
 .resultado { padding:.4rem 0 0 2rem; display:flex; flex-direction:column; gap:.8rem; animation: msgIn .4s both; }
@@ -683,7 +687,18 @@ function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => (
     { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 }
-function scrollDown() { body.scrollTop = body.scrollHeight; }
+let campoAtivo = null; // caixa .entrada com o campo em foco (teclado aberto)
+function scrollDown() {
+  if (campoAtivo && campoAtivo.isConnected) {
+    // Com o teclado aberto, o fim da conversa fica atrás dele. O campo vai
+    // para ~25% do alto da área do chat — acima de qualquer teclado.
+    const rBody = body.getBoundingClientRect();
+    const rBox = campoAtivo.getBoundingClientRect();
+    body.scrollTop += (rBox.top - rBody.top) - rBody.height * 0.25;
+  } else {
+    body.scrollTop = body.scrollHeight;
+  }
+}
 function addMsg(texto, who = 'bot') {
   const el = document.createElement('div');
   el.className = `msg ${who}`;
@@ -726,17 +741,31 @@ function addInput({ placeholder, type = 'text', nome = '', auto = 'on', validar,
   const tenta = () => {
     const v = input.value.trim();
     if (!validar(v)) { input.style.borderColor = 'var(--vermelho)'; addMsg(aviso); return; }
+    campoAtivo = null;
+    body.classList.remove('teclado-aberto');
     box.remove();
     addMsg(esc(v), 'user');
     onOk(v);
   };
   btn.onclick = tenta;
   input.onkeydown = e => { if (e.key === 'Enter') tenta(); };
-  // O teclado leva ~300ms para abrir; sem re-rolar depois disso,
-  // o campo fica escondido atrás dele no navegador do Instagram.
   input.addEventListener('focus', () => {
+    campoAtivo = box;
+    if (TOQUE) body.classList.add('teclado-aberto');
+    // O teclado leva ~300ms para abrir e o navegador do Instagram nem avisa
+    // a página que ele abriu; re-rola em três momentos para garantir.
+    setTimeout(ajustaTeclado, 60);
     setTimeout(ajustaTeclado, 350);
     setTimeout(ajustaTeclado, 800);
+  });
+  input.addEventListener('blur', () => {
+    // Espera um instante: o toque no Enviar dispara blur antes do clique,
+    // e tirar o respiro na hora deslocaria o botão debaixo do dedo.
+    setTimeout(() => {
+      if (document.activeElement === input) return;
+      campoAtivo = null;
+      body.classList.remove('teclado-aberto');
+    }, 250);
   });
   body.appendChild(box);
   input.focus();
@@ -749,6 +778,7 @@ function addInput({ placeholder, type = 'text', nome = '', auto = 'on', validar,
 // O visualViewport informa a altura que sobrou de verdade; a tela do chat
 // passa a ter essa altura e a conversa rola até o campo.
 const vv = window.visualViewport;
+const TOQUE = matchMedia('(pointer: coarse)').matches; // só celular/tablet
 function ajustaTeclado() {
   if (!viewChat.classList.contains('aberto')) return;
   if (vv) {
