@@ -184,6 +184,30 @@ const SUPABASE_KEY = "sb_publishable_SyYfPTyy746tYO5u_gkNZg_wDZuitX7";
 const IS_CONFIGURED = SUPABASE_URL !== "COLE_SUA_URL_AQUI" && SUPABASE_KEY !== "COLE_SUA_ANON_KEY_AQUI";
 const sb = IS_CONFIGURED ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
+// Abre um material. Link externo (http/mailto/#) vai direto. Caminho do bucket
+// privado passa pela Edge Function, que assina um link temporario (5 min) so
+// para quem e dono do produto — o material pago nao fica mais em URL publica.
+async function abrirMaterial(valor) {
+  if (!valor) return;
+  if (/^(https?:|mailto:|#)/i.test(valor)) { window.open(valor, "_blank", "noopener"); return; }
+  if (!IS_CONFIGURED) return;
+  const win = window.open("", "_blank"); // abre ja no clique para nao ser bloqueado como popup
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/material-assinado`, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${session?.access_token}`, "Content-Type": "application/json", "apikey": SUPABASE_KEY },
+      body: JSON.stringify({ path: valor })
+    });
+    const d = await res.json().catch(() => ({}));
+    if (!res.ok || !d.url) throw new Error(d.error || "Material indisponivel.");
+    if (win) win.location.href = d.url; else window.open(d.url, "_blank", "noopener");
+  } catch (e) {
+    if (win) win.close();
+    alert("Nao consegui abrir o material: " + (e.message || e));
+  }
+}
+
 // ─── DEMO DATA ────────────────────────────────────────────────
 // Credenciais demo removidas por segurança: sem Supabase configurado, o login apenas falha.
 const DEMO_USERS = [];
@@ -1236,7 +1260,7 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatche
             <div style={{ maxWidth:700, marginBottom:24 }}>
               <div style={{ width:60,height:60,borderRadius:"var(--radius-lg)",background:"var(--card)",border:"1px solid var(--border)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:18 }}><Icon name="file" size={26} color="var(--gold-muted)"/></div>
               {lesson.url
-                ?<a href={lesson.url} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:8,background:"var(--gold)",borderRadius:"var(--radius)",padding:"11px 18px",color:"#2C3639",fontSize:13,fontWeight:600,textDecoration:"none" }}><Icon name="download" size={14} color="#2C3639"/>Baixar material</a>
+                ?<a href="#" onClick={e=>{e.preventDefault();abrirMaterial(lesson.url);}} style={{ display:"inline-flex",alignItems:"center",gap:8,background:"var(--gold)",borderRadius:"var(--radius)",padding:"11px 18px",color:"#2C3639",fontSize:13,fontWeight:600,textDecoration:"none",cursor:"pointer" }}><Icon name="download" size={14} color="#2C3639"/>Baixar material</a>
                 :<p style={{ fontSize:13,color:"var(--text-muted)" }}>Nenhum link adicionado ainda.</p>
               }
             </div>
@@ -1276,8 +1300,8 @@ const LessonView = ({ product, module:mod, lesson, onBack, onNav, onToggleWatche
                       const ext=(m.url||"").split("?")[0].split("#")[0].split(".").pop();
                       const fmt=(ext&&ext.length<=5&&!ext.includes("/"))?ext.toUpperCase():"LINK";
                       return (
-                        <a key={m.id} href={m.url} target="_blank" rel="noreferrer"
-                          style={{ display:"flex", alignItems:"center", gap:12, background:"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius)", padding:"12px 14px", textDecoration:"none", transition:"border-color var(--transition)" }}
+                        <a key={m.id} href="#" onClick={e=>{e.preventDefault();abrirMaterial(m.url);}}
+                          style={{ display:"flex", alignItems:"center", gap:12, background:"var(--card)", border:"1px solid var(--border)", borderRadius:"var(--radius)", padding:"12px 14px", textDecoration:"none", transition:"border-color var(--transition)", cursor:"pointer" }}
                           onMouseEnter={e=>e.currentTarget.style.borderColor="var(--gold-muted)"} onMouseLeave={e=>e.currentTarget.style.borderColor="var(--border)"}>
                           <div style={{ width:36, height:36, borderRadius:"var(--radius)", background:"var(--gold-dim)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                             <Icon name="file" size={15} color="var(--gold)"/>
@@ -1491,10 +1515,10 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
     try {
       const safe = file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
       const path = `${Date.now()}-${Math.random().toString(36).slice(2,8)}-${safe}`;
-      const { error } = await sb.storage.from("materiais").upload(path, file, { upsert:false, contentType:file.type||undefined });
+      const { error } = await sb.storage.from("materiais-privados").upload(path, file, { upsert:false, contentType:file.type||undefined });
       if(error) throw error;
-      const { data:pub } = sb.storage.from("materiais").getPublicUrl(path);
-      setLesForm(p=>({ ...p, url:pub.publicUrl, duration:p.duration || (file.name.split(".").pop()||"").toUpperCase() }));
+      // Guarda o CAMINHO (nao URL publica): o download passa pela funcao que assina.
+      setLesForm(p=>({ ...p, url:path, duration:p.duration || (file.name.split(".").pop()||"").toUpperCase() }));
     } catch(e){ alert("Falha no upload: "+(e.message||e)); setUploadName(""); }
     setUploading(false);
   };
@@ -1509,10 +1533,10 @@ const Admin = ({ products:initProds, onProductsUpdate }) => {
       try {
         const safe = file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
         const path = `${Date.now()}-${Math.random().toString(36).slice(2,8)}-${safe}`;
-        const { error } = await sb.storage.from("materiais").upload(path, file, { upsert:false, contentType:file.type||undefined });
+        const { error } = await sb.storage.from("materiais-privados").upload(path, file, { upsert:false, contentType:file.type||undefined });
         if(error) throw error;
-        const { data:pub } = sb.storage.from("materiais").getPublicUrl(path);
-        setLesForm(p=>({ ...p, materials:[...(p.materials||[]), { id:Date.now()+Math.floor(Math.random()*1000), title:file.name, url:pub.publicUrl }] }));
+        // Guarda o CAMINHO (nao URL publica): o download passa pela funcao que assina.
+        setLesForm(p=>({ ...p, materials:[...(p.materials||[]), { id:Date.now()+Math.floor(Math.random()*1000), title:file.name, url:path }] }));
       } catch(e){ alert(`Falha no upload de ${file.name}: `+(e.message||e)); }
     }
     setUploadName(""); setUploading(false);
