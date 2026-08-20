@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
 <title>Julia Ketelut — descubra o melhor caminho</title>
 <meta name="description" content="Responda 5 perguntas e descubra qual serviço resolve o seu trabalho jurídico ou acadêmico — ou vá direto: Kit ABNT, Diagnóstico, Revisão, Visual Law e materiais gratuitos.">
 <link rel="canonical" href="https://meudocjuridico.com.br/comecar">
@@ -284,9 +284,10 @@ body {
 
 .entrada { display:flex; gap:.5rem; padding:.3rem 0 .3rem 2rem; animation: msgIn .35s both; }
 .entrada input {
-  flex:1; padding:.75rem 1rem;
+  flex:1; min-width:0; padding:.75rem 1rem;
   background:var(--card); border:1px solid var(--border-m); border-radius:10px;
-  font-family:'Jost',sans-serif; font-size:.95rem; color:var(--text);
+  /* 16px: abaixo disso o iPhone dá zoom automático ao focar o campo */
+  font-family:'Jost',sans-serif; font-size:1rem; color:var(--text);
 }
 .entrada input:focus { outline:none; border-color: var(--creme); }
 .entrada button {
@@ -731,9 +732,34 @@ function addInput({ placeholder, type = 'text', nome = '', auto = 'on', validar,
   };
   btn.onclick = tenta;
   input.onkeydown = e => { if (e.key === 'Enter') tenta(); };
+  // O teclado leva ~300ms para abrir; sem re-rolar depois disso,
+  // o campo fica escondido atrás dele no navegador do Instagram.
+  input.addEventListener('focus', () => {
+    setTimeout(ajustaTeclado, 350);
+    setTimeout(ajustaTeclado, 800);
+  });
   body.appendChild(box);
   input.focus();
   scrollDown();
+}
+
+/* ---------- teclado do celular ---------- */
+// O navegador do Instagram (e o Safari do iPhone) não encolhe a página quando
+// o teclado abre — ele cobre a metade de baixo, junto com o campo de digitação.
+// O visualViewport informa a altura que sobrou de verdade; a tela do chat
+// passa a ter essa altura e a conversa rola até o campo.
+const vv = window.visualViewport;
+function ajustaTeclado() {
+  if (!viewChat.classList.contains('aberto')) return;
+  if (vv) {
+    viewChat.style.top = vv.offsetTop + 'px';
+    viewChat.style.height = vv.height + 'px';
+  }
+  scrollDown();
+}
+if (vv) {
+  vv.addEventListener('resize', ajustaTeclado);
+  vv.addEventListener('scroll', ajustaTeclado);
 }
 
 /* ---------- banco ---------- */
@@ -881,9 +907,16 @@ async function fluxo() {
 /* ---------- abrir/fechar ---------- */
 document.getElementById('start-chat').onclick = () => {
   viewChat.classList.add('aberto');
+  document.body.style.overflow = 'hidden'; // a página de trás não rola junto
+  ajustaTeclado();
   if (!body.hasChildNodes()) fluxo();
 };
-document.getElementById('chat-close').onclick = () => viewChat.classList.remove('aberto');
+document.getElementById('chat-close').onclick = () => {
+  viewChat.classList.remove('aberto');
+  document.body.style.overflow = '';
+  viewChat.style.top = '';
+  viewChat.style.height = '';
+};
 </script>
 
 <!-- Meta Pixel -->
