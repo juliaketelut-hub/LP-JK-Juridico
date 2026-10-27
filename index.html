@@ -980,6 +980,21 @@
       .section-divider { transform: none !important; }
     }
 
+    /* Faixa do Kit ABNT, logo abaixo dos números */
+    .kit-faixa {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 0.45rem 1.4rem; padding: 1.05rem 1.5rem;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      color: var(--text); text-decoration: none; text-align: center;
+    }
+    .kit-faixa-tag { font-family: 'Jost', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--creme-txt); }
+    .kit-faixa-texto { font-size: 0.98rem; color: var(--text-body); }
+    .kit-faixa-texto strong { color: var(--text); font-weight: 600; }
+    .kit-faixa-cta { font-family: 'Jost', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--creme-txt); white-space: nowrap; }
+    .kit-faixa:hover .kit-faixa-cta, .kit-faixa:focus-visible .kit-faixa-cta { text-decoration: underline; text-underline-offset: 3px; }
+    .prod-kit { margin-top: 2rem; text-align: center; font-size: 0.95rem; color: var(--text-body); }
+    .prod-kit a { color: var(--creme-txt); font-weight: 600; }
+
   </style>
 
   <!-- Rede de seguranca: sem JS, os blocos animados aparecem do mesmo jeito -->
@@ -1018,6 +1033,7 @@
     <li><a href="academico.html">Acadêmico</a></li>
     <li><a href="visual-law.html">Visual Law</a></li>
     <li><a href="mentoria.html">Mentoria</a></li>
+    <li><a href="kit-abnt.html">Kit ABNT</a></li>
     <li><a href="#contato">Contato</a></li>
   </ul>
   <div class="nav-right">
@@ -1080,6 +1096,13 @@
     </div>
   </div>
 </div>
+
+<!-- ── KIT ABNT ── -->
+<a href="kit-abnt.html" class="kit-faixa">
+  <span class="kit-faixa-tag">Material digital · download na hora</span>
+  <span class="kit-faixa-texto"><strong>Kit de Citação Jurídica ABNT:</strong> 43 casos de lei, súmula e acórdão resolvidos, com modelos de TCC e artigo prontos.</span>
+  <span class="kit-faixa-cta">Ver o kit · R$ 37 <span aria-hidden="true">→</span></span>
+</a>
 
 <!-- ── DORES ── -->
 <section id="dores">
@@ -1247,6 +1270,7 @@
       </a>
 
     </div>
+    <p class="prod-kit">Prefere resolver a citação sozinho? O <a href="kit-abnt.html">Kit de Citação Jurídica ABNT</a> traz os 43 casos do Direito e os modelos prontos, por R$ 37.</p>
   </div>
 </section>
 
@@ -1451,7 +1475,7 @@
   </div>
   <div class="footer-text">
     <div>© 2026 Julia Ketelut · Todos os direitos reservados</div>
-    <div style="margin-top:0.35rem"><a href="membros.html">Área de Membros</a> &nbsp;·&nbsp; <a href="mailto:juliaketelut.juridico@gmail.com">Contato</a> &nbsp;·&nbsp; <a href="checklist-antiplagio.html">Guia Anti-Plágio</a></div>
+    <div style="margin-top:0.35rem"><a href="membros.html">Área de Membros</a> &nbsp;·&nbsp; <a href="kit-abnt.html">Kit ABNT</a> &nbsp;·&nbsp; <a href="mailto:juliaketelut.juridico@gmail.com">Contato</a> &nbsp;·&nbsp; <a href="checklist-antiplagio.html">Guia Anti-Plágio</a></div>
   </div>
 </footer>
 

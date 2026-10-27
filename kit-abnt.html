@@ -220,6 +220,50 @@
     @media (max-width: 620px) {
       .lacunas { grid-template-columns: 1fr; }
     }
+
+    /* Compra: nome e e-mail antes de abrir o pagamento da InfinitePay */
+    .compra-fundo {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(42,33,24,0.55);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.2rem;
+    }
+    .compra-fundo[hidden] { display: none; }
+    .compra-caixa {
+      position: relative; width: 100%; max-width: 420px;
+      background: var(--bg); border: 1px solid var(--border-m); border-radius: 8px;
+      padding: 1.9rem 1.6rem 1.5rem;
+      box-shadow: 0 18px 50px rgba(42,33,24,0.25);
+    }
+    .compra-caixa h2 { font-family: 'Spectral', serif; font-weight: 600; font-size: 1.45rem; color: var(--text); margin: 0 0 0.35rem; line-height: 1.25; }
+    .compra-caixa > p { color: var(--text-body); font-size: 0.95rem; line-height: 1.55; margin: 0 0 1.1rem; }
+    .compra-campo { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.9rem; }
+    .compra-campo label { font-family: 'Jost', sans-serif; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-meta); }
+    .compra-campo input {
+      font: inherit; font-size: 1rem; color: var(--text);
+      padding: 0.7rem 0.8rem; border: 1px solid var(--border-m); border-radius: 4px; background: #fff;
+    }
+    .compra-campo input:focus { outline: 2px solid var(--creme); outline-offset: 1px; border-color: var(--creme); }
+    .compra-erro { color: var(--vermelho); font-size: 0.88rem; line-height: 1.5; min-height: 1.2em; margin: 0.1rem 0 0.7rem; }
+    .compra-erro a { color: var(--vermelho); }
+    .compra-caixa .btn-primary { width: 100%; justify-content: center; border: 0; cursor: pointer; font-family: inherit; }
+    .compra-caixa .btn-primary[disabled] { opacity: 0.65; cursor: wait; transform: none; }
+    .compra-nota { font-size: 0.8rem; color: var(--text-meta); line-height: 1.5; margin: 0.9rem 0 0; text-align: center; }
+    .compra-nota a { color: var(--creme-txt); }
+    .compra-fechar {
+      position: absolute; top: 0.45rem; right: 0.6rem;
+      background: none; border: 0; cursor: pointer;
+      font-size: 1.7rem; line-height: 1; color: var(--text-meta); padding: 0.2rem 0.45rem;
+    }
+    .compra-fechar:hover, .compra-fechar:focus-visible { color: var(--text); }
+
+    /* Depoimentos sobre o trabalho de revisão da Julia */
+    .depos-intro { margin-top: 2.6rem; font-size: 0.9rem; color: var(--text-meta); }
+    .depos { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1rem 0 0; }
+    .depo { margin: 0; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.3rem 1.3rem 1.1rem; }
+    .depo blockquote { margin: 0 0 0.8rem; font-family: 'Spectral', serif; font-style: italic; font-size: 1.05rem; line-height: 1.55; color: var(--text); }
+    .depo figcaption { font-family: 'Jost', sans-serif; font-size: 0.76rem; letter-spacing: 0.05em; color: var(--text-meta); }
+    @media (max-width: 700px) { .depos { grid-template-columns: 1fr; } }
   </style>
   <script>document.documentElement.className += ' anim';</script>
   <!-- Meta Pixel -->
@@ -451,6 +495,18 @@
         <p>É por isso que ele resolve casos que nenhum modelo gratuito toca — eles nascem do trabalho real, com prazo em cima.</p>
       </div>
     </div>
+
+    <p class="depos-intro">O que dizem do meu trabalho de revisão, de onde este kit saiu:</p>
+    <div class="depos">
+      <figure class="depo">
+        <blockquote>“Ficou excelente. Me salvou! Encaminhei para o orientador e acredito que ele não vai precisar alterar nada.”</blockquote>
+        <figcaption>Paola · Acadêmica de Direito · Artigo científico</figcaption>
+      </figure>
+      <figure class="depo">
+        <blockquote>“Obrigada! Você me salvou. Não sei o que eu faria sem essa revisão — ficou perfeito.”</blockquote>
+        <figcaption>Ana Carolina · Acadêmica de Direito · Artigo científico</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -477,7 +533,7 @@
         <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20o%20Kit%20de%20Cita%C3%A7%C3%A3o%20Jur%C3%ADdica%20ABNT." class="btn-ghost" target="_blank" rel="noopener">Tenho uma dúvida antes</a>
       </div>
       <div class="entrega-nota">
-        <strong>Como chega até você:</strong> os arquivos vão para o seu e-mail em <strong>até 24 horas após a compra</strong>. O envio é feito por mim, não por um robô — e é o meu e-mail que você tem para chamar se algum arquivo não abrir.<br /><br />
+        <strong>Como chega até você:</strong> o download abre <strong>na hora</strong>, assim que o pagamento é confirmado, no Pix ou no cartão. Você também recebe um link pessoal para baixar de novo quando quiser, por 12 meses. Se algum arquivo não abrir, me chame no WhatsApp.<br /><br />
         <strong>Licença:</strong> uso pessoal de quem comprou. A redistribuição e a revenda não estão autorizadas.<br /><br />
         <strong>Antes de comprar:</strong> as condições completas estão nos <a href="termos-kit.html">Termos de Uso e Licença</a>, com o direito de arrependimento em 7 dias e a atualização das normas por 12 meses.
       </div>
@@ -530,7 +586,7 @@
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">Como recebo os arquivos?</button>
-        <div class="faq-a"><p>Por e-mail, no endereço que você usar na compra, em até 24 horas. O envio é manual, feito por mim, e na prática costuma sair bem antes disso. Se as 24 horas passarem e nada tiver chegado, me chame no WhatsApp que eu resolvo na hora.</p></div>
+        <div class="faq-a"><p>Na hora. Assim que o pagamento é confirmado, a página da compra abre o download do kit completo, num único arquivo .zip, e mostra o seu link pessoal para baixar de novo por 12 meses. No Pix a confirmação costuma levar segundos. Se algo não abrir, me chame no WhatsApp que eu resolvo.</p></div>
       </div>
     </div>
   </div>
@@ -583,6 +639,89 @@
       }
     });
   });
+</script>
+
+<!-- ── COMPRA: nome e e-mail, depois o pagamento da InfinitePay ── -->
+<div class="compra-fundo" id="compra" hidden>
+  <div class="compra-caixa" role="dialog" aria-modal="true" aria-labelledby="compra-titulo">
+    <button type="button" class="compra-fechar" id="compra-fechar" aria-label="Fechar">&times;</button>
+    <h2 id="compra-titulo">Kit de Citação Jurídica ABNT</h2>
+    <p>R$ 37 no Pix ou no cartão. O download abre assim que o pagamento é confirmado.</p>
+    <form id="compra-form" novalidate>
+      <div class="compra-campo">
+        <label for="compra-nome">Seu nome</label>
+        <input id="compra-nome" name="nome" type="text" autocomplete="name" maxlength="120" required />
+      </div>
+      <div class="compra-campo">
+        <label for="compra-email">Seu e-mail</label>
+        <input id="compra-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="160" required />
+      </div>
+      <div class="compra-erro" id="compra-erro" role="alert"></div>
+      <button type="submit" class="btn-primary" id="compra-botao">Ir para o pagamento</button>
+      <p class="compra-nota">O pagamento é feito na InfinitePay. Ao continuar, você aceita os <a href="termos-kit.html" target="_blank" rel="noopener">Termos de Uso e Licença</a>.</p>
+    </form>
+  </div>
+</div>
+<script>
+  (function () {
+    var FN = 'https://ggmsslrsufbfrdpifbww.supabase.co/functions/v1/kit-abnt';
+    var LOJA = 'https://loja.infinitepay.io/juliaketelut/deq9502-kit-de-citacao-juridica-abnt';
+    var fundo = document.getElementById('compra');
+    var form = document.getElementById('compra-form');
+    var erro = document.getElementById('compra-erro');
+    var botao = document.getElementById('compra-botao');
+    var ultimoFoco = null;
+
+    function abrir(e) {
+      e.preventDefault();
+      ultimoFoco = document.activeElement;
+      erro.textContent = '';
+      fundo.hidden = false;
+      document.getElementById('compra-nome').focus();
+    }
+    function fechar() {
+      fundo.hidden = true;
+      if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+    }
+    function falhou(msg) {
+      botao.disabled = false;
+      botao.textContent = 'Ir para o pagamento';
+      erro.textContent = (msg || 'O pagamento não abriu agora.') + ' ';
+      var a = document.createElement('a');
+      a.href = LOJA; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = 'Se preferir, compre pela loja da InfinitePay';
+      erro.appendChild(a);
+      erro.appendChild(document.createTextNode(' e eu envio o kit por e-mail.'));
+    }
+
+    document.querySelectorAll('[data-comprar]').forEach(function (a) { a.addEventListener('click', abrir); });
+    document.getElementById('compra-fechar').addEventListener('click', fechar);
+    fundo.addEventListener('click', function (e) { if (e.target === fundo) fechar(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !fundo.hidden) fechar(); });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nome = form.nome.value.trim();
+      var email = form.email.value.trim();
+      if (nome.length < 2) { erro.textContent = 'Escreva o seu nome.'; return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { erro.textContent = 'Confira o e-mail.'; return; }
+      botao.disabled = true;
+      botao.textContent = 'Abrindo o pagamento…';
+      erro.textContent = '';
+      fetch(FN + '/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome: nome, email: email })
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (!res.ok || !res.d || !res.d.pagamento) { falhou(res.d && res.d.erro); return; }
+          try { localStorage.setItem('kit_pedido', res.d.pedido); } catch (x) {}
+          window.location.href = res.d.pagamento;
+        })
+        .catch(function () { falhou(); });
+    });
+  })();
 </script>
 
 </body>
