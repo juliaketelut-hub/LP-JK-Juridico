@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /kit-obrigado
+Disallow: /membros
+
+Sitemap: https://meudocjuridico.com.br/sitemap.xml
