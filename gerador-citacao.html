@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de citação jurídica ABNT grátis: lei, súmula e acórdão | JK Jurídico</title>
+  <meta name="description" content="Gere grátis a referência ABNT, a chamada autor-data e a nota de rodapé de lei, decreto, medida provisória, Constituição, súmula e acórdão do STF, do STJ e dos tribunais estaduais. Pela NBR 6023:2025 e NBR 10520:2023." />
+  <link rel="canonical" href="https://meudocjuridico.com.br/gerador-citacao.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="JK Jurídico" />
+  <meta property="og:url" content="https://meudocjuridico.com.br/gerador-citacao.html" />
+  <meta property="og:title" content="Gerador de citação jurídica ABNT — lei, súmula e acórdão" />
+  <meta property="og:description" content="Referência, chamada autor-data e nota de rodapé prontas, pela NBR 6023:2025. Grátis." />
+  <meta property="og:image" content="https://meudocjuridico.com.br/og-jk.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="favicon-jk.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="base.css" />
+  <style>
+    main { padding: 3rem 1rem 4rem; }
+    .topo { max-width: 760px; margin: 0 auto 2rem; }
+    .topo .section-label { margin-bottom: 0.6rem; }
+    .topo h1 { font-family: 'Spectral', serif; font-weight: 600; font-size: clamp(1.8rem, 4.5vw, 2.5rem); line-height: 1.15; color: var(--text); text-wrap: balance; }
+    .topo p { color: var(--text-body); margin-top: 0.9rem; }
+    .cartao { max-width: 760px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.8rem 1.5rem; }
+    .tipos { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem; }
+    .tipos button {
+      font: 600 0.85rem 'Jost', sans-serif; color: var(--creme-txt); background: transparent;
+      border: 1px solid var(--creme-border); border-radius: 2px; padding: 0.55rem 0.95rem; cursor: pointer;
+    }
+    .tipos button[aria-pressed="true"] { background: var(--creme-btn); border-color: var(--creme-btn); color: #fff; }
+    .grade { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem 1rem; }
+    .grade .largo { grid-column: 1 / -1; }
+    .campo label { display: block; font: 600 0.74rem 'Jost', sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-meta); margin-bottom: 0.3rem; }
+    .campo input, .campo select, .campo textarea {
+      width: 100%; font: 400 0.95rem 'Jost', sans-serif; color: var(--text);
+      padding: 0.6rem 0.7rem; border: 1px solid var(--border-m); border-radius: 4px; background: #fff;
+    }
+    .campo textarea { min-height: 4.2rem; resize: vertical; }
+    .campo .dica { font-size: 0.8rem; color: var(--text-meta); margin-top: 0.25rem; line-height: 1.45; }
+    .campo.falta input, .campo.falta select, .campo.falta textarea { border-color: var(--vermelho); }
+    .acoes { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+    .acoes button.btn-primary { border: 0; cursor: pointer; font-family: 'Jost', sans-serif; }
+    .aviso-falta { color: var(--vermelho); font-size: 0.9rem; }
+    .resultado { max-width: 760px; margin: 1.6rem auto 0; }
+    .saida { background: #fff; border: 1px solid var(--border-m); border-radius: 6px; padding: 1.1rem 1.2rem; margin-bottom: 0.9rem; }
+    .saida h2 { font: 600 0.74rem 'Jost', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--creme-txt); margin-bottom: 0.5rem; }
+    .saida .texto { font-family: 'Times New Roman', Times, serif; font-size: 1.05rem; line-height: 1.55; color: var(--text); overflow-wrap: anywhere; }
+    .saida button {
+      margin-top: 0.7rem; font: 600 0.8rem 'Jost', sans-serif; color: var(--creme-txt); background: transparent;
+      border: 1px solid var(--creme-border); border-radius: 2px; padding: 0.45rem 0.8rem; cursor: pointer;
+    }
+    .erro-comum { border-left: 3px solid var(--creme); background: var(--creme-soft); padding: 0.9rem 1.1rem; margin: 1.2rem 0; font-size: 0.93rem; color: var(--text-body); }
+    .erro-comum strong { color: var(--text); }
+    .kit { background: var(--nav); color: var(--au-lait); border-radius: 8px; padding: 1.6rem 1.5rem; margin-top: 1.4rem; }
+    .kit h2 { font-family: 'Spectral', serif; font-weight: 600; font-size: 1.4rem; color: #F7F3EC; margin-bottom: 0.6rem; }
+    .kit p { color: rgba(220,215,201,0.85); margin-bottom: 1.1rem; }
+    .notas { max-width: 760px; margin: 2rem auto 0; font-size: 0.88rem; color: var(--text-meta); }
+    .notas p + p { margin-top: 0.6rem; }
+    [hidden] { display: none !important; }
+    @media (max-width: 620px) {
+      .grade { grid-template-columns: 1fr; }
+      .cartao { padding: 1.4rem 1rem; }
+      nav { padding: 1rem; }
+    }
+  </style>
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1983967878986074');
+    fbq('track', 'PageView');
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="monograma_jk-120.png" alt="JK Jurídico" class="nav-monogram" />
+    <span class="nav-logo-text">Jurídico</span>
+  </a>
+  <a href="kit-abnt.html" class="nav-back">Kit de Citação ABNT</a>
+</nav>
+
+<main>
+  <div class="topo">
+    <div class="section-label">Grátis · NBR 6023:2025 e NBR 10520:2023</div>
+    <h1>Gerador de citação jurídica ABNT</h1>
+    <p>Escolha o tipo de fonte e preencha os dados. Sai a referência para a lista final, a chamada autor-data e a nota de rodapé, já com o destaque no lugar certo. O botão copiar leva o itálico junto para o Word e o Google Docs.</p>
+  </div>
+
+  <div class="cartao">
+    <div class="tipos" role="group" aria-label="Tipo de fonte">
+      <button type="button" data-tipo="lei" aria-pressed="true">Lei, decreto ou MP</button>
+      <button type="button" data-tipo="cf" aria-pressed="false">Constituição Federal</button>
+      <button type="button" data-tipo="sumula" aria-pressed="false">Súmula</button>
+      <button type="button" data-tipo="acordao" aria-pressed="false">Acórdão</button>
+    </div>
+
+    <!-- LEI -->
+    <form id="f-lei" class="grade" novalidate>
+      <div class="campo"><label for="lei-esfera">Esfera</label>
+        <select id="lei-esfera"><option value="federal">Federal</option><option value="estadual">Estadual</option><option value="municipal">Municipal</option></select></div>
+      <div class="campo"><label for="lei-tipo">Tipo de ato</label>
+        <select id="lei-tipo"><option>Lei</option><option>Lei Complementar</option><option>Decreto</option><option>Decreto-Lei</option><option>Medida Provisória</option></select></div>
+      <div class="campo" data-so="estadual municipal"><label for="lei-uf">Estado</label><select id="lei-uf"></select></div>
+      <div class="campo" data-so="municipal"><label for="lei-mun">Município</label><input id="lei-mun" placeholder="Maringá" /></div>
+      <div class="campo"><label for="lei-num">Número</label><input id="lei-num" inputmode="numeric" placeholder="14.133" /></div>
+      <div class="campo"><label for="lei-data">Data do ato</label><input id="lei-data" type="date" /><div class="dica">A da assinatura, que está no nome da lei.</div></div>
+      <div class="campo largo"><label for="lei-ementa">Ementa</label><textarea id="lei-ementa" placeholder="Institui o Código Civil"></textarea>
+        <div class="dica">Copie como foi publicada, sem resumir. Se for longa, corte com [...] sem mudar o sentido.</div></div>
+      <div class="campo largo" data-so-tipo="Medida Provisória"><label for="lei-mp">O que aconteceu com a MP (opcional)</label><input id="lei-mp" placeholder="Convertida na Lei nº 14.592, de 30 de maio de 2023" />
+        <div class="dica">Medida provisória caduca, é rejeitada ou vira lei. Diga qual foi o caso.</div></div>
+      <div class="campo largo"><label for="lei-onde">Onde você consultou</label>
+        <select id="lei-onde"><option value="site">No site oficial (Planalto, Assembleia, Câmara)</option><option value="diario">No Diário Oficial</option></select></div>
+      <div class="campo largo" data-onde="site"><label for="lei-url">Endereço da página</label><input id="lei-url" type="url" placeholder="https://www.planalto.gov.br/ccivil_03/..." /></div>
+      <div class="campo" data-onde="site"><label for="lei-resp">Responsável pelo site</label><input id="lei-resp" /></div>
+      <div class="campo" data-onde="site"><label for="lei-local">Cidade do responsável</label><input id="lei-local" /></div>
+      <div class="campo" data-onde="site"><label for="lei-versao">Ano da versão consultada</label><input id="lei-versao" inputmode="numeric" placeholder="2023" />
+        <div class="dica">O ano da última alteração do texto que você leu. Entra entre colchetes.</div></div>
+      <div class="campo" data-onde="site"><label for="lei-acesso">Data do acesso</label><input id="lei-acesso" type="date" /></div>
+      <div class="campo" data-onde="diario"><label for="lei-diario">Nome do diário</label><input id="lei-diario" /></div>
+      <div class="campo" data-onde="diario"><label for="lei-dlocal">Cidade de publicação</label><input id="lei-dlocal" /></div>
+      <div class="campo" data-onde="diario" data-so="federal"><label for="lei-secao">Seção</label><input id="lei-secao" value="1" inputmode="numeric" /></div>
+      <div class="campo" data-onde="diario" data-so="federal"><label for="lei-extra">Edição</label>
+        <select id="lei-extra"><option value="">Normal</option><option value="edição extra">Edição extra</option><option value="suplemento">Suplemento</option></select></div>
+      <div class="campo" data-onde="diario" data-so="estadual municipal"><label for="lei-dnum">Número do diário (opcional)</label><input id="lei-dnum" inputmode="numeric" /></div>
+      <div class="campo" data-onde="diario"><label for="lei-pag">Página</label><input id="lei-pag" placeholder="1" /></div>
+      <div class="campo" data-onde="diario"><label for="lei-pub">Data de publicação</label><input id="lei-pub" type="date" /></div>
+      <div class="campo"><label for="lei-art">Artigo citado (opcional)</label><input id="lei-art" placeholder="5" /></div>
+      <div class="campo"><label for="lei-comp">Inciso, parágrafo... (opcional)</label><input id="lei-comp" placeholder="inc. II" /></div>
+    </form>
+
+    <!-- CONSTITUIÇÃO -->
+    <form id="f-cf" class="grade" novalidate hidden>
+      <div class="campo"><label for="cf-art">Artigo citado</label><input id="cf-art" placeholder="5" /></div>
+      <div class="campo"><label for="cf-comp">Inciso, parágrafo, <em>caput</em>... (opcional)</label><input id="cf-comp" placeholder="caput" /></div>
+      <div class="campo"><label for="cf-acesso">Data do acesso ao Planalto</label><input id="cf-acesso" type="date" /></div>
+    </form>
+
+    <!-- SÚMULA -->
+    <form id="f-sumula" class="grade" novalidate hidden>
+      <div class="campo"><label for="su-trib">Tribunal</label>
+        <select id="su-trib"><option value="STJ">Superior Tribunal de Justiça</option><option value="STF">Supremo Tribunal Federal</option></select></div>
+      <div class="campo" data-trib="STF"><label for="su-vinc">Tipo</label>
+        <select id="su-vinc"><option value="">Súmula</option><option value="v">Súmula Vinculante</option></select></div>
+      <div class="campo"><label for="su-num">Número</label><input id="su-num" inputmode="numeric" placeholder="618" /></div>
+      <div class="campo"><label for="su-org">Órgão que aprovou (opcional)</label><input id="su-org" placeholder="Segunda Seção" />
+        <div class="dica">Está na página da súmula, no site do tribunal.</div></div>
+      <div class="campo largo"><label for="su-enun">Enunciado</label><textarea id="su-enun" placeholder="A inversão do ônus da prova aplica-se às ações de degradação ambiental"></textarea>
+        <div class="dica">Na súmula, o enunciado ocupa o lugar da ementa. Copie como publicado.</div></div>
+      <div class="campo largo"><label for="su-onde">Onde você consultou</label>
+        <select id="su-onde"><option value="site">No site do tribunal</option><option value="diario">No Diário da Justiça Eletrônico</option></select></div>
+      <div class="campo" data-onde="site"><label for="su-ano">Ano da súmula</label><input id="su-ano" inputmode="numeric" placeholder="2018" /></div>
+      <div class="campo" data-onde="site"><label for="su-acesso">Data do acesso</label><input id="su-acesso" type="date" /></div>
+      <div class="campo largo" data-onde="site"><label for="su-url">Endereço da página</label><input id="su-url" type="url" /></div>
+      <div class="campo" data-onde="diario"><label for="su-dje">Número do DJe (opcional)</label><input id="su-dje" inputmode="numeric" placeholder="157" /></div>
+      <div class="campo" data-onde="diario"><label for="su-pag">Página</label><input id="su-pag" placeholder="1" /></div>
+      <div class="campo" data-onde="diario"><label for="su-pub">Data de publicação</label><input id="su-pub" type="date" />
+        <div class="dica">A da edição que você consultou, não a da sessão que aprovou.</div></div>
+    </form>
+
+    <!-- ACÓRDÃO -->
+    <form id="f-acordao" class="grade" novalidate hidden>
+      <div class="campo"><label for="ac-trib">Tribunal</label>
+        <select id="ac-trib"><option value="STJ">Superior Tribunal de Justiça</option><option value="STF">Supremo Tribunal Federal</option><option value="TJ">Tribunal de Justiça de um estado</option></select></div>
+      <div class="campo" data-trib="TJ"><label for="ac-uf">Estado</label><select id="ac-uf"></select></div>
+      <div class="campo"><label for="ac-org">Órgão julgador</label><input id="ac-org" placeholder="3. Turma" />
+        <div class="dica">Tribunal Pleno, Corte Especial, 2. Turma, 11. Câmara Cível...</div></div>
+      <div class="campo"><label for="ac-classe">Classe</label><input id="ac-classe" placeholder="Recurso Especial" /></div>
+      <div class="campo"><label for="ac-num">Número do processo</label><input id="ac-num" placeholder="1.850.512/SP" />
+        <div class="dica" data-trib="STF STJ">Com a sigla do estado de origem: 4.277/DF.</div></div>
+      <div class="campo" data-trib="TJ"><label for="ac-comarca">Comarca de origem</label><input id="ac-comarca" placeholder="Curitiba" /></div>
+      <div class="campo largo"><label for="ac-ementa">Ementa (opcional)</label><textarea id="ac-ementa" placeholder="Honorários sucumbenciais. Fixação por apreciação equitativa. Impossibilidade"></textarea>
+        <div class="dica">Copie como publicada. Pode cortar com [...]. Ela entra só na referência, não na nota.</div></div>
+      <div class="campo"><label for="ac-relg">Relator ou relatora</label>
+        <select id="ac-relg"><option value="Relator">Relator</option><option value="Relatora">Relatora</option></select></div>
+      <div class="campo"><label for="ac-rel">Nome</label><input id="ac-rel" placeholder="Og Fernandes" /></div>
+      <div class="campo"><label for="ac-jul">Data do julgamento</label><input id="ac-jul" type="date" /></div>
+      <div class="campo"><label for="ac-pub">Data de publicação</label><input id="ac-pub" type="date" /></div>
+      <div class="campo"><label for="ac-dec">Resultado da votação</label>
+        <select id="ac-dec"><option value="">Não informar</option><option value="Decisão unânime">Unânime</option><option value="Decisão por maioria">Por maioria</option></select></div>
+      <div class="campo" data-trib="STF STJ"><label for="ac-tema">Número do tema (opcional)</label><input id="ac-tema" inputmode="numeric" placeholder="1.076" />
+        <div class="dica">Repercussão geral no STF, recurso repetitivo no STJ.</div></div>
+    </form>
+
+    <div class="acoes">
+      <button type="button" id="gerar" class="btn-primary">Gerar a citação</button>
+      <span class="aviso-falta" id="falta" role="alert"></span>
+    </div>
+  </div>
+
+  <div class="resultado" id="resultado" hidden aria-live="polite">
+    <div class="saida"><h2>Referência (lista final)</h2><div class="texto" id="o-ref"></div><button type="button" data-copiar="o-ref">Copiar</button></div>
+    <div class="saida"><h2>No texto, autor-data</h2><div class="texto" id="o-ad"></div><button type="button" data-copiar="o-ad">Copiar</button></div>
+    <div class="saida"><h2>No texto, nota de rodapé</h2><div class="texto" id="o-nota"></div><button type="button" data-copiar="o-nota">Copiar</button></div>
+    <div class="erro-comum" id="o-erro"></div>
+    <div class="kit">
+      <h2>O gerador resolve os casos comuns. O trabalho de Direito tem 43.</h2>
+      <p>Voto vencido, tratado internacional, corte internacional, enunciado de jornada, parecer, informativo, obra comentada, apud, mesmo autor no mesmo ano. O Kit de Citação Jurídica traz os 43 casos resolvidos, com o erro que cada um costuma produzir, mais os modelos de TCC e de artigo prontos.</p>
+      <a href="kit-abnt.html" class="btn-primary" id="ir-kit">Conhecer o Kit, R$ 37</a>
+    </div>
+  </div>
+
+  <div class="notas">
+    <p>Confira cada dado na fonte oficial antes de entregar. O gerador monta o formato, mas não sabe se o número, a data ou a página estão certos.</p>
+    <p>Se o manual da sua instituição pedir diferente, siga o manual.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-brand">
+    <img src="monograma_jk-120.png" alt="JK" class="footer-monogram" />
+    <div class="footer-logo">JK Jurídico<span>Escrita, Revisão e Formatação</span></div>
+  </div>
+  <div class="footer-text">
+    <div>© 2026 Julia Ketelut · Todos os direitos reservados</div>
+    <div style="margin-top:0.35rem"><a href="index.html">Todos os serviços</a> &nbsp;·&nbsp; <a href="kit-abnt.html">Kit de Citação ABNT</a></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+  var ABREV = ['jan.', 'fev.', 'mar.', 'abr.', 'maio', 'jun.', 'jul.', 'ago.', 'set.', 'out.', 'nov.', 'dez.'];
+  // sigla: [nome, preposição, capital]
+  var UFS = {
+    AC: ['Acre', 'do', 'Rio Branco'], AL: ['Alagoas', 'de', 'Maceió'], AP: ['Amapá', 'do', 'Macapá'],
+    AM: ['Amazonas', 'do', 'Manaus'], BA: ['Bahia', 'da', 'Salvador'], CE: ['Ceará', 'do', 'Fortaleza'],
+    DF: ['Distrito Federal', 'do', 'Brasília'], ES: ['Espírito Santo', 'do', 'Vitória'], GO: ['Goiás', 'de', 'Goiânia'],
+    MA: ['Maranhão', 'do', 'São Luís'], MT: ['Mato Grosso', 'de', 'Cuiabá'], MS: ['Mato Grosso do Sul', 'de', 'Campo Grande'],
+    MG: ['Minas Gerais', 'de', 'Belo Horizonte'], PA: ['Pará', 'do', 'Belém'], PB: ['Paraíba', 'da', 'João Pessoa'],
+    PR: ['Paraná', 'do', 'Curitiba'], PE: ['Pernambuco', 'de', 'Recife'], PI: ['Piauí', 'do', 'Teresina'],
+    RJ: ['Rio de Janeiro', 'do', 'Rio de Janeiro'], RN: ['Rio Grande do Norte', 'do', 'Natal'], RS: ['Rio Grande do Sul', 'do', 'Porto Alegre'],
+    RO: ['Rondônia', 'de', 'Porto Velho'], RR: ['Roraima', 'de', 'Boa Vista'], SC: ['Santa Catarina', 'de', 'Florianópolis'],
+    SP: ['São Paulo', 'de', 'São Paulo'], SE: ['Sergipe', 'de', 'Aracaju'], TO: ['Tocantins', 'do', 'Palmas']
+  };
+  var URL_SUMULAS = { STJ: 'https://www.stj.jus.br/sites/portalp/Paginas/Jurisprudencia/Sumulas.aspx', STF: '' };
+  var TRIB = { STF: 'Supremo Tribunal Federal', STJ: 'Superior Tribunal de Justiça' };
+
+  var ERROS = {
+    lei: '<strong>Erro comum:</strong> escrever a data como 01/04/2021. A epígrafe é transcrita como publicada, por extenso, e o dia 1 leva o ordinal: 1º de abril. Na chamada, o ano é o do ato, mesmo que você tenha lido a versão compilada de hoje.',
+    cf: '<strong>Erro comum:</strong> a Constituição não tem página, e o aluno inventa uma. Indique o artigo, o inciso e a alínea, nunca “p. 1”.',
+    sumula: '<strong>Erro comum:</strong> usar a data da sessão que aprovou o enunciado no lugar da data de publicação. A chamada acompanha a fonte que você consultou.',
+    acordao: '<strong>Erro comum:</strong> omitir o órgão julgador e o resultado da votação. Tribunal Pleno e 2. Turma não pesam o mesmo, e decisão por maioria sustenta menos que decisão unânime. Quem lê precisa saber o peso do que você citou.'
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var v = function (id) { return ($(id).value || '').trim().replace(/\s+/g, ' '); };
+  var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+  // texto do usuário: escapa e põe caput em itálico
+  var t = function (s) { return esc(s).replace(/\bcaput\b/g, '<em>caput</em>'); };
+  var semPonto = function (s) { return s.replace(/[\s.;,]+$/, ''); };
+  var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
+  var ordinalPonto = function (s) { return s.replace(/(\d+)\s*[ªºo°a]\.?(?=\s)/g, '$1.'); };
+
+  function partes(iso) { var p = iso.split('-'); return { a: +p[0], m: +p[1] - 1, d: +p[2] }; }
+  function extenso(iso) { var p = partes(iso); return (p.d === 1 ? '1º' : p.d) + ' de ' + MESES[p.m] + ' de ' + p.a; }
+  function abrev(iso) { var p = partes(iso); return p.d + ' ' + ABREV[p.m] + ' ' + p.a; }
+  function ano(iso) { return partes(iso).a; }
+  function hoje() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function milhar(s) {
+    var d = s.replace(/\D/g, '');
+    return d.length > 3 && /^[\d.\s]+$/.test(s) ? d.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : s;
+  }
+  function artigo(a, comp) {
+    a = a.replace(/^art(igo)?\.?\s*/i, '');
+    if (!a) return '';
+    if (/^\d+$/.test(a) && +a <= 9) a += 'º';
+    return 'art. ' + a + (comp ? ', ' + comp : '');
+  }
+
+  // ── selects de estado ──
+  ['lei-uf', 'ac-uf'].forEach(function (id) {
+    var s = $(id);
+    Object.keys(UFS).forEach(function (k) {
+      var o = document.createElement('option'); o.value = k; o.textContent = UFS[k][0];
+      if (k === 'PR') o.selected = true;
+      s.appendChild(o);
+    });
+  });
+  ['lei-acesso', 'cf-acesso', 'su-acesso'].forEach(function (id) { $(id).value = hoje(); });
+
+  // ── mostra só os campos que valem para a escolha ──
+  var tipo = 'lei';
+  function mostra(el, ok) { el.hidden = !ok; }
+  function atualiza() {
+    var esf = $('lei-esfera').value, onde = $('lei-onde').value, ato = $('lei-tipo').value;
+    document.querySelectorAll('#f-lei [data-so]').forEach(function (el) {
+      var ok = el.getAttribute('data-so').split(' ').indexOf(esf) >= 0;
+      if (el.hasAttribute('data-onde')) ok = ok && el.getAttribute('data-onde') === onde;
+      mostra(el, ok);
+    });
+    document.querySelectorAll('#f-lei [data-onde]:not([data-so])').forEach(function (el) { mostra(el, el.getAttribute('data-onde') === onde); });
+    mostra(document.querySelector('#f-lei [data-so-tipo]'), ato === 'Medida Provisória');
+    var tribSu = $('su-trib').value;
+    document.querySelectorAll('#f-sumula [data-trib]').forEach(function (el) { mostra(el, el.getAttribute('data-trib') === tribSu); });
+    document.querySelectorAll('#f-sumula [data-onde]').forEach(function (el) { mostra(el, el.getAttribute('data-onde') === $('su-onde').value); });
+    var tribAc = $('ac-trib').value;
+    document.querySelectorAll('#f-acordao [data-trib]').forEach(function (el) { mostra(el, el.getAttribute('data-trib').split(' ').indexOf(tribAc) >= 0); });
+    $('ac-num').placeholder = tribAc === 'TJ' ? '0002492-04.2019.8.16.0187' : '1.850.512/SP';
+    $('ac-classe').placeholder = tribAc === 'TJ' ? 'Apelação Cível' : 'Recurso Especial';
+  }
+  // valores sugeridos, que acompanham a esfera e o estado
+  var sugeridos = {};
+  function sugere(id, valor) {
+    var el = $(id);
+    if (!el.value || el.value === sugeridos[id]) { el.value = valor; }
+    sugeridos[id] = valor;
+  }
+  function sugestoes() {
+    var esf = $('lei-esfera').value, uf = UFS[$('lei-uf').value], mun = v('lei-mun');
+    if (esf === 'federal') {
+      sugere('lei-resp', 'Presidência da República'); sugere('lei-local', 'Brasília, DF');
+      sugere('lei-diario', 'Diário Oficial da União'); sugere('lei-dlocal', 'Brasília, DF');
+    } else if (esf === 'estadual') {
+      sugere('lei-resp', 'Assembleia Legislativa do Estado ' + uf[1] + ' ' + uf[0]); sugere('lei-local', uf[2]);
+      sugere('lei-diario', uf[0] === 'Distrito Federal' ? 'Diário Oficial do Distrito Federal' : 'Diário Oficial do Estado ' + uf[1] + ' ' + uf[0]);
+      sugere('lei-dlocal', uf[2]);
+    } else {
+      sugere('lei-resp', mun ? 'Câmara Municipal de ' + mun : ''); sugere('lei-local', mun);
+      sugere('lei-diario', mun ? 'Diário Oficial do Município de ' + mun : ''); sugere('lei-dlocal', mun);
+    }
+    sugere('su-url', URL_SUMULAS[$('su-trib').value]);
+  }
+  document.querySelectorAll('select, #lei-mun').forEach(function (el) {
+    el.addEventListener('change', function () { atualiza(); sugestoes(); });
+  });
+  $('lei-mun').addEventListener('input', sugestoes);
+  atualiza(); sugestoes();
+
+  document.querySelectorAll('.tipos button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      tipo = b.getAttribute('data-tipo');
+      document.querySelectorAll('.tipos button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      ['lei', 'cf', 'sumula', 'acordao'].forEach(function (k) { $('f-' + k).hidden = k !== tipo; });
+      $('resultado').hidden = true; $('falta').textContent = '';
+    });
+  });
+
+  // ── obrigatórios: só os visíveis do formulário ativo ──
+  var OPCIONAIS = ['lei-mp', 'lei-art', 'lei-comp', 'lei-dnum', 'cf-comp', 'su-org', 'su-dje', 'ac-ementa', 'ac-tema', 'ac-comarca', 'lei-versao'];
+  function confere() {
+    var faltam = [];
+    document.querySelectorAll('#f-' + tipo + ' .campo').forEach(function (c) {
+      c.classList.remove('falta');
+      if (c.hidden) return;
+      var el = c.querySelector('input, select, textarea');
+      if (!el || el.tagName === 'SELECT' || OPCIONAIS.indexOf(el.id) >= 0) return;
+      if (el.id === 'lei-pag' && v('lei-esfera') !== 'federal') return;
+      if (!el.value.trim()) { c.classList.add('falta'); faltam.push(c.querySelector('label').textContent.toLowerCase()); }
+    });
+    return faltam;
+  }
+
+  // ── montagem: cada tipo segue o caso correspondente da Folha de Citação ──
+  function gerarLei() {
+    var esf = v('lei-esfera'), uf = $('lei-uf').value, ato = v('lei-tipo'), onde = v('lei-onde');
+    var J, Jc;
+    if (esf === 'federal') { J = 'BRASIL'; Jc = 'Brasil'; }
+    else if (esf === 'estadual') { J = UFS[uf][0].toUpperCase(); Jc = UFS[uf][0]; }
+    else { J = v('lei-mun').toUpperCase() + ' (' + uf + ')'; Jc = v('lei-mun'); }
+    var epi = ato + ' nº ' + esc(milhar(v('lei-num'))) + ', de ' + extenso(v('lei-data'));
+    var ementa = t(semPonto(v('lei-ementa')));
+    var mp = ato === 'Medida Provisória' && v('lei-mp') ? ' ' + t(cap(semPonto(v('lei-mp')))) + '.' : '';
+    var fonte;
+    if (onde === 'site') {
+      var versao = v('lei-versao').replace(/\D/g, '');
+      fonte = esc(v('lei-local')) + ': ' + esc(v('lei-resp')) + ', [' + (versao || ano(v('lei-data'))) + ']. Disponível em: ' + esc(v('lei-url')) + '. Acesso em: ' + abrev(v('lei-acesso')) + '.';
+      var ref = J + '. ' + epi + '. <em>' + ementa + '</em>. ' + fonte + mp;
+    } else {
+      var dados = [];
+      if (esf === 'federal') {
+        dados.push('seção ' + esc(v('lei-secao')));
+        if (v('lei-extra')) dados.push(v('lei-extra'));
+      } else if (v('lei-dnum')) {
+        dados.push('n. ' + esc(v('lei-dnum')));
+      }
+      var local = esc(v('lei-dlocal'));
+      var miolo = esf === 'federal'
+        ? ': ' + dados.join(', ') + ', ' + local
+        : ', ' + local + (dados.length ? ', ' + dados.join(', ') : '');
+      var pag = v('lei-pag') ? ', p. ' + esc(v('lei-pag')) : '';
+      ref = J + '. ' + epi + '. ' + ementa + '. <em>' + esc(v('lei-diario')) + '</em>' + miolo + pag + ', ' + abrev(v('lei-pub')) + '.' + mp;
+    }
+    var art = artigo(t(v('lei-art')), t(v('lei-comp')));
+    return {
+      ref: ref,
+      ad: '(' + esc(Jc) + ', ' + ano(v('lei-data')) + (art ? ', ' + art : '') + ')',
+      nota: '¹ ' + ref + (art ? ' ' + cap(art) + '.' : '')
+    };
+  }
+
+  function gerarCf() {
+    var ref = 'BRASIL. [Constituição (1988)]. <em>Constituição da República Federativa do Brasil de 1988</em>. Brasília, DF: Presidência da República, [2016]. Disponível em: https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm. Acesso em: ' + abrev(v('cf-acesso')) + '.';
+    var art = artigo(t(v('cf-art')), t(v('cf-comp')));
+    return { ref: ref, ad: '(Brasil, 1988, ' + art + ')', nota: '¹ ' + ref + ' ' + cap(art) + '.' };
+  }
+
+  function gerarSumula() {
+    var trib = v('su-trib'), vinc = trib === 'STF' && v('su-vinc') === 'v';
+    var num = esc(v('su-num').replace(/\D/g, ''));
+    var nome = TRIB[trib];
+    var org = v('su-org') ? ' (' + esc(ordinalPonto(v('su-org') + ' ')).trim() + ')' : '';
+    var tit = (vinc ? 'Súmula Vinculante n. ' : 'Súmula n. ') + num;
+    var enun = t(semPonto(v('su-enun')));
+    var abre = 'BRASIL. ' + nome + org + '. ';
+    var ref, nota, a;
+    if (v('su-onde') === 'site') {
+      a = v('su-ano').replace(/\D/g, '');
+      var fonte = 'Brasília, DF: ' + nome + ', ' + a + '. Disponível em: ' + esc(v('su-url')) + '. Acesso em: ' + abrev(v('su-acesso')) + '.';
+      ref = abre + '<em>' + tit + '</em>. ' + enun + '. ' + fonte;
+      nota = abre + '<em>' + tit + '</em>. ' + fonte;
+    } else {
+      a = ano(v('su-pub'));
+      var dj = '<em>Diário da Justiça Eletrônico</em>' + (v('su-dje') ? ': n. ' + esc(v('su-dje')) + ',' : ',') + ' Brasília, DF, p. ' + esc(v('su-pag')) + ', ' + abrev(v('su-pub')) + '.';
+      ref = abre + tit + '. ' + enun + '. ' + dj;
+      nota = abre + tit + '. ' + dj;
+    }
+    return { ref: ref, ad: '(Brasil, ' + a + ', ' + (vinc ? 'Súmula Vinculante ' : 'Súmula ') + num + ')', nota: '¹ ' + nota };
+  }
+
+  function gerarAcordao() {
+    var trib = v('ac-trib'), uf = $('ac-uf').value;
+    var org = esc(ordinalPonto(v('ac-org') + ' ').trim());
+    var proc = esc(v('ac-classe')) + ' ' + esc(v('ac-num').replace(/\s+/g, ''));
+    var rel = esc(v('ac-relg')) + ': ' + (trib === 'TJ' ? 'Des. ' : 'Min. ') + esc(v('ac-rel')) + ', julgado em ' + abrev(v('ac-jul')) + '.';
+    var ementa = semPonto(v('ac-ementa'));
+    var dec = v('ac-dec') ? ' ' + v('ac-dec') + '.' : '';
+    var ref, nota, ad;
+    if (trib === 'TJ') {
+      var nomeUf = UFS[uf][0];
+      var tj = uf === 'DF' ? 'Tribunal de Justiça do Distrito Federal e dos Territórios' : 'Tribunal de Justiça do Estado ' + UFS[uf][1] + ' ' + nomeUf;
+      var abre = nomeUf.toUpperCase() + '. ' + tj + ' (' + org + '). <em>' + proc + '</em>. ';
+      var com = v('ac-comarca') ? esc(v('ac-comarca')) + '. ' : '';
+      var fim = rel + ' Publicado em ' + abrev(v('ac-pub')) + '.' + dec;
+      ref = abre + (ementa ? t(ementa) + '. ' : '') + com + fim;
+      nota = abre + com + fim;
+      ad = '(' + esc(nomeUf) + ', ' + ano(v('ac-jul')) + ')';
+    } else {
+      var tema = v('ac-tema') ? milhar(v('ac-tema')) : '';
+      var temaTxt = tema ? 'Tema ' + esc(tema) + (trib === 'STF' ? ' da repercussão geral' : ' dos recursos repetitivos') : '';
+      var abre2 = 'BRASIL. ' + TRIB[trib] + ' (' + org + '). ' + proc + '. ';
+      var dje = ' <em>Diário da Justiça Eletrônico</em>, Brasília, DF, ' + abrev(v('ac-pub')) + '.';
+      var miolo = tema ? '[' + temaTxt + (ementa ? '. ' + t(ementa) : '') + ']. ' : (ementa ? t(ementa) + '. ' : '');
+      var rito = tema && trib === 'STJ' ? ' Julgado sob o rito dos recursos repetitivos.' : '';
+      ref = abre2 + miolo + rel + dje + dec + rito;
+      nota = abre2 + rel + dje + (tema ? ' ' + temaTxt + '.' : dec);
+      ad = '(Brasil, ' + ano(v('ac-jul')) + (tema ? ', Tema ' + esc(tema) : '') + ')';
+    }
+    return { ref: ref, ad: ad, nota: '¹ ' + nota };
+  }
+
+  var GERA = { lei: gerarLei, cf: gerarCf, sumula: gerarSumula, acordao: gerarAcordao };
+
+  $('gerar').addEventListener('click', function () {
+    var faltam = confere();
+    if (faltam.length) {
+      $('falta').textContent = 'Falta preencher: ' + faltam.join(', ') + '.';
+      $('resultado').hidden = true;
+      return;
+    }
+    $('falta').textContent = '';
+    var r = GERA[tipo]();
+    $('o-ref').innerHTML = r.ref;
+    $('o-ad').innerHTML = r.ad;
+    $('o-nota').innerHTML = r.nota;
+    $('o-erro').innerHTML = ERROS[tipo];
+    $('resultado').hidden = false;
+    $('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.fbq) fbq('trackCustom', 'GerouCitacao', { tipo: tipo });
+  });
+
+  // ── copiar com o itálico: HTML para o Word e o Google Docs, texto puro de reserva ──
+  document.querySelectorAll('[data-copiar]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = $(b.getAttribute('data-copiar'));
+      var html = el.innerHTML, puro = el.innerText;
+      var ok = function () { b.textContent = 'Copiado'; setTimeout(function () { b.textContent = 'Copiar'; }, 2000); };
+      var reserva = function () {
+        var r = document.createRange(); r.selectNodeContents(el);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        try { document.execCommand('copy'); ok(); } catch (e) {}
+        s.removeAllRanges();
+      };
+      if (navigator.clipboard && window.ClipboardItem) {
+        navigator.clipboard.write([new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([puro], { type: 'text/plain' })
+        })]).then(ok, reserva);
+      } else { reserva(); }
+    });
+  });
+
+  $('ir-kit').addEventListener('click', function () { if (window.fbq) fbq('trackCustom', 'GeradorParaKit'); });
+})();
+</script>
+</body>
+</html>
