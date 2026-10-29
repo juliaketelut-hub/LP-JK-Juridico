@@ -26,7 +26,7 @@
     .lista { list-style: none; margin: 1.5rem 0 0; counter-reset: e; }
     .lista li { counter-increment: e; display: flex; gap: 0.9rem; padding: 0.7rem 0; border-bottom: 1px solid var(--border); color: var(--text); }
     .lista li::before { content: counter(e, decimal-leading-zero); font-family: 'Spectral', serif; font-size: 1.25rem; color: var(--creme-txt); min-width: 1.9rem; line-height: 1.3; }
-    .capa { width: 100%; max-width: 260px; display: block; margin: 0 auto 1.4rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(42,33,24,0.25); }
+    .capa { width: 100%; height: auto; max-width: 260px; display: block; margin: 0 auto 1.4rem; border-radius: 4px; box-shadow: 0 10px 30px rgba(42,33,24,0.25); }
     .cartao { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.6rem 1.4rem; }
     .cartao h2 { font-family: 'Spectral', serif; font-weight: 600; font-size: 1.35rem; margin-bottom: 1rem; color: var(--text); }
     .campo { margin-bottom: 0.9rem; }
@@ -41,7 +41,7 @@
     .ok .mais { border-top: 1px solid var(--border-m); margin-top: 1.4rem; padding-top: 1.1rem; font-size: 0.92rem; }
     .ok .mais a { color: var(--creme-txt); font-weight: 600; }
     [hidden] { display: none !important; }
-    @media (max-width: 760px) { .grade { grid-template-columns: 1fr; gap: 1.8rem; } nav { padding: 1rem; } }
+    @media (max-width: 760px) { .grade { grid-template-columns: 1fr; gap: 1.8rem; } nav { padding: 1rem; } .capa { max-width: 170px; } }
   </style>
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
