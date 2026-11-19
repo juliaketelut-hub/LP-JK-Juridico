@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Política de Privacidade | JK Jurídico</title>
+  <meta name="description" content="Como a JK Jurídico trata os dados pessoais coletados no site: quais dados, para quê, com quem são compartilhados, por quanto tempo e como exercer os seus direitos pela LGPD." />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="canonical" href="https://meudocjuridico.com.br/privacidade" />
+
+  <link rel="icon" type="image/png" href="favicon-jk.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="base.css" />
+  <style>
+    /* ── Documento legal: coluna estreita, hierarquia sóbria ── */
+    .legal { background: var(--bg); }
+    .legal .container { max-width: 760px; }
+
+    .legal-head { margin-bottom: 2.5rem; }
+    .legal-versao {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--creme-txt);
+      margin-bottom: 0.9rem;
+    }
+    .legal-lede {
+      max-width: 62ch;
+      color: var(--text-meta);
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    /* Sumário clicável */
+    .legal-toc {
+      border-top: 1px solid var(--border-m);
+      border-bottom: 1px solid var(--border-m);
+      padding: 1.4rem 0;
+      margin: 2.2rem 0 3rem;
+    }
+    .legal-toc-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--creme-txt);
+      margin-bottom: 1rem;
+    }
+    .legal-toc ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.55rem 2rem;
+      counter-reset: toc;
+    }
+    .legal-toc li { counter-increment: toc; display: flex; gap: 0.7rem; font-size: 0.9rem; }
+    .legal-toc li::before {
+      content: counter(toc);
+      color: var(--creme-txt);
+      font-variant-numeric: tabular-nums;
+      min-width: 1.2rem;
+      flex: none;
+    }
+    .legal-toc a { color: var(--text-body); text-decoration: none; border-bottom: 1px solid transparent; }
+    .legal-toc a:hover, .legal-toc a:focus-visible { border-bottom-color: var(--creme); }
+
+    /* Seções */
+    .legal-sec { margin-bottom: 2.6rem; scroll-margin-top: 5rem; }
+    .legal-sec h2 {
+      font-family: 'Spectral', serif;
+      font-size: 1.28rem;
+      font-weight: 600;
+      line-height: 1.3;
+      margin: 0 0 0.9rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-m);
+    }
+    .legal-sec h2 .num {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--creme-txt);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .legal-sec p { max-width: 66ch; margin: 0 0 0.8rem; line-height: 1.78; }
+    /* Link no corpo do documento herda a cor do texto: o azul padrão do
+       navegador, num documento legal, parece erro de formatação. */
+    .legal-sec a {
+      color: var(--creme-txt);
+      text-decoration: none;
+      border-bottom: 1px solid var(--creme-border);
+    }
+    .legal-sec a:hover, .legal-sec a:focus-visible { border-bottom-color: var(--creme); }
+    .legal-sec ul { max-width: 66ch; margin: 0 0 0.8rem; padding-left: 1.2rem; }
+    .legal-sec li { margin-bottom: 0.5rem; line-height: 1.7; }
+
+    /* Destaque para o direito de arrependimento */
+    .legal-destaque {
+      border: 1px solid var(--creme-border);
+      background: var(--creme-soft);
+      padding: 1.3rem 1.5rem;
+      margin: 1.2rem 0;
+      max-width: 66ch;
+    }
+    .legal-destaque p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 640px) {
+      .legal-toc ol { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="monograma_jk-120.png" alt="JK Jurídico" class="nav-monogram" />
+    <span class="nav-logo-text">Jurídico</span>
+  </a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Voltar ao site</a>
+  </div>
+</nav>
+
+<section class="legal">
+  <div class="container">
+
+    <div class="legal-head">
+      <div class="legal-versao">Versão de 19 de novembro de 2026</div>
+      <h2 class="section-title">Política de Privacidade</h2>
+      <div class="section-divider"></div>
+      <p class="legal-lede">Esta política explica quais dados pessoais o site da JK Jurídico coleta, para que eles servem, com quem são compartilhados, por quanto tempo ficam guardados e como você exerce os seus direitos, nos termos da Lei nº 13.709/2018 (Lei Geral de Proteção de Dados Pessoais, LGPD).</p>
+    </div>
+
+    <!-- Sumário: NÃO usar <nav> aqui. O base.css estiliza o elemento nav como a
+         barra escura do topo, e o bloco herda fundo café com texto invisível. -->
+    <div class="legal-toc" role="navigation" aria-label="Sumário">
+      <div class="legal-toc-label">Nesta página</div>
+      <ol>
+        <li><a href="#s1">Quem trata os dados</a></li>
+        <li><a href="#s2">Quais dados e para quê</a></li>
+        <li><a href="#s3">Cookies e armazenamento no navegador</a></li>
+        <li><a href="#s4">Com quem os dados são compartilhados</a></li>
+        <li><a href="#s5">Transferência para outros países</a></li>
+        <li><a href="#s6">Por quanto tempo os dados ficam guardados</a></li>
+        <li><a href="#s7">Seus direitos</a></li>
+        <li><a href="#s8">Segurança</a></li>
+        <li><a href="#s9">Aplicativo de automação com o Google Drive</a></li>
+        <li><a href="#s10">Menores de idade</a></li>
+        <li><a href="#s11">Alteração desta política</a></li>
+      </ol>
+    </div>
+
+    <div class="legal-sec" id="s1">
+      <h2><span class="num">Seção 1</span>Quem trata os dados</h2>
+      <p>1.1. A controladora dos dados é <strong>Julia Pereira Ketelut</strong>, profissional autônoma prestadora de serviços de escrita e revisão acadêmica, atuando sob a marca JK Jurídico, com endereço profissional em Maringá/PR.</p>
+      <p>1.2. Pedidos e dúvidas sobre dados pessoais são recebidos pelos canais <a href="mailto:juliaketelut.juridico@gmail.com">juliaketelut.juridico@gmail.com</a> e WhatsApp <a href="https://wa.me/5544991652729" target="_blank" rel="noopener">(44) 99165-2729</a>, que fazem as vezes do canal de comunicação com o titular previsto no art. 41 da LGPD.</p>
+    </div>
+
+    <div class="legal-sec" id="s2">
+      <h2><span class="num">Seção 2</span>Quais dados e para quê</h2>
+      <p>2.1. <strong>Formulário de contato da página inicial.</strong> Nome, e-mail, serviço de interesse e mensagem, usados para responder ao pedido de orçamento, como procedimento preliminar a contrato (art. 7º, V, da LGPD).</p>
+      <p>2.2. <strong>Materiais gratuitos</strong>, como o Checklist Anti-Plágio e o material sobre erros de citação. Nome e e-mail, usados para enviar o material pedido e, depois, e-mails da JK Jurídico com conteúdo e ofertas. A base é o consentimento (art. 7º, I), que pode ser retirado a qualquer tempo pelo link de descadastro presente em todos os e-mails.</p>
+      <p>2.3. <strong>Raio-X das peças.</strong> As respostas ao questionário, o nome, o WhatsApp e o e-mail, usados para gerar o raio-x personalizado e para o contato sobre ele, com base no consentimento (art. 7º, I).</p>
+      <p>2.4. <strong>Compras de produtos digitais</strong>, como o Kit ABNT e os 7 testes de IA. Nome, e-mail, número do pedido, valor e situação do pagamento, usados para entregar o produto, enviar o link pessoal de download por e-mail e cumprir obrigações legais (art. 7º, II e V). Os dados do cartão ou do Pix são informados diretamente na plataforma de pagamento e não chegam à JK Jurídico.</p>
+      <p>2.5. <strong>Área de membros.</strong> E-mail, senha, produtos liberados, progresso nas aulas, comentários e avaliações, usados para dar acesso aos conteúdos contratados (art. 7º, V). A senha é guardada pelo provedor de autenticação de forma cifrada e não é visível para a JK Jurídico.</p>
+      <p>2.6. <strong>Gerador de citação.</strong> Os dados digitados no gerador são processados no próprio navegador e não são enviados nem guardados pela JK Jurídico.</p>
+      <p>2.7. Os dados não são vendidos, não são cedidos para publicidade de terceiros e não são empregados para treinamento de modelos de inteligência artificial.</p>
+    </div>
+
+    <div class="legal-sec" id="s3">
+      <h2><span class="num">Seção 3</span>Cookies e armazenamento no navegador</h2>
+      <p>3.1. Algumas páginas usam o <strong>Pixel da Meta</strong> (Facebook e Instagram), que grava cookies e registra as páginas visitadas e ações como o envio de formulário, para medir o resultado de anúncios e conhecer o público do site. A base é o legítimo interesse (art. 7º, IX). Você pode se opor bloqueando cookies de terceiros no navegador ou ajustando as preferências de anúncios na sua conta da Meta.</p>
+      <p>3.2. O site guarda no próprio navegador, sem enviar a ninguém, a preferência de tema claro ou escuro e o número do último pedido, para mostrar a página de confirmação da compra.</p>
+      <p>3.3. As fontes tipográficas são carregadas do Google Fonts, o que informa ao Google o endereço IP do visitante.</p>
+    </div>
+
+    <div class="legal-sec" id="s4">
+      <h2><span class="num">Seção 4</span>Com quem os dados são compartilhados</h2>
+      <p>4.1. Os dados são tratados, em nome da JK Jurídico, pelos fornecedores que fazem o site funcionar, cada um apenas na parte necessária ao seu serviço:</p>
+      <ul>
+        <li><strong>Cloudflare</strong>: hospedagem do site, encaminhamento dos e-mails recebidos em contato@meudocjuridico.com.br<!--ENVIO_CF--> e proteção contra ataques;</li>
+        <li><strong>Supabase</strong>: banco de dados dos pedidos e do Raio-X e autenticação da área de membros;</li>
+        <li><strong>InfinitePay</strong>: processamento do pagamento;</li>
+        <li><strong>MailerLite</strong>: lista de e-mails dos materiais gratuitos e de compradores;</li>
+        <!--ENVIO_OUTRO-->
+        <li><strong>Formspree</strong>: recebimento do formulário de contato;</li>
+        <li><strong>Meta</strong>: Pixel de medição de anúncios (seção 3);</li>
+        <li><strong>Google</strong>: fontes tipográficas (seção 3).</li>
+      </ul>
+      <p>4.2. Os dados também podem ser fornecidos a autoridades, quando houver obrigação legal ou ordem judicial.</p>
+    </div>
+
+    <div class="legal-sec" id="s5">
+      <h2><span class="num">Seção 5</span>Transferência para outros países</h2>
+      <p>5.1. Parte dos fornecedores da seção 4 guarda dados em servidores fora do Brasil. A transferência ocorre para a execução do serviço contratado pelo titular ou a pedido dele, ou com as garantias contratuais oferecidas por esses fornecedores, nos termos do art. 33 da LGPD.</p>
+    </div>
+
+    <div class="legal-sec" id="s6">
+      <h2><span class="num">Seção 6</span>Por quanto tempo os dados ficam guardados</h2>
+      <p>6.1. Dados de compras: por 5 anos após a compra, para o atendimento ao cliente, o cumprimento de obrigações fiscais e o exercício regular de direitos.</p>
+      <p>6.2. Lista de e-mails: até o descadastro ou o pedido de exclusão.</p>
+      <p>6.3. Contato sem contratação e Raio-X: por até 12 meses após o último contato.</p>
+      <p>6.4. Área de membros: enquanto a conta existir. A exclusão da conta apaga os dados de acesso e progresso.</p>
+    </div>
+
+    <div class="legal-sec" id="s7">
+      <h2><span class="num">Seção 7</span>Seus direitos</h2>
+      <p>7.1. Pelos canais da subcláusula 1.2, você pode pedir, a qualquer tempo, a confirmação de que os seus dados são tratados, o acesso a eles, a correção, a anonimização, o bloqueio ou a eliminação, a portabilidade, a informação sobre com quem foram compartilhados e a revogação do consentimento, na forma do art. 18 da LGPD.</p>
+      <p>7.2. A eliminação ressalva os dados que precisem ser guardados para cumprir obrigação legal ou para o exercício regular de direitos.</p>
+      <p>7.3. Você também pode apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD).</p>
+    </div>
+
+    <div class="legal-sec" id="s8">
+      <h2><span class="num">Seção 8</span>Segurança</h2>
+      <p>8.1. O site usa conexão cifrada (HTTPS). O acesso aos dados é restrito à titular da JK Jurídico, os links de download são pessoais e têm validade e limite de uso, e as chaves de acesso aos sistemas ficam fora do código do site.</p>
+    </div>
+
+    <div class="legal-sec" id="s9">
+      <h2><span class="num">Seção 9</span>Aplicativo de automação com o Google Drive</h2>
+      <p>9.1. A JK Jurídico mantém um aplicativo interno, registrado no Google Cloud, usado exclusivamente pela titular desta página para copiar e organizar os próprios arquivos de trabalho no próprio Google Drive.</p>
+      <p>9.2. O aplicativo não acessa dados de visitantes, de clientes nem de outras contas do Google. Os dados obtidos por meio das APIs do Google não são compartilhados com terceiros, não são usados para publicidade e não são empregados para treinamento de modelos de inteligência artificial.</p>
+      <p>9.3. O uso e a transferência de informações recebidas das APIs do Google seguem a <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Política de Dados do Usuário dos Serviços de API do Google</a>, inclusive os requisitos de Uso Limitado.</p>
+    </div>
+
+    <div class="legal-sec" id="s10">
+      <h2><span class="num">Seção 10</span>Menores de idade</h2>
+      <p>10.1. O site e os produtos são destinados a estudantes universitários e profissionais adultos. A JK Jurídico não coleta, de forma consciente, dados de menores de 18 anos.</p>
+    </div>
+
+    <div class="legal-sec" id="s11">
+      <h2><span class="num">Seção 11</span>Alteração desta política</h2>
+      <p>11.1. Esta política pode ser atualizada quando o site mudar. A versão vigente é identificada pela data no alto desta página.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <img src="monograma_jk-120.png" alt="JK" class="footer-monogram" />
+    <div class="footer-logo">
+      JK Jurídico
+      <span>Escrita, Revisão e Formatação</span>
+    </div>
+  </div>
+  <div class="footer-text">
+    <div>© 2026 Julia Ketelut · Todos os direitos reservados</div>
+    <div style="margin-top:0.35rem">
+      <a href="index.html">Todos os serviços</a> &nbsp;·&nbsp;
+      <a href="privacidade">Privacidade</a> &nbsp;·&nbsp;
+      <a href="mailto:juliaketelut.juridico@gmail.com">Contato</a>
+    </div>
+  </div>
+</footer>
+
+<script src="base.js"></script>
+
+</body>
+</html>
