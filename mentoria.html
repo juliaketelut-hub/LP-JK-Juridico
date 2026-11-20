@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mentoria Visual Law + IA para Advogados | JK Jurídico</title>
-  <meta name="description" content="Você constrói os GPTs do seu escritório, com a minha condução e as travas que impedem a invenção. Mais o Visual Law das suas peças e o guia de conteúdo conforme o Provimento 205/2021 da OAB. Para advogados." />
+  <title>Mentoria de IA para Advogados: lista de espera | JK Jurídico</title>
+  <meta name="description" content="A Mentoria de IA para advogados está sendo refeita para agentes de IA. Entre na lista de espera e saiba primeiro quando a nova versão abrir." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="canonical" href="https://meudocjuridico.com.br/mentoria.html" />
@@ -14,108 +14,40 @@
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:site_name" content="JK Jurídico" />
   <meta property="og:url" content="https://meudocjuridico.com.br/mentoria.html" />
-  <meta property="og:title" content="Mentoria Visual Law + IA para Advogados — JK Jurídico" />
-  <meta property="og:description" content="Você constrói os GPTs do seu escritório, com a minha condução e as travas que impedem a invenção. Mais o Visual Law das suas peças e o guia de conteúdo conforme o Provimento 205/2021 da OAB. Para advogados." />
+  <meta property="og:title" content="Mentoria de IA para Advogados: lista de espera, JK Jurídico" />
+  <meta property="og:description" content="A Mentoria de IA para advogados está sendo refeita para agentes de IA. Entre na lista de espera e saiba primeiro quando a nova versão abrir." />
   <meta property="og:image" content="https://meudocjuridico.com.br/og-jk.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Julia Ketelut, bacharel em Direito, ao lado da marca JK Jurídico" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Mentoria Visual Law + IA para Advogados — JK Jurídico" />
-  <meta name="twitter:description" content="Você constrói os GPTs do seu escritório, com a minha condução e as travas que impedem a invenção. Mais o Visual Law das suas peças e o guia de conteúdo conforme o Provimento 205/2021 da OAB. Para advogados." />
+  <meta name="twitter:title" content="Mentoria de IA para Advogados: lista de espera, JK Jurídico" />
+  <meta name="twitter:description" content="A Mentoria de IA para advogados está sendo refeita para agentes de IA. Entre na lista de espera e saiba primeiro quando a nova versão abrir." />
   <meta name="twitter:image" content="https://meudocjuridico.com.br/og-jk.jpg" />
 
   <link rel="icon" type="image/png" href="favicon-jk.png" />
   <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="base.css" />
   <style>
-    /* Alternância de fundos desta página */
-    #risco     { background: var(--bg); }
-    #entrega   { background: var(--surface); }
-    #protocolo { background: var(--bg); }
-    #processo  { background: var(--surface); }
-    #pacotes   { background: var(--bg); }
-    #escopo    { background: var(--surface); }
-    #quem      { background: var(--bg); }
-    #faq       { background: var(--surface); }
-
-    /* ── O RISCO ── */
-    .risco-intro { max-width: 62ch; margin-bottom: 3rem; }
-
-    .multas {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 1px;
-      background: var(--border-m);
-      border: 1px solid var(--border-m);
-    }
-    .multa {
-      background: var(--bg);
-      padding: 1.5rem 1.4rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-    .multa-valor {
-      font-family: 'Spectral', serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--vermelho);
-      line-height: 1.15;
-    }
-    .multa-valor span { font-size: 0.9rem; font-weight: 400; color: var(--text-body); }
-    .multa-quem {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-meta);
-    }
-    .multa-oque { font-size: 0.85rem; color: var(--text-body); line-height: 1.55; }
-
-    .risco-fecho {
-      margin-top: 2.5rem;
-      padding: 1.4rem 1.6rem;
-      border: 1px solid var(--creme-border);
-      background: var(--creme-soft);
-      max-width: 62ch;
-    }
-    .risco-fecho p { font-size: 1rem; }
-
-    /* ── PROTOCOLO ── */
-    .camada-regra {
-      display: inline-block;
-      margin-top: 0.7rem;
-      font-size: 0.82rem;
-      color: var(--text-meta);
-      background: var(--bg);
-      border: 1px solid var(--border-m);
-      padding: 0.6rem 0.95rem;
-      line-height: 1.5;
-    }
-    .camada-regra strong { color: var(--creme-txt); font-weight: 600; }
-    .franqueza {
-      margin-top: 2.5rem;
-      border: 1px solid var(--border-m);
-      background: var(--surface);
-      padding: 1.6rem 1.8rem;
-      max-width: 72ch;
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
-    }
-    .franqueza h3 {
-      font-family: 'Spectral', serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-    .franqueza p { font-size: 0.94rem; line-height: 1.72; }
-
-    @media (max-width: 620px) {
-      .multas { grid-template-columns: 1fr; }
-      .passo { grid-template-columns: 40px 1fr; gap: 1rem; }
-    }
+    #continua { background: var(--surface); }
+    .continua-lista { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-top: 2rem; }
+    .continua-item { background: var(--bg); border: 1px solid var(--border-m); padding: 1.4rem 1.3rem; }
+    .continua-item h3 { font-family: 'Spectral', serif; font-size: 1.1rem; font-weight: 600; margin: 0 0 .4rem; color: var(--text); }
+    .continua-item p { font-size: .92rem; line-height: 1.6; margin: 0; }
+    .espera-box { max-width: 560px; margin: 2.5rem auto 0; background: var(--bg); border: 1px solid var(--creme-border); padding: 2rem 1.8rem; text-align: left; }
+    .campo { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
+    .campo label { font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-meta); }
+    .campo .opc { text-transform: none; letter-spacing: 0; font-weight: 400; }
+    .campo input, .campo textarea { font: inherit; font-size: 1rem; color: var(--text); background: #fff; border: 1px solid var(--border-m); padding: .75rem .9rem; border-radius: 0; width: 100%; box-sizing: border-box; }
+    .campo textarea { min-height: 90px; resize: vertical; }
+    .campo input:focus, .campo textarea:focus { outline: 2px solid var(--creme); outline-offset: 1px; }
+    .espera-box button { width: 100%; justify-content: center; border: 0; cursor: pointer; font: inherit; }
+    .espera-box .espera-aviso { font-size: .8rem; color: var(--text-meta); margin-top: 1rem; line-height: 1.5; max-width: none; }
+    .espera-aviso a { color: var(--creme-txt); }
+    .espera-ok { display: none; font-size: 1rem; color: var(--text); background: var(--creme-soft); border: 1px solid var(--creme-border); padding: 1.2rem 1.3rem; }
+    .espera-erro { display: none; font-size: .9rem; color: var(--vermelho); margin-top: .8rem; }
+    .fechar .alt-whats { text-align: center; margin-top: 1.4rem; font-size: .92rem; }
+    .alt-whats a { color: var(--creme-esc); }
   </style>
   <script>document.documentElement.className += ' anim';</script>
   <!-- Meta Pixel -->
@@ -144,383 +76,73 @@
   </a>
   <div class="nav-right">
     <a href="index.html" class="nav-back">← Todos os serviços</a>
-    <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Visual%20Law%20%2B%20IA." class="nav-cta" target="_blank" rel="noopener">Falar com a Julia</a>
+    <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20quero%20saber%20sobre%20a%20nova%20Mentoria%20de%20agentes%20de%20IA." class="nav-cta" target="_blank" rel="noopener">Falar com a Julia</a>
   </div>
 </nav>
 
-<!-- ── HERO ── -->
 <header class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">Mentoria para advogados · Visual Law + IA</div>
-    <h1>A IA não erra por maldade. Erra por não saber calar.</h1>
+    <div class="hero-eyebrow">Mentoria para advogados · em reformulação</div>
+    <h1>A mentoria está sendo refeita para agentes de IA.</h1>
     <div class="hero-lede">
-      <p>Você já usa inteligência artificial. Talvez tenha pedido uma minuta esta semana — e depois conferido cada citação, uma a uma, com a sensação incômoda de que estava conferindo o próprio nome.</p>
-      <span class="virada">O problema nunca foi a IA. Foi ela <em>não saber dizer que não sabe.</em></span>
+      <p>A versão anterior ensinava a montar assistentes de conversa personalizados. As ferramentas mudaram depressa, e o que mais faz diferença num escritório agora são agentes que executam tarefas inteiras sob a sua supervisão. Estou reconstruindo o programa a partir disso.</p>
+      <span class="virada">Quem entrar na lista de espera <em>fica sabendo primeiro</em> quando a nova versão abrir.</span>
     </div>
     <div class="hero-actions">
-      <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Visual%20Law%20%2B%20IA." class="btn-primary" target="_blank" rel="noopener">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.4 1.9.8 2.6.9 3.5.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-        Conversar sobre o meu escritório
-      </a>
-      <a href="#pacotes" class="btn-ghost">Ver os pacotes e valores</a>
+      <a href="#lista" class="btn-primary">Entrar na lista de espera</a>
     </div>
   </div>
 </header>
 
-<!-- ── O RISCO ── -->
-<section id="risco">
+<section id="continua">
   <div class="container">
-    <div class="section-label">Por que isso importa agora</div>
-    <h2 class="section-title">Os tribunais pararam de relevar</h2>
+    <div class="section-label">O que continua</div>
+    <h2 class="section-title">A base do método fica</h2>
     <div class="section-divider"></div>
-
-    <div class="risco-intro">
-      <p>Enquanto a IA generalista responde com a mesma segurança quando sabe e quando não sabe, é o advogado que assina a petição. E os tribunais começaram a cobrar essa assinatura.</p>
-    </div>
-
-    <div class="multas">
-      <div class="multa">
-        <div class="multa-valor">20 salários mínimos</div>
-        <div class="multa-quem">2ª Vara Federal de Londrina · 2025</div>
-        <div class="multa-oque">Duas multas de dez salários mínimos: artigos de lei inexistentes e uma "lei processual do tempo" que não existe.<sup><a href="#fontes" class="ref">1</a></sup></div>
+    <div class="continua-lista">
+      <div class="continua-item">
+        <h3>Nada inventado chega à peça</h3>
+        <p>A IA só cita o que você conferiu e colocou na base. Jurisprudência de memória continua proibida.</p>
       </div>
-      <div class="multa">
-        <div class="multa-valor">5% da causa <span>+ ofício à OAB</span></div>
-        <div class="multa-quem">TRT-2, 6ª Turma · fev. 2026</div>
-        <div class="multa-oque">Litigância de má-fé por jurisprudência fictícia. O caso foi encaminhado à OAB-SP para apuração disciplinar.<sup><a href="#fontes" class="ref">2</a></sup></div>
+      <div class="continua-item">
+        <h3>Você constrói, eu conduzo</h3>
+        <p>A ferramenta fica na sua conta e continua funcionando quando a mentoria acaba.</p>
       </div>
-      <div class="multa">
-        <div class="multa-valor">Multa ao advogado <span>e ao cliente</span></div>
-        <div class="multa-quem">TST, 6ª Turma · mar. 2026</div>
-        <div class="multa-oque">Os precedentes citados <strong>nunca foram autuados na corte</strong>. O tribunal viu criação intencional, não erro.<sup><a href="#fontes" class="ref">3</a></sup></div>
-      </div>
-    </div>
-
-    <div class="risco-fecho">
-      <p>Não é uma questão de usar ou não usar inteligência artificial — <strong>a maioria dos advogados já usa, toda semana</strong>.<sup><a href="#fontes" class="ref">4</a></sup> A questão é se a ferramenta que você usa foi construída para admitir o que não sabe.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── O QUE EU MONTO ── -->
-<section id="entrega">
-  <div class="container">
-    <div class="section-label">Como a mentoria funciona</div>
-    <h2 class="section-title">Você constrói. Eu conduzo.</h2>
-    <div class="section-divider"></div>
-    <p class="narrow">A ferramenta nasce na sua conta, com você — e eu conduzo cada passo. As instruções chegam prontas, escritas por mim: você entende o que cada uma faz e por que está ali. São <strong>uma, duas ou quatro horas ao vivo</strong>, conforme quantos GPTs você quiser — sem conhecimento técnico e sem lição de casa. No fim, <strong>o GPT é seu de verdade</strong> — e quando o escritório mudar de área, de peça ou de rotina, você mesmo ajusta, sem me chamar e sem pagar de novo.</p>
-
-    <div class="entrega-grid">
-
-      <div class="entrega-card">
-        <div class="destaque">O coração da mentoria</div>
-        <h3>As três camadas contra a invenção</h3>
-        <p>É a parte que ninguém ensina. Você recebe as instruções que impedem o GPT de inventar fonte, aprende a montar a base que ele tem permissão de consultar e a <strong>verificar se a trava está de pé</strong>. As três camadas estão logo abaixo — abertas, porque o método passa a ser seu também.</p>
-      </div>
-
-      <div class="entrega-card">
-        <h3>Três GPTs. Você escolhe os seus.</h3>
-        <p><strong>Revisão</strong> — corrige gramática e coesão preservando a sua voz autoral, porque é treinado com a sua escrita.<br />
-        <strong>Minutas</strong> — monta contrato de honorários, acordo de parceria e a ficha do caso a partir dos dados que <em>você</em> informa. Valor, prazo e multa ele nunca decide.<br />
-        <strong>Peças</strong> — rascunha a fundamentação ancorada na lei e na doutrina que você anexou. Jurisprudência, jamais de memória.</p>
-      </div>
-
-      <div class="entrega-card">
+      <div class="continua-item">
         <h3>Visual Law nas suas peças</h3>
-        <p>Esta parte é minha: eu produzo o modelo de petição em Word com a identidade do escritório, o pacote de ícones, as tabelas e as linhas do tempo. Editável por você, sem depender de designer — e sem depender de mim depois da entrega.</p>
+        <p>A identidade visual dos seus documentos segue como parte do programa.</p>
       </div>
-
-      <div class="entrega-card">
-        <h3>Conteúdo sem risco disciplinar</h3>
-        <p>O guia de conteúdo digital segue o <strong>Provimento 205/2021 do CFOAB</strong>: nada de prometer resultado, exibir caso concreto, citar honorários ou se autoenaltecer. Divulgar mal custa mais caro do que não divulgar.</p>
-      </div>
-
     </div>
   </div>
 </section>
 
-<!-- ── O MÉTODO, EM TRÊS CAMADAS ── -->
-<section id="protocolo">
+<section id="lista" class="fechar">
   <div class="container">
-    <div class="section-label">O método</div>
-    <h2 class="section-title">O método, em três camadas</h2>
+    <div class="section-label">Lista de espera</div>
+    <h2 class="section-title">Quero ser avisado quando abrir</h2>
     <div class="section-divider"></div>
-    <p class="narrow">A IA não inventa jurisprudência por desonestidade. Inventa porque foi construída para sempre responder — e responde com a mesma confiança quando sabe e quando não sabe. Não existe instrução mágica que corrija isso. O que existe é um método para <strong>tirar da IA o papel de fonte</strong>.</p>
-
-    <div class="passos">
-
-      <div class="passo">
-        <div class="passo-n">01</div>
-        <div>
-          <h3>A regra de origem — o GPT nunca é a fonte</h3>
-          <p>A instrução mais importante dos seus GPTs é uma proibição: <strong>eles não são a fonte de nada verificável</strong>.</p>
-          <p><strong>Jurisprudência, de memória, nunca</strong> — nem quando você insistir. É onde a IA mais inventa, e onde a invenção é mais cara: um acórdão falso tem número, ementa e cara de verdade. O GPT marca a lacuna e você busca no tribunal.</p>
-          <p><strong>Lei e doutrina, só se estiverem nos arquivos</strong> que você anexou — citando de qual arquivo saiu. Aí ele é assertivo, porque está lendo, não lembrando.</p>
-          <p><strong>Valor, prazo, multa, CPF ou cláusula que você não informou, ele não inventa</strong>: pergunta, ou deixa a lacuna à mostra.</p>
-          <div class="camada-regra"><strong>Na prática:</strong> em vez de um acórdão plausível, chega <em>[PRECEDENTE A INSERIR — tese X]</em>. E, em vez de um "R$ 3.000" razoável no contrato de honorários, chega <em>[LACUNA: valor]</em>. Um número verossímil é mais perigoso do que um campo vazio — o campo vazio todo mundo vê.</div>
+    <p>Sem compromisso e sem cobrança. Você recebe uma mensagem minha quando a nova mentoria estiver pronta.</p>
+    <div class="espera-box">
+      <form id="form-espera" novalidate>
+        <div class="campo">
+          <label for="f-nome">Seu nome</label>
+          <input id="f-nome" name="nome" type="text" autocomplete="name" required maxlength="120" />
         </div>
-      </div>
-
-      <div class="passo">
-        <div class="passo-n">02</div>
-        <div>
-          <h3>A base fechada — o que ele tem permissão de consultar</h3>
-          <p>O GPT só pode citar aquilo que <em>você</em> conferiu e carregou dentro dele: <strong>o texto da lei</strong> (que é público e vai inteiro), <strong>a doutrina que você usa</strong>, as suas peças-modelo, os seus contratos, as súmulas da sua área. A instrução é literal — cite exclusivamente o que está nos arquivos, dizendo de qual arquivo saiu; se não estiver, diga que não está.</p>
-          <p>É a diferença entre a IA <strong>lembrar</strong> e a IA <strong>consultar</strong>. E é por isso que um link não resolve: com a busca desligada, ele não abre link nenhum — o arquivo precisa estar dentro.</p>
-          <div class="camada-regra"><strong>É por isso que o pacote Escritório custa o que custa:</strong> nele nós montamos essa base juntos, com o material do seu escritório.</div>
+        <div class="campo">
+          <label for="f-whats">WhatsApp com DDD</label>
+          <input id="f-whats" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20" placeholder="(44) 99999-9999" />
         </div>
-      </div>
-
-      <div class="passo">
-        <div class="passo-n">03</div>
-        <div>
-          <h3>O teste e a conferência — você audita a sua ferramenta</h3>
-          <p>Antes de confiar na ferramenta, você aprende a testá-la: pedir de propósito um precedente que não existe e observar a reação. Se o GPT inventar, a instrução precisa de ajuste — e isso nós fazemos ali mesmo, ao vivo. Você sai com o checklist de conferência que usa antes de cada protocolo.</p>
-          <div class="camada-regra">A leitura final continua sendo sua. A diferença é que vira uma <strong>conferência</strong>, e não um resgate.</div>
+        <div class="campo">
+          <label for="f-tarefa">Que tarefa do escritório você gostaria de entregar a um agente? <span class="opc">(opcional)</span></label>
+          <textarea id="f-tarefa" name="tarefa" maxlength="600"></textarea>
         </div>
-      </div>
-
+        <button type="submit" class="btn-primary" id="btn-espera">Entrar na lista de espera</button>
+        <div class="espera-erro" id="espera-erro" role="alert"></div>
+        <p class="espera-aviso">Seus dados servem só para esse aviso e não são repassados a ninguém. Veja a <a href="privacidade.html">política de privacidade</a>.</p>
+      </form>
+      <div class="espera-ok" id="espera-ok" role="status">Pronto, você está na lista. Assim que a nova mentoria abrir, eu te chamo no WhatsApp.</div>
     </div>
-
-    <div class="franqueza">
-      <h3>O que eu não prometo</h3>
-      <p>Nenhuma instrução torna um modelo de linguagem incapaz de errar. Quem lhe vender um GPT que "não alucina" está vendendo o que não pode entregar — e o nome que vai na petição é o seu, não o dele.</p>
-      <p>O que este método faz é retirar da inteligência artificial o papel de fonte, restringir o que ela pode consultar e lhe dar o hábito de auditar a ferramenta antes de confiar nela. É menos sedutor do que uma promessa. E é o que mantém o seu nome fora da petição errada.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── COMO FUNCIONA ── -->
-<section id="processo">
-  <div class="container">
-    <div class="section-label">Como funciona</div>
-    <h2 class="section-title">Quatro etapas, do briefing à autonomia</h2>
-    <div class="section-divider"></div>
-
-    <div class="passos">
-      <div class="passo">
-        <div class="passo-n">01</div>
-        <div>
-          <h3>Briefing</h3>
-          <p>Conversamos sobre a sua área, as peças que você mais produz, o editor que usa e o público do escritório. É aqui que descobrimos o que cada GPT precisa saber — porque um advogado trabalhista e um previdenciarista não precisam da mesma ferramenta. Ao final, você me manda por e-mail a ferramenta escolhida e a identidade visual do escritório, e é desse e-mail que o prazo passa a contar.</p>
-        </div>
-      </div>
-      <div class="passo">
-        <div class="passo-n">02</div>
-        <div>
-          <h3>Construção guiada</h3>
-          <p>O GPT é criado <strong>na sua conta</strong>, comigo ao lado. Eu levo as instruções prontas e explico cada uma — o que entra, por que está ali e o que muda se sair. Você não fica com uma caixa-preta que funciona por motivos que desconhece: fica com uma ferramenta que sabe operar. Em paralelo, eu produzo o material em Visual Law; essa parte é minha.</p>
-        </div>
-      </div>
-      <div class="passo">
-        <div class="passo-n">03</div>
-        <div>
-          <h3>Teste no caso real</h3>
-          <p>Ainda no encontro, usamos a ferramenta em um caso seu: tentamos fazê-la falhar de propósito e ajustamos as instruções até ela admitir o que não sabe. É aqui que a confiança se constrói — você vê a trava funcionando, em vez de acreditar na minha palavra.</p>
-        </div>
-      </div>
-      <div class="passo">
-        <div class="passo-n">04</div>
-        <div>
-          <h3>Ajustes</h3>
-          <p>Você usa por alguns dias no trabalho real e me traz o que precisa mudar — e ajustamos juntos, no seu GPT, com você aprendendo a fazer os próximos sozinho. Toda mentoria inclui uma rodada de ajustes; o pacote Escritório inclui duas e mais 30 dias de suporte.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── PACOTES ── -->
-<section id="pacotes">
-  <div class="container">
-    <div class="section-label">Investimento</div>
-    <h2 class="section-title">Três formatos</h2>
-    <div class="section-divider"></div>
-    <p class="narrow">A diferença entre eles é <strong>quantos GPTs</strong> você constrói e <strong>quanto do seu escritório</strong> entra dentro deles. Os três: <strong>revisão</strong> (a sua voz), <strong>minutas</strong> (honorários, parcerias, ficha do caso) e <strong>peças</strong> (fundamentação ancorada em lei e doutrina).</p>
-
-    <div class="pkgs">
-
-      <div class="pkg">
-        <div class="pkg-header">
-          <div class="pkg-tag">para começar com segurança</div>
-          <div class="pkg-name">Essencial</div>
-        </div>
-        <ul class="pkg-list">
-          <li><strong>1 GPT construído por você</strong>, com a minha condução — <strong>à sua escolha</strong>: revisão, minutas ou peças</li>
-          <li><strong>Modelo de peça em Visual Law</strong> (.docx) + pacote de ícones</li>
-          <li><strong>Guia de uso em PDF</strong>, com o checklist de conferência antes do protocolo</li>
-          <li><strong>1 hora ao vivo</strong> — construímos e testamos o GPT juntos, na sua conta</li>
-        </ul>
-        <div class="pkg-footer">
-          <div>
-            <div class="pkg-price">R$ 890 <span>fixo</span></div>
-            <div class="pkg-ajuste">7 dias úteis · 1 rodada de ajustes</div>
-          </div>
-          <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20na%20Mentoria%20Visual%20Law%20%2B%20IA%20%E2%80%94%20pacote%20Essencial." class="btn-pkg" target="_blank" rel="noopener">Solicitar</a>
-        </div>
-      </div>
-
-      <div class="pkg pkg-featured">
-        <div class="pkg-header">
-          <div class="pkg-tag">o escritório inteiro operando</div>
-          <div class="pkg-name">Completo</div>
-        </div>
-        <ul class="pkg-list">
-          <li><strong>2 GPTs construídos por você</strong>, com a minha condução — <strong>à sua escolha</strong> entre revisão, minutas e peças</li>
-          <li><strong>Modelo de peça em Visual Law</strong> (.docx) + pacote de ícones</li>
-          <li><strong>Guia de conteúdo digital</strong> conforme o Provimento 205/2021 do CFOAB</li>
-          <li><strong>Guia de uso em PDF</strong>, com o checklist de conferência antes do protocolo</li>
-          <li><strong>2 horas ao vivo</strong> — construção e teste dos dois GPTs, em um ou dois encontros</li>
-        </ul>
-        <div class="pkg-footer">
-          <div>
-            <div class="pkg-price">R$ 1.490 <span>fixo</span></div>
-            <div class="pkg-ajuste">10 dias úteis · 1 rodada de ajustes</div>
-          </div>
-          <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20na%20Mentoria%20Visual%20Law%20%2B%20IA%20%E2%80%94%20pacote%20Completo." class="btn-pkg" target="_blank" rel="noopener">Solicitar</a>
-        </div>
-      </div>
-
-      <div class="pkg">
-        <div class="pkg-header">
-          <div class="pkg-tag">treinado nas suas próprias peças</div>
-          <div class="pkg-name">Escritório</div>
-        </div>
-        <p class="pkg-includes">Tudo do pacote Completo, mais:</p>
-        <ul class="pkg-list">
-          <li><strong>Os três GPTs</strong> — revisão, minutas e peças, sem escolher</li>
-          <li><strong>Base de conhecimento</strong> — o texto da lei, a doutrina e as peças-modelo do escritório carregados nos seus GPTs</li>
-          <li><strong>4 horas ao vivo</strong> — em dois encontros</li>
-          <li><strong>30 dias de suporte</strong> para ajuste dos seus GPTs</li>
-        </ul>
-        <div class="pkg-footer">
-          <div>
-            <div class="pkg-price">R$ 2.400 <span>fixo</span></div>
-            <div class="pkg-ajuste">15 dias úteis · 2 rodadas de ajustes</div>
-          </div>
-          <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20tenho%20interesse%20na%20Mentoria%20Visual%20Law%20%2B%20IA%20%E2%80%94%20pacote%20Escrit%C3%B3rio." class="btn-pkg" target="_blank" rel="noopener">Solicitar</a>
-        </div>
-      </div>
-
-    </div>
-
-    <p class="pkgs-nota">Prazos contados do dia em que você me envia as informações e os arquivos do escritório. Valores fixos, sem mensalidade. Pagamento em duas etapas, metade na contratação e metade na entrega, ou parcelado no cartão com o acréscimo da operadora.</p>
-
-    <div class="pre-req">
-      <div class="pre-req-label">O que fica com você</div>
-      <p>Os GPTs nascem na sua conta do ChatGPT e continuam lá depois que a mentoria acaba. O modelo em Visual Law, os ícones e o guia de uso você baixa no primeiro encontro e guarda no computador do escritório. Nada disso depende de login nem de mensalidade.<br /><br />As aulas são a única parte que mora na área de membros, disponíveis por 12 meses. Elas não abrem para download porque são o material que sustenta a mentoria, e é essa proteção que permite manter o preço fixo, sem cobrança recorrente.</p>
-    </div>
-
-    <div class="pre-req">
-      <div class="pre-req-label">Antes de contratar</div>
-      <p>Os GPTs personalizados só existem em <strong>conta paga do ChatGPT</strong> (Plus ou superior) — é uma limitação da própria OpenAI, não da mentoria. A assinatura fica no seu nome, contratada direto com eles, e hoje custa cerca de US$ 20 por mês. Não recebo nada sobre isso, e prefiro que você saiba agora, e não no dia do nosso encontro.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── ESCOPO ── -->
-<section id="escopo">
-  <div class="container">
-    <div class="section-label">Transparência</div>
-    <h2 class="section-title">O que a mentoria não é</h2>
-    <div class="section-divider"></div>
-
-    <div class="escopo-box">
-      <h3>A responsabilidade técnica continua sendo sua</h3>
-      <p>Eu não redijo peças em nome do escritório nem pratico ato privativo da advocacia. Conduzo a construção das ferramentas; quem as constrói, assina, revisa e protocola é você — e é por isso que o checklist de conferência vai junto em todos os pacotes.</p>
-      <p>Nenhuma ferramenta substitui a leitura do advogado antes do protocolo. O método existe para que essa leitura seja uma conferência, e não um resgate. E, porque o GPT é seu, a ferramenta continua funcionando — e evoluindo — no dia em que a mentoria acabar.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── QUEM ── -->
-<section id="quem">
-  <div class="container">
-    <div class="section-label">Quem monta</div>
-    <h2 class="section-title">Julia Ketelut</h2>
-    <div class="section-divider"></div>
-
-    <div class="quem-grid">
-      <picture>
-        <source type="image/webp" srcset="julia-sobre-480.webp 480w, julia-sobre-900.webp 900w" sizes="260px" />
-        <img src="julia-sobre-900.jpg" alt="Julia Ketelut, bacharel em Direito, em seu escritório"
-             class="quem-foto" width="900" height="1200" loading="lazy" decoding="async" />
-      </picture>
-      <div class="quem-texto">
-        <p>Bacharel em Direito, especialista em ensino de Metodologia de Pesquisa Científica e pesquisadora com publicação em periódico jurídico indexado. Trabalho com escrita e revisão acadêmica jurídica e com Visual Law aplicado a documentos Word.</p>
-        <p>Caçar citação inventada é, literalmente, o meu ofício. Em um único artigo, conferi <strong>84 notas de rodapé</strong> uma a uma nas fontes originais — e encontrei referências fabricadas com aparência impecável: autor plausível, título plausível, página plausível, obra inexistente.</p>
-        <p>É essa desconfiança que eu ensino você a programar dentro do seu próprio GPT — e a testar depois, sozinho.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── FAQ ── -->
-<section id="faq">
-  <div class="container">
-    <div class="section-label">Perguntas frequentes</div>
-    <h2 class="section-title">O que costumam me perguntar</h2>
-    <div class="section-divider"></div>
-
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Preciso entender de tecnologia? Eu vou ter que programar?</button>
-        <div class="faq-a"><p>Não vai programar linha nenhuma de código. Construir um GPT é escrever instruções em português — dizer a ele o que fazer, o que nunca fazer e como se comportar quando não souber a resposta. E as instruções chegam prontas, escritas por mim: o seu trabalho é entender o que cada uma faz, para poder ajustá-la depois. Cada GPT fica de pé em cerca de uma hora.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Preciso pagar alguma assinatura além da mentoria?</button>
-        <div class="faq-a"><p>Sim, uma: a <strong>conta paga do ChatGPT</strong> (Plus ou superior), hoje em torno de US$ 20 por mês. Não é uma escolha minha — GPTs personalizados simplesmente não existem no plano gratuito da OpenAI. A assinatura fica no seu nome, contratada direto com eles, e eu não recebo nada sobre ela. Prefiro que você saiba disso antes de contratar, e não no dia do nosso encontro.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">O método elimina o risco por completo?</button>
-        <div class="faq-a"><p>Não, e desconfie de quem prometer isso. Nenhuma instrução torna um modelo de linguagem incapaz de errar. O método faz outra coisa, e é o que funciona: impede que o GPT seja a fonte da citação, restringe o que ele pode consultar à base que você conferiu e lhe dá o hábito de auditar a ferramenta. A conferência antes do protocolo continua sendo do advogado — mas passa a ser conferência, e não resgate.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Posso escolher quais GPTs eu quero?</button>
-        <div class="faq-a"><p>Pode, e deve. São três: <strong>revisão</strong> (corrige sem apagar a sua voz), <strong>minutas</strong> (contrato de honorários, acordo de parceria, ficha do caso) e <strong>peças</strong> (fundamentação ancorada na lei e na doutrina que você anexou). O Essencial constrói um, o Completo dois, o Escritório os três. Escolha pela dor, não pela lista: quem sofre com prazo escolhe minutas; quem sofre com página em branco escolhe peças.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Serve para a minha área?</button>
-        <div class="faq-a"><p>Sim — os GPTs são montados a partir do seu briefing, então a área é justamente o que os personaliza. Já montei para Trabalhista; Família, Cível e Previdenciário seguem a mesma lógica, mudando terminologia, estrutura das peças e modelos.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">E se o GPT não ficar do jeito que eu preciso?</button>
-        <div class="faq-a"><p>Você mesmo ajusta — essa é a razão de ser da mentoria. Como foi você quem escreveu as instruções, sabe onde mexer, e não precisa me contratar de novo para trocar uma frase. Ainda assim, toda mentoria inclui uma rodada de ajustes comigo depois que você usa a ferramenta no trabalho real; o pacote Escritório inclui duas e mais 30 dias de suporte.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Qual a diferença para os pacotes de Visual Law do site?</button>
-        <div class="faq-a"><p>Nos pacotes de Visual Law, eu produzo os documentos e entrego — o trabalho é meu. Na mentoria, quem constrói as ferramentas é você, com a minha condução: sai com os GPTs, os modelos e o método, e passa a operar sem depender de mim. Um é serviço; o outro é autonomia.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── CTA FINAL ── -->
-<section id="fechar" class="fechar">
-  <div class="container">
-    <div class="section-label">O próximo passo</div>
-    <h2 class="section-title">Comece me contando como é o seu escritório</h2>
-    <div class="section-divider"></div>
-    <p>Uma conversa pelo WhatsApp, sem compromisso: você me diz a sua área e as peças que mais produz, e eu digo com franqueza qual pacote faz sentido — ou se nenhum faz.</p>
-    <div class="fechar-actions">
-      <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Visual%20Law%20%2B%20IA." class="btn-primary" target="_blank" rel="noopener">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.4 1.9.8 2.6.9 3.5.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-        Falar com a Julia no WhatsApp
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ── FONTES ── -->
-<section id="fontes" class="fontes">
-  <div class="fontes-inner">
-    <div class="fontes-label">Fontes</div>
-    <ol class="fontes-lista">
-      <li>2ª Vara Federal de Londrina/PR, juiz federal substituto Igor de Lazari Barbosa Carneiro — duas multas de dez salários mínimos por litigância de má-fé. <a href="https://www.migalhas.com.br/quentes/433822/leis-e-jurisprudencia-inventadas-advogado-e-multado-por-uso-de-ia" target="_blank" rel="noopener">Migalhas</a>.</li>
-      <li>6ª Turma do TRT da 2ª Região — multa de 5% sobre o valor da causa e ofício à OAB-SP; a decisão invoca a Recomendação 1/2024 do CFOAB sobre supervisão humana no uso de IA generativa. <a href="https://www.conjur.com.br/2026-fev-16/uso-de-jurisprudencia-criada-por-ia-gera-multa-por-ma-fe-e-oficio-a-oab/" target="_blank" rel="noopener">ConJur</a>.</li>
-      <li>6ª Turma do Tribunal Superior do Trabalho — empresa e advogado multados; a verificação apontou que os processos citados nunca foram autuados na corte. <a href="https://www.tst.jus.br/-/empresa-e-advogado-sao-multados-por-uso-de-ia-com-decisoes-falsas" target="_blank" rel="noopener">TST</a>.</li>
-      <li>Levantamentos setoriais de 2026 indicam uso semanal de IA pela maioria dos advogados brasileiros. <a href="https://www.aurum.com.br/blog/produtividade-na-advocacia-com-ia/" target="_blank" rel="noopener">Aurum</a>.</li>
-    </ol>
+    <p class="alt-whats">Prefere conversar antes? <a href="https://wa.me/5544991652729?text=Ol%C3%A1%2C%20sou%20advogado(a)%20e%20quero%20saber%20sobre%20a%20nova%20Mentoria%20de%20agentes%20de%20IA." target="_blank" rel="noopener">Falar com a Julia no WhatsApp</a></p>
   </div>
 </section>
 
@@ -544,20 +166,49 @@
 
 <script src="base.js"></script>
 <script>
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => {
-        i.classList.remove('open');
-        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-      });
-      if (!isOpen) {
-        item.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
+(function () {
+  var URL_ = 'https://ggmsslrsufbfrdpifbww.supabase.co/rest/v1/jk_leads';
+  var KEY = 'sb_publishable_SyYfPTyy746tYO5u_gkNZg_wDZuitX7';
+  var form = document.getElementById('form-espera');
+  var erro = document.getElementById('espera-erro');
+  var btn = document.getElementById('btn-espera');
+  var q = new URLSearchParams(location.search);
+  function msg(t) { erro.textContent = t; erro.style.display = t ? 'block' : 'none'; }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nome = form.nome.value.trim();
+    var whats = form.whatsapp.value.trim();
+    var dig = whats.replace(/\D/g, '');
+    if (!nome) { msg('Escreva o seu nome.'); form.nome.focus(); return; }
+    if (dig.length < 10 || dig.length > 13) { msg('Confira o WhatsApp com DDD.'); form.whatsapp.focus(); return; }
+    msg(''); btn.disabled = true; btn.textContent = 'Enviando...';
+    fetch(URL_, {
+      method: 'POST',
+      headers: { apikey: KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        uid: (self.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()),
+        nome: nome,
+        whatsapp: whats,
+        objetivo: form.tarefa.value.trim() || null,
+        recomendado: 'mentoria-agentes',
+        origem: 'lista-espera-mentoria',
+        utm_source: q.get('utm_source'),
+        utm_medium: q.get('utm_medium'),
+        utm_campaign: q.get('utm_campaign'),
+        user_agent: navigator.userAgent
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      form.style.display = 'none';
+      document.getElementById('espera-ok').style.display = 'block';
+      if (typeof fbq === 'function') fbq('track', 'Lead', { content_category: 'mentoria-agentes' });
+    }).catch(function () {
+      btn.disabled = false;
+      btn.textContent = 'Entrar na lista de espera';
+      msg('Não consegui enviar agora. Tente de novo ou me chame no WhatsApp, logo abaixo.');
     });
   });
+})();
 </script>
 
 </body>
